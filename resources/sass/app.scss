@@ -6,3 +6,35 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+body{
+    font-family: '微軟正黑體';
+}
+
+.navbar-shadow{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.navbar-laravel {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+header{
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(52, 144, 220, 0.6);
+}
+
+#headerCover{
+    position: absolute;
+    height: 385%;
+    top: -54%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+}
+
+header h1, header p{
+    text-shadow: 2px 2px 4px #000000;
+}
