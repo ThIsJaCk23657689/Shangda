@@ -10,8 +10,8 @@ use App\Material as MaterialEloquent;
 class PurchaseOrder extends Model
 {
     protected $fillable = [
-        'supplier_id', 'user_id', 'paid_at', 'received_at', 'expectReceived_at', 'totalPrice', 'comment', 'taxType',
-        'invoiceType', 'address',
+        'supplier_id', 'user_id', 'paid_at', 'received_at', 'expectReceived_at', 
+        'totalPrice', 'comment', 'taxType', 'invoiceType', 'address',
     ];
 
     public function supplier(){
@@ -24,6 +24,6 @@ class PurchaseOrder extends Model
 
     public function materials(){
         return $this->belongsToMany(MaterialEloquent::class)
-        ->withPivot('price','totalPrice','quantity','comment','discount');
+        ->withPivot('price', 'quantity', 'subTotal', 'comment', 'discount');
     }
 }

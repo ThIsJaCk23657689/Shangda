@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\JobTitle as JobTitleEloquent;
 
 class User extends Authenticatable
 {
@@ -17,11 +18,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'gender'
     ];
-    public function purchaseOrders(){
-        return $this->hasMany(PurchaseOrderEloquent::class);
-    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -40,4 +38,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function purchaseOrders(){
+        return $this->hasMany(PurchaseOrderEloquent::class);
+    }
+
+    public function jobTitle(){
+        return $this->belongsTo(JobTitleEloquent::class);
+    }
 }

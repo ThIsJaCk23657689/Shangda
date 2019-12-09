@@ -13,10 +13,11 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
+        // 商品分類
         Schema::create('categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name',100);
-            $table->text('intro');
+            $table->bigIncrements('id')->comment('編號');
+            $table->string('name', 100)->comment('名稱');
+            $table->text('intro')->comment('簡介');
         });
     }
 

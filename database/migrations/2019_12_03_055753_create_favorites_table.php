@@ -13,11 +13,13 @@ class CreateFavoritesTable extends Migration
      */
     public function up()
     {
+        // 我的最愛 (成品 與 顧客 多對多樞紐表格)
         Schema::create('favorites', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('consumers');
-            $table->foreign('consumer_id')->references('id')->on('consumers');
+            $table->unsignedBigInteger('product_id')->comment('商品編號');
+            $table->unsignedBigInteger('consumer_id')->comment('顧客編號');
+            
+            // $table->foreign('product_id')->references('id')->on('products');
+            // $table->foreign('consumer_id')->references('id')->on('consumers');
         }); 
     }
 

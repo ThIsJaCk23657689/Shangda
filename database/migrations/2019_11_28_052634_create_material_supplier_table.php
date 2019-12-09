@@ -13,9 +13,11 @@ class CreateMaterialSupplierTable extends Migration
      */
     public function up()
     {
+        // 原物料與供應商 => 多對多樞紐表
         Schema::create('material_supplier', function (Blueprint $table) {
-            $table->unsignedBigInteger('material_id');
-            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('material_id')->comment('原物料編號');
+            $table->unsignedBigInteger('supplier_id')->comment('供應商編號');
+
             $table->foreign('material_id')->references('id')->on('materials');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
