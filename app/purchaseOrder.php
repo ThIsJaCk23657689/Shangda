@@ -3,19 +3,27 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Supplier as SupplierEloquent;
+use App\User as UserEloquent;
+use App\Material as MaterialEloquent;
 
-class purchaseOrder extends Model
+class PurchaseOrder extends Model
 {
-    protected $table = 'purchase_orders';
-    protected $primaryKey = 'po_id';
-    const UPDATED_AT = null;
     protected $fillable = [
-        's_id', 'purchaser', 'purchaser_tel', 'purchaser_fax',
-        'delivery_time', 'delivery_place', 'payment_type', 'remark'
+        'supplier_id', 'user_id', 'paid_at', 'received_at', 'expectReceived_at', 'totalPrice', 'comment', 'taxType',
+        'invoiceType', 'address',
     ];
 
-    public function purchase_items()
-    {
-        return $this->hasMany(purchaseItem::class, 'po_id');
+    public function supplier(){
+        return $this->belongsTo(SupplierEloquent::class);
+    }
+    public function user(){
+        return $this->belongsTo(UserEloquent::class);
+    }
+
+
+    public function materials(){
+        return $this->belongsToMany(MaterialEloquent::class)
+        ->withPivot('price','totalPrice','quantity','comment','discount');
     }
 }

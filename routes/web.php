@@ -14,5 +14,7 @@
 Route::get('/', 'HomeController@index');
 
 Auth::routes();
+Route::resource('/supplier', 'SupplierController');
+Route::resource('/material', 'MaterialController');
 
 Route::get('/home', 'HomeController@index')->name('home');
