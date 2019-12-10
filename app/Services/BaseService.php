@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 2019/11/8
- * Time: 下午 03:17
- */
 
 namespace App\Services;
-
 
 class BaseService
 {

@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\SupplierRequest;
 use App\Supplier as SupplierEloquent;
+use App\Services\SupplierService;
 
 class SupplierController extends Controller
 {
+    public $SupplierService;
+    
+    public function __construct()
+    {
+        $this->SupplierService = new SupplierService();
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +23,9 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = SupplierEloquent::all();
-        return view('suppliers.index', compact('suppliers'));
+        $suppliers = $this->SupplierService->getSuppliersList();
+        $lastUpdate = $this->SupplierService->getlastupdate();
+        return view('suppliers.index', compact('suppliers', 'lastUpdate'));
     }
 
     /**
@@ -31,30 +41,13 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\SupplierRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
-        $request->validate([
-            'name' => 'required|max:100|string',
-            'tel' => 'max:25|string',
-            'taxId' => 'max:8|string',
-            'shortName' => 'max:100|string',
-            'inCharge1' => 'required|max:50|string',
-            'tel1' => 'required|max:25|string',
-            'email1' => 'max:100|email',
-            'inCharge2' => 'max:50|string',
-            'tel2' => 'max:25|string',
-            'email2' => 'max:100|email',
-            'tax' => 'max:25|string',
-            'comment' => 'string',
-            'companyAddress' => 'required|max:255|string',
-            'deliveryAddress' => 'required|max:255|string',
-            'invoiceAddress' => 'required|max:255|string',
-        ]);
-        SupplierEloquent::create($request);
-        return redirect()->route('supplier.index');
+        $supplier = $this->SupplierService->addSupplier($request);
+        return redirect()->route('suppliers.index');
     }
 
     /**
@@ -65,9 +58,8 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-        $supplier = SupplierEloquent::find($id);
-
-        return view('supplier.show', compact('supplier'));
+        $supplier = $this->SupplierService->getSupplier($id);
+        return view('suppliers.show', compact('supplier'));
     }
 
     /**
@@ -78,39 +70,21 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        $supplier = SupplierEloquent::find($id);
-
-        return view('supplier.edit', compact('supplier'));
+        $supplier = $this->SupplierService->getSupplier($id);
+        return view('suppliers.edit', compact('supplier'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\SupplierRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SupplierRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|max:100|string',
-            'tel' => 'max:25|string',
-            'taxId' => 'max:8|string',
-            'shortName' => 'max:100|string',
-            'inCharge1' => 'required|max:50|string',
-            'tel1' => 'required|max:25|string',
-            'email1' => 'max:100|email',
-            'inCharge2' => 'max:50|string',
-            'tel2' => 'max:25|string',
-            'email2' => 'max:100|email',
-            'tax' => 'max:25|string',
-            'comment' => 'max:255|string',
-        ]);
-        $supplier = SupplierEloquent::find($id);
-
-        $supplier->update($supplier);
-
-        return redirect()->route('supplier.show',[$id]);
+        $supplier = $this->SupplierService->updateSupplier($request, $id);
+        return redirect()->route('suppliers.show', [$id]);
     }
 
     /**
@@ -121,9 +95,7 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        $supplier = SupplierEloquent::find($id);
-        $supplier->delete();
-
-        return redirect()->route('supplier.index');
+        $this->SupplierService->deleteSupplier($id);
+        return redirect()->route('suppliers.index');
     }
 }

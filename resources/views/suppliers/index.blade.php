@@ -27,9 +27,9 @@
 							<th>編號</th>
 							<th>簡稱</th>
 							<th>統一編號</th>
-							<th>電話</th>
-							<th>傳真</th>
-							<th>負責人</th>
+                            <th>負責人1 姓名</th>
+                            <th>負責人1 電話</th>
+                            <th>負責人1 信箱</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -39,12 +39,24 @@
 								<td>{{ $supplier->id }}</td>
 								<td>{{ $supplier->shortName }}</td>
 								<td>{{ $supplier->taxId }}</td>
-								<td>{{ $supplier->genre->tel }}</td>
-								<td>{{ $supplier->tax }}</td>
-								<td>{{ $supplier->inCharge1 }}</td>
+                                <td>{{ $supplier->inCharge1 }}</td>
+                                <td>{{ $supplier->tel1 }}</td>
+                                <td>{{ $supplier->email1 }}</td>
 								<td>
-									<a href="#" class="btn btn-md btn-success">編輯</a>
-									<a href="#" class="btn btn-md btn-danger">刪除</a>
+                                    <a href="{{ route('suppliers.show', [$supplier->id]) }}" class="btn btn-md btn-info">查看</a>
+                                    <a href="{{ route('suppliers.edit', [$supplier->id]) }}" class="btn btn-md btn-success">編輯</a>
+									<a href="#" class="btn btn-md btn-danger" onclick="
+										event.preventDefault();
+										ans = confirm('確定要刪除此廠商嗎?');
+										if(ans){
+											$('#deleteform-{{ $supplier->id }}').submit();
+										}
+									">刪除</a>
+
+									<form id="deleteform-{{ $supplier->id }}" action="{{ route('suppliers.destroy', [$supplier->id]) }}" method="POST" style="displat: none;">
+										@csrf
+										@method('DELETE')
+									</form>
 								</td>
 							</tr>	
 						@endforeach
@@ -52,7 +64,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+		<div class="card-footer small text-muted">Last Updated {{ $lastUpdate }}</div>
 	</div>
 	
 @endsection
