@@ -2,7 +2,12 @@
 
 @section('content')
 				
-	@include('partials.backend.breadcrumbs')
+	@component('components.breadcrumbs')
+		<li class="breadcrumb-item">
+			<a href="#">{{ __('Dashboard') }}</a>
+		</li>
+		<li class="breadcrumb-item active">{{ __('Overview') }}</li>
+	@endcomponent
 	
 	@include('partials.backend.iconcards')
 	

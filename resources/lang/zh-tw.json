@@ -97,5 +97,9 @@
 	"Orders Management": "訂單管理",
 	"Purchase Orders": "進貨單",
 	"Sales Orders": "銷貨單",
-	"Return Orders": "退貨單"
+	"Return Orders": "退貨單",
+	"Index": "首頁",
+	"Create": "創建",
+	"Show": "顯示",
+	"Edit": "編輯"
 }

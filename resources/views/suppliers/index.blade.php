@@ -2,7 +2,15 @@
 
 @section('content')
 				
-	@include('partials.backend.breadcrumbs')
+	@component('components.breadcrumbs')
+		<li class="breadcrumb-item">
+			<a href="#">{{ __('People Management') }}</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="#">{{ __('Suppliers') }}</a>
+		</li>
+		<li class="breadcrumb-item active">{{ __('Index') }}</li>
+	@endcomponent
 
     <div class="row mb-3">
         <div class="col-md-12">

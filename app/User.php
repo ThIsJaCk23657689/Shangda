@@ -39,6 +39,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function showGender(){
+        return ($this->gender)? '男': '女';
+    }
+
     public function purchaseOrders(){
         return $this->hasMany(PurchaseOrderEloquent::class);
     }

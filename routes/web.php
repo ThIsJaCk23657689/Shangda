@@ -16,5 +16,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/backend', 'HomeController@backend')->name('backend');
 
+Route::resource('/users', 'UsersController');
+
 Route::resource('/suppliers', 'SupplierController');
 Route::resource('/materials', 'MaterialController');

@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav">
     <li class="nav-item active">
-		<a class="nav-link" href="index.html">
+		<a class="nav-link" href="{{ route('backend') }}">
 			<i class="fas fa-fw fa-tachometer-alt"></i>
 			<span>{{ __('Dashboard') }}</span>
 		</a>
@@ -14,7 +14,7 @@
 		</a>
 		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 			<h6 class="dropdown-header">{{ __('Basic:') }}</h6>
-			<a class="dropdown-item" href="#">{{ __('Staffs') }}</a>
+			<a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Staffs') }}</a>
 			<a class="dropdown-item" href="{{ route('suppliers.index') }}">{{ __('Suppliers') }}</a>
 			<a class="dropdown-item" href="#">{{ __('Consumers') }}</a>
 			<div class="dropdown-divider"></div>

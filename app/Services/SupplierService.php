@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class SupplierService extends BaseService
 {
-    public function addSupplier($request)
+    public function add($request)
     {
         $supplier = SupplierEloquent::create([
             'name' => $request->name,
@@ -28,21 +28,21 @@ class SupplierService extends BaseService
         return $supplier;
     }
 
-    public function getSuppliersList()
+    public function getList()
     {
         $suppliers = SupplierEloquent::get();
         return $suppliers;
     }
 
-    public function getSupplier($id)
+    public function getOne($id)
     {
         $supplier = SupplierEloquent::find($id);
         return $supplier;
     }
 
-    public function updateSupplier($request, $id)
+    public function update($request, $id)
     {
-        $supplier = $this->getSupplier($id);
+        $supplier = $this->getOne($id);
         $supplier->update([
             'name' => $request->name,
             'shortName' => $request->shortName,
@@ -63,9 +63,9 @@ class SupplierService extends BaseService
         return $supplier;
     }
 
-    public function deleteSupplier($id)
+    public function delete($id)
     {
-        $supplier = $this->getSupplier($id);
+        $supplier = $this->getOne($id);
         $supplier->delete();
     }
 

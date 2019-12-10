@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SupplierRequest;
-use App\Supplier as SupplierEloquent;
 use App\Services\SupplierService;
 
 class SupplierController extends Controller
@@ -13,6 +12,7 @@ class SupplierController extends Controller
     
     public function __construct()
     {
+        $this->middleware('auth');
         $this->SupplierService = new SupplierService();
     }
     
@@ -23,7 +23,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = $this->SupplierService->getSuppliersList();
+        $suppliers = $this->SupplierService->getList();
         $lastUpdate = $this->SupplierService->getlastupdate();
         return view('suppliers.index', compact('suppliers', 'lastUpdate'));
     }
@@ -46,7 +46,7 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-        $supplier = $this->SupplierService->addSupplier($request);
+        $supplier = $this->SupplierService->add($request);
         return redirect()->route('suppliers.index');
     }
 
@@ -58,7 +58,7 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-        $supplier = $this->SupplierService->getSupplier($id);
+        $supplier = $this->SupplierService->getOne($id);
         return view('suppliers.show', compact('supplier'));
     }
 
@@ -70,7 +70,7 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        $supplier = $this->SupplierService->getSupplier($id);
+        $supplier = $this->SupplierService->getOne($id);
         return view('suppliers.edit', compact('supplier'));
     }
 
@@ -83,7 +83,7 @@ class SupplierController extends Controller
      */
     public function update(SupplierRequest $request, $id)
     {
-        $supplier = $this->SupplierService->updateSupplier($request, $id);
+        $supplier = $this->SupplierService->update($request, $id);
         return redirect()->route('suppliers.show', [$id]);
     }
 
@@ -95,7 +95,7 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        $this->SupplierService->deleteSupplier($id);
+        $this->SupplierService->delete($id);
         return redirect()->route('suppliers.index');
     }
 }
