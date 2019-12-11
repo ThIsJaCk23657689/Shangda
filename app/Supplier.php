@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Material as MaterialEloquent;
 use App\PurchaseOrder as PurchaseOrderEloquent;
 
 class Supplier extends Model
@@ -13,9 +12,6 @@ class Supplier extends Model
         'tax', 'companyAddress', 'deliveryAddress',  'invoiceAddress', 'comment',
     ];
 
-    public function materials(){
-        return $this->belongsToMany(MaterialEloquent::class);
-    }
     public function purchaseOrders(){
         return $this->hasMany(PurchaseOrderEloquent::class);
     }
