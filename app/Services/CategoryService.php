@@ -4,7 +4,7 @@ namespace App\Services;
 use App\Category as CategoryEloquent;
 use Carbon\Carbon;
 
-class ProductService extends BaseService
+class CategoryService extends BaseService
 {
     public function add($request)
     {

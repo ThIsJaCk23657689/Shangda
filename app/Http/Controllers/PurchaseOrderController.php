@@ -39,14 +39,14 @@ class PurchaseOrderController extends Controller
         $request->validate([
             'supplier_id' => 'required|integer',
             'user_id' => 'required|integer',
-            'paid_at' => 'date',
-            'received_at' => 'date',
+            'paid_at' => 'nullable|date',
+            'received_at' => 'nullable|date',
             'expectReceived_at' => 'required|date',
-            'totalPrice' => 'min:0',
-            'comment' => 'max:255|string',
-            'taxType' => 'min:1|max:6',
-            'invoiceType' => 'min:1|max:5',
-            'address' => 'max:255|string',
+            'totalPrice' => 'nullable|min:0',
+            'comment' => 'nullable|max:255|string',
+            'taxType' => 'nullable|min:1|max:6',
+            'invoiceType' => 'nullable|min:1|max:5',
+            'address' => 'nullable|max:255|string',
         ]);
 
         $p = PurchaseOrderEloquent::create($request);
