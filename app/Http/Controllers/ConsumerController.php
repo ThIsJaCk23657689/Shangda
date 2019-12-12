@@ -3,15 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ConsumerRequest;
+use App\Services\ConsumerService;
+
 use App\Consumer as ConsumerEloquent;
 
 class ConsumerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public $ConsumerService;
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->ConsumerService = new ConsumerService();
+    }
+
+
     public function index()
     {
         $consumers = ConsumerEloquent::all();
@@ -37,29 +44,7 @@ class ConsumerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'discount_id' => 'required',
-            'name' => 'required|max:100|string',
-            'shortName' => 'max:100|string',
-            'act' => 'required|max:30|unique:consumers|string',
-            'pwd' => 'required|string|min:8|confirmed',
-            'taxId' => 'max:8|string',
-            'idNumber' => 'max:10|string',
             
-            'inCharge1' => 'required|max:50|string',
-            'tel1' => 'required|max:25|string',
-            'email1' => 'max:100|string',
-            'inCharge2' => 'max:50|string',
-            'tel2' => 'max:25|string',
-            'email2' => 'max:100|string',
-            'tax' => 'max:25|string',
-
-            'monthlyCheckDate' => 'min:1|max:31|integer',
-            'uncheckedAmount' => 'min:0|numeric',
-            'totalConsumption' => 'min:0|numeric',
-            'comment' => 'string',
-            'companyAddress' => 'required|max:255|string',
-            'deliveryAddress' => 'required|max:255|string',
-            'invoiceAddress' => 'required|max:255|string',
         ]);
 
         ConsumerEloquent::create($request);
