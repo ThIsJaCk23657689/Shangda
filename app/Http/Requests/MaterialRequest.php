@@ -13,7 +13,7 @@ class MaterialRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,15 @@ class MaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|max:100|string',
+            'shortName' => 'nullable|max:100|string',
+            'internationalNum' => 'nullable|max:25|string',
+            'unit' => 'required|string',
+            'unitPrice' => 'required|numeric|min:0',
+            'comment' => 'nullable|string',
+            'stock' => 'required|integer|min:0',
+            'picture' => 'nullable|string',
+
         ];
     }
 }

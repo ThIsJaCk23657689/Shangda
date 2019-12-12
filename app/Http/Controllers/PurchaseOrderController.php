@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\Http\Requests\PurchaseOrderRequest;
+use App\Services\PurchaseOrderService;
 
 class PurchaseOrderController extends Controller
 {
+
+    public $PurchaseOrderService;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->PurchaseOrderService = new PurchaseOrderService();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +23,9 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
-        $purchaseOrder = PurchaseOrderEloquent::all();
-        return view('purchaseOrder.index', compact('purchaseOrder'));
+        $purchaseOrders = $this->PurchaseOrderService->getList();
+        $lastUpdate = $this->PurchaseOrderService->getlastupdate();
+        return view('purchaseOrders.index', compact('purchaseOrders', 'lastUpdate'));
     }
 
     /**
@@ -25,7 +35,7 @@ class PurchaseOrderController extends Controller
      */
     public function create()
     {
-        return view('purchaseOrder.create');
+        return view('purchaseOrders.create');
     }
 
     /**
@@ -34,26 +44,10 @@ class PurchaseOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PurchaseOrderRequest $request)
     {
-        $request->validate([
-            'supplier_id' => 'required|integer',
-            'user_id' => 'required|integer',
-            'paid_at' => 'nullable|date',
-            'received_at' => 'nullable|date',
-            'expectReceived_at' => 'required|date',
-            'totalPrice' => 'nullable|min:0',
-            'comment' => 'nullable|max:255|string',
-            'taxType' => 'nullable|min:1|max:6',
-            'invoiceType' => 'nullable|min:1|max:5',
-            'address' => 'nullable|max:255|string',
-        ]);
-
-        $p = PurchaseOrderEloquent::create($request);
-        
-        return response()->json([
-            'id'=> $p->id
-        ]);
+        $purchaseOrder = $this->PurchaseOrderService->add($request);
+        return redirect()->route('purchaseOrders.index');
     }
 
     /**
@@ -64,9 +58,8 @@ class PurchaseOrderController extends Controller
      */
     public function show($id)
     {
-        $purchaseOrder = PurchaseOrderEloquent::find($id);
-
-        return view('purchaseOrder.show', compact('purchaseOrder'));
+        $purchaseOrder = $this->PurchaseOrderService->getOne($id);
+        return view('purchaseOrders.show', compact('purchaseOrder'));
     }
 
     /**
@@ -77,7 +70,8 @@ class PurchaseOrderController extends Controller
      */
     public function edit($id)
     {
-        return view('purchaseOrder.edit');
+        $purchaseOrder = $this->PurchaseOrderService->getOne($id);
+        return view('purchaseOrders.edit', compact('purchaseOrder'));
     }
 
     /**
@@ -87,23 +81,10 @@ class PurchaseOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RequPurchaseOrderRequestest $request, $id)
     {
-        $request->validate([
-            'supplier_id' => 'required|integer',
-            'user_id' => 'required|integer',
-            'paid_at' => 'date',
-            'received_at' => 'date',
-            'expectReceived_at' => 'required|date',
-            'totalPrice' => 'min:0',
-            'comment' => 'max:255|string',
-            'taxType' => 'min:1|max:6',
-            'invoiceType' => 'min:1|max:5',
-            'address' => 'max:255|string',
-        ]);
-        $purchaseOrder = PurchaseOrderEloquent::find($id);
-        $purchaseOrder->update();
-        return redirect()->route('purchaseOrder.show',[$id]);
+        $purchaseOrder = $this->PurchaseOrderService->update($request, $id);
+        return redirect()->route('purchaseOrders.show', [$id]);
     }
 
     /**
@@ -114,9 +95,7 @@ class PurchaseOrderController extends Controller
      */
     public function destroy($id)
     {
-        $purchaseOrder = PurchaseOrderEloquent::find($id);
-        $purchaseOrder->delete();
-        
-        return redirect()->route('purchaseOrder.index');
+        $this->PurchaseOrderService->delete($id);
+        return redirect()->route('purchaseOrders.index');
     }
 }

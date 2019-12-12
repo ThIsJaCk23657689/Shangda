@@ -10,19 +10,12 @@ class MaterialService extends BaseService
         $material = MaterialEloquent::create([
             'name' => $request->name,
             'shortName' => $request->shortName,
-            'taxId' => $request->taxId,
-            'tel' => $request->tel,
-            'tax' => $request->tax,
-            'inCharge1' => $request->inCharge1,
-            'tel1' => $request->tel1,
-            'email1' => $request->email1,
-            'inCharge2' => $request->inCharge2,
-            'tel2' => $request->tel2,
-            'email2' => $request->email2,
-            'companyAddress' => $request->companyAddress,
-            'deliveryAddress' => $request->deliveryAddress,
-            'invoiceAddress' => $request->invoiceAddress,
+            'internationalNum' => $request->internationalNum,
+            'unit' => $request->unit,
+            'unitPrice' => $request->unitPrice,
             'comment' => $request->comment,
+            'stock' => $request->stock,
+            'picture' => $request->picture,
         ]);
         return $material;
     }
@@ -45,19 +38,12 @@ class MaterialService extends BaseService
         $material->update([
             'name' => $request->name,
             'shortName' => $request->shortName,
-            'taxId' => $request->taxId,
-            'tel' => $request->tel,
-            'tax' => $request->tax,
-            'inCharge1' => $request->inCharge1,
-            'tel1' => $request->tel1,
-            'email1' => $request->email1,
-            'inCharge2' => $request->inCharge2,
-            'tel2' => $request->tel2,
-            'email2' => $request->email2,
-            'companyAddress' => $request->companyAddress,
-            'deliveryAddress' => $request->deliveryAddress,
-            'invoiceAddress' => $request->invoiceAddress,
+            'internationalNum' => $request->internationalNum,
+            'unit' => $request->unit,
+            'unitPrice' => $request->unitPrice,
             'comment' => $request->comment,
+            'stock' => $request->stock,
+            'picture' => $request->picture,
         ]);
         return $material;
     }

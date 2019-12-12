@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Material as MaterialEloquent;
+use App\Http\Requests\MaterialRequest;
 use App\Services\MaterialService;
 
 class MaterialController extends Controller
 {
-    
+
     public $materialService;
-    
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->materialService = new MaterialService();
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +25,7 @@ class MaterialController extends Controller
     public function index()
     {
         $materials = $this->materialService->getList();
+        $lastUpdate = $this->materialService->getlastupdate();
         return view('materials.index', compact('materials'));
     }
 
@@ -44,20 +45,9 @@ class MaterialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MaterialRequest $request)
     {
-        $request->validate([
-            'name' => 'required|max:255|string',
-            'shortName' => 'max:100|string',
-            'internationalNum' => 'max:25|string',
-            'unit' => 'required|max:25|string',
-            'unitPrice' => 'required|min:0',
-            'comment' => 'max:255|string',
-            'picture' => 'max:255|string',
-            'stock' => 'required|min:0',
-        ]);
-        MaterialEloquent::create($request);
-
+        $material = $this->materialService->add($request);
         return redirect()->route('materials.index');
     }
 
@@ -69,8 +59,7 @@ class MaterialController extends Controller
      */
     public function show($id)
     {
-        $material = MaterialEloquent::find($id);
-
+        $material = $this->materialService->getOne($id);
         return view('materials.show',compact('material'));
     }
 
@@ -82,7 +71,8 @@ class MaterialController extends Controller
      */
     public function edit($id)
     {
-        return view('materials.edit');
+        $material = $this->materialService->getOne($id);
+        return view('materials.edit',compact('material'));
     }
 
     /**
@@ -92,22 +82,10 @@ class MaterialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MaterialRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|max:255|string',
-            'shortName' => 'max:100|string',
-            'internationalNum' => 'max:25|string',
-            'unit' => 'required|max:25|string',
-            'unitPrice' => 'required|min:0|numeric',
-            'comment' => 'max:255|string',
-            'picture' => 'max:255|string',
-            'stock' => 'required|min:0|numeric',
-        ]);
-
-        $material = MaterialEloquent::find($id);
-        $material->update($request);
-        return redirect()->route('materials.edit',[$id]);
+        $material = $this->materialService->update($request, $id);
+        return redirect()->route('materials.show', [$id]);
     }
 
     /**
@@ -118,9 +96,7 @@ class MaterialController extends Controller
      */
     public function destroy($id)
     {
-        $material = MaterialEloquent::find($id);
-        $material->delete();
-
+        $this->materialService->delete($id);
         return redirect()->route('materials.index');
     }
 }
