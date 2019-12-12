@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Services;
-use App\Supplier as SupplierEloquent;
-use Carbon\Carbon;
+use App\Material as MaterialEloquent;
 
-class SupplierService extends BaseService
+class MaterialService extends BaseService
 {
     public function add($request)
     {
-        $supplier = SupplierEloquent::create([
+        $material = MaterialEloquent::create([
             'name' => $request->name,
             'shortName' => $request->shortName,
             'taxId' => $request->taxId,
@@ -25,25 +24,25 @@ class SupplierService extends BaseService
             'invoiceAddress' => $request->invoiceAddress,
             'comment' => $request->comment,
         ]);
-        return $supplier;
+        return $material;
     }
 
     public function getList()
     {
-        $suppliers = SupplierEloquent::get();
-        return $suppliers;
+        $materials = MaterialEloquent::get();
+        return $materials;
     }
 
     public function getOne($id)
     {
-        $supplier = SupplierEloquent::find($id);
-        return $supplier;
+        $material = MaterialEloquent::find($id);
+        return $material;
     }
 
     public function update($request, $id)
     {
-        $supplier = $this->getOne($id);
-        $supplier->update([
+        $material = $this->getOne($id);
+        $material->update([
             'name' => $request->name,
             'shortName' => $request->shortName,
             'taxId' => $request->taxId,
@@ -60,20 +59,20 @@ class SupplierService extends BaseService
             'invoiceAddress' => $request->invoiceAddress,
             'comment' => $request->comment,
         ]);
-        return $supplier;
+        return $material;
     }
 
     public function delete($id)
     {
-        $supplier = $this->getOne($id);
-        $supplier->delete();
+        $material = $this->getOne($id);
+        $material->delete();
     }
 
     public function getlastupdate()
     {
-        $supplier = SupplierEloquent::orderBy('id', 'DESC')->first();
-        if(!empty($supplier)){
-            return $supplier->updated_at;
+        $material = MaterialEloquent::orderBy('id', 'DESC')->first();
+        if(!empty($material)){
+            return $material->updated_at;
         }
 
         return null;

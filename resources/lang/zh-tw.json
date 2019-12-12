@@ -101,5 +101,8 @@
 	"Index": "首頁",
 	"Create": "創建",
 	"Show": "顯示",
-	"Edit": "編輯"
+	"Edit": "編輯",
+	"Material": "原物料",
+	"Backend Control": "後臺管理",
+	"Last Updated": "最近修改日期："
 }

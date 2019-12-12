@@ -8,7 +8,7 @@
 	<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<title>{{ config('app.name', 'Laravel') }} - {{ __('Backend Control') }}</title>
+	<title>{{ __(config('app.name', 'Laravel')) }} - {{ __('Backend Control') }}</title>
 
 	<!-- Scripts -->
 	<script src="{{ asset('js/backend.js') }}" defer></script>

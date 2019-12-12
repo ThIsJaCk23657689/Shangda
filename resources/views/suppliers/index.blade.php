@@ -72,7 +72,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="card-footer small text-muted">Last Updated {{ $lastUpdate }}</div>
+		<div class="card-footer small text-muted"> {{ __('Last Updated') }} {{ $lastUpdate1??'無' }}</div>
 	</div>
 	
 @endsection

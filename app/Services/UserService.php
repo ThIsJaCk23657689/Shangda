@@ -56,6 +56,10 @@ class UserService extends BaseService
     public function getlastupdate()
     {
         $user = UserEloquent::orderBy('id', 'DESC')->first();
-        return $user->updated_at;
+        if(!empty($user)){
+            return $user->updated_at;
+        }
+
+        return null;
     }
 }

@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Material as MaterialEloquent;
+use App\Services\MaterialService;
 
 class MaterialController extends Controller
 {
+    
+    public $materialService;
+    
     public function __construct()
     {
         $this->middleware('auth');
+        $this->materialService = new MaterialService();
     }
     
     /**
@@ -19,7 +24,8 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        return view('materials.index');
+        $materials = $this->materialService->getList();
+        return view('materials.index', compact('materials'));
     }
 
     /**
@@ -29,7 +35,7 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        return view('material.create');
+        return view('materials.create');
     }
 
     /**
@@ -52,7 +58,7 @@ class MaterialController extends Controller
         ]);
         MaterialEloquent::create($request);
 
-        return redirect()->route('material.index');
+        return redirect()->route('materials.index');
     }
 
     /**
@@ -65,7 +71,7 @@ class MaterialController extends Controller
     {
         $material = MaterialEloquent::find($id);
 
-        return view('material.show',compact('material'));
+        return view('materials.show',compact('material'));
     }
 
     /**
@@ -76,7 +82,7 @@ class MaterialController extends Controller
      */
     public function edit($id)
     {
-        return view('material.edit');
+        return view('materials.edit');
     }
 
     /**
@@ -101,7 +107,7 @@ class MaterialController extends Controller
 
         $material = MaterialEloquent::find($id);
         $material->update($request);
-        return redirect()->route('material.edit',[$id]);
+        return redirect()->route('materials.edit',[$id]);
     }
 
     /**
@@ -115,6 +121,6 @@ class MaterialController extends Controller
         $material = MaterialEloquent::find($id);
         $material->delete();
 
-        return redirect()->route('material.index');
+        return redirect()->route('materials.index');
     }
 }
