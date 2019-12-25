@@ -17,3 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('showName', 'SupplierController@showName');
+Route::get('getSupplierInfo', 'SupplierController@getSupplierInfo');
