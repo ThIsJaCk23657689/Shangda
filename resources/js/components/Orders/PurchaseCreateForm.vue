@@ -14,6 +14,7 @@
                         <div class="col-md-5 mb-2">
                             <select id="supplier_id" class="form-control" name="supplier_id">
                                 <option value="0">請選擇...</option>
+                                <option-item v-for="supplier in suppliers" :key="supplier.id" :supplier="supplier"></option-item>
                             </select>
                         </div>
 
@@ -36,19 +37,6 @@
                             <input id="name" type="text" class="form-control" name="name" value="" required autocomplete="name" autofocus>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            
-
-            <div class="form-group row">
-                <label for="name" class="col-md-4 col-form-label text-md-right">
-                    <span class="text-danger">*</span>
-                    供應商編號
-                </label>
-
-                <div class="col-md-6">
-                    <input id="name" type="text" class="form-control" name="name" value="" required autocomplete="name" autofocus>
                 </div>
             </div>
 
@@ -206,8 +194,9 @@
 
 <script>
 export default {
+    props: ['suppliers'],
     mounted() {
-        console.log('Component mounted.')
+        console.log('Purchase Creare Form mounted.')
     },
     data(){
     

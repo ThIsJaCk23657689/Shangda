@@ -23,8 +23,7 @@
 	<script src="{{ asset('js/admin/sb-admin.min.js') }}" defer></script>
 
 	<!-- Demo scripts for this page-->
-	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
-	<script src="{{ asset('js/admin/demo/chart-area-demo.js') }}" defer></script>
+	
 
 	@stack('CustomJS')
 
@@ -47,7 +46,7 @@
 		
     	<div id="content-wrapper">
 
-			<div id="backend" class="container-fluid">
+			<div class="container-fluid">
             	@yield('content')
 			</div>
 

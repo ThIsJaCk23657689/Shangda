@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('purchase-create-form', require('./../components/Orders/PurchaseCreateForm.vue').default);
+Vue.component('option-item', require('./../components/Partials/OptionItem.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,7 +30,16 @@ Vue.component('purchase-create-form', require('./../components/Orders/PurchaseCr
 
 const app = new Vue({
     el: '#purchase',
+    data: function() {
+        return {
+            suppliers: []
+        }
+    },
     created(){
+        let apiSupplierShowName = $('#apiSupplierShowName').html();
 
+        axios.get(apiSupplierShowName).then(response => {
+            this.suppliers = response.data;
+        });
     }
 });

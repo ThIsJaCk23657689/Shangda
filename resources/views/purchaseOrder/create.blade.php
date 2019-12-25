@@ -17,7 +17,8 @@
 	@endcomponent
 
 	<div id="purchase">
-		<purchase-create-form returnURL="{{ route('purchase.index') }}"></purchase-create-form>
+		<span id="apiSupplierShowName" style="display: none;">{{ route('api.supplier.showName') }}</span>
+		<purchase-create-form :suppliers="suppliers" returnURL="{{ route('purchase.index') }}"></purchase-create-form>
 	</div>
 	
 @endsection

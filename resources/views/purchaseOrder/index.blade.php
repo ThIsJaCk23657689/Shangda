@@ -1,5 +1,9 @@
 @extends('layouts.backend.master')
 
+@push('CustomJS')
+	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
+@endpush 
+
 @section('content')
 				
 	@component('components.breadcrumbs')
