@@ -16,8 +16,6 @@ class ConsumerService extends BaseService
             'pwd' => bcrypt($request->pwd),
             'taxId' => $request->taxId,
             'idNumber' => $request->idNumber,
-
-
             'inCharge1' => $request->inCharge1,
             'tel1' => $request->tel1,
             'email1' => $request->email1,
@@ -25,8 +23,6 @@ class ConsumerService extends BaseService
             'tel2' => $request->tel2,
             'email2' => $request->email2,
             'tax' => $request->tax,
-
-
             'monthlyCheckDate' => $request->monthlyCheckDate,
             'uncheckedAmount' => $request->uncheckedAmount,
             'totalConsumption' => $request->totalConsumption,

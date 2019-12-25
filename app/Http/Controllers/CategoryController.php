@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\MaterialRequest;
-use App\Services\MaterialService;
+use App\Http\Requests\CategoryRequest;
+use App\Services\CategoryService;
 
-class MaterialController extends Controller
+class CategoryController extends Controller
 {
-
-    public $materialService;
+    public $CategoryService;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->materialService = new MaterialService();
+        $this->CategoryService = new CategoryService();
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,9 +22,9 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        $materials = $this->materialService->getList();
-        $lastUpdate = $this->materialService->getlastupdate();
-        return view('materials.index', compact('materials'));
+        $categories = $this->CategoryService->getList();
+        $lastUpdate = $this->CategoryService->getlastupdate();
+        return view('categories.index', compact('categories', 'lastUpdate'));
     }
 
     /**
@@ -36,7 +34,7 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        return view('materials.create');
+        return view('categories.create');
     }
 
     /**
@@ -45,10 +43,10 @@ class MaterialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MaterialRequest $request)
+    public function store(CategoryRequest $request)
     {
-        $material = $this->materialService->add($request);
-        return redirect()->route('materials.index');
+        $category = $this->CategoryService->add($request);
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -59,8 +57,8 @@ class MaterialController extends Controller
      */
     public function show($id)
     {
-        $material = $this->materialService->getOne($id);
-        return view('materials.show',compact('material'));
+        $category = $this->CategoryService->getOne($id);
+        return view('categories.show', compact('category'));
     }
 
     /**
@@ -71,8 +69,8 @@ class MaterialController extends Controller
      */
     public function edit($id)
     {
-        $material = $this->materialService->getOne($id);
-        return view('materials.edit',compact('material'));
+        $category = $this->CategoryService->getOne($id);
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -82,10 +80,10 @@ class MaterialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MaterialRequest $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        $material = $this->materialService->update($request, $id);
-        return redirect()->route('materials.show', [$id]);
+        $category = $this->CategoryService->update($request, $id);
+        return redirect()->route('categories.show', [$id]);
     }
 
     /**
@@ -96,7 +94,7 @@ class MaterialController extends Controller
      */
     public function destroy($id)
     {
-        $this->materialService->delete($id);
-        return redirect()->route('materials.index');
+        $this->CategoryService->delete($id);
+        return redirect()->route('categories.index');
     }
 }

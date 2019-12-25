@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
-use App\Http\Requests\MaterialRequest;
-use App\Services\MaterialService;
 
-class MaterialController extends Controller
+class ProductController extends Controller
 {
 
-    public $materialService;
+    public $ProductService;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->materialService = new MaterialService();
+        $this->ProductService = new ProductService();
     }
 
     /**
@@ -24,9 +24,9 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        $materials = $this->materialService->getList();
-        $lastUpdate = $this->materialService->getlastupdate();
-        return view('materials.index', compact('materials'));
+        $products = $this->ProductService->getList();
+        $lastUpdate = $this->ProductService->getlastupdate();
+        return view('products.index', compact('products', 'lastUpdate'));
     }
 
     /**
@@ -36,7 +36,7 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        return view('materials.create');
+        return view('products.create');
     }
 
     /**
@@ -45,10 +45,10 @@ class MaterialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MaterialRequest $request)
+    public function store(ProductRequest $request)
     {
-        $material = $this->materialService->add($request);
-        return redirect()->route('materials.index');
+        $product = $this->ProductService->add($request);
+        return redirect()->route('products.index');
     }
 
     /**
@@ -59,8 +59,8 @@ class MaterialController extends Controller
      */
     public function show($id)
     {
-        $material = $this->materialService->getOne($id);
-        return view('materials.show',compact('material'));
+        $product = $this->ProductService->getOne($id);
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -71,8 +71,8 @@ class MaterialController extends Controller
      */
     public function edit($id)
     {
-        $material = $this->materialService->getOne($id);
-        return view('materials.edit',compact('material'));
+        $product = $this->ProductService->getOne($id);
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -82,10 +82,10 @@ class MaterialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MaterialRequest $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        $material = $this->materialService->update($request, $id);
-        return redirect()->route('materials.show', [$id]);
+        $product = $this->ProductService->update($request, $id);
+        return redirect()->route('products.show', [$id]);
     }
 
     /**
@@ -96,7 +96,7 @@ class MaterialController extends Controller
      */
     public function destroy($id)
     {
-        $this->materialService->delete($id);
-        return redirect()->route('materials.index');
+        $this->ProductService->delete($id);
+        return redirect()->route('products.index');
     }
 }

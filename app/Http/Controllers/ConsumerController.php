@@ -21,8 +21,9 @@ class ConsumerController extends Controller
 
     public function index()
     {
-        $consumers = ConsumerEloquent::all();
-        return view('consumers.index', compact('consumers'));
+        $consumer = $this->ConsumerRequest->getList();
+        $lastUpdate = $this->ConsumerRequest->getlastupdate();
+        return view('consumer.index', compact('consumer', 'lastUpdate'));
     }
 
     /**
@@ -41,13 +42,9 @@ class ConsumerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ConsumerRequest $request)
     {
-        $request->validate([
-            
-        ]);
-
-        ConsumerEloquent::create($request);
+        $comsumer = $this->ConsumerService->add($request);
         return redirect()->route('consumers.index');
     }
 
@@ -59,9 +56,8 @@ class ConsumerController extends Controller
      */
     public function show($id)
     {
-        $consumers = ConsumerEloquent::find($id);
-
-        return view('consumers.show', compact('consumers'));
+        $comsumer = $this->ConsumerService->getOne($id);
+        return view('comsumers.show', compact('comsumer'));
     }
 
     /**
@@ -72,9 +68,8 @@ class ConsumerController extends Controller
      */
     public function edit($id)
     {
-        $consumers = ConsumerEloquent::find($id);
-
-        return view('consumers.edit', compact('consumers'));
+        $consumer = $this->ConsumerService->getOne($id);
+        return view('consumers.edit', compact('consumer'));
     }
 
     /**
@@ -84,38 +79,10 @@ class ConsumerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ConsumerRequest $request, $id)
     {
-        $request->validate([
-            'discount_id' => 'required',
-            'name' => 'required|max:100|string',
-            'shortName' => 'max:100|string',
-            'act' => 'required|max:30|unique:consumers|string',
-            'pwd' => 'required|string|min:8|confirmed',
-            'taxId' => 'max:8|string',
-            'idNumber' => 'max:10|string',
-            
-            'inCharge1' => 'required|max:50|string',
-            'tel1' => 'required|max:25|string',
-            'email1' => 'max:100|string',
-            'inCharge2' => 'max:50|string',
-            'tel2' => 'max:25|string',
-            'email2' => 'max:100|string',
-            'tax' => 'max:25|string',
-
-            'monthlyCheckDate' => 'min:1|max:31|integer',
-            'uncheckedAmount' => 'min:0|numeric',
-            'totalConsumption' => 'min:0|numeric',
-            'comment' => 'string',
-            'companyAddress' => 'required|max:255|string',
-            'deliveryAddress' => 'required|max:255|string',
-            'invoiceAddress' => 'required|max:255|string',
-        ]);
-        $consumers = ConsumerEloquent::find($id);
-
-        $consumers->update($consumers);
-
-        return redirect()->route('consumers.show',[$id]);
+        $consumer = $this->ConsumerService->update($request, $id);
+        return redirect()->route('consumers.show', [$id]);
     }
 
     /**
@@ -126,9 +93,7 @@ class ConsumerController extends Controller
      */
     public function destroy($id)
     {
-        $consumers = ConsumerEloquent::find($id);
-        $consumers->delete();
-
+        $this->ConsumerService->delete($id);
         return redirect()->route('consumers.index');
     }
 }

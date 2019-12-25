@@ -1,32 +1,32 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\SaleOrderRequest;
+use App\Services\SaleOrderService;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\MaterialRequest;
-use App\Services\MaterialService;
 
-class MaterialController extends Controller
+class SaleOrderController extends Controller
 {
-
-    public $materialService;
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->materialService = new MaterialService();
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public $SaleOrderService;
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->SaleOrderService = new SaleOrderService();
+    }
+
+
     public function index()
     {
-        $materials = $this->materialService->getList();
-        $lastUpdate = $this->materialService->getlastupdate();
-        return view('materials.index', compact('materials'));
+        $saleOrders = $this->SaleOrderService->getList();
+        $lastUpdate = $this->SaleOrderService->getlastupdate();
+        return view('saleOrders.index', compact('saleOrders', 'lastUpdate'));
     }
 
     /**
@@ -36,7 +36,7 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        return view('materials.create');
+        return view('saleOrders.create');
     }
 
     /**
@@ -45,10 +45,10 @@ class MaterialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MaterialRequest $request)
+    public function store(SaleOrderRequest $request)
     {
-        $material = $this->materialService->add($request);
-        return redirect()->route('materials.index');
+        $saleOrder = $this->SaleOrderService->add($request);
+        return redirect()->route('saleOrders.index');
     }
 
     /**
@@ -59,8 +59,8 @@ class MaterialController extends Controller
      */
     public function show($id)
     {
-        $material = $this->materialService->getOne($id);
-        return view('materials.show',compact('material'));
+        $saleOrder = $this->SaleOrderService->getOne($id);
+        return view('saleOrders.show', compact('saleOrder'));
     }
 
     /**
@@ -71,8 +71,8 @@ class MaterialController extends Controller
      */
     public function edit($id)
     {
-        $material = $this->materialService->getOne($id);
-        return view('materials.edit',compact('material'));
+        $saleOrder = $this->SaleOrderService->getOne($id);
+        return view('saleOrders.edit', compact('saleOrder'));
     }
 
     /**
@@ -82,10 +82,10 @@ class MaterialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MaterialRequest $request, $id)
+    public function update(SaleOrderRequest $request, $id)
     {
-        $material = $this->materialService->update($request, $id);
-        return redirect()->route('materials.show', [$id]);
+        $saleOrder = $this->SaleOrderService->update($request, $id);
+        return redirect()->route('saleOrders.show', [$id]);
     }
 
     /**
@@ -96,7 +96,7 @@ class MaterialController extends Controller
      */
     public function destroy($id)
     {
-        $this->materialService->delete($id);
-        return redirect()->route('materials.index');
+        $this->SaleOrderService->delete($id);
+        return redirect()->route('saleOrders.index');
     }
 }
