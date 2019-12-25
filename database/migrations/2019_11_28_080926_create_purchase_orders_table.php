@@ -17,7 +17,7 @@ class CreatePurchaseOrdersTable extends Migration
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('supplier_id')->comment('供應商編號');
-            $table->unsignedBigInteger('user_id')->comment('使用者編號');
+            $table->unsignedBigInteger('user_id')->comment('使用者編號');//不顯示在前端
 
             $table->timestamp('expectReceived_at')->comment('預期付款時間');
             $table->timestamp('paid_at')->nullable()->comment('付款時間');
@@ -27,6 +27,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->string('address')->default('苗栗縣竹南鎮國泰路43號')->comment('送貨地址');
             $table->integer('taxType')->default(1)->comment('稅別'); //1~6
             $table->integer('invoiceType')->default(1)->comment('發票類型'); //1~5
+            $table->integer('shown_id')->comment('顯示ID'); //P西元年+今日第幾個單
             $table->string('comment')->nullable()->comment('備註');
 
             $table->timestamps();

@@ -34,6 +34,11 @@ class SupplierService extends BaseService
         return $suppliers;
     }
 
+    public function getNamesList(){
+        $supplier_names = SupplierEloquent::select('id','name')->get();
+        return $supplier_names;
+    }
+
     public function getOne($id)
     {
         $supplier = SupplierEloquent::find($id);
