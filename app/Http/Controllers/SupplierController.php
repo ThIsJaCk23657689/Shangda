@@ -9,13 +9,13 @@ use App\Services\SupplierService;
 class SupplierController extends Controller
 {
     public $SupplierService;
-    
+
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
         $this->SupplierService = new SupplierService();
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -60,6 +60,11 @@ class SupplierController extends Controller
     {
         $supplier = $this->SupplierService->getOne($id);
         return view('suppliers.show', compact('supplier'));
+    }
+
+    public function showName(){
+        $supplier = $this->SupplierService->getNamesList();
+        return response()->json($supplier, 200);
     }
 
     /**
