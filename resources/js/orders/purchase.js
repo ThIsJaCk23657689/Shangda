@@ -32,7 +32,18 @@ const app = new Vue({
     el: '#purchase',
     data: function() {
         return {
-            suppliers: []
+            suppliers: [],
+            current_supplier: []
+        }
+    },
+    methods: {
+        getSupplierData(id){
+            let apiSupplierGetInfo = $('#apiSupplierGetInfo').html();
+
+            axios.post(apiSupplierGetInfo, id).then(response => {
+                console.log(response);
+                this.current_supplier = response.data;
+            });
         }
     },
     created(){

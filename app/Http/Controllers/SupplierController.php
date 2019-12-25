@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\SupplierRequest;
 use App\Services\SupplierService;
+use App\Supplier as SupplierEloquent;
 
 class SupplierController extends Controller
 {
@@ -65,6 +66,12 @@ class SupplierController extends Controller
     public function showName(){
         $supplier = $this->SupplierService->getNamesList();
         return response()->json($supplier, 200);
+    }
+
+
+    public function getInfo(Request $request){
+        $info = SupplierEloquent::select('shortName','taxId','tel','tax','inCharge1','tel1','companyAddress',)->find($request->id);
+        return response()->json($info, 200);
     }
 
     /**

@@ -1968,76 +1968,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['suppliers'],
+  props: ['suppliers', 'current_supplier'],
   mounted: function mounted() {
     console.log('Purchase Creare Form mounted.');
   },
-  data: function data() {}
+  data: function data() {},
+  methods: {
+    getSupplierData: function getSupplierData() {
+      var supplier_id = $('#supplier_id').val();
+
+      if (supplier_id != 0) {
+        this.$emit('get-supplier-data', {
+          id: supplier_id
+        });
+      } else {
+        alert('請選擇廠商');
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -37384,7 +37333,8 @@ var render = function() {
                     "select",
                     {
                       staticClass: "form-control",
-                      attrs: { id: "supplier_id", name: "supplier_id" }
+                      attrs: { id: "supplier_id", name: "supplier_id" },
+                      on: { change: _vm.getSupplierData }
                     },
                     [
                       _c("option", { attrs: { value: "0" } }, [
@@ -37410,41 +37360,138 @@ var render = function() {
           _vm._m(2)
         ]),
         _vm._v(" "),
-        _vm._m(3),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-md-4 col-form-label text-md-right",
+              attrs: { for: "shortName" }
+            },
+            [_vm._v("供應商簡稱")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                id: "shortName",
+                type: "text",
+                name: "shortName",
+                disabled: ""
+              },
+              domProps: { value: _vm.current_supplier.shortName }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _vm._m(4),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-md-4 col-form-label text-md-right",
+              attrs: { for: "taxId" }
+            },
+            [_vm._v("統一編號")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { id: "taxId", type: "text", name: "taxId", disabled: "" },
+              domProps: { value: _vm.current_supplier.taxId }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _vm._m(5),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-md-4 col-form-label text-md-right",
+              attrs: { for: "tel" }
+            },
+            [_vm._v("電話")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { id: "tel", type: "text", name: "tel", disabled: "" },
+              domProps: { value: _vm.current_supplier.tel }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _vm._m(6),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-md-4 col-form-label text-md-right",
+              attrs: { for: "tax" }
+            },
+            [_vm._v("傳真")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { id: "tax", type: "text", name: "tax", disabled: "" },
+              domProps: { value: _vm.current_supplier.tax }
+            })
+          ])
+        ]),
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
-        _vm._m(7),
+        _c("div", { staticClass: "form-group row" }, [
+          _vm._m(3),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                id: "inCharge1",
+                type: "text",
+                name: "inCharge1",
+                disabled: ""
+              },
+              domProps: { value: _vm.current_supplier.inCharge1 }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _vm._m(8),
-        _vm._v(" "),
-        _vm._m(9),
+        _c("div", { staticClass: "form-group row" }, [
+          _vm._m(4),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { id: "tel1", type: "text", name: "tel1", disabled: "" },
+              domProps: { value: _vm.current_supplier.tel1 }
+            })
+          ])
+        ]),
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
-        _vm._m(10),
+        _c("div", { staticClass: "form-group row" }, [
+          _vm._m(5),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                id: "companyAddress",
+                type: "text",
+                name: "companyAddress",
+                disabled: ""
+              },
+              domProps: { value: _vm.current_supplier.companyAddress }
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _vm._m(11),
-        _vm._v(" "),
-        _vm._m(12),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _vm._m(13),
-        _vm._v(" "),
-        _vm._m(14),
-        _vm._v(" "),
-        _vm._m(15),
-        _vm._v(" "),
-        _vm._m(16),
-        _vm._v(" "),
-        _vm._m(17)
+        _vm._m(6)
       ])
     ])
   ])
@@ -37507,15 +37554,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "col-md-8 mb-2" }, [
           _c("input", {
             staticClass: "form-control",
-            attrs: {
-              id: "name",
-              type: "text",
-              name: "name",
-              value: "",
-              required: "",
-              autocomplete: "name",
-              autofocus: ""
-            }
+            attrs: { id: "name", type: "text", name: "name", value: "" }
           })
         ])
       ])
@@ -37525,411 +37564,49 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "shortName" }
-        },
-        [_vm._v("供應商簡稱")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "shortName",
-            type: "text",
-            name: "shortName",
-            value: "",
-            autocomplete: "shortName"
-          }
-        })
-      ])
-    ])
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-4 col-form-label text-md-right",
+        attrs: { for: "inCharge1" }
+      },
+      [
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _vm._v("\r\n                    負責人1 - 名稱\r\n                ")
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "taxId" }
-        },
-        [_vm._v("統一編號")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "taxId",
-            type: "text",
-            name: "taxId",
-            value: "",
-            autocomplete: "taxId"
-          }
-        })
-      ])
-    ])
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-4 col-form-label text-md-right",
+        attrs: { for: "tel1" }
+      },
+      [
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _vm._v("\r\n                    負責人1 - 電話\r\n                ")
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "tel" }
-        },
-        [_vm._v("電話")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "tel",
-            type: "text",
-            name: "tel",
-            value: "",
-            autocomplete: "tel"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "tax" }
-        },
-        [_vm._v("傳真")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "tax",
-            type: "text",
-            name: "tax",
-            value: "",
-            autocomplete: "tax"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "inCharge1" }
-        },
-        [
-          _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-          _vm._v("\r\n                    負責人1 - 名稱\r\n                ")
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "inCharge1",
-            type: "text",
-            name: "inCharge1",
-            value: "",
-            autocomplete: "inCharge1"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "tel1" }
-        },
-        [
-          _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-          _vm._v("\r\n                    負責人1 - 電話\r\n                ")
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "tel1",
-            type: "text",
-            name: "tel1",
-            value: "",
-            autocomplete: "tel1"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "email1" }
-        },
-        [_vm._v("負責人1 - 信箱")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "email1",
-            type: "email",
-            name: "email1",
-            value: "",
-            autocomplete: "email1"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "inCharge2" }
-        },
-        [_vm._v("負責人2 - 名稱")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "inCharge2",
-            type: "text",
-            name: "inCharge2",
-            value: "",
-            autocomplete: "inCharge2"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "tel2" }
-        },
-        [_vm._v("負責人2 - 電話")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "tel2",
-            type: "text",
-            name: "tel2",
-            value: "",
-            autocomplete: "tel2"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "email2" }
-        },
-        [_vm._v("負責人2 - 信箱")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "email2",
-            type: "email",
-            name: "email2",
-            value: "",
-            autocomplete: "email2"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "companyAddress" }
-        },
-        [
-          _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-          _vm._v("\r\n                    公司地址\r\n                ")
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "companyAddress",
-            type: "text",
-            name: "companyAddress",
-            value: "",
-            autocomplete: "companyAddress",
-            required: ""
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "deliveryAddress" }
-        },
-        [
-          _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-          _vm._v("\r\n                    送貨地址\r\n                ")
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "deliveryAddress",
-            type: "text",
-            name: "deliveryAddress",
-            value: "",
-            autocomplete: "deliveryAddress",
-            required: ""
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "invoiceAddress" }
-        },
-        [
-          _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-          _vm._v("\r\n                    發票地址\r\n                ")
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "invoiceAddress",
-            type: "text",
-            name: "invoiceAddress",
-            value: "",
-            required: "",
-            autocomplete: "invoiceAddress"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-4 col-form-label text-md-right",
-          attrs: { for: "comment" }
-        },
-        [_vm._v("備註")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "comment",
-            type: "email",
-            name: "comment",
-            value: "",
-            autocomplete: "comment"
-          }
-        })
-      ])
-    ])
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-4 col-form-label text-md-right",
+        attrs: { for: "companyAddress" }
+      },
+      [
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _vm._v("\r\n                    公司地址\r\n                ")
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -50351,15 +50028,27 @@ var app = new Vue({
   el: '#purchase',
   data: function data() {
     return {
-      suppliers: []
+      suppliers: [],
+      current_supplier: []
     };
   },
+  methods: {
+    getSupplierData: function getSupplierData(id) {
+      var _this = this;
+
+      var apiSupplierGetInfo = $('#apiSupplierGetInfo').html();
+      axios.post(apiSupplierGetInfo, id).then(function (response) {
+        console.log(response);
+        _this.current_supplier = response.data;
+      });
+    }
+  },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     var apiSupplierShowName = $('#apiSupplierShowName').html();
     axios.get(apiSupplierShowName).then(function (response) {
-      _this.suppliers = response.data;
+      _this2.suppliers = response.data;
     });
   }
 });

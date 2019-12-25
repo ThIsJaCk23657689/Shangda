@@ -18,7 +18,8 @@
 
 	<div id="purchase">
 		<span id="apiSupplierShowName" style="display: none;">{{ route('api.supplier.showName') }}</span>
-		<purchase-create-form :suppliers="suppliers" returnURL="{{ route('purchase.index') }}"></purchase-create-form>
+		<span id="apiSupplierGetInfo" style="display: none;">{{ route('api.supplier.getInfo') }}</span>
+		<purchase-create-form :suppliers="suppliers" :current_supplier="current_supplier" v-on:get-supplier-data="getSupplierData" returnURL="{{ route('purchase.index') }}"></purchase-create-form>
 	</div>
 	
 @endsection

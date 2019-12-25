@@ -12,7 +12,7 @@
                         </label>
 
                         <div class="col-md-5 mb-2">
-                            <select id="supplier_id" class="form-control" name="supplier_id">
+                            <select id="supplier_id" class="form-control" name="supplier_id" @change="getSupplierData">
                                 <option value="0">請選擇...</option>
                                 <option-item v-for="supplier in suppliers" :key="supplier.id" :supplier="supplier"></option-item>
                             </select>
@@ -34,7 +34,7 @@
                         </label>
 
                         <div class="col-md-8 mb-2">
-                            <input id="name" type="text" class="form-control" name="name" value="" required autocomplete="name" autofocus>
+                            <input id="name" type="text" class="form-control" name="name" value="">
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <label for="shortName" class="col-md-4 col-form-label text-md-right">供應商簡稱</label>
 
                 <div class="col-md-6">
-                    <input id="shortName" type="text" class="form-control" name="shortName" value="" autocomplete="shortName">
+                    <input id="shortName" type="text" class="form-control" name="shortName" :value="current_supplier.shortName" disabled>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                 <label for="taxId" class="col-md-4 col-form-label text-md-right">統一編號</label>
 
                 <div class="col-md-6">
-                    <input id="taxId" type="text" class="form-control" name="taxId" value="" autocomplete="taxId">
+                    <input id="taxId" type="text" class="form-control" name="taxId" :value="current_supplier.taxId" disabled>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
                 <label for="tel" class="col-md-4 col-form-label text-md-right">電話</label>
 
                 <div class="col-md-6">
-                    <input id="tel" type="text" class="form-control" name="tel" value="" autocomplete="tel">
+                    <input id="tel" type="text" class="form-control" name="tel" :value="current_supplier.tel" disabled>
                 </div>
             </div>
 
@@ -68,7 +68,7 @@
                 <label for="tax" class="col-md-4 col-form-label text-md-right">傳真</label>
 
                 <div class="col-md-6">
-                    <input id="tax" type="text" class="form-control" name="tax" value="" autocomplete="tax">
+                    <input id="tax" type="text" class="form-control" name="tax" :value="current_supplier.tax" disabled>
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
                 </label>
 
                 <div class="col-md-6">
-                    <input id="inCharge1" type="text" class="form-control" name="inCharge1" value="" autocomplete="inCharge1">
+                    <input id="inCharge1" type="text" class="form-control" name="inCharge1" :value="current_supplier.inCharge1" disabled>
                 </div>
             </div>
 
@@ -92,41 +92,7 @@
                 </label>
 
                 <div class="col-md-6">
-                    <input id="tel1" type="text" class="form-control" name="tel1" value="" autocomplete="tel1">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="email1" class="col-md-4 col-form-label text-md-right">負責人1 - 信箱</label>
-
-                <div class="col-md-6">
-                    <input id="email1" type="email" class="form-control" name="email1" value="" autocomplete="email1">
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="form-group row">
-                <label for="inCharge2" class="col-md-4 col-form-label text-md-right">負責人2 - 名稱</label>
-
-                <div class="col-md-6">
-                    <input id="inCharge2" type="text" class="form-control" name="inCharge2" value="" autocomplete="inCharge2">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="tel2" class="col-md-4 col-form-label text-md-right">負責人2 - 電話</label>
-
-                <div class="col-md-6">
-                    <input id="tel2" type="text" class="form-control" name="tel2" value="" autocomplete="tel2">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="email2" class="col-md-4 col-form-label text-md-right">負責人2 - 信箱</label>
-
-                <div class="col-md-6">
-                    <input id="email2" type="email" class="form-control" name="email2" value="" autocomplete="email2">
+                    <input id="tel1" type="text" class="form-control" name="tel1" :value="current_supplier.tel1" disabled>
                 </div>
             </div>
 
@@ -139,37 +105,7 @@
                 </label>
 
                 <div class="col-md-6">
-                    <input id="companyAddress" type="text" class="form-control" name="companyAddress" value="" autocomplete="companyAddress" required>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="deliveryAddress" class="col-md-4 col-form-label text-md-right">
-                    <span class="text-danger">*</span>
-                    送貨地址
-                </label>
-
-                <div class="col-md-6">
-                    <input id="deliveryAddress" type="text" class="form-control" name="deliveryAddress" value="" autocomplete="deliveryAddress" required>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="invoiceAddress" class="col-md-4 col-form-label text-md-right">
-                    <span class="text-danger">*</span>
-                    發票地址
-                </label>
-
-                <div class="col-md-6">
-                    <input id="invoiceAddress" type="text" class="form-control" name="invoiceAddress" value="" required autocomplete="invoiceAddress">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="comment" class="col-md-4 col-form-label text-md-right">備註</label>
-
-                <div class="col-md-6">
-                    <input id="comment" type="email" class="form-control" name="comment" value="" autocomplete="comment">
+                    <input id="companyAddress" type="text" class="form-control" name="companyAddress" :value="current_supplier.companyAddress" disabled>
                 </div>
             </div>
 
@@ -194,12 +130,24 @@
 
 <script>
 export default {
-    props: ['suppliers'],
+    props: ['suppliers', 'current_supplier'],
     mounted() {
         console.log('Purchase Creare Form mounted.')
     },
     data(){
     
+    },
+    methods: {
+        getSupplierData(){
+            let supplier_id = $('#supplier_id').val();
+            if(supplier_id != 0){
+                this.$emit('get-supplier-data', {
+                    id: supplier_id
+                });
+            }else{
+                alert('請選擇廠商');
+            }
+        }
     }
 }
 </script>
