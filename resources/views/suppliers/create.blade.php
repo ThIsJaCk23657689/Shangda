@@ -1,5 +1,9 @@
 @extends('layouts.backend.master')
 
+@push('CustomJS')
+    <script src="{{ asset('js/suppliers/create.js') }}" defer></script>
+@endpush    
+
 @section('content')
 				
 	@component('components.breadcrumbs')
@@ -211,12 +215,16 @@
 
                     <div class="col-md-6">
                         <input id="deliveryAddress" type="text" class="form-control @error('deliveryAddress') is-invalid @enderror" name="deliveryAddress" value="{{ old('deliveryAddress') }}" autocomplete="deliveryAddress" required>
-
+                        
                         @error('deliveryAddress')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="copycompany1">
+                        <label class="form-check-label" for="copycompany1">同公司地址</label>
                     </div>
                 </div>
 
@@ -235,13 +243,17 @@
                             </span>
                         @enderror
                     </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="copycompany2">
+                        <label class="form-check-label" for="copycompany2">同公司地址</label>
+                    </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="comment" class="col-md-4 col-form-label text-md-right">備註</label>
 
                     <div class="col-md-6">
-                        <input id="comment" type="email" class="form-control @error('comment') is-invalid @enderror" name="comment" value="{{ old('comment') }}" autocomplete="comment">
+                        <input id="comment" type="text" class="form-control @error('comment') is-invalid @enderror" name="comment" value="{{ old('comment') }}" autocomplete="comment">
 
                         @error('comment')
                             <span class="invalid-feedback" role="alert">

@@ -13,6 +13,16 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $user = UserEloquent::create([
+            'name' => 'Admin',
+            'gender' => '1',
+            'email' => 'admin@mail.com',
+            'password' => bcrypt('00000000'),
+        ]);
+        $user->job_title_id = 3;
+        $user->save();
+        
+        
+        $user = UserEloquent::create([
             'name' => 'Jack',
             'gender' => '1',
             'email' => 'y23657689@gmail.com',
@@ -20,6 +30,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $user->job_title_id = 3;
         $user->save();
+        
 
         $users = factory(UserEloquent::class, 9)->create();
     }

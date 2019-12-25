@@ -81,41 +81,45 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/materials/create.js":
+/***/ "./resources/js/suppliers/create.js":
 /*!******************************************!*\
-  !*** ./resources/js/materials/create.js ***!
+  !*** ./resources/js/suppliers/create.js ***!
   \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 $(function () {
-  $('#form_submit_btn').click(function (e) {
-    e.preventDefault();
-    $('material_create_form').submit();
+  $('#copycompany1').click(function (e) {
+    if ($(this).prop("checked")) {
+      $('#deliveryAddress').val($('#companyAddress').val());
+    } else {
+      $('#deliveryAddress').val('');
+    }
   });
-  var prev_unit;
-  $('#unit').on('focus', function () {
-    prev_unit = $(this).val();
-  }).change(function () {
-    var x = $('#stock_before').val();
+  $('#copycompany2').click(function (e) {
+    if ($(this).prop("checked")) {
+      $('#invoiceAddress').val($('#companyAddress').val());
+    } else {
+      $('#invoiceAddress').val('');
+    }
   });
 });
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!************************************************!*\
-  !*** multi ./resources/js/materials/create.js ***!
+  !*** multi ./resources/js/suppliers/create.js ***!
   \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\materials\create.js */"./resources/js/materials/create.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\suppliers\create.js */"./resources/js/suppliers/create.js");
 
 
 /***/ })

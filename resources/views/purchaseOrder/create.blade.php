@@ -1,5 +1,9 @@
 @extends('layouts.backend.master')
 
+@push('CustomJS')
+    <script src="{{ asset('js/orders/purchase.js') }}" defer></script>
+@endpush   
+
 @section('content')
 				
 	@component('components.breadcrumbs')
@@ -12,6 +16,8 @@
 		<li class="breadcrumb-item active">{{ __('Create') }}</li>
 	@endcomponent
 
-    <purchase-create-form returnURL="{{ route('purchase.index') }}"></purchase-create-form>
+	<div id="purchase">
+		<purchase-create-form returnURL="{{ route('purchase.index') }}"></purchase-create-form>
+	</div>
 	
 @endsection

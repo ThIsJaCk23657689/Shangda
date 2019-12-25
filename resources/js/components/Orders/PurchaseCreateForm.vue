@@ -1,23 +1,50 @@
 <template>
 <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <form method="POST" action="#">
 
-            <div class="form-group row justify-content-center">
-                <div class="col-md-8">
-                    <button type="submit" class="btn btn-block btn-primary">
-                        確認新增
-                    </button>
-                    <a href="#" class="btn btn-block btn-danger">
-                        返回上一頁
-                    </a>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row justify-content-center">
+                        <label for="supplier_id" class="col-md-2 col-form-label text-md-right">
+                            <span class="text-danger">*</span>
+                            供應商
+                        </label>
+
+                        <div class="col-md-5 mb-2">
+                            <select id="supplier_id" class="form-control" name="supplier_id">
+                                <option value="0">請選擇...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-block btn-primary">
+                                新增供應商
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row justify-content-center">
+                        <label for="stock_before" class="col-md-2 col-form-label text-md-right">
+                            <span class="text-danger">*</span>
+                            測試用
+                        </label>
+
+                        <div class="col-md-8 mb-2">
+                            <input id="name" type="text" class="form-control" name="name" value="" required autocomplete="name" autofocus>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            
 
             <div class="form-group row">
                 <label for="name" class="col-md-4 col-form-label text-md-right">
                     <span class="text-danger">*</span>
-                    供應商名稱
+                    供應商編號
                 </label>
 
                 <div class="col-md-6">
