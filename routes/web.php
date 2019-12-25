@@ -20,3 +20,7 @@ Route::resource('/users', 'UsersController');
 
 Route::resource('/suppliers', 'SupplierController');
 Route::resource('/materials', 'MaterialController');
+
+Route::resource('/orders/purchase', 'Orders\PurchaseController');
+Route::resource('/orders/sales', 'Orders\SalesController');
+Route::resource('/orders/return', 'Orders\ReturnController');

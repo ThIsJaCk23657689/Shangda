@@ -1,5 +1,9 @@
 @extends('layouts.backend.master')
 
+@push('CustomJS')
+    <script src="{{ asset('js/materials/create.js') }}" defer></script>
+@endpush
+
 @section('content')
 				
 	@component('components.breadcrumbs')
@@ -14,7 +18,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form method="POST" action="{{ route('materials.store') }}">
+            <form id="material_create_form" method="POST" action="{{ route('materials.store') }}">
                 @csrf
 
                 <div class="form-group row">
@@ -77,14 +81,16 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="inCharge1" class="col-md-4 col-form-label text-md-right">
+                    <label for="stock_before" class="col-md-4 col-form-label text-md-right">
                         <span class="text-danger">*</span>
                         目前存貨量
                     </label>
 
                     <div class="col-md-4">
-                        <input id="inCharge1" type="text" class="form-control @error('inCharge1') is-invalid @enderror" name="inCharge1" value="{{ old('inCharge1') ?? 0 }}" autocomplete="inCharge1">
-                        @error('inCharge1')
+                        <input id="stock_before" type="text" class="form-control @error('stock_before') is-invalid @enderror" name="stock_before" value="{{ old('stock_before') ?? 0 }}" autocomplete="stock_before">
+                        
+                        <input id="stock" type="text" class="form-control" name="stock" value="{{ old('stock') ?? 0 }}">
+                        @error('stock')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -124,7 +130,7 @@
 
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">
-                        <button type="submit" class="btn btn-block btn-primary">
+                        <button id="form_submit_btn" type="submit" class="btn btn-block btn-primary">
                             確認新增
                         </button>
                         <a href="{{ route('materials.index') }}" class="btn btn-block btn-danger">

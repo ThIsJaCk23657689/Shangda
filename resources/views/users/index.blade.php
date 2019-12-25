@@ -17,8 +17,8 @@
             <a href="{{ route('users.create') }}" class="btn btn-md btn-primary">
                 <i class="fas fa-plus"></i>
                 新增員工(後臺註冊)
-            </a>
-        </div>
+			</a>
+		</div>
     </div>
 	
 	<!-- DataTables Example -->
@@ -42,23 +42,45 @@
 					</thead>
 					<tbody>
 						@foreach ($users as $user)
-							<tr>
+							<tr class="{{ $user->trashed()?'bg-warning':'' }}">
 								<td>{{ $user->id }}</td>
 								<td>{{ $user->name }}</td>
 								<td>{{ $user->showGender() }}</td>
                                 <td>{{ $user->jobTitle->name }}</td>
                                 <td>{{ $user->email }}</td>
 								<td>
-                                    <a href="{{ route('users.show', [$user->id]) }}" class="btn btn-md btn-info">查看</a>
-                                    <a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-md btn-success">編輯</a>
+									<a href="{{ route('users.show', [$user->id]) }}" class="btn btn-md btn-info">
+										<i class="fas fa-info-circle"></i>
+										查看
+									</a>
+									<a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-md btn-success">
+										<i class="fas fa-user-edit"></i>
+										編輯
+									</a>
 									@if(Auth::id() != $user->id)
-										<a href="#" class="btn btn-md btn-danger" onclick="
-											event.preventDefault();
-											ans = confirm('確定要封鎖此員工嗎?');
-											if(ans){
-												$('#deleteform-{{ $user->id }}').submit();
-											}
-										">封鎖</a>
+										@if($user->trashed())
+											<a href="#" class="btn btn-md btn-light" onclick="
+												event.preventDefault();
+												ans = confirm('確定要解鎖此員工嗎?');
+												if(ans){
+													$('#deleteform-{{ $user->id }}').submit();
+												}
+											">
+												<i class="fas fa-unlock"></i>
+												解鎖
+											</a>
+										@else
+											<a href="#" class="btn btn-md btn-danger" onclick="
+												event.preventDefault();
+												ans = confirm('確定要封鎖此員工嗎?');
+												if(ans){
+													$('#deleteform-{{ $user->id }}').submit();
+												}
+											">
+												<i class="fas fa-user-slash"></i>
+												封鎖
+											</a>
+										@endif
 
 										<form id="deleteform-{{ $user->id }}" action="{{ route('users.destroy', [$user->id]) }}" method="POST" style="displat: none;">
 											@csrf
@@ -72,7 +94,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="card-footer small text-muted"> {{ __('Last Updated') }} {{ $lastUpdate1??'無' }}</div>
+		<div class="card-footer small text-muted"> {{ __('Last Updated') }} {{ $lastUpdate??'無' }}</div>
 	</div>
 	
 @endsection

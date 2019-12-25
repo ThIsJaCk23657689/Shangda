@@ -53,10 +53,18 @@ class UsersController extends Controller
     }
 
     public function update($id, Request $request){
-
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'gender' => ['required', 'boolean'],
+            'jobTitle' => ['required', 'integer', 'exists:job_titles,id'],
+        ]);
+        
+        $user = $this->UserService->update($request, $id);
+        return redirect()->route('users.show', [$id]);
     }
 
-    public function delete($id){
-
+    public function destroy($id){
+        $this->UserService->delete($id);
+        return redirect()->route('users.index');
     }
 }

@@ -4,19 +4,19 @@
 				
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('People Management') }}</a>
+			<a href="#">{{ __('Orders Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Suppliers') }}</a>
+			<a href="#">{{ __('Purchase Orders') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
 	@endcomponent
 
     <div class="row mb-3">
         <div class="col-md-12">
-            <a href="{{ route('suppliers.create') }}" class="btn btn-md btn-primary">
+            <a href="{{ route('purchase.create') }}" class="btn btn-md btn-primary">
                 <i class="fas fa-plus"></i>
-                新增供應商
+                新增進貨單
             </a>
         </div>
     </div>
@@ -25,7 +25,7 @@
 	<div class="card mb-3">
 		<div class="card-header">
 			<i class="fas fa-table"></i>
-			供應商資料
+			進貨單資料
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
@@ -33,29 +33,29 @@
 					<thead>
 						<tr>
 							<th>編號</th>
-							<th>簡稱</th>
-							<th>統一編號</th>
-                            <th>負責人1 姓名</th>
-                            <th>負責人1 電話</th>
-                            <th>負責人1 信箱</th>
+							<th>供應商名稱</th>
+							<th>負責人(員工)</th>
+                            <th>總價</th>
+                            <th>稅別</th>
+                            <th>發票類型</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($suppliers as $supplier)
+						@foreach ($purchaseOrders as $purchaseOrder)
 							<tr>
-								<td>{{ $supplier->id }}</td>
-								<td>{{ $supplier->shortName }}</td>
-								<td>{{ $supplier->taxId }}</td>
-                                <td>{{ $supplier->inCharge1 }}</td>
-                                <td>{{ $supplier->tel1 }}</td>
-                                <td>{{ $supplier->email1 }}</td>
+								<td>{{ $purchaseOrder->id }}</td>
+								<td>{{ $purchaseOrder->supplier->name }}</td>
+								<td>{{ $purchaseOrder->user->name }}</td>
+                                <td>{{ $purchaseOrder->totalPrice }}</td>
+                                <td>{{ Config::get('shangda.tax.'.$purchaseOrder->taxType, '未知') }}</td>
+                                <td>{{ Config::get('shangda.invoice.'.$purchaseOrder->invoiceType, '未知') }}</td>
 								<td>
-									<a href="{{ route('suppliers.show', [$supplier->id]) }}" class="btn btn-md btn-info">
+									<a href="{{ route('purchase.show', [$purchaseOrder->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
 										查看
 									</a>
-									<a href="{{ route('suppliers.edit', [$supplier->id]) }}" class="btn btn-md btn-success">
+									<a href="{{ route('purchase.edit', [$purchaseOrder->id]) }}" class="btn btn-md btn-success">
 										<i class="fas fa-edit"></i>
 										編輯
 									</a>
@@ -63,14 +63,14 @@
 										event.preventDefault();
 										ans = confirm('確定要刪除此廠商嗎?');
 										if(ans){
-											$('#deleteform-{{ $supplier->id }}').submit();
+											$('#deleteform-{{ $purchaseOrder->id }}').submit();
 										}
 									">
 										<i class="far fa-trash-alt"></i>
 										刪除
 									</a>
 
-									<form id="deleteform-{{ $supplier->id }}" action="{{ route('suppliers.destroy', [$supplier->id]) }}" method="POST" style="displat: none;">
+									<form id="deleteform-{{ $purchaseOrder->id }}" action="{{ route('purchase.destroy', [$supplier->id]) }}" method="POST" style="displat: none;">
 										@csrf
 										@method('DELETE')
 									</form>

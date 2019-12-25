@@ -21,7 +21,6 @@ class PurchaseOrder extends Model
         return $this->belongsTo(UserEloquent::class);
     }
 
-
     public function materials(){
         return $this->belongsToMany(MaterialEloquent::class)
         ->withPivot('price', 'quantity', 'subTotal', 'comment', 'discount');

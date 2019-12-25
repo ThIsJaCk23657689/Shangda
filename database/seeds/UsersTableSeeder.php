@@ -20,5 +20,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $user->job_title_id = 3;
         $user->save();
+
+        $users = factory(UserEloquent::class, 9)->create();
     }
 }

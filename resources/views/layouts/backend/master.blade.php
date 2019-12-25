@@ -26,6 +26,8 @@
 	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
 	<script src="{{ asset('js/admin/demo/chart-area-demo.js') }}" defer></script>
 
+	@stack('CustomJS')
+
 	<!-- Styles -->
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet" type='text/css'>
 	<link href="{{ asset('vendor/fontawesome/css/all.min.css') }}" rel="stylesheet" type='text/css'>
@@ -54,7 +56,7 @@
 		
   	</div>
 
-	<a class="scroll-to-top rounded" href="#page-top">
+	<a id="go_top_btn" class="scroll-to-top rounded" href="#page-top">
 		<i class="fas fa-angle-up"></i>
 	</a>
 </body>

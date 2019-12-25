@@ -23,13 +23,13 @@ class UserService extends BaseService
 
     public function getList()
     {
-        $users = UserEloquent::get();
+        $users = UserEloquent::withTrashed()->get();
         return $users;
     }
 
     public function getOne($id)
     {
-        $user = UserEloquent::find($id);
+        $user = UserEloquent::withTrashed()->find($id);
         return $user;
     }
 
@@ -50,12 +50,16 @@ class UserService extends BaseService
     public function delete($id)
     {
         $user = $this->getOne($id);
-        $user->delete();
+        if($user->trashed()){
+            $user->restore();
+        }else{
+            $user->delete();
+        }
     }
 
     public function getlastupdate()
     {
-        $user = UserEloquent::orderBy('id', 'DESC')->first();
+        $user = UserEloquent::withTrashed()->orderBy('id', 'DESC')->first();
         if(!empty($user)){
             return $user->updated_at;
         }
