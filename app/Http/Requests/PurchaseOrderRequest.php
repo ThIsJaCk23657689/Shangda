@@ -34,6 +34,7 @@ class PurchaseOrderRequest extends FormRequest
             'taxType' => 'nullable|min:1|max:6',
             'invoiceType' => 'nullable|min:1|max:5',
             'address' => 'nullable|max:255|string',
+            'shown_id' => 'required|string'
         ];
     }
 }

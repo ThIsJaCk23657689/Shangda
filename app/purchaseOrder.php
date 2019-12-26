@@ -11,7 +11,7 @@ class PurchaseOrder extends Model
 {
     protected $fillable = [
         'supplier_id', 'user_id', 'paid_at', 'received_at', 'expectReceived_at', 
-        'totalPrice', 'comment', 'taxType', 'invoiceType', 'address',
+        'totalPrice', 'comment', 'taxType', 'invoiceType', 'address', 'shown_id'
     ];
 
     public function supplier(){
