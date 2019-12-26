@@ -12,16 +12,20 @@ class PurchaseOrderService extends BaseService
     {
         $today = Carbon::today()->toDateTimeString();   //2019-12-26 00:00:00
         $today = substr($today, 0, 10);                 //2019-12-26
+<<<<<<< HEAD
         $today = str_replace('-','',$today);            //20191226
         $count = PurchaseOrderEloquent::like('shown_id','P'.$today.'%')->count();
+=======
+        $today = str_replace('-', '', $today);            //20191226
+        $count = PurchaseOrderEloquent::where('shown_id', 'like', 'P' . $today . '%')->count();
+>>>>>>> df406cdcb873d7972986c2c4df96a39fedab2a9b
         $count += 1;
         $count = str_pad($count, 4, '0', STR_PAD_LEFT);
-        $shown_id = 'P'.$today.$count;                  //P201912260001
+        $shown_id = 'P' . $today.$count;                  //P201912260001
 
         if($request->totalPrice == NULL){
             $request->totalPrice = 0;
         }
-
 
         $purchaseOrder = PurchaseOrderEloquent::create([
             'supplier_id' => $request->supplier_id,

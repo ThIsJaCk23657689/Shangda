@@ -24,7 +24,7 @@ class PurchaseOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'supplier_id' => 'min:1|required|integer|exist:suppliers, id',
+            'supplier_id' => 'required|integer|exists:suppliers,id|min:1',
             'paid_at' => 'nullable|date',
             'received_at' => 'nullable|date',
             'expectReceived_at' => 'required|date',
