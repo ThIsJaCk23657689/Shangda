@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\PurchaseOrder as PurchaseOrderEloquent;
 use Carbon\Carbon;
+use Auth;
 
 class PurchaseOrderService extends BaseService
 {
@@ -16,9 +17,11 @@ class PurchaseOrderService extends BaseService
         $count = str_pad($count, 4, '0', STR_PAD_LEFT);
         $shown_id = 'P'.$today.$count;
 
+        $user_id = Auth::id();
+
         $purchaseOrder = PurchaseOrderEloquent::create([
             'supplier_id' => $request->supplier_id,
-            'user_id' => $request->user_id,
+            'user_id' => $user_id,
             'paid_at' => $request->paid_at,
             'received_at' => $request->received_at,
             'expectReceived_at' => $request->expectReceived_at,
@@ -29,7 +32,7 @@ class PurchaseOrderService extends BaseService
             'address' => $request->address,
             'shown_id' => $shown_id,
         ]);
-        return $purchaseOrder;
+        return $shown_id;
     }
 
     public function getList()

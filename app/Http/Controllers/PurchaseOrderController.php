@@ -47,7 +47,7 @@ class PurchaseOrderController extends Controller
     public function store(PurchaseOrderRequest $request)
     {
         $purchaseOrder = $this->PurchaseOrderService->add($request);
-        return redirect()->route('purchaseOrders.index');
+        return response()->json('單號'.$purchaseOrder.'建立成功。', 200);
     }
 
     /**

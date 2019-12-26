@@ -29,7 +29,7 @@ class PurchaseOrderRequest extends FormRequest
             'paid_at' => 'nullable|date',
             'received_at' => 'nullable|date',
             'expectReceived_at' => 'required|date',
-            'totalPrice' => 'nullable|min:0',
+            'totalPrice' => 'required|min:0',
             'comment' => 'nullable|max:255|string',
             'taxType' => 'nullable|min:1|max:6',
             'invoiceType' => 'nullable|min:1|max:5',
