@@ -25,7 +25,6 @@ class PurchaseOrderRequest extends FormRequest
     {
         return [
             'supplier_id' => 'required|integer',
-            'user_id' => 'required|integer',
             'paid_at' => 'nullable|date',
             'received_at' => 'nullable|date',
             'expectReceived_at' => 'required|date',
