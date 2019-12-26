@@ -27,6 +27,7 @@ class PurchaseOrderService extends BaseService
             'taxType' => $request->taxType,
             'invoiceType' => $request->invoiceType,
             'address' => $request->address,
+            'shown_id' => $shown_id,
         ]);
         return $purchaseOrder;
     }
