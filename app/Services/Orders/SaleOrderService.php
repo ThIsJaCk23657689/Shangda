@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Orders;
+use App\Services\BaseService;
 use App\SaleOrder as SaleOrderEloquent;
 use Carbon\Carbon;
 
