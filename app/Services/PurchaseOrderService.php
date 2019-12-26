@@ -2,11 +2,20 @@
 
 namespace App\Services;
 use App\PurchaseOrder as PurchaseOrderEloquent;
+use Carbon\Carbon;
 
 class PurchaseOrderService extends BaseService
 {
     public function add($request)
     {
+        $today = Carbon::today()->toDateTimeString();   //2019-12-26 00:00:00
+        $today = substr($today, 0, 10);                 //2019-12-26
+        $today = str_replace('-','',$today);            //20191226
+        $count = PurchaseOrderEloquent::where('shown_id','P20191226%')->count();
+        $count += 1;
+        $count = str_pad($count, 4, '0', STR_PAD_LEFT);
+        $shown_id = 'P'.$today.$count;
+
         $purchaseOrder = PurchaseOrderEloquent::create([
             'supplier_id' => $request->supplier_id,
             'user_id' => $request->user_id,
