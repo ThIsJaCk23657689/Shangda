@@ -1240,7 +1240,7 @@ var render = function() {
                   "label",
                   {
                     staticClass: "col-md-3 col-form-label text-md-right",
-                    attrs: { for: "shortName" }
+                    attrs: { for: "showShortName" }
                   },
                   [_vm._v("供應商簡稱")]
                 ),
@@ -1248,12 +1248,7 @@ var render = function() {
                 _c("div", { staticClass: "col-md-6" }, [
                   _c("input", {
                     staticClass: "form-control",
-                    attrs: {
-                      id: "shortName",
-                      type: "text",
-                      name: "shortName",
-                      disabled: ""
-                    },
+                    attrs: { id: "showShortName", type: "text", disabled: "" },
                     domProps: { value: _vm.current_supplier.shortName }
                   })
                 ])
@@ -1266,7 +1261,7 @@ var render = function() {
                   "label",
                   {
                     staticClass: "col-md-3 col-form-label text-md-right",
-                    attrs: { for: "taxId" }
+                    attrs: { for: "showTaxId" }
                   },
                   [_vm._v("統一編號")]
                 ),
@@ -1274,12 +1269,7 @@ var render = function() {
                 _c("div", { staticClass: "col-md-6" }, [
                   _c("input", {
                     staticClass: "form-control",
-                    attrs: {
-                      id: "taxId",
-                      type: "text",
-                      name: "taxId",
-                      disabled: ""
-                    },
+                    attrs: { id: "showTaxId", type: "text", disabled: "" },
                     domProps: { value: _vm.current_supplier.taxId }
                   })
                 ])
@@ -1294,7 +1284,7 @@ var render = function() {
                   "label",
                   {
                     staticClass: "col-md-3 col-form-label text-md-right",
-                    attrs: { for: "tel" }
+                    attrs: { for: "showTel" }
                   },
                   [_vm._v("電話")]
                 ),
@@ -1302,12 +1292,7 @@ var render = function() {
                 _c("div", { staticClass: "col-md-6" }, [
                   _c("input", {
                     staticClass: "form-control",
-                    attrs: {
-                      id: "tel",
-                      type: "text",
-                      name: "tel",
-                      disabled: ""
-                    },
+                    attrs: { id: "showTel", type: "text", disabled: "" },
                     domProps: { value: _vm.current_supplier.tel }
                   })
                 ])
@@ -1320,7 +1305,7 @@ var render = function() {
                   "label",
                   {
                     staticClass: "col-md-3 col-form-label text-md-right",
-                    attrs: { for: "tax" }
+                    attrs: { for: "showTax" }
                   },
                   [_vm._v("傳真")]
                 ),
@@ -1328,12 +1313,7 @@ var render = function() {
                 _c("div", { staticClass: "col-md-6" }, [
                   _c("input", {
                     staticClass: "form-control",
-                    attrs: {
-                      id: "tax",
-                      type: "text",
-                      name: "tax",
-                      disabled: ""
-                    },
+                    attrs: { id: "showTax", type: "text", disabled: "" },
                     domProps: { value: _vm.current_supplier.tax }
                   })
                 ])
@@ -1350,7 +1330,7 @@ var render = function() {
                   "label",
                   {
                     staticClass: "col-md-3 col-form-label text-md-right",
-                    attrs: { for: "inCharge1" }
+                    attrs: { for: "showInCharge1" }
                   },
                   [
                     _vm._v(
@@ -1362,12 +1342,7 @@ var render = function() {
                 _c("div", { staticClass: "col-md-6" }, [
                   _c("input", {
                     staticClass: "form-control",
-                    attrs: {
-                      id: "inCharge1",
-                      type: "text",
-                      name: "inCharge1",
-                      disabled: ""
-                    },
+                    attrs: { id: "showInCharge1", type: "text", disabled: "" },
                     domProps: { value: _vm.current_supplier.inCharge1 }
                   })
                 ])
@@ -1380,7 +1355,7 @@ var render = function() {
                   "label",
                   {
                     staticClass: "col-md-3 col-form-label text-md-right",
-                    attrs: { for: "tel1" }
+                    attrs: { for: "showTel1" }
                   },
                   [
                     _vm._v(
@@ -1392,12 +1367,7 @@ var render = function() {
                 _c("div", { staticClass: "col-md-6" }, [
                   _c("input", {
                     staticClass: "form-control",
-                    attrs: {
-                      id: "tel1",
-                      type: "text",
-                      name: "tel1",
-                      disabled: ""
-                    },
+                    attrs: { id: "showTel1", type: "text", disabled: "" },
                     domProps: { value: _vm.current_supplier.tel1 }
                   })
                 ])
@@ -1412,7 +1382,7 @@ var render = function() {
                   "label",
                   {
                     staticClass: "col-md-3 col-form-label text-md-right",
-                    attrs: { for: "companyAddress" }
+                    attrs: { for: "showCompanyAddress" }
                   },
                   [
                     _vm._v(
@@ -1425,9 +1395,8 @@ var render = function() {
                   _c("input", {
                     staticClass: "form-control",
                     attrs: {
-                      id: "companyAddress",
+                      id: "showCompanyAddress",
                       type: "text",
-                      name: "companyAddress",
                       disabled: ""
                     },
                     domProps: { value: _vm.current_supplier.companyAddress }
@@ -1542,7 +1511,7 @@ var staticRenderFns = [
             "label",
             {
               staticClass: "col-md-3 col-form-label text-md-right",
-              attrs: { for: "comment" }
+              attrs: { for: "PurchaseComment" }
             },
             [
               _vm._v(
@@ -1554,7 +1523,12 @@ var staticRenderFns = [
           _c("div", { staticClass: "col-md-6" }, [
             _c("input", {
               staticClass: "form-control",
-              attrs: { id: "comment", type: "text", name: "comment", value: "" }
+              attrs: {
+                id: "PurchaseComment",
+                type: "text",
+                name: "comment",
+                value: ""
+              }
             })
           ])
         ])

@@ -32,19 +32,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="shortName" class="col-md-3 col-form-label text-md-right">供應商簡稱</label>
+                        <label for="showShortName" class="col-md-3 col-form-label text-md-right">供應商簡稱</label>
 
                         <div class="col-md-6">
-                            <input id="shortName" type="text" class="form-control" name="shortName" :value="current_supplier.shortName" disabled>
+                            <input id="showShortName" type="text" class="form-control" :value="current_supplier.shortName" disabled>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="taxId" class="col-md-3 col-form-label text-md-right">統一編號</label>
+                        <label for="showTaxId" class="col-md-3 col-form-label text-md-right">統一編號</label>
 
                         <div class="col-md-6">
-                            <input id="taxId" type="text" class="form-control" name="taxId" :value="current_supplier.taxId" disabled>
+                            <input id="showTaxId" type="text" class="form-control" :value="current_supplier.taxId" disabled>
                         </div>
                     </div>
                 </div>
@@ -53,19 +53,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
-                        <label for="tel" class="col-md-3 col-form-label text-md-right">電話</label>
+                        <label for="showTel" class="col-md-3 col-form-label text-md-right">電話</label>
 
                         <div class="col-md-6">
-                            <input id="tel" type="text" class="form-control" name="tel" :value="current_supplier.tel" disabled>
+                            <input id="showTel" type="text" class="form-control" :value="current_supplier.tel" disabled>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <label for="tax" class="col-md-3 col-form-label text-md-right">傳真</label>
+                        <label for="showTax" class="col-md-3 col-form-label text-md-right">傳真</label>
 
                         <div class="col-md-6">
-                            <input id="tax" type="text" class="form-control" name="tax" :value="current_supplier.tax" disabled>
+                            <input id="showTax" type="text" class="form-control" :value="current_supplier.tax" disabled>
                         </div>
                     </div>
                 </div>
@@ -76,23 +76,23 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="inCharge1" class="col-md-3 col-form-label text-md-right">
+                        <label for="showInCharge1" class="col-md-3 col-form-label text-md-right">
                             負責人1 - 名稱
                         </label>
 
                         <div class="col-md-6">
-                            <input id="inCharge1" type="text" class="form-control" name="inCharge1" :value="current_supplier.inCharge1" disabled>
+                            <input id="showInCharge1" type="text" class="form-control" :value="current_supplier.inCharge1" disabled>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="tel1" class="col-md-3 col-form-label text-md-right">
+                        <label for="showTel1" class="col-md-3 col-form-label text-md-right">
                             負責人1 - 電話
                         </label>
 
                         <div class="col-md-6">
-                            <input id="tel1" type="text" class="form-control" name="tel1" :value="current_supplier.tel1" disabled>
+                            <input id="showTel1" type="text" class="form-control" :value="current_supplier.tel1" disabled>
                         </div>
                     </div>
                 </div>
@@ -101,12 +101,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
-                        <label for="companyAddress" class="col-md-3 col-form-label text-md-right">
+                        <label for="showCompanyAddress" class="col-md-3 col-form-label text-md-right">
                             公司地址
                         </label>
 
                         <div class="col-md-9">
-                            <input id="companyAddress" type="text" class="form-control" name="companyAddress" :value="current_supplier.companyAddress" disabled>
+                            <input id="showCompanyAddress" type="text" class="form-control" :value="current_supplier.companyAddress" disabled>
                         </div>
                     </div>
                 </div>
@@ -128,12 +128,12 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="comment" class="col-md-3 col-form-label text-md-right">
+                        <label for="PurchaseComment" class="col-md-3 col-form-label text-md-right">
                             備註
                         </label>
 
                         <div class="col-md-6">
-                            <input id="comment" type="text" class="form-control" name="comment" value="">
+                            <input id="PurchaseComment" type="text" class="form-control" name="comment" value="">
                         </div>
                     </div>
                 </div>
