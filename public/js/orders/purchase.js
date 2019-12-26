@@ -512,6 +512,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['suppliers', 'current_supplier'],
   mounted: function mounted() {
@@ -1441,6 +1443,15 @@ var render = function() {
           _vm._v(" "),
           _vm._m(3),
           _vm._v(" "),
+          _c("input", {
+            attrs: {
+              type: "text",
+              name: "totalPrice",
+              id: "totalPrice",
+              value: "0"
+            }
+          }),
+          _vm._v(" "),
           _vm._m(4)
         ],
         1
@@ -1517,7 +1528,8 @@ var staticRenderFns = [
                 id: "expectReceived_at",
                 type: "date",
                 name: "expectReceived_at",
-                value: ""
+                value: "",
+                required: ""
               }
             })
           ])

@@ -122,7 +122,7 @@
                         </label>
 
                         <div class="col-md-6">
-                            <input id="expectReceived_at" type="date" class="form-control" name="expectReceived_at" value="">
+                            <input id="expectReceived_at" type="date" class="form-control" name="expectReceived_at" value="" required>
                         </div>
                     </div>
                 </div>
@@ -176,6 +176,8 @@
                     </div>
                 </div>
             </div>
+
+            <input type="text" name="totalPrice" id="totalPrice" value="0">
 
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">

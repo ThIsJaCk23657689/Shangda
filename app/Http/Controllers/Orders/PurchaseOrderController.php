@@ -45,7 +45,7 @@ class PurchaseOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PurchaseOrderRequest $request)
     {
         $purchaseOrder = $this->PurchaseOrderService->add($request);
         return response()->json('單號'.$purchaseOrder.'建立成功。', 200);
@@ -82,7 +82,7 @@ class PurchaseOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RequPurchaseOrderRequestest $request, $id)
+    public function update(PurchaseOrderRequest $request, $id)
     {
         $purchaseOrder = $this->PurchaseOrderService->update($request, $id);
         return redirect()->route('purchaseOrder.show', [$id]);
