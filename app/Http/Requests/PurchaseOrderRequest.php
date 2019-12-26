@@ -24,7 +24,7 @@ class PurchaseOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'supplier_id' => 'required|integer',
+            'supplier_id' => 'min:1|required|integer|exist:suppliers, id',
             'paid_at' => 'nullable|date',
             'received_at' => 'nullable|date',
             'expectReceived_at' => 'required|date',
@@ -33,7 +33,6 @@ class PurchaseOrderRequest extends FormRequest
             'taxType' => 'nullable|min:1|max:6',
             'invoiceType' => 'nullable|min:1|max:5',
             'address' => 'nullable|max:255|string',
-            'shown_id' => 'required|string'
         ];
     }
 }

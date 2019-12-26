@@ -24,10 +24,10 @@ class CreatePurchaseOrdersTable extends Migration
             $table->timestamp('received_at')->nullable()->comment('到貨時間');
 
             $table->float('totalPrice')->default(0)->comment('總價');
-            $table->string('address')->default('苗栗縣竹南鎮國泰路43號')->comment('送貨地址');
+            $table->string('address')->nullable()->default('苗栗縣竹南鎮國泰路43號')->comment('送貨地址');
             $table->integer('taxType')->default(1)->comment('稅別'); //1~6
             $table->integer('invoiceType')->default(1)->comment('發票類型'); //1~5
-            $table->integer('shown_id')->comment('顯示ID'); //P西元年+今日第幾個單
+            $table->string('shown_id')->unique()->comment('顯示ID'); //P西元年+今日第幾個單
             $table->string('comment')->nullable()->comment('備註');
 
             $table->timestamps();
