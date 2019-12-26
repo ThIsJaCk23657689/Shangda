@@ -4,9 +4,19 @@ namespace App\Http\Controllers\Orders;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\PurchaseOrderRequest;
+use App\Services\Orders\PurchaseOrderService;
 
-class SalesController extends Controller
+class PurchaseOrderController extends Controller
 {
+
+    public $PurchaseOrderService;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->PurchaseOrderService = new PurchaseOrderService();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +24,9 @@ class SalesController extends Controller
      */
     public function index()
     {
-        //
+        $purchaseOrders = $this->PurchaseOrderService->getList();
+        $lastUpdate = $this->PurchaseOrderService->getlastupdate();
+        return view('purchaseOrder.index', compact('purchaseOrders', 'lastUpdate'));
     }
 
     /**
@@ -24,7 +36,7 @@ class SalesController extends Controller
      */
     public function create()
     {
-        //
+        return view('purchaseOrder.create');
     }
 
     /**
@@ -35,7 +47,8 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $purchaseOrder = $this->PurchaseOrderService->add($request);
+        return response()->json('單號'.$purchaseOrder.'建立成功。', 200);
     }
 
     /**
@@ -46,7 +59,8 @@ class SalesController extends Controller
      */
     public function show($id)
     {
-        //
+        $purchaseOrder = $this->PurchaseOrderService->getOne($id);
+        return view('purchaseOrder.show', compact('purchaseOrder'));
     }
 
     /**
@@ -57,7 +71,8 @@ class SalesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $purchaseOrder = $this->PurchaseOrderService->getOne($id);
+        return view('purchaseOrder.edit', compact('purchaseOrder'));
     }
 
     /**
@@ -67,9 +82,10 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RequPurchaseOrderRequestest $request, $id)
     {
-        //
+        $purchaseOrder = $this->PurchaseOrderService->update($request, $id);
+        return redirect()->route('purchaseOrder.show', [$id]);
     }
 
     /**
@@ -80,6 +96,7 @@ class SalesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->PurchaseOrderService->delete($id);
+        return redirect()->route('purchaseOrder.index');
     }
 }

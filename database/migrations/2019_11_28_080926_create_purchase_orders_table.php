@@ -19,7 +19,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->unsignedBigInteger('supplier_id')->comment('供應商編號');
             $table->unsignedBigInteger('user_id')->comment('使用者編號');//不顯示在前端
 
-            $table->timestamp('expectReceived_at')->comment('預期付款時間');
+            $table->timestamp('expectReceived_at')->comment('預期到貨時間');
             $table->timestamp('paid_at')->nullable()->comment('付款時間');
             $table->timestamp('received_at')->nullable()->comment('到貨時間');
 

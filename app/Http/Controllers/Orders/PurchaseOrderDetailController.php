@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Orders;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use PHPUnit\Util\Json;
 use App\PurchaseOrder as PurchaseOrderEloquent;
 
-class PurchaseOrder_detailController extends Controller
+class PurchaseOrderDetailController extends Controller
 {
    
     /**
@@ -26,7 +26,9 @@ class PurchaseOrder_detailController extends Controller
             'comment.*' => 'max:255|string',
             'discount.*' => 'min:0|max:1|numeric',
         ]);
+
         $p = PurchaseOrderEloquent::find($request->purchaseOrder_id);
+        
         foreach($this->request->get('material_id') as $key => $val){
             $p->materials()->attach($key, [
                 'price' => $request->price[$val],

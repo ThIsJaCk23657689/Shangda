@@ -7,7 +7,7 @@ use App\Services\MyService;
 use Auth;
 use Validator;
 
-class myController extends Controller
+class MyController extends Controller
 {
     public $myService;
 
