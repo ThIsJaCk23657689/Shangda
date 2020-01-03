@@ -29,12 +29,26 @@ class MaterialService extends BaseService
     public function getList()
     {
         $materials = MaterialEloquent::get();
+        foreach($materials as $m){
+            if($m->unit==2){
+                $m->unit = "公噸";
+                $m->stock = $m->stock/1000;
+            }elseif($m->unit==1){
+                $m->unit = "公斤";
+            }
+        }
         return $materials;
     }
 
     public function getOne($id)
     {
         $material = MaterialEloquent::find($id);
+        if($material->unit==2){
+            $material->unit = "公噸";
+            $material->stock = $material->stock/1000;
+        }elseif($material->unit==1){
+            $material->unit = "公斤";
+        }
         return $material;
     }
 
