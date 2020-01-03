@@ -22,7 +22,7 @@ class CreateMaterialsTable extends Migration
             $table->unsignedInteger('unit')->default(1)->comment('慣用單位；1=>公斤，2=>公噸');
             $table->double('unitPrice')->default(0)->comment('單價');
             $table->string('comment')->nullable()->comment('備註');
-            $table->unsignedInteger('stock')->default(0)->comment('目前存貨量');
+            $table->float('stock')->default(0)->comment('目前存貨量');
             $table->string('picture')->nullable()->comment('圖片');
             $table->timestamps();
         });

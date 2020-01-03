@@ -30,7 +30,7 @@ class MaterialRequest extends FormRequest
             'unit' => 'required|integer|min:1|max:2',
             'unitPrice' => 'required|numeric|min:0',
             'comment' => 'nullable|string',
-            'stock' => 'required|integer|min:0',
+            'stock' => 'required|numeric|min:0',
             'picture' => 'nullable|string',
 
         ];
