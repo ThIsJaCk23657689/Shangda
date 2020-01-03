@@ -70,8 +70,8 @@ class SupplierController extends Controller
 
 
     public function getInfo(Request $request){
-        $info = SupplierEloquent::select('shortName','taxId','tel','tax','inCharge1','tel1','companyAddress',)->find($request->id);
-        return response()->json($info, 200);
+        $supplier_info = $this->SupplierService->getInfoList($request->id);
+        return response()->json($supplier_info, 200);
     }
 
     /**

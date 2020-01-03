@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('showName', 'SupplierController@showName')->name('api.supplier.showName');
 Route::post('getInfo', 'SupplierController@getInfo')->name('api.supplier.getInfo');
+Route::get('showName','MaterialController@showName')->name('api.material.getInfo');
+Route::post('getInfo','MaterialController@getInfo')->name('api.material.getInfo');

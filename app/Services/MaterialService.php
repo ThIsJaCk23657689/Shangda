@@ -32,6 +32,16 @@ class MaterialService extends BaseService
         return $materials;
     }
 
+    public function getNamesList(){
+        $material_names = MaterialEloquent::select('id','name')->get();
+        return $material_names;
+    }
+
+    public function getInfoList($id){
+        $meterial_info = MaterialEloquent::select('shortName', 'comment', 'internationalNum', 'unit', 'unitPrice', 'stock', 'picture')->find($id);
+        return $meterial_info;
+    }
+
     public function getOne($id)
     {
         $material = MaterialEloquent::find($id);

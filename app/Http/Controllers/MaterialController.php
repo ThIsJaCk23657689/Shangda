@@ -63,6 +63,17 @@ class MaterialController extends Controller
         return view('materials.show',compact('material'));
     }
 
+    // get name and id list api
+    public function showName(){
+        $materials = $this->materialService->getNamesList();
+        return response()->json($materials, 200);
+    }
+
+    // get info by id api
+    public function getInfo(Request $request){
+        $material_info = $this->materialService->getInfoList($request->id);
+        return response()->json($material_info, 200);
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 use App\Supplier as SupplierEloquent;
-use Carbon\Carbon;
+
 
 class SupplierService extends BaseService
 {
@@ -38,6 +38,12 @@ class SupplierService extends BaseService
         $supplier_names = SupplierEloquent::select('id','name')->get();
         return $supplier_names;
     }
+
+    public function getInfoList($id){
+        $supplier_info = SupplierEloquent::select('shortName','taxId','tel','tax','inCharge1','tel1','companyAddress')->find($id);
+        return $supplier_info;
+    }
+
 
     public function getOne($id)
     {
