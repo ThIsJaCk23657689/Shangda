@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Orders;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\SaleOrderRequest;
-use App\Services\SaleOrderService;
+use App\Services\Orders\SaleOrderService;
 
 class SaleOrderController extends Controller
 {

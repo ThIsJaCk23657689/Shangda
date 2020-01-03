@@ -85,7 +85,7 @@ class PurchaseOrderController extends Controller
     public function update(PurchaseOrderRequest $request, $id)
     {
         $purchaseOrder = $this->PurchaseOrderService->update($request, $id);
-        return redirect()->route('purchaseOrder.show', [$id]);
+        return redirect()->route('purchase.show', [$id]);
     }
 
     /**
@@ -97,6 +97,6 @@ class PurchaseOrderController extends Controller
     public function destroy($id)
     {
         $this->PurchaseOrderService->delete($id);
-        return redirect()->route('purchaseOrder.index');
+        return redirect()->route('purchase.index');
     }
 }

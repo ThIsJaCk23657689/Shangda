@@ -74,7 +74,7 @@
 										刪除
 									</a>
 
-									<form id="deleteform-{{ $purchaseOrder->id }}" action="{{ route('purchase.destroy', [$supplier->id]) }}" method="POST" style="displat: none;">
+									<form id="deleteform-{{ $purchaseOrder->id }}" action="{{ route('purchase.destroy', [$purchaseOrder->id]) }}" method="POST" style="displat: none;">
 										@csrf
 										@method('DELETE')
 									</form>

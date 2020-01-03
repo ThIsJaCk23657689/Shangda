@@ -22,5 +22,5 @@ Route::resource('/suppliers', 'SupplierController');
 Route::resource('/materials', 'MaterialController');
 
 Route::resource('/orders/purchase', 'Orders\PurchaseOrderController');
-Route::resource('/orders/sales', 'Orders\SalesOrderController');
+Route::resource('/orders/sales', 'Orders\SaleOrderController');
 Route::resource('/orders/return', 'Orders\ReturnOrderController');
