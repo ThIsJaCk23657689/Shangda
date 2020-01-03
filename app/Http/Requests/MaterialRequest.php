@@ -27,7 +27,7 @@ class MaterialRequest extends FormRequest
             'name' => 'required|max:100|string',
             'shortName' => 'nullable|max:100|string',
             'internationalNum' => 'nullable|max:25|string',
-            'unit' => 'required|string',
+            'unit' => 'required|integer|min:1|max:2',
             'unitPrice' => 'required|numeric|min:0',
             'comment' => 'nullable|string',
             'stock' => 'required|integer|min:0',

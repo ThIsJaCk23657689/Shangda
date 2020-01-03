@@ -7,6 +7,12 @@ class MaterialService extends BaseService
 {
     public function add($request)
     {
+
+        if($request->unit==1){
+            $stock = $request->stock;
+        }elseif($request->unit==2){
+            $stock = $request->stock * 1000;
+        }
         $material = MaterialEloquent::create([
             'name' => $request->name,
             'shortName' => $request->shortName,
@@ -14,7 +20,7 @@ class MaterialService extends BaseService
             'unit' => $request->unit,
             'unitPrice' => $request->unitPrice,
             'comment' => $request->comment,
-            'stock' => $request->stock,
+            'stock' => $stock,
             'picture' => $request->picture,
         ]);
         return $material;
@@ -35,6 +41,12 @@ class MaterialService extends BaseService
     public function update($request, $id)
     {
         $material = $this->getOne($id);
+
+        if($request->unit==1){
+            $stock = $request->stock;
+        }elseif($request->unit==2){
+            $stock = $request->stock * 1000;
+        }
         $material->update([
             'name' => $request->name,
             'shortName' => $request->shortName,
@@ -42,7 +54,7 @@ class MaterialService extends BaseService
             'unit' => $request->unit,
             'unitPrice' => $request->unitPrice,
             'comment' => $request->comment,
-            'stock' => $request->stock,
+            'stock' => $stock,
             'picture' => $request->picture,
         ]);
         return $material;
