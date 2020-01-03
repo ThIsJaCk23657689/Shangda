@@ -3,45 +3,32 @@
 namespace App\Http\Controllers\Orders;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\Http\Requests\PurchaseOrderDetailRequest;
+
+use App\Services\Orders\PurchaseOrderDetailService;
 
 class PurchaseOrderDetailController extends Controller
 {
-   
+    public $PurchaseOrderDetailService;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->PurchaseOrderDetailService = new PurchaseOrderDetailService();
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PurchaseOrderDetailRequest $request)
     {
-        $request->validate([
-            'material_id.*' => 'required|integer',
-            'purchaseOrder_id' => 'required|integer',
-            'totalPrice.*' => 'min:0|numeric',
-            'price.*' => 'min:0|numeric',
-            'quantity.*' => 'integer',
-            'comment.*' => 'max:255|string',
-            'discount.*' => 'min:0|max:1|numeric',
-        ]);
-
-        $p = PurchaseOrderEloquent::find($request->purchaseOrder_id);
-        
-        foreach($this->request->get('material_id') as $key => $val){
-            $p->materials()->attach($key, [
-                'price' => $request->price[$val],
-                'quantity' => $request->quantity[$val],
-                'totalPrice' => $request->totalPrice[$val],
-                'comment' => $request->comment[$val],
-                'discount' => $request->discount[$val],
-            ]);
-        }
-
+        $purchaseOrderDetail = $this->purchaseOrderDetailService->add($request);
         return response()->json([
+            'massenge'=>$purchaseOrderDetail['count']."筆細項於".$purchaseOrderDetail['id']." 建立成功",
             'status'=>'OK'
-        ]);
+        ]);;
     }
 
     /**
@@ -51,7 +38,7 @@ class PurchaseOrderDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PurchaseOrderDetailRequest $request, $id)
     {
         //
     }

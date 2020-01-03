@@ -11,8 +11,8 @@ class Material extends Model
         'name', 'shortName', 'comment', 'internationalNum', 'unit', 'unitPrice', 'stock', 'picture',
     ];
 
-    public function purchaseOrders(){
-        return $this->belongsToMany(PurchaseOrderEloquent::class)
-        ->withPivot('price','totalPrice','quantity','comment','discount');
-    }
+    // public function purchaseOrders(){
+    //     return $this->belongsToMany(PurchaseOrderEloquent::class)
+    //     ->withPivot('price','totalPrice','quantity','comment','discount');
+    // }
 }
