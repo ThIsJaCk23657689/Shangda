@@ -39,8 +39,10 @@
 							<th>編號</th>
 							<th>名稱</th>
 							<th>國際條碼</th>
-							<th>單位</th>
+							
 							<th>單價</th>
+							<th>目前存貨量</th>
+							<th>單位</th>
 							<th>備註</th>
 							<th>操作</th>
 						</tr>
@@ -51,8 +53,10 @@
 								<td>{{ $material->id }}</td>
 								<td>{{ $material->name }}</td>
 								<td>{{ $material->internationalNum }}</td>
-								<td>{{ $material->unit }}</td>
+								
 								<td>{{ $material->unitPrice }}</td>
+								<td>{{ $material->showStock() }}</td>
+								<td>{{ $material->showUnit() }}</td>
 								<td>{{ $material->comment  }}</td>
 								<td>
 									<a href="{{ route('materials.show', [$material->id]) }}" class="btn btn-md btn-info">查看</a>

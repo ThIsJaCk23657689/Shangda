@@ -81,15 +81,14 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="stock_before" class="col-md-4 col-form-label text-md-right">
+                    <label for="stock" class="col-md-4 col-form-label text-md-right">
                         <span class="text-danger">*</span>
                         目前存貨量
                     </label>
 
                     <div class="col-md-4">
-                        <input id="stock_before" type="text" class="form-control @error('stock_before') is-invalid @enderror" name="stock_before" value="{{ old('stock_before') ?? 0 }}" autocomplete="stock_before">
+                        <input id="stock" type="text" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock') ?? 0 }}" autocomplete="stock">
                         
-                        <input id="stock" type="text" class="form-control" name="stock" value="{{ old('stock') ?? 0 }}">
                         @error('stock')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -99,11 +98,8 @@
 
                     <div class="col-md-2">
                         <select id="unit" class="form-control @error('unit') is-invalid @enderror" name="unit">
-                            <option value="g">公克</option>
-                            <option value="kg">公斤</option>
-                            <option value="t">公噸</option>
-                            <option value="tkg">台斤</option>
-                            <option value="tg">台兩</option>
+                            <option value="1" selected>公斤</option>
+                            <option value="2">公噸</option>
                         </select>
 
                         @error('unit')
@@ -130,7 +126,7 @@
 
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">
-                        <button id="form_submit_btn" type="submit" class="btn btn-block btn-primary">
+                        <button type="submit" class="btn btn-block btn-primary">
                             確認新增
                         </button>
                         <a href="{{ route('materials.index') }}" class="btn btn-block btn-danger">

@@ -15,4 +15,15 @@ class Material extends Model
         return $this->belongsToMany(PurchaseOrderEloquent::class)
         ->withPivot('price','totalPrice','quantity','comment','discount');
     }
+
+    public function showUnit(){
+        return ($this->unit == 1)? '公斤': '公噸';
+    }
+
+    public function showStock(){
+        if($this->unit == 2){
+            return $this->stock / 1000;
+        }
+        return $this->stock;
+    }
 }
