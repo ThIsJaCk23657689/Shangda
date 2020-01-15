@@ -18,11 +18,37 @@ class PurchaseOrder extends Model
     public function supplier(){
         return $this->belongsTo(SupplierEloquent::class);
     }
+
     public function user(){
         return $this->belongsTo(UserEloquent::class);
     }
-    public function purchaseOrderDetail(){
-        return $this->hasMany(PurchaseOrderDetailEloquent::class);
+
+    public function details(){
+        return $this->hasMany(PurchaseOrderDetailEloquent::class, 'purchaseOrder_id');
+    }
+
+    public function showTaxType(){
+        return (config('shangda.tax.' . $this->taxType)) ?? '未知編號：'. $this->taxType;
+    }
+
+    public function showInvoiceType(){
+        return (config('shangda.invoice.' . $this->invoiceType)) ?? '未知編號：'. $this->invoiceType;
+    }
+
+    public function showBeforePrice(){
+        if($this->taxType == 1){
+            return round($this->totalPrice * 0.95, 4);
+        }else{
+            return $this->totalPrice;
+        }
+    }
+
+    public function showTaxPrice(){
+        if($this->taxType == 1){
+            return round($this->totalPrice * 0.05, 4);
+        }else{
+            return 0;
+        }
     }
 
     // public function materials(){

@@ -2,7 +2,6 @@
 
 @push('CustomJS')
 	<script src="{{ asset('js/orders/purchase.js') }}" defer></script>
-	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
 @endpush   
 
 @section('content')
