@@ -27,7 +27,7 @@ class PurchaseOrderDetailController extends Controller
     public function showDetails($p_id)
     {
         $purchaseOrderDetail = $this->PurchaseOrderDetailService->getOrderDetails($p_id);
-        return response()->json($purchaseOrderDetail,200);
+        return response()->json($purchaseOrderDetail, 200);
     }
 
     public function update(PurchaseOrderDetailRequest $request, $p_id, $count)
