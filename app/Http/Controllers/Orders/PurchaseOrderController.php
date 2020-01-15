@@ -62,8 +62,8 @@ class PurchaseOrderController extends Controller
      */
     public function show($id)
     {
-        $purchaseOrder = $this->PurchaseOrderService->getOne($id);
-        return view('purchaseOrder.show', compact('purchaseOrder'));
+        $msg = $this->PurchaseOrderService->getOne($id);
+        return view('purchaseOrder.show', compact('msg'));
     }
 
     /**

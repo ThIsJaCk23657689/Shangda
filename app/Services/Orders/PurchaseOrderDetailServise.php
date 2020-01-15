@@ -17,6 +17,7 @@ class PurchaseOrderDetailService extends BaseService
         $count = 0;
         foreach($data as $obj){
             $count += 1;
+            $subTotal = round($obj['price'] * $obj['discount'] * $obj['quantity'], 4);
             $purchaseOrderDetail = PurchaseOrderDetailEloquent::create([
                 'purchaseOrder_id' => $p_id,
                 'count' => $count,
@@ -25,7 +26,7 @@ class PurchaseOrderDetailService extends BaseService
                 'price' => $obj['price'],
                 'quantity' => $obj['quantity'],
                 'discount' => $obj['discount'],
-                'subTotal' => $obj['price'] * $obj['discount'] * $obj['discount'],
+                'subTotal' => $subTotal,
                 'comment' => $obj['comment'],
             ]);
         }

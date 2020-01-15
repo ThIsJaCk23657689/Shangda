@@ -48,7 +48,29 @@ class PurchaseOrderService extends BaseService
     public function getOne($id)
     {
         $purchaseOrder = PurchaseOrderEloquent::find($id);
-        return $purchaseOrder;
+        
+        if($purchaseOrder->taxType == 1){
+            $tax = $purchaseOrder->totalPrice*0.95;
+            $tax = $purchaseOrder->totalPrice*0.05;
+        }elseif($purchaseOrder->taxType == 2 or $purchaseOrder->taxType == 3){
+            $beforePrice = $purchaseOrder->totalPrice;
+            $tax = 0;
+        }
+
+        if($purchaseOrder){
+            $msg = [
+                'data'=>$purchaseOrder,
+                'beforePrice'=>$beforePrice,
+                'tax'=>$tax,
+                'status'=>'OK'
+            ];
+        }else{
+            $msg = [
+                'data'=>$purchaseOrder,
+                'status'=>'No data exist.'
+            ];
+        }
+        return $msg;
     }
 
     public function update($request, $id)
@@ -81,7 +103,6 @@ class PurchaseOrderService extends BaseService
         if(!empty($purchaseOrder)){
             return $purchaseOrder->updated_at;
         }
-
         return null;
     }
 }

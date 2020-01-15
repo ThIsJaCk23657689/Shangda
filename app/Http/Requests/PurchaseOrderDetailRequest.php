@@ -27,8 +27,6 @@ class PurchaseOrderDetailRequest extends FormRequest
             'material_id.*' => 'required|integer',
             'purchaseOrder_id' => 'required|integer',
             
-            'subTotal.*' => 'required|min:0|numeric',
-            'count.*' => 'required|min:0|integer',
             'price.*' => 'required|min:0|numeric',
             'quantity.*' => 'required|integer',
             'comment.*' => 'nullable|max:255|string',
