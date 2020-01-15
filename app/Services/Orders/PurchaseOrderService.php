@@ -49,28 +49,28 @@ class PurchaseOrderService extends BaseService
     {
         $purchaseOrder = PurchaseOrderEloquent::find($id);
         
-        if($purchaseOrder->taxType == 1){
-            $tax = $purchaseOrder->totalPrice*0.95;
-            $tax = $purchaseOrder->totalPrice*0.05;
-        }elseif($purchaseOrder->taxType == 2 or $purchaseOrder->taxType == 3){
-            $beforePrice = $purchaseOrder->totalPrice;
-            $tax = 0;
-        }
+        // if($purchaseOrder->taxType == 1){
+        //     $beforePrice = $purchaseOrder->totalPrice*0.95;
+        //     $tax = $purchaseOrder->totalPrice*0.05;
+        // }elseif($purchaseOrder->taxType == 2 or $purchaseOrder->taxType == 3){
+        //     $beforePrice = $purchaseOrder->totalPrice;
+        //     $tax = 0;
+        // }
 
-        if($purchaseOrder){
-            $msg = [
-                'data'=>$purchaseOrder,
-                'beforePrice'=>$beforePrice,
-                'tax'=>$tax,
-                'status'=>'OK'
-            ];
-        }else{
-            $msg = [
-                'data'=>$purchaseOrder,
-                'status'=>'No data exist.'
-            ];
-        }
-        return $msg;
+        // if($purchaseOrder){
+        //     $msg = [
+        //         'data'=>$purchaseOrder,
+        //         'beforePrice'=>$beforePrice,
+        //         'tax'=>$tax,
+        //         'status'=>'OK'
+        //     ];
+        // }else{
+        //     $msg = [
+        //         'data'=>$purchaseOrder,
+        //         'status'=>'No data exist.'
+        //     ];
+        // }
+        return $purchaseOrder;
     }
 
     public function update($request, $id)
