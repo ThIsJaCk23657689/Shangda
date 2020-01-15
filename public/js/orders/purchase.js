@@ -516,6 +516,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['suppliers', 'current_supplier', 'materials'],
   mounted: function mounted() {
@@ -533,9 +565,17 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   data: function data() {
-    return {};
+    return {
+      total_price: 0
+    };
   },
   methods: {
+    showTotalPrice: function showTotalPrice(total_price) {
+      this.total_price = total_price;
+    },
+    changeTax: function changeTax() {
+      this.$refs.purchasedetail.calculateTotalPrice(); // 呼叫子元件裡的toggleFood方法 
+    },
     getSupplierData: function getSupplierData() {
       var supplier_id = $('#supplier_id').val();
 
@@ -648,6 +688,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['materials'],
   mounted: function mounted() {
@@ -656,7 +697,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       details: [],
-      current_material: []
+      current_material: [],
+      total_price: 0
     };
   },
   methods: {
@@ -667,7 +709,8 @@ __webpack_require__.r(__webpack_exports__);
             id: this.current_material.id,
             name: this.current_material.name,
             internationalNum: this.current_material.internationalNum,
-            unitPrice: this.current_material.unitPrice
+            unitPrice: this.current_material.unitPrice,
+            unit: this.current_material.unit
           },
           quantity: 0,
           discount: 1,
@@ -682,8 +725,28 @@ __webpack_require__.r(__webpack_exports__);
       var qty = $('#qty_' + id).val();
       var unitPrice = $('#unitPrice_' + id).val();
       var discount = $('#discount_' + id).val();
-      var subTotal = unitPrice * qty * discount;
+      var subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
       $('#subtotal_' + id).html(subTotal);
+      this.calculateTotalPrice();
+    },
+    calculateTotalPrice: function calculateTotalPrice() {
+      this.total_price = 0;
+
+      for (var i = 1; i <= this.details.length; i++) {
+        var qty = $('#qty_' + i).val();
+        var unitPrice = $('#unitPrice_' + i).val();
+        var discount = $('#discount_' + i).val();
+        var subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
+        this.total_price = this.total_price + subTotal;
+      }
+
+      $('#beforePrice').val(this.total_price);
+      var taxType = $('#taxType').val();
+      var tax = taxType == "1" ? Math.round(this.total_price * 0.05 * 10000) / 10000 : 0;
+      $('#tax_price').val(tax);
+      this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
+      this.$emit('showTotalPrice', this.total_price);
+      console.log(this.total_price);
     },
     getMaterialData: function getMaterialData() {
       var _this = this;
@@ -1569,20 +1632,95 @@ var render = function() {
           _vm._v(" "),
           _vm._m(2),
           _vm._v(" "),
-          _vm._m(3),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-md-3 col-form-label text-md-right",
+                    attrs: { for: "taxType" }
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                            稅別\r\n                        "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "select",
+                    {
+                      staticClass: "form-control",
+                      attrs: { name: "taxType", id: "taxType", required: "" },
+                      on: { change: _vm.changeTax }
+                    },
+                    [
+                      _c("option", { attrs: { value: "1" } }, [_vm._v("應稅")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2" } }, [_vm._v("未稅")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "3" } }, [_vm._v("免稅")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "4" } }, [
+                        _vm._v("零稅 - 經海關")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "5" } }, [
+                        _vm._v("零稅 - 非經海關")
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(3)
+          ]),
           _vm._v(" "),
-          _c("purchase-detail", { attrs: { materials: _vm.materials } }),
+          _c("hr"),
           _vm._v(" "),
           _c("input", {
-            attrs: {
-              type: "text",
-              name: "totalPrice",
-              id: "totalPrice",
-              value: "0"
-            }
+            staticClass: "form-control",
+            attrs: { id: "totalPrice", name: "totalPrice", type: "hidden" },
+            domProps: { value: _vm.total_price }
           }),
           _vm._v(" "),
-          _vm._m(4)
+          _c("purchase-detail", {
+            ref: "purchasedetail",
+            attrs: { materials: _vm.materials },
+            on: { showTotalPrice: _vm.showTotalPrice }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row mb-2" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _vm._m(5),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-md-2 col-form-label text-md-right",
+                    attrs: { for: "totalPrice" }
+                  },
+                  [_vm._v("總額")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: { id: "showTotalPrice", type: "text", disabled: "" },
+                    domProps: { value: _vm.total_price }
+                  })
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(6)
         ],
         1
       )
@@ -1700,92 +1838,90 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group row" }, [
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-md-3 col-form-label text-md-right",
+            attrs: { for: "invoiceType" }
+          },
+          [
+            _vm._v(
+              "\r\n                            發票類型\r\n                        "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
           _c(
-            "label",
+            "select",
             {
-              staticClass: "col-md-3 col-form-label text-md-right",
-              attrs: { for: "taxType" }
+              staticClass: "form-control",
+              attrs: { name: "invoiceType", id: "invoiceType", required: "" }
             },
             [
-              _vm._v(
-                "\r\n                            稅別\r\n                        "
-              )
+              _c("option", { attrs: { value: "1" } }, [_vm._v("三聯式")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "2" } }, [_vm._v("二聯式")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "3" } }, [_vm._v("三聯銷退折讓")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "4" } }, [_vm._v("二聯銷退折讓")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "5" } }, [_vm._v("三聯式收銀機")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "6" } }, [_vm._v("免用發票")])
             ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c(
-              "select",
-              {
-                staticClass: "form-control",
-                attrs: { name: "taxType", id: "taxType", required: "" }
-              },
-              [
-                _c("option", { attrs: { value: "1" } }, [_vm._v("應稅")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [
-                  _vm._v("零稅 - 經海關")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [
-                  _vm._v("零稅 - 非經海關")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "4" } }, [_vm._v("免稅")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "5" } }, [_vm._v("未稅")])
-              ]
-            )
-          ])
+          )
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-md-3 col-form-label text-md-right",
-              attrs: { for: "invoiceType" }
-            },
-            [
-              _vm._v(
-                "\r\n                            發票類型\r\n                        "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c(
-              "select",
-              {
-                staticClass: "form-control",
-                attrs: { name: "invoiceType", id: "invoiceType", required: "" }
-              },
-              [
-                _c("option", { attrs: { value: "1" } }, [_vm._v("三聯式")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [_vm._v("二聯式")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [
-                  _vm._v("三聯銷退折讓")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "4" } }, [
-                  _vm._v("二聯銷退折讓")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "5" } }, [
-                  _vm._v("三聯式收銀機")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "6" } }, [_vm._v("免用發票")])
-              ]
-            )
-          ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-md-3 col-form-label text-md-right",
+            attrs: { for: "beforePrice" }
+          },
+          [_vm._v("銷售額")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: { id: "beforePrice", type: "text", value: "", disabled: "" }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-md-2 col-form-label text-md-right",
+            attrs: { for: "tax_price" }
+          },
+          [_vm._v("稅額")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: { id: "tax_price", type: "text", value: "", disabled: "" }
+          })
         ])
       ])
     ])
@@ -1950,7 +2086,12 @@ var render = function() {
                             return _vm.calculateSubtotal(index + 1)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(
+                        "\r\n                            " +
+                          _vm._s(detail.material.unit == 1 ? "公斤" : "公噸") +
+                          "\r\n                        "
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", [

@@ -44,6 +44,7 @@
                         </td>
                         <td>
                             <input :id="'qty_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateSubtotal(index+1)">
+                            {{ (detail.material.unit == 1)?'公斤':'公噸' }}
                         </td>
                         <td>
                             <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][price]'" :value="detail.material.unitPrice" @change="calculateSubtotal(index+1)">
@@ -81,6 +82,7 @@ export default {
         return {
             details: [],
             current_material: [],
+            total_price: 0
         };
     },
     methods: {
@@ -91,7 +93,8 @@ export default {
                         id: this.current_material.id,
                         name: this.current_material.name,
                         internationalNum: this.current_material.internationalNum,
-                        unitPrice: this.current_material.unitPrice
+                        unitPrice: this.current_material.unitPrice,
+                        unit: this.current_material.unit
                     },
                     quantity: 0,
                     discount: 1,
@@ -107,8 +110,31 @@ export default {
             let qty = $('#qty_' + id).val();
             let unitPrice = $('#unitPrice_' + id).val();
             let discount = $('#discount_' + id).val();
-            let subTotal = unitPrice * qty * discount;
+            let subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
             $('#subtotal_' + id).html(subTotal);
+
+            this.calculateTotalPrice();
+        },
+
+        calculateTotalPrice(){
+            this.total_price = 0;
+            for(let i = 1; i <=  this.details.length; i++){
+                let qty = $('#qty_' + i).val();
+                let unitPrice = $('#unitPrice_' + i).val();
+                let discount = $('#discount_' + i).val();
+                let subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
+                this.total_price = this.total_price + subTotal;
+            }
+
+            $('#beforePrice').val(this.total_price);
+
+            let taxType = $('#taxType').val();
+            let tax = (taxType == "1")? Math.round(this.total_price * 0.05 * 10000) / 10000: 0;
+            $('#tax_price').val(tax);
+            
+            this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
+            this.$emit('showTotalPrice', this.total_price)
+            console.log(this.total_price);
         },
 
         getMaterialData(){

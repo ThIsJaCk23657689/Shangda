@@ -38,7 +38,7 @@ class MaterialService extends BaseService
     }
 
     public function getInfoList($id){
-        $meterial_info = MaterialEloquent::select('id', 'name', 'internationalNum', 'unitPrice')->find($id);
+        $meterial_info = MaterialEloquent::select('id', 'name', 'internationalNum', 'unitPrice', 'unit')->find($id);
         return $meterial_info;
     }
 
