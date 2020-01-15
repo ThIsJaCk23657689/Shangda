@@ -21,12 +21,12 @@ class PurchaseOrderDetailService extends BaseService
                 'purchaseOrder_id' => $p_id,
                 'count' => $count,
 
-                'material_id' => $obj->material_id,
-                'price' => $obj->price,
-                'quantity' => $obj->quantity,
-                'discount' => $obj->discount,
-                'subTotal' => $obj->price * $obj->discount * $obj->discount,
-                'comment' => $obj->comment,
+                'material_id' => $obj['material_id'],
+                'price' => $obj['price'],
+                'quantity' => $obj['quantity'],
+                'discount' => $obj['discount'],
+                'subTotal' => $obj['price'] * $obj['discount'] * $obj['discount'],
+                'comment' => $obj['comment'],
             ]);
         }
         if($purchaseOrderDetail){
