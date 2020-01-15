@@ -514,15 +514,68 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['suppliers', 'current_supplier'],
+  props: ['suppliers', 'current_supplier', 'materials'],
   mounted: function mounted() {
-    console.log('PurchaseCreareForm.vue mounted.');
+    console.log('PurchaseCreareForm.vue mounted.'); // 訂單細項 表單程式碼
+
+    $('#PurchaseOrderDetailForm').submit(function (e) {
+      e.preventDefault();
+      var url = $('#createPurchaseOrderDetail').html();
+      var data = $(this).serialize();
+      axios.post(url, data).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+      });
+    });
   },
   data: function data() {
-    return {};
+    return {
+      total_price: 0
+    };
   },
   methods: {
+    showTotalPrice: function showTotalPrice(total_price) {
+      this.total_price = total_price;
+    },
+    changeTax: function changeTax() {
+      this.$refs.purchasedetail.calculateTotalPrice(); // 呼叫子元件裡的toggleFood方法 
+    },
     getSupplierData: function getSupplierData() {
       var supplier_id = $('#supplier_id').val();
 
@@ -535,13 +588,182 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createPurchaseOrder: function createPurchaseOrder() {
+      // 新建進貨單
+      // 1. 先創建 PurchaseOrder
       var url = $('#createPurchaseOrder').html();
       var data = $('#PurchaseOrderCreateForm').serialize();
       axios.post(url, data).then(function (response) {
         console.log(response);
+        $('#purchaseOrderID').val(response.data.purchaseOrder_id); // 2. 建立 PurchaseOrderDetail
+
+        $('#PurchaseOrderDetailForm').submit();
       })["catch"](function (error) {
         console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/PurchaseDetail.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/PurchaseDetail.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['materials'],
+  mounted: function mounted() {
+    console.log('PurchaseDetail.vue mounted.');
+  },
+  data: function data() {
+    return {
+      details: [],
+      current_material: [],
+      total_price: 0
+    };
+  },
+  methods: {
+    addDetail: function addDetail() {
+      if (this.current_material.length != 0) {
+        this.details.push({
+          material: {
+            id: this.current_material.id,
+            name: this.current_material.name,
+            internationalNum: this.current_material.internationalNum,
+            unitPrice: this.current_material.unitPrice,
+            unit: this.current_material.unit
+          },
+          quantity: 0,
+          discount: 1,
+          subTotal: null,
+          comment: null
+        });
+      } else {
+        alert('請選擇原物料');
+      }
+    },
+    calculateSubtotal: function calculateSubtotal(id) {
+      var qty = $('#qty_' + id).val();
+      var unitPrice = $('#unitPrice_' + id).val();
+      var discount = $('#discount_' + id).val();
+      var subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
+      $('#subtotal_' + id).html(subTotal);
+      this.calculateTotalPrice();
+    },
+    calculateTotalPrice: function calculateTotalPrice() {
+      this.total_price = 0;
+
+      for (var i = 1; i <= this.details.length; i++) {
+        var qty = $('#qty_' + i).val();
+        var unitPrice = $('#unitPrice_' + i).val();
+        var discount = $('#discount_' + i).val();
+        var subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
+        this.total_price = this.total_price + subTotal;
+      }
+
+      $('#beforePrice').val(this.total_price);
+      var taxType = $('#taxType').val();
+      var tax = taxType == "1" ? Math.round(this.total_price * 0.05 * 10000) / 10000 : 0;
+      $('#tax_price').val(tax);
+      this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
+      this.$emit('showTotalPrice', this.total_price);
+      console.log(this.total_price);
+    },
+    getMaterialData: function getMaterialData() {
+      var _this = this;
+
+      var material_id = $('#material_id').val();
+
+      if (material_id != 0) {
+        var apiMeterialGetInfo = $('#apiMeterialGetInfo').html();
+        axios.post(apiMeterialGetInfo, {
+          id: material_id
+        }).then(function (response) {
+          _this.current_material = response.data;
+          console.log(response);
+        });
+      } else {
+        alert('請選擇原物料');
+      }
     }
   }
 });
@@ -1410,18 +1632,95 @@ var render = function() {
           _vm._v(" "),
           _vm._m(2),
           _vm._v(" "),
-          _vm._m(3),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "form-group row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-md-3 col-form-label text-md-right",
+                    attrs: { for: "taxType" }
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                            稅別\r\n                        "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "select",
+                    {
+                      staticClass: "form-control",
+                      attrs: { name: "taxType", id: "taxType", required: "" },
+                      on: { change: _vm.changeTax }
+                    },
+                    [
+                      _c("option", { attrs: { value: "1" } }, [_vm._v("應稅")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2" } }, [_vm._v("未稅")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "3" } }, [_vm._v("免稅")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "4" } }, [
+                        _vm._v("零稅 - 經海關")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "5" } }, [
+                        _vm._v("零稅 - 非經海關")
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(3)
+          ]),
+          _vm._v(" "),
+          _c("hr"),
           _vm._v(" "),
           _c("input", {
-            attrs: {
-              type: "text",
-              name: "totalPrice",
-              id: "totalPrice",
-              value: "0"
-            }
+            staticClass: "form-control",
+            attrs: { id: "totalPrice", name: "totalPrice", type: "hidden" },
+            domProps: { value: _vm.total_price }
           }),
           _vm._v(" "),
-          _vm._m(4)
+          _c("purchase-detail", {
+            ref: "purchasedetail",
+            attrs: { materials: _vm.materials },
+            on: { showTotalPrice: _vm.showTotalPrice }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row mb-2" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _vm._m(5),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-md-2 col-form-label text-md-right",
+                    attrs: { for: "totalPrice" }
+                  },
+                  [_vm._v("總額")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: { id: "showTotalPrice", type: "text", disabled: "" },
+                    domProps: { value: _vm.total_price }
+                  })
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(6)
         ],
         1
       )
@@ -1539,92 +1838,90 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group row" }, [
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-md-3 col-form-label text-md-right",
+            attrs: { for: "invoiceType" }
+          },
+          [
+            _vm._v(
+              "\r\n                            發票類型\r\n                        "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
           _c(
-            "label",
+            "select",
             {
-              staticClass: "col-md-3 col-form-label text-md-right",
-              attrs: { for: "taxType" }
+              staticClass: "form-control",
+              attrs: { name: "invoiceType", id: "invoiceType", required: "" }
             },
             [
-              _vm._v(
-                "\r\n                            稅別\r\n                        "
-              )
+              _c("option", { attrs: { value: "1" } }, [_vm._v("三聯式")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "2" } }, [_vm._v("二聯式")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "3" } }, [_vm._v("三聯銷退折讓")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "4" } }, [_vm._v("二聯銷退折讓")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "5" } }, [_vm._v("三聯式收銀機")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "6" } }, [_vm._v("免用發票")])
             ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c(
-              "select",
-              {
-                staticClass: "form-control",
-                attrs: { name: "taxType", id: "taxType", required: "" }
-              },
-              [
-                _c("option", { attrs: { value: "1" } }, [_vm._v("應稅")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [
-                  _vm._v("零稅 - 經海關")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [
-                  _vm._v("零稅 - 非經海關")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "4" } }, [_vm._v("免稅")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "5" } }, [_vm._v("未稅")])
-              ]
-            )
-          ])
+          )
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-md-3 col-form-label text-md-right",
-              attrs: { for: "invoiceType" }
-            },
-            [
-              _vm._v(
-                "\r\n                            發票類型\r\n                        "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c(
-              "select",
-              {
-                staticClass: "form-control",
-                attrs: { name: "invoiceType", id: "invoiceType", required: "" }
-              },
-              [
-                _c("option", { attrs: { value: "1" } }, [_vm._v("三聯式")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [_vm._v("二聯式")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [
-                  _vm._v("三聯銷退折讓")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "4" } }, [
-                  _vm._v("二聯銷退折讓")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "5" } }, [
-                  _vm._v("三聯式收銀機")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "6" } }, [_vm._v("免用發票")])
-              ]
-            )
-          ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-md-3 col-form-label text-md-right",
+            attrs: { for: "beforePrice" }
+          },
+          [_vm._v("銷售額")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: { id: "beforePrice", type: "text", value: "", disabled: "" }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "label",
+          {
+            staticClass: "col-md-2 col-form-label text-md-right",
+            attrs: { for: "tax_price" }
+          },
+          [_vm._v("稅額")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: { id: "tax_price", type: "text", value: "", disabled: "" }
+          })
         ])
       ])
     ])
@@ -1657,6 +1954,243 @@ var staticRenderFns = [
             )
           ]
         )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/PurchaseDetail.vue?vue&type=template&id=a3352c3e&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/PurchaseDetail.vue?vue&type=template&id=a3352c3e& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-md-12" }, [
+      _c(
+        "form",
+        {
+          attrs: { id: "PurchaseOrderDetailForm", method: "POST", action: "#" }
+        },
+        [
+          _c("input", {
+            attrs: {
+              type: "hidden",
+              id: "purchaseOrderID",
+              name: "purchaseOrder_id",
+              value: ""
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6 mb-2" }, [
+              _c(
+                "select",
+                {
+                  staticClass: "form-control",
+                  attrs: { id: "material_id" },
+                  on: { change: _vm.getMaterialData }
+                },
+                [
+                  _c("option", { attrs: { value: "0" } }, [
+                    _vm._v("請選擇...")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.materials, function(data) {
+                    return _c("option-item", {
+                      key: data.id,
+                      attrs: { data: data }
+                    })
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-md btn-success",
+                  attrs: { type: "button" },
+                  on: { click: _vm.addDetail }
+                },
+                [_vm._v("新增至細項")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "table",
+            {
+              staticClass: "table table-bordered",
+              attrs: { width: "100%", cellspacing: "0" }
+            },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.details, function(detail, index) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\r\n                            " +
+                          _vm._s(detail.material.name) +
+                          "\r\n                            "
+                      ),
+                      _c("input", {
+                        attrs: {
+                          type: "hidden",
+                          name: "details[" + (index + 1) + "][material_id]"
+                        },
+                        domProps: { value: detail.material.id }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\r\n                            " +
+                          _vm._s(detail.material.internationalNum) +
+                          "\r\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "qty_" + (index + 1),
+                          type: "text",
+                          name: "details[" + (index + 1) + "][quantity]"
+                        },
+                        domProps: { value: detail.quantity },
+                        on: {
+                          change: function($event) {
+                            return _vm.calculateSubtotal(index + 1)
+                          }
+                        }
+                      }),
+                      _vm._v(
+                        "\r\n                            " +
+                          _vm._s(detail.material.unit == 1 ? "公斤" : "公噸") +
+                          "\r\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "unitPrice_" + (index + 1),
+                          type: "text",
+                          name: "details[" + (index + 1) + "][price]"
+                        },
+                        domProps: { value: detail.material.unitPrice },
+                        on: {
+                          change: function($event) {
+                            return _vm.calculateSubtotal(index + 1)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "discount_" + (index + 1),
+                          type: "text",
+                          name: "details[" + (index + 1) + "][discount]"
+                        },
+                        domProps: { value: detail.discount },
+                        on: {
+                          change: function($event) {
+                            return _vm.calculateSubtotal(index + 1)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { attrs: { id: "subtotal_" + (index + 1) } }, [
+                        _vm._v("0")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "details[" + (index + 1) + "][comment]"
+                        },
+                        domProps: { value: detail.comment }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1, true)
+                  ])
+                }),
+                0
+              )
+            ]
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("編號")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("原物料")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("國際條碼")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("數量")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("單價")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("折數")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("小計")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("備註")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("操作")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-md btn-danger" }, [
+        _c("i", { staticClass: "far fa-trash-alt" })
       ])
     ])
   }
@@ -1938,6 +2472,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Orders/PurchaseDetail.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/Orders/PurchaseDetail.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PurchaseDetail_vue_vue_type_template_id_a3352c3e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PurchaseDetail.vue?vue&type=template&id=a3352c3e& */ "./resources/js/components/Orders/PurchaseDetail.vue?vue&type=template&id=a3352c3e&");
+/* harmony import */ var _PurchaseDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PurchaseDetail.vue?vue&type=script&lang=js& */ "./resources/js/components/Orders/PurchaseDetail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PurchaseDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PurchaseDetail_vue_vue_type_template_id_a3352c3e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PurchaseDetail_vue_vue_type_template_id_a3352c3e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Orders/PurchaseDetail.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Orders/PurchaseDetail.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/Orders/PurchaseDetail.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PurchaseDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./PurchaseDetail.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/PurchaseDetail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PurchaseDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Orders/PurchaseDetail.vue?vue&type=template&id=a3352c3e&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/Orders/PurchaseDetail.vue?vue&type=template&id=a3352c3e& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PurchaseDetail_vue_vue_type_template_id_a3352c3e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./PurchaseDetail.vue?vue&type=template&id=a3352c3e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/PurchaseDetail.vue?vue&type=template&id=a3352c3e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PurchaseDetail_vue_vue_type_template_id_a3352c3e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PurchaseDetail_vue_vue_type_template_id_a3352c3e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Partials/OptionItem.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/Partials/OptionItem.vue ***!
@@ -2015,6 +2618,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 Vue.component('purchase-create-form', __webpack_require__(/*! ./../components/Orders/PurchaseCreateForm.vue */ "./resources/js/components/Orders/PurchaseCreateForm.vue")["default"]);
+Vue.component('purchase-detail', __webpack_require__(/*! ./../components/Orders/PurchaseDetail.vue */ "./resources/js/components/Orders/PurchaseDetail.vue")["default"]);
 Vue.component('option-item', __webpack_require__(/*! ./../components/Partials/OptionItem.vue */ "./resources/js/components/Partials/OptionItem.vue")["default"]);
 Vue.component('create-supplier-modal', __webpack_require__(/*! ./../components/Modals/CreateSupplierModal.vue */ "./resources/js/components/Modals/CreateSupplierModal.vue")["default"]);
 var app = new Vue({
@@ -2023,6 +2627,7 @@ var app = new Vue({
     return {
       suppliers: [],
       current_supplier: [],
+      materials: [],
       form_error: []
     };
   },
@@ -2041,9 +2646,30 @@ var app = new Vue({
     var _this2 = this;
 
     var apiSupplierShowName = $('#apiSupplierShowName').html();
+    var apiMeterialShowName = $('#apiMeterialShowName').html();
     axios.get(apiSupplierShowName).then(function (response) {
       _this2.suppliers = response.data;
     });
+    axios.get(apiMeterialShowName).then(function (response) {
+      _this2.materials = response.data;
+    });
+
+    $.fn.serializeObject = function () {
+      var o = {};
+      var a = this.serializeArray();
+      $.each(a, function () {
+        if (o[this.name] !== undefined) {
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+
+          o[this.name].push(this.value || '');
+        } else {
+          o[this.name] = this.value || '';
+        }
+      });
+      return o;
+    };
   }
 });
 

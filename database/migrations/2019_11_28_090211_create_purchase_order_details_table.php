@@ -17,10 +17,8 @@ class CreatePurchaseOrderDetailsTable extends Migration
         Schema::create('purchase_order_details', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
 
-            
             $table->unsignedBigInteger('material_id')->comment('原物料編號');
             $table->unsignedBigInteger('purchaseOrder_id')->comment('進貨單編號');
-            
             
             $table->integer('count')->comment('進貨單序號');
             $table->double('price')->default(0)->comment('單價');

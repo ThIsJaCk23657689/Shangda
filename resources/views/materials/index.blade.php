@@ -43,7 +43,6 @@
 							<th>單價</th>
 							<th>目前存貨量</th>
 							<th>單位</th>
-							<th>備註</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -57,17 +56,25 @@
 								<td>{{ $material->unitPrice }}</td>
 								<td>{{ $material->showStock() }}</td>
 								<td>{{ $material->showUnit() }}</td>
-								<td>{{ $material->comment  }}</td>
 								<td>
-									<a href="{{ route('materials.show', [$material->id]) }}" class="btn btn-md btn-info">查看</a>
-                                    <a href="{{ route('materials.edit', [$material->id]) }}" class="btn btn-md btn-success">編輯</a>
+									<a href="{{ route('materials.show', [$material->id]) }}" class="btn btn-md btn-info">
+										<i class="fas fa-info-circle"></i>
+										查看
+									</a>
+									<a href="{{ route('materials.edit', [$material->id]) }}" class="btn btn-md btn-success">
+										<i class="fas fa-edit"></i>
+										編輯
+									</a>
 									<a href="#" class="btn btn-md btn-danger" onclick="
 										event.preventDefault();
 										ans = confirm('確定要刪除此廠商嗎?');
 										if(ans){
 											$('#deleteform-{{ $material->id }}').submit();
 										}
-									">刪除</a>
+									">
+										<i class="far fa-trash-alt"></i>
+										刪除
+									</a>
 
 									<form id="deleteform-{{ $material->id }}" action="{{ route('materials.destroy', [$material->id]) }}" method="POST" style="displat: none;">
 										@csrf

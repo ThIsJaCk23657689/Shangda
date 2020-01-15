@@ -147,12 +147,12 @@
                         </label>
 
                         <div class="col-md-6">
-                            <select name="taxType" id="taxType" class="form-control" required>
+                            <select name="taxType" id="taxType" class="form-control" required @change="changeTax">
                                 <option value="1">應稅</option>
-                                <option value="2">零稅 - 經海關</option>
-                                <option value="3">零稅 - 非經海關</option>
-                                <option value="4">免稅</option>
-                                <option value="5">未稅</option>
+                                <option value="2">未稅</option>
+                                <option value="3">免稅</option>
+                                <option value="4">零稅 - 經海關</option>
+                                <option value="5">零稅 - 非經海關</option>
                             </select>
                         </div>
                     </div>
@@ -177,7 +177,41 @@
                 </div>
             </div>
 
-            <input type="text" name="totalPrice" id="totalPrice" value="0">
+            <hr>
+
+            <input id="totalPrice" name="totalPrice" type="hidden" class="form-control" :value="total_price">
+
+            <purchase-detail ref="purchasedetail" :materials="materials" v-on:showTotalPrice="showTotalPrice"></purchase-detail>
+
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <div class="row">
+                        <label for="beforePrice" class="col-md-3 col-form-label text-md-right">銷售額</label>
+
+                        <div class="col-md-6">
+                            <input id="beforePrice" type="text" class="form-control" value="" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <label for="tax_price" class="col-md-2 col-form-label text-md-right">稅額</label>
+
+                        <div class="col-md-6">
+                            <input id="tax_price" type="text" class="form-control" value="" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <label for="totalPrice" class="col-md-2 col-form-label text-md-right">總額</label>
+
+                        <div class="col-md-6">
+                            <input id="showTotalPrice" type="text" class="form-control" :value="total_price" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
@@ -200,16 +234,37 @@
 
 <script>
 export default {
-    props: ['suppliers', 'current_supplier'],
+    props: ['suppliers', 'current_supplier', 'materials'],
     mounted() {
         console.log('PurchaseCreareForm.vue mounted.')
+        
+        // 訂單細項 表單程式碼
+        $('#PurchaseOrderDetailForm').submit(function(e){
+            e.preventDefault();
+
+            let url = $('#createPurchaseOrderDetail').html();
+            let data = $(this).serialize();
+            axios.post(url, data).then(response => {
+                console.log(response);
+            }).catch((error) => {
+                console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+            });
+        });
     },
     data(){
         return {
-            
+            total_price: 0
         }
     },
     methods: {
+        showTotalPrice(total_price){
+            this.total_price = total_price;
+        },
+
+        changeTax () {
+            this.$refs.purchasedetail.calculateTotalPrice()  // 呼叫子元件裡的toggleFood方法 
+        },
+
         getSupplierData(){
             let supplier_id = $('#supplier_id').val();
             if(supplier_id != 0){
@@ -222,15 +277,22 @@ export default {
         },
 
         createPurchaseOrder(){
+            // 新建進貨單
+
+            // 1. 先創建 PurchaseOrder
             let url = $('#createPurchaseOrder').html();
 
             let data = $('#PurchaseOrderCreateForm').serialize();
             axios.post(url, data).then(response => {
                 console.log(response);
+                $('#purchaseOrderID').val(response.data.purchaseOrder_id);
+
+                // 2. 建立 PurchaseOrderDetail
+                $('#PurchaseOrderDetailForm').submit();
             }).catch((error) => {
                 console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
             });
-        }
+        },
     }
 }
 </script>

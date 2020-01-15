@@ -36,7 +36,7 @@ class PurchaseOrderService extends BaseService
             'address' => $request->address,
             'shown_id' => $shown_id,
         ]);
-        return $shown_id;
+        return $purchaseOrder;
     }
 
     public function getList()

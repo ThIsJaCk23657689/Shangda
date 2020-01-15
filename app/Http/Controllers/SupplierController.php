@@ -13,7 +13,9 @@ class SupplierController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('auth');
+        $apiFunctions = ['showName', 'getInfo'];
+        $this->middleware('auth')->except($apiFunctions);
+        // $this->middleware('auth:api')->only($apiFunctions);
         $this->SupplierService = new SupplierService();
     }
 
@@ -63,17 +65,6 @@ class SupplierController extends Controller
         return view('suppliers.show', compact('supplier'));
     }
 
-    public function showName(){
-        $supplier = $this->SupplierService->getNamesList();
-        return response()->json($supplier, 200);
-    }
-
-
-    public function getInfo(Request $request){
-        $supplier_info = $this->SupplierService->getInfoList($request->id);
-        return response()->json($supplier_info, 200);
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -109,5 +100,18 @@ class SupplierController extends Controller
     {
         $this->SupplierService->delete($id);
         return redirect()->route('suppliers.index');
+    }
+
+
+    // ========== API Function ==========
+    public function showName(){
+        $supplier = $this->SupplierService->getNamesList();
+        return response()->json($supplier, 200);
+    }
+
+
+    public function getInfo(Request $request){
+        $supplier_info = $this->SupplierService->getInfoList($request->id);
+        return response()->json($supplier_info, 200);
     }
 }
