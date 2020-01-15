@@ -25,10 +25,7 @@ class PurchaseOrderDetailController extends Controller
     public function store(PurchaseOrderDetailRequest $request)
     {
         $purchaseOrderDetail = $this->purchaseOrderDetailService->add($request);
-        return response()->json([
-            'massenge'=>$purchaseOrderDetail['count']."筆細項於".$purchaseOrderDetail['id']." 建立成功",
-            'status'=>'OK'
-        ]);;
+        return response()->json($purchaseOrderDetail,200);
     }
 
     /**

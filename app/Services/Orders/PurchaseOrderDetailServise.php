@@ -4,38 +4,43 @@ namespace App\Services\Orders;
 use App\Services\BaseService;
 use App\Services\Orders\PurchaseOrderService;
 use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\PurchaseOrderDetail as PurchaseOrderDetailEloquent;
+
 use Carbon\Carbon;
 
-class SaleOrderService extends BaseService
+class PurchaseOrderDetailService extends BaseService
 {
-    public $PurchaseOrderService;
-
-    public function __construct()
-    {
-        $this->PurchaseOrderService = new PurchaseOrderService();
-    }
-
-
     public function add($request)
     {
-        // $p = PurchaseOrderEloquent::find($request->purchaseOrder_id);
-        // $count = 0;
-        // foreach($request->get('material_id') as $key => $val){
-        //     $count += 1;
-        //     $p->materials()->attach($key, [
-        //         'count' => $count,
-        //         'price' => $request->$val['price'], 
-        //         'quantity' => $request->$val['quantity'],
-        //         'subTotal' => $request->$val['subTotal'],
-        //         'comment' => $request->$val['comment'],
-        //         'discount' => $request->$val['discount'],
-        //     ]);
-        // }
+        $p_id = $request->purchaseOrder_id;
+        $data = $request->data;
+        $count = 0;
+        foreach($data as $obj){
+            $count += 1;
+            $purchaseOrderDetail = PurchaseOrderDetail::create([
+                'purchaseOrder_id' => $p_id,
+                'count' => $count,
 
-        return array(
-            'count' => $count,
-            'id' => $request->purchaseOrder_id
-        );
+                'material_id' => $obj->material_id,
+                'price' => $obj->price,
+                'quantity' => $obj->quantity,
+                'discount' => $obj->discount,
+                'subTotal' => $obj->subTotal,
+                'comment' => $obj->comment,
+            ]);
+        }
+        if($purchaseOrderDetail){
+            $msg = [
+                'massenge'=>"總共有".$count."筆資料新增成功。",
+                'status'=>'OK'
+            ];
+        }else{
+            $msg = [
+                'massenge'=>"無資料新增。",
+                'status'=>'Failed'
+            ];
+        }
+        return $msg;
     }
 
 
