@@ -13,7 +13,7 @@ class PurchaseOrderDetailService extends BaseService
     public function add($request)
     {
         $p_id = $request->purchaseOrder_id;
-        $data = $request->data;
+        $data = $request->details;
         $count = 0;
         foreach($data as $obj){
             $count += 1;
@@ -25,7 +25,7 @@ class PurchaseOrderDetailService extends BaseService
                 'price' => $obj->price,
                 'quantity' => $obj->quantity,
                 'discount' => $obj->discount,
-                'subTotal' => $obj->subTotal,
+                'subTotal' => $obj->price * $obj->discount * $obj->discount,
                 'comment' => $obj->comment,
             ]);
         }
