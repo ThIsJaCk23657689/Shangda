@@ -17,7 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('showName', 'SupplierController@showName')->name('api.supplier.showName');
-Route::post('getInfo', 'SupplierController@getInfo')->name('api.supplier.getInfo');
-Route::get('showName','MaterialController@showName')->name('api.material.getInfo');
-Route::post('getInfo','MaterialController@getInfo')->name('api.material.getInfo');
+Route::prefix('supplier')->group(function(){
+    Route::get('showName', 'SupplierController@showName')->name('api.supplier.showName');
+    Route::post('getInfo', 'SupplierController@getInfo')->name('api.supplier.getInfo');
+});
+
+Route::prefix('material')->group(function(){
+    Route::get('showName','MaterialController@showName')->name('api.material.showName');
+    Route::post('getInfo','MaterialController@getInfo')->name('api.material.getInfo');
+});
+
+
+

@@ -177,6 +177,8 @@
                 </div>
             </div>
 
+            <purchase-detail :materials="materials"></purchase-detail>
+
             <input type="text" name="totalPrice" id="totalPrice" value="0">
 
             <div class="form-group row justify-content-center">
@@ -200,7 +202,7 @@
 
 <script>
 export default {
-    props: ['suppliers', 'current_supplier'],
+    props: ['suppliers', 'current_supplier', 'materials'],
     mounted() {
         console.log('PurchaseCreareForm.vue mounted.')
     },

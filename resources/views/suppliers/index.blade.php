@@ -39,9 +39,8 @@
 							<th>編號</th>
 							<th>簡稱</th>
 							<th>統一編號</th>
-                            <th>負責人1 姓名</th>
-                            <th>負責人1 電話</th>
-                            <th>負責人1 信箱</th>
+                            <th>負責人姓名</th>
+                            <th>負責人電話</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -53,7 +52,6 @@
 								<td>{{ $supplier->taxId }}</td>
                                 <td>{{ $supplier->inCharge1 }}</td>
                                 <td>{{ $supplier->tel1 }}</td>
-                                <td>{{ $supplier->email1 }}</td>
 								<td>
 									<a href="{{ route('suppliers.show', [$supplier->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>

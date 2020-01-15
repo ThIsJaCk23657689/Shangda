@@ -1,5 +1,7 @@
 
 Vue.component('purchase-create-form', require('./../components/Orders/PurchaseCreateForm.vue').default);
+Vue.component('purchase-detail', require('./../components/Orders/PurchaseDetail.vue').default);
+
 Vue.component('option-item', require('./../components/Partials/OptionItem.vue').default);
 Vue.component('create-supplier-modal', require('./../components/Modals/CreateSupplierModal.vue').default);
 
@@ -9,6 +11,8 @@ const app = new Vue({
         return {
             suppliers: [],
             current_supplier: [],
+
+            materials: [],
 
             form_error: []
         }
@@ -21,13 +25,18 @@ const app = new Vue({
                 console.log(response);
                 this.current_supplier = response.data;
             });
-        }
+        },
     },
     created(){
         let apiSupplierShowName = $('#apiSupplierShowName').html();
+        let apiMeterialShowName = $('#apiMeterialShowName').html();
 
         axios.get(apiSupplierShowName).then(response => {
             this.suppliers = response.data;
+        });
+
+        axios.get(apiMeterialShowName).then(response => {
+            this.materials = response.data;
         });
     }
 });

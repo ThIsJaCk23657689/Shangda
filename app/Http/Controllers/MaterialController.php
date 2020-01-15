@@ -13,7 +13,8 @@ class MaterialController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $apiFunctions = ['showName', 'getInfo'];
+        $this->middleware('auth')->except($apiFunctions);
         $this->materialService = new MaterialService();
     }
 
@@ -63,17 +64,6 @@ class MaterialController extends Controller
         return view('materials.show',compact('material'));
     }
 
-    // get name and id list api
-    public function showName(){
-        $materials = $this->materialService->getNamesList();
-        return response()->json($materials, 200);
-    }
-
-    // get info by id api
-    public function getInfo(Request $request){
-        $material_info = $this->materialService->getInfoList($request->id);
-        return response()->json($material_info, 200);
-    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -109,5 +99,18 @@ class MaterialController extends Controller
     {
         $this->materialService->delete($id);
         return redirect()->route('materials.index');
+    }
+
+    // ========== API Function ==========
+    // get name and id list
+    public function showName(){
+        $materials = $this->materialService->getNamesList();
+        return response()->json($materials, 200);
+    }
+
+    // get info by id
+    public function getInfo(Request $request){
+        $material_info = $this->materialService->getInfoList($request->id);
+        return response()->json($material_info, 200);
     }
 }
