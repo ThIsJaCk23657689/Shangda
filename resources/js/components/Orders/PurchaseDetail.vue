@@ -46,7 +46,7 @@
                             <input :id="'qty_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateSubtotal(index+1)">
                         </td>
                         <td>
-                            <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][material_unitPrice]'" :value="detail.material.unitPrice" @change="calculateSubtotal(index+1)">
+                            <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][price]'" :value="detail.material.unitPrice" @change="calculateSubtotal(index+1)">
                         </td>
                         <td>
                             <input :id="'discount_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][discount]'" :value="detail.discount" @change="calculateSubtotal(index+1)">

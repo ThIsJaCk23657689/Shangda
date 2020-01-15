@@ -1959,8 +1959,7 @@ var render = function() {
                         attrs: {
                           id: "unitPrice_" + (index + 1),
                           type: "text",
-                          name:
-                            "details[" + (index + 1) + "][material_unitPrice]"
+                          name: "details[" + (index + 1) + "][price]"
                         },
                         domProps: { value: detail.material.unitPrice },
                         on: {
