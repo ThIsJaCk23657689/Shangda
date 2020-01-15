@@ -50,7 +50,7 @@ class PurchaseOrderService extends BaseService
         $purchaseOrder = PurchaseOrderEloquent::find($id);
         
         if($purchaseOrder->taxType == 1){
-            $tax = $purchaseOrder->totalPrice*0.95;
+            $beforePrice = $purchaseOrder->totalPrice*0.95;
             $tax = $purchaseOrder->totalPrice*0.05;
         }elseif($purchaseOrder->taxType == 2 or $purchaseOrder->taxType == 3){
             $beforePrice = $purchaseOrder->totalPrice;
