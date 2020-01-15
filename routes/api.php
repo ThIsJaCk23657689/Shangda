@@ -27,5 +27,11 @@ Route::prefix('material')->group(function(){
     Route::post('getInfo','MaterialController@getInfo')->name('api.material.getInfo');
 });
 
+//新增刪除修改查詢訂單細項資料。
+Route::post('store','PurchaseOrderDetailController@store')->name('api.PurchaseOrderDetail.store');
+Route::get('showDetails','PurchaseOrderDetailController@showDetails')->name('api.PurchaseOrderDetail.showDetails');
+Route::patch('update','PurchaseOrderDetailController@update')->name('api.PurchaseOrderDetail.update');
+Route::delete('destroy','PurchaseOrderDetailController@destroy')->name('api.PurchaseOrderDetail.destroy');
+
 
 
