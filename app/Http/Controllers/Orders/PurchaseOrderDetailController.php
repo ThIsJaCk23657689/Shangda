@@ -33,12 +33,12 @@ class PurchaseOrderDetailController extends Controller
     public function update(PurchaseOrderDetailRequest $request, $p_id, $count)
     {
         $purchaseOrderDetail = $this->PurchaseOrderDetailService->update($request,$p_id, $count);
-        return response()->json($purchaseOrderDetail,200);
+        return response()->json($purchaseOrderDetail, 200);
     }
 
     public function destroy($p_id, $count)
     {
         $purchaseOrderDetail = $this->PurchaseOrderDetailService->delete($p_id, $count);
-        return response()->json($purchaseOrderDetail,200);
+        return response()->json($purchaseOrderDetail, 200);
     }
 }
