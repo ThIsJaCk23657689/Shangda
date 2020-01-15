@@ -21,3 +21,12 @@ Route::get('showName', 'SupplierController@showName')->name('api.supplier.showNa
 Route::post('getInfo', 'SupplierController@getInfo')->name('api.supplier.getInfo');
 Route::get('showName','MaterialController@showName')->name('api.material.getInfo');
 Route::post('getInfo','MaterialController@getInfo')->name('api.material.getInfo');
+
+//新增刪除修改查詢訂單細項資料。
+Route::post('store','PurchaseOrderDetailController@store')->name('api.PurchaseOrderDetail.store');
+Route::get('showDetails','PurchaseOrderDetailController@showDetails')->name('api.PurchaseOrderDetail.showDetails');
+Route::patch('update','PurchaseOrderDetailController@update')->name('api.PurchaseOrderDetail.update');
+Route::delete('destroy','PurchaseOrderDetailController@destroy')->name('api.PurchaseOrderDetail.destroy');
+
+
+
