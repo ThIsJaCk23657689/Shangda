@@ -17,7 +17,7 @@ class PurchaseOrderDetailService extends BaseService
         $count = 0;
         foreach($data as $obj){
             $count += 1;
-            $purchaseOrderDetail = PurchaseOrderDetail::create([
+            $purchaseOrderDetail = PurchaseOrderDetailEloquent::create([
                 'purchaseOrder_id' => $p_id,
                 'count' => $count,
 
@@ -43,44 +43,66 @@ class PurchaseOrderDetailService extends BaseService
         return $msg;
     }
 
-
-    public function update($request, $order_id, $count)
-    {
-        $details = PurchaseOrderEloquent::find($order_id)->materials();
-        $detail = $details->where('count', $count);
-
-        $detail->update([
-
-        ]);
-
-        $saleOrder->update([
-            'consumers_id' => $request->consumers_id,
-            'user_id' => $request->user_id,
-
-            'expectPay_at' => $request->expectPay_at,
-            'paid_at' => $request->paid_at,
-            'expectDeliver_at' => $request->expectDeliver_at,
-            'delivered_at' => $request->delivered_at,
-            'makeInvoice_at' => $request->makeInvoice_at,
-
-            'piadAmount' => $request->piadAmount,
-            'unpiadAmount' => $request->unpiadAmount,
-            'totalPrice' => $request->totalPrice,
-            'taxPrice' => $request->taxPrice,
-            'totalTaxPrice' => $request->totalTaxPrice,
-
-            'comment' => $request->comment,
-            'taxType' => $request->taxType,
-            'invoiceType' => $request->invoiceType,
-            'address' => $request->address,
-        ]);
-        return $saleOrder;
+    public function getOrderDetails($p_id){
+        $details = PurchaseOrderDetailEloquent::where('purchaseOrder_id',$p_id)->get();
+        if($details){
+            $msg = [
+                'data'=>$details,
+                'status'=>'OK'
+            ];
+        }else{
+            $msg = [
+                'data'=>$details,
+                'status'=>'No data exist.'
+            ];
+        }
+        return $msg;
     }
 
-    public function delete($id)
+    public function update($request, $p_id, $count)
     {
-        $saleOrder = $this->getOne($id);
-        $saleOrder->delete();
+        $details = PurchaseOrderDetailEloquent::where('purchaseOrder_id',$p_id)
+                                            ->where('count',$count)->get();
+
+        $detail = $details->update([
+            'material_id' => $request->material_id,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+            'discount' => $request->discount,
+            'subTotal' => $request->subTotal,
+            'comment' => $request->comment,
+        ]);
+        if($detail){
+            $msg = [
+                'massenge'=>"更新成功。",
+                'status'=>'OK'
+            ];
+        }else{
+            $msg = [
+                'massenge'=>"更新失敗。",
+                'status'=>'Failed'
+            ];
+        }
+        return $msg;
+    }
+
+    public function delete($p_id, $count)
+    {
+        $details = PurchaseOrderDetailEloquent::where('purchaseOrder_id',$p_id)
+                                            ->where('count',$count)->get();
+        if($details){
+            $details->delete();
+            $msg = [
+                'massenge'=>"刪除成功。",
+                'status'=>'OK'
+            ];
+        }else{
+            $msg = [
+                'massenge'=>"查不到該筆資料。",
+                'status'=>'Failed'
+            ];
+        }
+        return $msg;
     }
 
     public function getlastupdate()

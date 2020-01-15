@@ -28,6 +28,12 @@ class PurchaseOrderDetailController extends Controller
         return response()->json($purchaseOrderDetail,200);
     }
 
+    public function showDetails($p_id)
+    {
+        $purchaseOrderDetail = $this->purchaseOrderDetailService->getOrderDetails($p_id);
+        return response()->json($purchaseOrderDetail,200);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -35,9 +41,10 @@ class PurchaseOrderDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PurchaseOrderDetailRequest $request, $id)
+    public function update(PurchaseOrderDetailRequest $request, $p_id, $count)
     {
-        //
+        $purchaseOrderDetail = $this->purchaseOrderDetailService->update($request,$p_id, $count);
+        return response()->json($purchaseOrderDetail,200);
     }
 
     /**
@@ -46,8 +53,9 @@ class PurchaseOrderDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($p_id, $count)
     {
-        //
+        $purchaseOrderDetail = $this->purchaseOrderDetailService->delete($p_id, $count);
+        return response()->json($purchaseOrderDetail,200);
     }
 }
