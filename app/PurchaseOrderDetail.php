@@ -14,4 +14,5 @@ class PurchaseOrderDetail extends Model
     public function purchaseOrder(){
         return $this->belongsTo(PurchaseOrderEloquent::class);
     }
+    public $timestamps = false;
 }
