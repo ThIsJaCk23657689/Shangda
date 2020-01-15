@@ -519,7 +519,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['suppliers', 'current_supplier', 'materials'],
   mounted: function mounted() {
-    console.log('PurchaseCreareForm.vue mounted.');
+    console.log('PurchaseCreareForm.vue mounted.'); // 訂單細項 表單程式碼
+
+    $('#PurchaseOrderDetailForm').submit(function (e) {
+      e.preventDefault();
+      var url = $('#createPurchaseOrderDetail').html();
+      var data = $(this).serialize();
+      axios.post(url, data).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+      });
+    });
   },
   data: function data() {
     return {};
@@ -537,10 +548,15 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createPurchaseOrder: function createPurchaseOrder() {
+      // 新建進貨單
+      // 1. 先創建 PurchaseOrder
       var url = $('#createPurchaseOrder').html();
       var data = $('#PurchaseOrderCreateForm').serialize();
       axios.post(url, data).then(function (response) {
         console.log(response);
+        $('#purchaseOrderID').val(response.data.purchaseOrder_id); // 2. 建立 PurchaseOrderDetail
+
+        $('#PurchaseOrderDetailForm').submit();
       })["catch"](function (error) {
         console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
       });
@@ -559,6 +575,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -1825,146 +1845,172 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row justify-content-center" }, [
     _c("div", { staticClass: "col-md-12" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6 mb-2" }, [
-          _c(
-            "select",
-            {
-              staticClass: "form-control",
-              attrs: { id: "material_id", name: "material_id" },
-              on: { change: _vm.getMaterialData }
-            },
-            [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("請選擇...")]),
-              _vm._v(" "),
-              _vm._l(_vm.materials, function(data) {
-                return _c("option-item", {
-                  key: data.id,
-                  attrs: { data: data }
-                })
-              })
-            ],
-            2
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-md btn-success",
-              attrs: { type: "button" },
-              on: { click: _vm.addDetail }
-            },
-            [_vm._v("新增至細項")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
       _c(
-        "table",
+        "form",
         {
-          staticClass: "table table-bordered",
-          attrs: { width: "100%", cellspacing: "0" }
+          attrs: { id: "PurchaseOrderDetailForm", method: "POST", action: "#" }
         },
         [
-          _vm._m(0),
+          _c("input", {
+            attrs: {
+              type: "hidden",
+              id: "purchaseOrderID",
+              name: "purchaseOrder_id",
+              value: ""
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6 mb-2" }, [
+              _c(
+                "select",
+                {
+                  staticClass: "form-control",
+                  attrs: { id: "material_id" },
+                  on: { change: _vm.getMaterialData }
+                },
+                [
+                  _c("option", { attrs: { value: "0" } }, [
+                    _vm._v("請選擇...")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.materials, function(data) {
+                    return _c("option-item", {
+                      key: data.id,
+                      attrs: { data: data }
+                    })
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-md btn-success",
+                  attrs: { type: "button" },
+                  on: { click: _vm.addDetail }
+                },
+                [_vm._v("新增至細項")]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c(
-            "tbody",
-            _vm._l(_vm.details, function(detail, index) {
-              return _c("tr", { key: index }, [
-                _c("td", [_vm._v(_vm._s(index + 1))]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "\r\n                        " +
-                      _vm._s(detail.material.name) +
-                      "\r\n                        "
-                  ),
-                  _c("input", {
-                    attrs: { type: "hidden", name: "material[id][]" },
-                    domProps: { value: detail.material.id }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "\r\n                        " +
-                      _vm._s(detail.material.internationalNum) +
-                      "\r\n                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "qty_" + (index + 1),
-                      type: "text",
-                      name: "quantity[]"
-                    },
-                    domProps: { value: detail.quantity },
-                    on: {
-                      change: function($event) {
-                        return _vm.calculateSubtotal(index + 1)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "unitPrice_" + (index + 1),
-                      type: "text",
-                      name: "material[unitPrice][]"
-                    },
-                    domProps: { value: detail.material.unitPrice },
-                    on: {
-                      change: function($event) {
-                        return _vm.calculateSubtotal(index + 1)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: {
-                      id: "discount_" + (index + 1),
-                      type: "text",
-                      name: "discount[]"
-                    },
-                    domProps: { value: detail.discount },
-                    on: {
-                      change: function($event) {
-                        return _vm.calculateSubtotal(index + 1)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("span", { attrs: { id: "subtotal_" + (index + 1) } }, [
-                    _vm._v("0")
+            "table",
+            {
+              staticClass: "table table-bordered",
+              attrs: { width: "100%", cellspacing: "0" }
+            },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.details, function(detail, index) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\r\n                            " +
+                          _vm._s(detail.material.name) +
+                          "\r\n                            "
+                      ),
+                      _c("input", {
+                        attrs: {
+                          type: "hidden",
+                          name: "details[" + (index + 1) + "][material_id]"
+                        },
+                        domProps: { value: detail.material.id }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\r\n                            " +
+                          _vm._s(detail.material.internationalNum) +
+                          "\r\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "qty_" + (index + 1),
+                          type: "text",
+                          name: "details[" + (index + 1) + "][quantity]"
+                        },
+                        domProps: { value: detail.quantity },
+                        on: {
+                          change: function($event) {
+                            return _vm.calculateSubtotal(index + 1)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "unitPrice_" + (index + 1),
+                          type: "text",
+                          name:
+                            "details[" + (index + 1) + "][material_unitPrice]"
+                        },
+                        domProps: { value: detail.material.unitPrice },
+                        on: {
+                          change: function($event) {
+                            return _vm.calculateSubtotal(index + 1)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "discount_" + (index + 1),
+                          type: "text",
+                          name: "details[" + (index + 1) + "][discount]"
+                        },
+                        domProps: { value: detail.discount },
+                        on: {
+                          change: function($event) {
+                            return _vm.calculateSubtotal(index + 1)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { attrs: { id: "subtotal_" + (index + 1) } }, [
+                        _vm._v("0")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "details[" + (index + 1) + "][comment]"
+                        },
+                        domProps: { value: detail.comment }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1, true)
                   ])
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("input", {
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: detail.comment }
-                  })
-                ]),
-                _vm._v(" "),
-                _vm._m(1, true)
-              ])
-            }),
-            0
+                }),
+                0
+              )
+            ]
           )
         ]
       )
@@ -2467,6 +2513,23 @@ var app = new Vue({
     axios.get(apiMeterialShowName).then(function (response) {
       _this2.materials = response.data;
     });
+
+    $.fn.serializeObject = function () {
+      var o = {};
+      var a = this.serializeArray();
+      $.each(a, function () {
+        if (o[this.name] !== undefined) {
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+
+          o[this.name].push(this.value || '');
+        } else {
+          o[this.name] = this.value || '';
+        }
+      });
+      return o;
+    };
   }
 });
 

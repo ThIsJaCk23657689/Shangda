@@ -205,6 +205,19 @@ export default {
     props: ['suppliers', 'current_supplier', 'materials'],
     mounted() {
         console.log('PurchaseCreareForm.vue mounted.')
+        
+        // 訂單細項 表單程式碼
+        $('#PurchaseOrderDetailForm').submit(function(e){
+            e.preventDefault();
+
+            let url = $('#createPurchaseOrderDetail').html();
+            let data = $(this).serialize();
+            axios.post(url, data).then(response => {
+                console.log(response);
+            }).catch((error) => {
+                console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+            });
+        });
     },
     data(){
         return {
@@ -224,15 +237,22 @@ export default {
         },
 
         createPurchaseOrder(){
+            // 新建進貨單
+
+            // 1. 先創建 PurchaseOrder
             let url = $('#createPurchaseOrder').html();
 
             let data = $('#PurchaseOrderCreateForm').serialize();
             axios.post(url, data).then(response => {
                 console.log(response);
+                $('#purchaseOrderID').val(response.data.purchaseOrder_id);
+
+                // 2. 建立 PurchaseOrderDetail
+                $('#PurchaseOrderDetailForm').submit();
             }).catch((error) => {
                 console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
             });
-        }
+        },
     }
 }
 </script>

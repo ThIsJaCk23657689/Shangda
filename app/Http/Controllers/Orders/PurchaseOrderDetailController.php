@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Orders;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\PurchaseOrderDetailRequest;
 
 use App\Services\Orders\PurchaseOrderDetailService;
@@ -13,14 +14,15 @@ class PurchaseOrderDetailController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
         $this->PurchaseOrderDetailService = new PurchaseOrderDetailService();
     }
 
-    public function store(PurchaseOrderDetailRequest $request)
+    public function store(Request $request)
     {
+        return response()->json($request->all());
         $purchaseOrderDetail = $this->purchaseOrderDetailService->add($request);
-        return response()->json($purchaseOrderDetail,200);
+        return response()->json($purchaseOrderDetail, 200);
     }
 
     public function showDetails($p_id)

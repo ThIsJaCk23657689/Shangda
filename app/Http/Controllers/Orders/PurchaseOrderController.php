@@ -49,8 +49,9 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrder = $this->PurchaseOrderService->add($request);
         return response()->json([
-            'massenge'=>'單號'.$purchaseOrder.'建立成功。',
-            'status'=>'OK'
+            'purchaseOrder_id' => $purchaseOrder->id,
+            'massenge' => '單號' . $purchaseOrder->shown_id . '建立成功。',
+            'status' => 'OK'
         ]);
     }
 
