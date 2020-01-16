@@ -1,36 +1,26 @@
 <?php
 
 namespace App\Services;
-use App\BasicMaterial as BasicMaterialEloquent;
-use App\Services\ProductService;
+use App\Discount as DiscountEloquent;
+use App\Product as ProductEloquent;
 
 
-class BasicMaterialService extends BaseService
+
+class DiscountService extends BaseService
 {
-    public $ProductService;
-
-    public function __construct()
+    public function getDiscountList($id)
     {
-        $this->middleware('auth');
-        $this->ProductService = new ProductService();
-    }
+        $products = ProductEloquent::get()->pluck('id','name');
+        $discounts = DiscountEloquent::where('consumer_id',$id)->get();
 
-    public function getList()
-    {
-        $basicMaterials = BasicMaterialEloquent::get();
+        $users = DB::table('consumers')
+            ->join('contacts', 'users.id', '=', 'contacts.user_id')
+            ->join('orders', 'users.id', '=', 'orders.user_id')
+            ->select('users.*', 'contacts.phone', 'orders.price')
+            ->get();
 
-        if($basicMaterials){
-            $msg = [
-                'data'=>$basicMaterials,
-                'status'=>'OK'
-            ];
-        }else{
-            $msg = [
-                'data'=>$basicMaterials,
-                'status'=>'Failed'
-            ];
-        }
-        return $msg;
+
+        $users = DB::table('consumers')->leftJoin(1, '=', 'discounts.consumer_id')->select('consumers.id', 'consumers.name', 'discounts.price')->get();
     }
 
 
