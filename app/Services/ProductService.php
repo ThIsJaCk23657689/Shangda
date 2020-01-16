@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Product as ProductEloquent;
 use App\BasicMaterial as BasicMaterialEloquent;
+use App\Category as CategoryEloquent;
 
 class ProductService extends BaseService
 {
@@ -20,6 +21,7 @@ class ProductService extends BaseService
         $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
 
         $product = ProductEloquent::create([
+            'category_id' => $request->category_id,
             'name' => $request->name,
             'shortName' => $request->shortName,
             'internationalNum' => $request->internationalNum,
@@ -71,6 +73,7 @@ class ProductService extends BaseService
         $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
 
         $product->update([
+            'category_id' => $request->category_id,
             'name' => $request->name,
             'shortName' => $request->shortName,
             'internationalNum' => $request->internationalNum,
@@ -108,5 +111,15 @@ class ProductService extends BaseService
         }
 
         return null;
+    }
+
+    public function getProductByCategory($category_id)
+    {
+        $products = CategoryEloquent::where('id', $category_id)->get()->products;
+        if($products){
+           return $products;
+        }else{
+            return "此類別查無資料";
+        }
     }
 }

@@ -63,6 +63,16 @@ class ProductController extends Controller
         return view('products.show', compact('product'));
     }
 
+    public function getProductListByCategory($category_id)
+    {
+        $products = $this->ProductService->getProductByCategory($category_id);
+        if($products == "此類別查無資料"){
+            return response()->json($products, 400);
+        }else{
+            return response()->json($products, 200);
+        }
+        ;
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -14,6 +14,7 @@ class ConsumerController extends Controller
     public $ConsumerService;
     public $DiscountService;
     
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -43,6 +44,7 @@ class ConsumerController extends Controller
     {
         $comsumer = $this->ConsumerService->getOne($id);
         return view('consumers.show', compact('comsumer'));
+<<<<<<< HEAD
     }
 
     //以顧客ID尋找相關折扣，若無回傳0
@@ -50,6 +52,8 @@ class ConsumerController extends Controller
     {
         $discountList = $this->DiscountService->getDiscountList($id);
         return view('consumers.showDiscount', compact('discountList'));
+=======
+>>>>>>> a4d2810bf28fd231e85716cc188096a4c25d7cdb
     }
 
     public function edit($id)
@@ -64,7 +68,7 @@ class ConsumerController extends Controller
         return redirect()->route('consumers.show', [$id]);
     }
 
- 
+
     public function destroy($id)
     {
         $this->ConsumerService->delete($id);
