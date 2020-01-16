@@ -20,7 +20,7 @@ class DiscountService extends BaseService
             ->get();
 
 
-        $users = DB::table('consumers')->leftJoin(1, '=', 'discounts.consumer_id')->select('consumers.id', 'consumers.name', 'discounts.price')->get();
+        $users = DB::table('consumers')->leftJoin('discounts','consumers.id', '=', 'discounts.consumer_id')->select('consumers.id', 'consumers.name', 'discounts.price')->get();
     }
 
 
