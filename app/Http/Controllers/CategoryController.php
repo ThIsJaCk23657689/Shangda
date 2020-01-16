@@ -95,4 +95,9 @@ class CategoryController extends Controller
         $this->CategoryService->delete($id);
         return redirect()->route('categories.index');
     }
+
+    public function showName(){
+        $categories = $this->CategoryService->getNamesList();
+        return response()->json($categories, 200);
+    }
 }

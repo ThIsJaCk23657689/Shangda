@@ -41,3 +41,7 @@ Route::patch('update', 'BasicMaterialController@update')->name('api.BasicMateria
 //get product list by category_id
 Route::get('show', 'ProductController@getProductListByCategory')->name('api.Product.getProductListByCategory');
 
+//取得所有類別名稱與id
+Route::prefix('material')->group(function(){
+    Route::get('showName','CategoryController@showName')->name('api.category.showName');
+});

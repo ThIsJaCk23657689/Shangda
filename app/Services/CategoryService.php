@@ -43,4 +43,9 @@ class CategoryService extends BaseService
         $category = $this->getOne($id);
         $category->delete();
     }
+
+    public function getNamesList(){
+        $category_names = MaterialEloquent::select('id','name')->get();
+        return $category_names;
+    }
 }
