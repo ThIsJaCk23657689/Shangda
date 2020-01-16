@@ -38,5 +38,6 @@ Route::delete('destroy', 'Orders\PurchaseOrderDetailController@destroy')->name('
 Route::get('show', 'BasicMaterialController@show')->name('api.BasicMaterial.show');
 Route::patch('update', 'BasicMaterialController@update')->name('api.BasicMaterial.update');
 
-
+//get product list by category_id
+Route::get('show', 'ProductController@getProductListByCategory')->name('api.Product.getProductListByCategory');
 
