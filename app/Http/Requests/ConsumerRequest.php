@@ -24,7 +24,7 @@ class ConsumerRequest extends FormRequest
     public function rules()
     {
         return [
-            'discount_id' => 'required',
+            // 'discount_id' => 'required',
             'name' => 'required|max:100|string',
             'shortName' => 'nullable|max:100|string',
             'act' => 'required|max:30|unique:consumers|string',
@@ -39,7 +39,7 @@ class ConsumerRequest extends FormRequest
             'inCharge2' => 'nullable|max:50|string',
             'tel2' => 'nullable|max:25|string',
             'email2' => 'nullable|max:100|string',
-            
+
             'tax' => 'nullable|max:25|string',
             'monthlyCheckDate' => 'nullable|min:1|max:31|integer',
             'uncheckedAmount' => 'nullable|min:0|numeric',

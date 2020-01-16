@@ -44,13 +44,8 @@ class CategoryService extends BaseService
         $category->delete();
     }
 
-    public function getlastupdate()
-    {
-        $category = CategoryEloquent::orderBy('id', 'DESC')->first();
-        if(!empty($category)){
-            return $category->updated_at;
-        }
-
-        return null;
+    public function getNamesList(){
+        $category_names = MaterialEloquent::select('id','name')->get();
+        return $category_names;
     }
 }

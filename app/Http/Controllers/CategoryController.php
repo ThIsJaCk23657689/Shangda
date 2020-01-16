@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 use App\Services\CategoryService;
+// use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -22,9 +21,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->CategoryService->getList();
-        $lastUpdate = $this->CategoryService->getlastupdate();
-        return view('categories.index', compact('categories', 'lastUpdate'));
+        $category = $this->CategoryService->getList();
+        return view('categories.index', compact('category'));
     }
 
     /**
@@ -96,5 +94,10 @@ class CategoryController extends Controller
     {
         $this->CategoryService->delete($id);
         return redirect()->route('categories.index');
+    }
+
+    public function showName(){
+        $categories = $this->CategoryService->getNamesList();
+        return response()->json($categories, 200);
     }
 }

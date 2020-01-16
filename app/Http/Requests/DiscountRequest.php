@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BasicMaterialRequest extends FormRequest
+class DiscountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class BasicMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            'price.*' => 'required|min:0|numeric',
-            'name.*' => 'required|string',
+            'product_id' => 'required',
+            'consumer_id' => 'required',
+            'price' => 'nullable|min:0|numeric',
         ];
     }
 }
