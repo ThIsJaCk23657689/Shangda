@@ -14,13 +14,17 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/backend', 'HomeController@backend')->name('backend');
 
-Route::resource('/users', 'UsersController');
+Route::prefix('/backend')->group(function(){
+    Route::get('/', 'HomeController@backend')->name('backend');
+    
+    Route::resource('/users', 'UsersController');
 
-Route::resource('/suppliers', 'SupplierController');
-Route::resource('/materials', 'MaterialController');
+    Route::resource('/suppliers', 'SupplierController');
+    Route::resource('/materials', 'MaterialController');
+    Route::resource('/products', 'ProductController');
 
-Route::resource('/orders/purchase', 'Orders\PurchaseOrderController');
-Route::resource('/orders/sales', 'Orders\SaleOrderController');
-Route::resource('/orders/return', 'Orders\ReturnOrderController');
+    Route::resource('/orders/purchase', 'Orders\PurchaseOrderController');
+    Route::resource('/orders/sales', 'Orders\SaleOrderController');
+    Route::resource('/orders/return', 'Orders\ReturnOrderController');
+});

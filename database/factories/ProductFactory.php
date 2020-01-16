@@ -44,7 +44,5 @@ $factory->define(Product::class, function (Faker $faker) {
         'quantity' => $faker->numberBetween($min = 0, $max = 9000),
         'safeQuantity' => $faker->numberBetween($min = 10, $max = 9000),
         'comment' => $faker->realText($maxNbChars = 200, $indexSize = 2),
-
-
     ];
 });

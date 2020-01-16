@@ -14,4 +14,19 @@ class Product extends Model
         'comment', 'internationalNum', 'unit', 'quantity', 'safeQuantity',
         'picture', 'intro', 'specification',
     ];
+
+    public function showUnit(){
+        switch($this->unit){
+            case "g":
+                $result = "公克";
+                break;
+            case "kg":
+                $result = "公斤";
+                break;
+            case "mt":
+                $result = "公噸";
+                break;
+        }
+        return $result;
+    }
 }

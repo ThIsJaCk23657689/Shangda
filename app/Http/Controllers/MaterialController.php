@@ -27,7 +27,7 @@ class MaterialController extends Controller
     {
         $materials = $this->materialService->getList();
         $lastUpdate = $this->materialService->getlastupdate();
-        return view('materials.index', compact('materials'));
+        return view('materials.index', compact('materials', 'lastUpdate'));
     }
 
     /**
