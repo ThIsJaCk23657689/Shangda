@@ -34,4 +34,9 @@ Route::patch('update', 'Orders\PurchaseOrderDetailController@update')->name('api
 Route::delete('destroy', 'Orders\PurchaseOrderDetailController@destroy')->name('api.PurchaseOrderDetail.destroy');
 
 
+//修改顯示基礎原物料價格(會影響商品總價)
+Route::get('show', 'BasicMaterialController@show')->name('api.BasicMaterial.show');
+Route::patch('update', 'BasicMaterialController@update')->name('api.BasicMaterial.update');
+
+
 

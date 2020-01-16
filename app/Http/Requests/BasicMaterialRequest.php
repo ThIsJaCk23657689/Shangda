@@ -13,7 +13,7 @@ class BasicMaterialRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class BasicMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'price.*' => 'required|min:0|numeric',
+            'name.*' => 'required|string',
         ];
     }
 }
