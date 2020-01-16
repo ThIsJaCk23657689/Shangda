@@ -21,6 +21,7 @@ class ProductService extends BaseService
         $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
 
         $product = ProductEloquent::create([
+            'category_id' => $request->category_id,
             'name' => $request->name,
             'shortName' => $request->shortName,
             'internationalNum' => $request->internationalNum,
@@ -72,6 +73,7 @@ class ProductService extends BaseService
         $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
 
         $product->update([
+            'category_id' => $request->category_id,
             'name' => $request->name,
             'shortName' => $request->shortName,
             'internationalNum' => $request->internationalNum,
