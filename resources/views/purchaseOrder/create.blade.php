@@ -27,7 +27,7 @@
 		<span id="createPurchaseOrder" style="display: none;">{{ route('purchase.store') }}</span>
 
 		<span id="createPurchaseOrderDetail" style="display: none;">{{ route('api.PurchaseOrderDetail.store') }}</span>
-
+		<span id="PurchaseOrderIndex" style="display: none;">{{ route('purchase.index') }}</span>
 		
 		<purchase-create-form :suppliers="suppliers" :current_supplier="current_supplier" :materials="materials" v-on:get-supplier-data="getSupplierData" returnURL="{{ route('purchase.index') }}"></purchase-create-form>
 	</div>

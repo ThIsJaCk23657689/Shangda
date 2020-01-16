@@ -34,32 +34,32 @@
                 </thead>
                 <tbody>
                     <tr v-for="(detail, index) in details" :key="index">
-                        <td>{{ index + 1 }}</td>
-                        <td>
+                        <td style="width: 5%">{{ index + 1 }}</td>
+                        <td style="width: 20%">
                             {{ detail.material.name }}
                             <input type="hidden" :name="'details[' + (index + 1) + '][material_id]'" :value="detail.material.id">
                         </td>
-                        <td>
+                        <td style="width: 10%">
                             {{ detail.material.internationalNum }}
                         </td>
-                        <td>
-                            <input :id="'qty_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateSubtotal(index+1)">
-                            {{ (detail.material.unit == 1)?'公斤':'公噸' }}
+                        <td style="width: 15%">
+                            <input :id="'qty_' + (index + 1)" type="text" class="form-control mr-2" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateSubtotal(index+1)" style="width:60%;display:inline-block;">
+                            <span>{{ (detail.material.unit == 1)?'公斤':'公噸' }}</span>
                         </td>
-                        <td>
+                        <td style="width: 10%">
                             <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][price]'" :value="detail.material.unitPrice" @change="calculateSubtotal(index+1)">
                         </td>
-                        <td>
+                        <td style="width: 10%">
                             <input :id="'discount_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][discount]'" :value="detail.discount" @change="calculateSubtotal(index+1)">
                         </td>
-                        <td>
-                            <span :id="'subtotal_' + (index + 1)">0</span>
+                        <td style="width: 10%">
+                            <input :id="'subtotal_' + (index + 1)" type="text" class="form-control" :value="detail.subTotal" disabled>
                         </td>
-                        <td>
-                            <input type="text" class="form-control" :name="'details[' + (index + 1)+ '][comment]'" :value="detail.comment">
+                        <td style="width: 15%">
+                            <input :id="'comment_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][comment]'" :value="detail.comment" @change="updateComment(index+1)">
                         </td>
-                        <td>
-                            <button class="btn btn-md btn-danger">
+                        <td style="width: 5%">
+                            <button type="button" class="btn btn-md btn-danger" @click="deleteDetail(index)">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </td>
@@ -89,6 +89,7 @@ export default {
         addDetail(){
             if(this.current_material.length != 0){
                 this.details.push({
+                    count: this.details.length,
                     material: {
                         id: this.current_material.id,
                         name: this.current_material.name,
@@ -98,12 +99,20 @@ export default {
                     },
                     quantity: 0,
                     discount: 1,
-                    subTotal: null,
+                    subTotal: 0,
                     comment: null
                 });
             }else{
                 alert('請選擇原物料');
             }
+        },
+
+        deleteDetail(id){
+            this.details.splice(id, 1);
+            if(this.details.length != 0){
+                this.calculateSubtotal(1);
+            }
+            this.calculateTotalPrice();
         },
 
         calculateSubtotal(id){
@@ -113,15 +122,20 @@ export default {
             let subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
             $('#subtotal_' + id).html(subTotal);
 
+            this.details[id - 1].quantity = qty;
+            this.details[id - 1].material.unitPrice = unitPrice;
+            this.details[id - 1].discount = discount;
+            this.details[id - 1].subTotal = subTotal;
             this.calculateTotalPrice();
         },
 
         calculateTotalPrice(){
             this.total_price = 0;
             for(let i = 1; i <=  this.details.length; i++){
-                let qty = $('#qty_' + i).val();
-                let unitPrice = $('#unitPrice_' + i).val();
-                let discount = $('#discount_' + i).val();
+                
+                let qty = this.details[i - 1].quantity;
+                let unitPrice = this.details[i - 1].material.unitPrice;
+                let discount = this.details[i - 1].discount;
                 let subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
                 this.total_price = this.total_price + subTotal;
             }
@@ -134,7 +148,12 @@ export default {
             
             this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
             this.$emit('showTotalPrice', this.total_price)
-            console.log(this.total_price);
+            // console.log(this.total_price);
+        },
+
+        updateComment(id){
+            let comment = $('#comment_' + id).val();
+            this.details[id - 1].comment = comment;
         },
 
         getMaterialData(){
@@ -147,7 +166,7 @@ export default {
                     id: material_id
                 }).then(response => {
                     this.current_material = response.data;
-                    console.log(response);
+                    // console.log(response);
                 });
             }else{
                 alert('請選擇原物料');
