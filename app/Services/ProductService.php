@@ -2,19 +2,30 @@
 
 namespace App\Services;
 use App\Product as ProductEloquent;
-use Carbon\Carbon;
+use App\BasicMaterial as BasicMaterialEloquent;
 
 class ProductService extends BaseService
 {
+
+
     public function add($request)
     {
+        $x1 = BasicMaterialEloquent::where('id', 1)->first()->price;
+        $x2 = BasicMaterialEloquent::where('id', 2)->first()->price;
+        $x3 = BasicMaterialEloquent::where('id', 3)->first()->price;
+        $x4 = BasicMaterialEloquent::where('id', 4)->first()->price;
+        $x5 = BasicMaterialEloquent::where('id', 5)->first()->price;
+
+        $retail_price = $x1 * $request->materialCoefficient1 + $x2 * $request->materialCoefficient2 + $x3 * $request->materialCoefficient3 +
+        $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
+
         $product = ProductEloquent::create([
             'name' => $request->name,
             'shortName' => $request->shortName,
             'internationalNum' => $request->internationalNum,
 
             'fundamentalPrice' => $request->fundamentalPrice,
-            'retailPrice' => $request->retailPrice,
+            'retailPrice' => $retail_price,
             'materialCoefficient1' => $request->materialCoefficient1,
             'materialCoefficient2' => $request->materialCoefficient2,
             'materialCoefficient3' => $request->materialCoefficient3,
@@ -49,13 +60,23 @@ class ProductService extends BaseService
     public function update($request, $id)
     {
         $product = $this->getOne($id);
+
+        $x1 = BasicMaterialEloquent::where('id', 1)->first()->price;
+        $x2 = BasicMaterialEloquent::where('id', 2)->first()->price;
+        $x3 = BasicMaterialEloquent::where('id', 3)->first()->price;
+        $x4 = BasicMaterialEloquent::where('id', 4)->first()->price;
+        $x5 = BasicMaterialEloquent::where('id', 5)->first()->price;
+
+        $retail_price = $x1 * $request->materialCoefficient1 + $x2 * $request->materialCoefficient2 + $x3 * $request->materialCoefficient3 +
+        $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
+
         $product->update([
             'name' => $request->name,
             'shortName' => $request->shortName,
             'internationalNum' => $request->internationalNum,
 
             'fundamentalPrice' => $request->fundamentalPrice,
-            'retailPrice' => $request->retailPrice,
+            'retailPrice' => $retail_price,
             'materialCoefficient1' => $request->materialCoefficient1,
             'materialCoefficient2' => $request->materialCoefficient2,
             'materialCoefficient3' => $request->materialCoefficient3,
