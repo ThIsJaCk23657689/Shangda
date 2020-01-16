@@ -22,8 +22,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category = $this->CategoryService->getList();
-        $lastUpdate = $this->CategoryService->getlastupdate();
-        return view('categories.index', compact('category', 'lastUpdate'));
+        return view('categories.index', compact('category'));
     }
 
     /**

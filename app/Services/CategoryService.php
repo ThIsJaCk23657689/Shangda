@@ -43,14 +43,4 @@ class CategoryService extends BaseService
         $category = $this->getOne($id);
         $category->delete();
     }
-
-    public function getlastupdate()
-    {
-        $category = CategoryEloquent::orderBy('id', 'DESC')->first();
-        if(!empty($category)){
-            return $category->updated_at;
-        }
-
-        return null;
-    }
 }
