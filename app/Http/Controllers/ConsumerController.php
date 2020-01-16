@@ -11,7 +11,7 @@ use App\Consumer as ConsumerEloquent;
 class ConsumerController extends Controller
 {
     public $ConsumerService;
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -23,7 +23,7 @@ class ConsumerController extends Controller
     {
         $consumer = $this->ConsumerRequest->getList();
         $lastUpdate = $this->ConsumerRequest->getlastupdate();
-        return view('consumer.index', compact('consumer', 'lastUpdate'));
+        return view('consumers.index', compact('consumer', 'lastUpdate'));
     }
 
     public function create()
@@ -40,7 +40,7 @@ class ConsumerController extends Controller
     public function show($id)
     {
         $comsumer = $this->ConsumerService->getOne($id);
-        return view('comsumers.show', compact('comsumer'));
+        return view('consumers.show', compact('comsumer'));
     }
 
     public function edit($id)
@@ -55,7 +55,7 @@ class ConsumerController extends Controller
         return redirect()->route('consumers.show', [$id]);
     }
 
- 
+
     public function destroy($id)
     {
         $this->ConsumerService->delete($id);

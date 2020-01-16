@@ -9,7 +9,7 @@ class ConsumerService extends BaseService
     public function add($request)
     {
         $consumer = ConsumerEloquent::create([
-            'discount_id' => $request->discount_id,
+            // 'discount_id' => $request->discount_id,
             'name' => $request->name,
             'shortName' => $request->shortName,
             'act' => $request->act,
@@ -31,7 +31,7 @@ class ConsumerService extends BaseService
             'deliveryAddress' => $request->deliveryAddress,
             'deliveryAddress' => $request->name,
         ]);
-        
+
         return $consumer;
     }
 
@@ -72,7 +72,7 @@ class ConsumerService extends BaseService
             'deliveryAddress' => $request->deliveryAddress,
             'deliveryAddress' => $request->name,
         ]);
-        
+
         return $consumer;
     }
 
