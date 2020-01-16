@@ -16,25 +16,36 @@ class BasicMaterialTableSeeder extends Seeder
             'name' => 'material_1',
             'price' => '80',
         ]);
+        $basic_material_1->timestamps = false;
+        $basic_material_1->save();
 
         $basic_material_2 = BasicMaterialEloquent::create([
             'name' => 'material_2',
             'price' => '90',
         ]);
+        $basic_material_2->timestamps = false;
+        $basic_material_2->save();
 
         $basic_material_3 = BasicMaterialEloquent::create([
             'name' => 'material_3',
             'price' => '100',
         ]);
+        $basic_material_3->timestamps = false;
+        $basic_material_3->save();
 
         $basic_material_4 = BasicMaterialEloquent::create([
             'name' => 'material_4',
             'price' => '110',
         ]);
+        $basic_material_4->timestamps = false;
+        $basic_material_4->save();
 
         $basic_material_5 = BasicMaterialEloquent::create([
             'name' => 'material_5',
             'price' => '120',
         ]);
+        $basic_material_5->timestamps = false;
+        $basic_material_5->save();
+
     }
 }

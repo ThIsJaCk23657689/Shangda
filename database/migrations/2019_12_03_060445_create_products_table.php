@@ -17,18 +17,18 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('category_id')->comment('商品類別編號');
-            
+
             $table->string('name', 100)->comment('名稱');
             $table->string('shortName',100)->nullable()->comment('容量');
             $table->string('internationalNum', 100)->nullable()->comment('國際條碼');
 
-            $table->float('fundamentalPrice')->default(0)->comment('基礎價格');
-            $table->float('retailPrice')->default(0)->comment('零售價格');
-            $table->float('materialCoefficient1')->default(0)->comment('原料1比重');
-            $table->float('materialCoefficient2')->default(0)->comment('原料2比重');
-            $table->float('materialCoefficient3')->default(0)->comment('原料3比重');
-            $table->float('materialCoefficient4')->default(0)->comment('原料4比重');
-            $table->float('materialCoefficient5')->default(0)->comment('原料5比重');
+            $table->double('fundamentalPrice')->default(0)->comment('基礎價格');
+            $table->double('retailPrice')->default(0)->comment('零售價格');
+            $table->double('materialCoefficient1')->default(0)->comment('原料1比重');
+            $table->double('materialCoefficient2')->default(0)->comment('原料2比重');
+            $table->double('materialCoefficient3')->default(0)->comment('原料3比重');
+            $table->double('materialCoefficient4')->default(0)->comment('原料4比重');
+            $table->double('materialCoefficient5')->default(0)->comment('原料5比重');
             // retailPrice = [(漲幅價差) * materialCoefficient] +  fundamentalPrice
 
             $table->string('picture')->nullable()->comment('圖片');

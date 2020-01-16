@@ -213,12 +213,14 @@
                 </div>
             </div>
 
+            <hr>
+ 
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
                     <button type="submit" class="btn btn-block btn-primary">
                         確認新增
                     </button>
-                    <a href="#" class="btn btn-block btn-danger">
+                    <a :href="PurchaseOrderIndex" class="btn btn-block btn-danger">
                         返回上一頁
                     </a>
                 </div>
@@ -253,7 +255,8 @@ export default {
     },
     data(){
         return {
-            total_price: 0
+            total_price: 0,
+            PurchaseOrderIndex: $('#PurchaseOrderIndex').html(),
         }
     },
     methods: {

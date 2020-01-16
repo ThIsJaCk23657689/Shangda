@@ -548,6 +548,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['suppliers', 'current_supplier', 'materials'],
   mounted: function mounted() {
@@ -566,7 +568,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      total_price: 0
+      total_price: 0,
+      PurchaseOrderIndex: $('#PurchaseOrderIndex').html()
     };
   },
   methods: {
@@ -705,6 +708,7 @@ __webpack_require__.r(__webpack_exports__);
     addDetail: function addDetail() {
       if (this.current_material.length != 0) {
         this.details.push({
+          count: this.details.length,
           material: {
             id: this.current_material.id,
             name: this.current_material.name,
@@ -714,12 +718,21 @@ __webpack_require__.r(__webpack_exports__);
           },
           quantity: 0,
           discount: 1,
-          subTotal: null,
+          subTotal: 0,
           comment: null
         });
       } else {
         alert('請選擇原物料');
       }
+    },
+    deleteDetail: function deleteDetail(id) {
+      this.details.splice(id, 1);
+
+      if (this.details.length != 0) {
+        this.calculateSubtotal(1);
+      }
+
+      this.calculateTotalPrice();
     },
     calculateSubtotal: function calculateSubtotal(id) {
       var qty = $('#qty_' + id).val();
@@ -727,15 +740,19 @@ __webpack_require__.r(__webpack_exports__);
       var discount = $('#discount_' + id).val();
       var subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
       $('#subtotal_' + id).html(subTotal);
+      this.details[id - 1].quantity = qty;
+      this.details[id - 1].material.unitPrice = unitPrice;
+      this.details[id - 1].discount = discount;
+      this.details[id - 1].subTotal = subTotal;
       this.calculateTotalPrice();
     },
     calculateTotalPrice: function calculateTotalPrice() {
       this.total_price = 0;
 
       for (var i = 1; i <= this.details.length; i++) {
-        var qty = $('#qty_' + i).val();
-        var unitPrice = $('#unitPrice_' + i).val();
-        var discount = $('#discount_' + i).val();
+        var qty = this.details[i - 1].quantity;
+        var unitPrice = this.details[i - 1].material.unitPrice;
+        var discount = this.details[i - 1].discount;
         var subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
         this.total_price = this.total_price + subTotal;
       }
@@ -745,8 +762,11 @@ __webpack_require__.r(__webpack_exports__);
       var tax = taxType == "1" ? Math.round(this.total_price * 0.05 * 10000) / 10000 : 0;
       $('#tax_price').val(tax);
       this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
-      this.$emit('showTotalPrice', this.total_price);
-      console.log(this.total_price);
+      this.$emit('showTotalPrice', this.total_price); // console.log(this.total_price);
+    },
+    updateComment: function updateComment(id) {
+      var comment = $('#comment_' + id).val();
+      this.details[id - 1].comment = comment;
     },
     getMaterialData: function getMaterialData() {
       var _this = this;
@@ -758,8 +778,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.post(apiMeterialGetInfo, {
           id: material_id
         }).then(function (response) {
-          _this.current_material = response.data;
-          console.log(response);
+          _this.current_material = response.data; // console.log(response);
         });
       } else {
         alert('請選擇原物料');
@@ -1720,7 +1739,37 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(6)
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row justify-content-center" }, [
+            _c("div", { staticClass: "col-md-8" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-block btn-primary",
+                  attrs: { type: "submit" }
+                },
+                [
+                  _vm._v(
+                    "\r\n                        確認新增\r\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-block btn-danger",
+                  attrs: { href: _vm.PurchaseOrderIndex }
+                },
+                [
+                  _vm._v(
+                    "\r\n                        返回上一頁\r\n                    "
+                  )
+                ]
+              )
+            ])
+          ])
         ],
         1
       )
@@ -1925,37 +1974,6 @@ var staticRenderFns = [
         ])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-block btn-primary",
-            attrs: { type: "submit" }
-          },
-          [
-            _vm._v(
-              "\r\n                        確認新增\r\n                    "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "btn btn-block btn-danger", attrs: { href: "#" } },
-          [
-            _vm._v(
-              "\r\n                        返回上一頁\r\n                    "
-            )
-          ]
-        )
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -2047,9 +2065,11 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.details, function(detail, index) {
                   return _c("tr", { key: index }, [
-                    _c("td", [_vm._v(_vm._s(index + 1))]),
+                    _c("td", { staticStyle: { width: "5%" } }, [
+                      _vm._v(_vm._s(index + 1))
+                    ]),
                     _vm._v(" "),
-                    _c("td", [
+                    _c("td", { staticStyle: { width: "20%" } }, [
                       _vm._v(
                         "\r\n                            " +
                           _vm._s(detail.material.name) +
@@ -2064,7 +2084,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", [
+                    _c("td", { staticStyle: { width: "10%" } }, [
                       _vm._v(
                         "\r\n                            " +
                           _vm._s(detail.material.internationalNum) +
@@ -2072,9 +2092,10 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", [
+                    _c("td", { staticStyle: { width: "15%" } }, [
                       _c("input", {
-                        staticClass: "form-control",
+                        staticClass: "form-control mr-2",
+                        staticStyle: { width: "60%", display: "inline-block" },
                         attrs: {
                           id: "qty_" + (index + 1),
                           type: "text",
@@ -2087,14 +2108,15 @@ var render = function() {
                           }
                         }
                       }),
-                      _vm._v(
-                        "\r\n                            " +
-                          _vm._s(detail.material.unit == 1 ? "公斤" : "公噸") +
-                          "\r\n                        "
-                      )
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(
+                          _vm._s(detail.material.unit == 1 ? "公斤" : "公噸")
+                        )
+                      ])
                     ]),
                     _vm._v(" "),
-                    _c("td", [
+                    _c("td", { staticStyle: { width: "10%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         attrs: {
@@ -2111,7 +2133,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", [
+                    _c("td", { staticStyle: { width: "10%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         attrs: {
@@ -2128,24 +2150,50 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", [
-                      _c("span", { attrs: { id: "subtotal_" + (index + 1) } }, [
-                        _vm._v("0")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
+                    _c("td", { staticStyle: { width: "10%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         attrs: {
+                          id: "subtotal_" + (index + 1),
                           type: "text",
-                          name: "details[" + (index + 1) + "][comment]"
+                          disabled: ""
                         },
-                        domProps: { value: detail.comment }
+                        domProps: { value: detail.subTotal }
                       })
                     ]),
                     _vm._v(" "),
-                    _vm._m(1, true)
+                    _c("td", { staticStyle: { width: "15%" } }, [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "comment_" + (index + 1),
+                          type: "text",
+                          name: "details[" + (index + 1) + "][comment]"
+                        },
+                        domProps: { value: detail.comment },
+                        on: {
+                          change: function($event) {
+                            return _vm.updateComment(index + 1)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticStyle: { width: "5%" } }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-md btn-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteDetail(index)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "far fa-trash-alt" })]
+                      )
+                    ])
                   ])
                 }),
                 0
@@ -2181,16 +2229,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("備註")]),
         _vm._v(" "),
         _c("th", [_vm._v("操作")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-md btn-danger" }, [
-        _c("i", { staticClass: "far fa-trash-alt" })
       ])
     ])
   }
