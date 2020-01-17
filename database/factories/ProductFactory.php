@@ -23,10 +23,10 @@ $factory->define(Product::class, function (Faker $faker) {
     $c5 = $faker->randomFloat($nbMaxDecimals = 6, $min = 0, $max = 1);
     $retail_price = $x1->price * $c1 + $x2->price * $c2 + $x3->price * $c3 + $x4->price * $c4 + $x5->price * $c5 + $fund_price;
     return [
-        'category_id' => $faker->numberBetween($min = 1, $max = 50),
+        'category_id' => $faker->numberBetween($min = 1, $max = 10),
         'name' => $faker->name,
         'shortName' => $faker->userName,
-        'internationalNum' => $faker->phoneNumber,
+        'internationalNum' => $faker->numberBetween($min = 10000000, $max = 99999999),
 
         'fundamentalPrice' => $fund_price,
         'retailPrice' => $retail_price,
@@ -36,8 +36,8 @@ $factory->define(Product::class, function (Faker $faker) {
         'materialCoefficient4' => $c4,
         'materialCoefficient5' => $c5,
 
-
-        'picture' => $faker->mimeType,
+        
+        'picture' => 'https://fakeimg.pl/250x250/' . substr($faker->hexcolor, 1) . '/' . substr($faker->hexcolor, 1) . '/',
         'intro' => $faker->realText($maxNbChars = 200, $indexSize = 2),
         'specification' => $faker->word,
         'unit' => $faker->randomElement($array = array ('g','kg','mt')),

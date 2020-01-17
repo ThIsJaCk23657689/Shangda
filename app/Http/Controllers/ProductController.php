@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
+use App\Services\BasicMaterialService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
 
     public $ProductService;
+    public $BasicMaterialService;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->ProductService = new ProductService();
+        $this->BasicMaterialService = new BasicMaterialService();
     }
 
     /**
@@ -36,7 +39,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $BasicMaterials = $this->BasicMaterialService->getList();
+        return view('products.create', compact('BasicMaterials'));
     }
 
     /**
@@ -63,16 +67,6 @@ class ProductController extends Controller
         return view('products.show', compact('product'));
     }
 
-    public function getProductListByCategory($category_id)
-    {
-        $products = $this->ProductService->getProductByCategory($category_id);
-        if($products == "此類別查無資料"){
-            return response()->json($products, 400);
-        }else{
-            return response()->json($products, 200);
-        }
-        ;
-    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -108,5 +102,17 @@ class ProductController extends Controller
     {
         $this->ProductService->delete($id);
         return redirect()->route('products.index');
+    }
+
+    /** API Function **/
+    public function getProductListByCategory($category_id)
+    {
+        $products = $this->ProductService->getProductByCategory($category_id);
+        if($products == "此類別查無資料"){
+            return response()->json($products, 400);
+        }else{
+            return response()->json($products, 200);
+        }
+        ;
     }
 }

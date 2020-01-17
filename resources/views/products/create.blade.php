@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-
+    <script src="{{ asset('js/products/create.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -213,11 +213,15 @@
                             <thead>
                                 <tr>
                                     <th><label for="fundamentalPrice"><span class="text-danger">*</span>基礎價格</label></th>
-                                    <th><label for="materialCoefficient1"><span class="text-danger">*</span>原物料比重1</label></th>
-                                    <th><label for="materialCoefficient2"><span class="text-danger">*</span>原物料比重2</label></th>
-                                    <th><label for="materialCoefficient3"><span class="text-danger">*</span>原物料比重3</label></th>
-                                    <th><label for="materialCoefficient4"><span class="text-danger">*</span>原物料比重4</label></th>
-                                    <th><label for="materialCoefficient5"><span class="text-danger">*</span>原物料比重5</label></th>
+                                    @foreach ($BasicMaterials as $BasicMaterial)
+                                        <th>
+                                            <label for="materialCoefficient{{ $loop->iteration }}">
+                                                <span class="text-danger">*</span>原物料比重{{ $loop->iteration }}<br>
+                                                價格：<span id="{{ $BasicMaterial->name }}">{{ $BasicMaterial->price }}</span>
+                                            </label>
+                                        </th>
+                                        {{-- <span id="{{ $BasicMaterial->name }}" style="display:none;">{{ $BasicMaterial->price }}</span> --}}
+                                    @endforeach
                                     <th><label for="retailPrice">零售價</label></th>
                                 </tr>
                             </thead>
@@ -244,6 +248,7 @@
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
+                                                <input type="hidden">
                                             </div>
                                         </div>
                                     </td>

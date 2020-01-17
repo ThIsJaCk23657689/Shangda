@@ -23,6 +23,7 @@ Route::prefix('/backend')->group(function(){
     Route::resource('/suppliers', 'SupplierController');
     Route::resource('/materials', 'MaterialController');
     Route::resource('/products', 'ProductController');
+    Route::resource('/categories', 'CategoryController');
 
     Route::resource('/orders/purchase', 'Orders\PurchaseOrderController');
     Route::resource('/orders/sales', 'Orders\SaleOrderController');

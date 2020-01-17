@@ -11,7 +11,7 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['showName']);
         $this->CategoryService = new CategoryService();
     }
     /**
@@ -21,8 +21,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = $this->CategoryService->getList();
-        return view('categories.index', compact('category'));
+        $categories = $this->CategoryService->getList();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -92,10 +92,22 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->CategoryService->delete($id);
-        return redirect()->route('categories.index');
+        if($id != 1){
+            $category = $this->CategoryService->getOne($id);
+            $products = $category->products;
+            foreach($products as $product){
+                $product->category_id = 1;
+                $product->save();
+            }
+            $this->CategoryService->delete($id);
+            return redirect()->route('categories.index');
+        }
+        return response()->json([
+            'msg' => '此類別禁止刪除。(This category can not be deleted.)'
+        ]);
     }
 
+    /** API Function  **/
     public function showName(){
         $categories = $this->CategoryService->getNamesList();
         return response()->json($categories, 200);
