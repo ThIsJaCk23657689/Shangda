@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Category as CategoryEloquent;
 
 class Product extends Model
 {
@@ -14,6 +15,10 @@ class Product extends Model
         'comment', 'internationalNum', 'unit', 'quantity', 'safeQuantity',
         'picture', 'intro', 'specification',
     ];
+
+    public function category(){
+        return $this->belongsTo(CategoryEloquent::class);
+    }
 
     public function showUnit(){
         switch($this->unit){
@@ -28,5 +33,17 @@ class Product extends Model
                 break;
         }
         return $result;
+    }
+
+    public function showPicture(){
+        if(empty($this->picture)){
+            return URL::asset('images/products/default.png');
+        }else{
+            if(!preg_match("/^[a-zA-Z]+:\/\//", $this->picture)){
+                return URL::asset($this->picture);
+            }else{
+                return $this->picture;
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
 use App\Services\BasicMaterialService;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,12 +13,14 @@ class ProductController extends Controller
 
     public $ProductService;
     public $BasicMaterialService;
+    public $CategoryService;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->ProductService = new ProductService();
         $this->BasicMaterialService = new BasicMaterialService();
+        $this->CategoryService = new CategoryService();
     }
 
     /**
@@ -39,8 +42,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $BasicMaterials = $this->BasicMaterialService->getList();
-        return view('products.create', compact('BasicMaterials'));
+        $basicMaterials = $this->BasicMaterialService->getList();
+        $categories = $this->CategoryService->getList();
+        return view('products.create', compact('basicMaterials', 'categories'));
     }
 
     /**

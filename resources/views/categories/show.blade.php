@@ -64,7 +64,7 @@
                                 <tr>
                                     <td>{{ $product->id }}</td>
                                     <td style="width:10%">
-                                        <img class="img-fluid rounded" src="{{ $product->picture }}">
+                                        <img class="img-fluid rounded" src="{{ $product->showPicture() }}">
                                     </td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->retailPrice }}</td>

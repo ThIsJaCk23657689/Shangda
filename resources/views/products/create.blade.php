@@ -18,22 +18,22 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <form id="product_create_form" method="POST" action="{{ route('products.store') }}">
+            <form id="product_create_form" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
                     <div class="col-md-6">
                         {{-- 商品圖片 --}}
                         <div class="form-group row">
-                            <div class="offset-md-6 col-md-6">
-                                <img id="preview" class="img-fluid rounded" src="https://fakeimg.pl/250x250/282828/EAE0D0/">
+                            <div id="preview-upload" class="offset-md-6 col-md-6">
+                                <img id="previewImg-upload" class="img-fluid rounded" src="{{ asset('images/upload-default.png') }}">
                             </div>
                         </div>
                         <div class="form-group row my-4">
-                            <label for="picture" class="offset-md-3 col-md-3 col-form-label text-md-right">上傳圖片</label>
+                            <label for="img-input" class="col-md-6 col-form-label text-md-right">上傳圖片(支援JPG、PNG)</label>
     
                             <div class="col-md-6">
-                                <input id="picture" name="picture" type="file" required>
+                                <input id="img-input" name="img-input" type="file" class="form-control-file" required accept="image/jpeg,image/png">
                             </div>
                         </div>
                     </div>
@@ -191,7 +191,9 @@
         
                             <div class="col-md-6">
                                 <select id="category_id" class="form-control @error('category_id') is-invalid @enderror" name="category_id">
-                                    <option value="0">請選擇...</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
 
                                 @error('category_id')
@@ -213,14 +215,13 @@
                             <thead>
                                 <tr>
                                     <th><label for="fundamentalPrice"><span class="text-danger">*</span>基礎價格</label></th>
-                                    @foreach ($BasicMaterials as $BasicMaterial)
+                                    @foreach ($basicMaterials as $basicMaterial)
                                         <th>
                                             <label for="materialCoefficient{{ $loop->iteration }}">
                                                 <span class="text-danger">*</span>原物料比重{{ $loop->iteration }}<br>
-                                                價格：<span id="{{ $BasicMaterial->name }}">{{ $BasicMaterial->price }}</span>
+                                                價格：<span id="{{ $basicMaterial->name }}">{{ $basicMaterial->price }}</span>
                                             </label>
                                         </th>
-                                        {{-- <span id="{{ $BasicMaterial->name }}" style="display:none;">{{ $BasicMaterial->price }}</span> --}}
                                     @endforeach
                                     <th><label for="retailPrice">零售價</label></th>
                                 </tr>
