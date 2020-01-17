@@ -10,17 +10,29 @@ class DiscountService extends BaseService
 {
     public function getDiscountList($id)
     {
-        $products = ProductEloquent::get()->pluck('id','name');
+       
+        $products = ProductEloquent::select('id', 'name')->get();
         $discounts = DiscountEloquent::where('consumer_id',$id)->get();
-
-        $users = DB::table('consumers')
-            ->join('contacts', 'users.id', '=', 'contacts.user_id')
-            ->join('orders', 'users.id', '=', 'orders.user_id')
-            ->select('users.*', 'contacts.phone', 'orders.price')
-            ->get();
-
-
-        $users = DB::table('consumers')->leftJoin('discounts','consumers.id', '=', 'discounts.consumer_id')->select('consumers.id', 'consumers.name', 'discounts.price')->get();
+        
+        
+        $results = [];
+        $count = 0;
+        foreach($products as $product){
+            $discount_arr = [];
+            $discount_exist = $discounts->where('product_id', $product->id)->first();
+            if($discount_exist){
+                $discount_arr['product_id'] = $product->id; 
+                $discount_arr['product_name'] = $product->name; 
+                $discount_arr['discount_price'] = $discount_exist->price; 
+                
+            }else{
+                $discount_arr['product_id'] = $product->id; 
+                $discount_arr['product_name'] = $product->name; 
+                $discount_arr['discount_price'] = 0; 
+            }
+            $results[$count] = $discount_arr;
+            $count += 1;
+        }
     }
 
 
