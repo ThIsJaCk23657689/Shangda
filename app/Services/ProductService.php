@@ -20,11 +20,19 @@ class ProductService extends BaseService
         $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
 
         // 圖片儲存
-        $origin_picture = imagecreatefromjpeg($request->picture);
-        $ext = $request->picture->getClientOriginalExtension();
-        $picture_name = 'Test' . '.' . $ext;
-        $save_path = public_path('images/products/');
-        imagejpeg($origin_picture, $save_path . $picture_name);
+        
+        if(!empty($request->picture)){
+            $origin_picture = imagecreatefromjpeg($request->picture);
+            $ext = $request->picture->getClientOriginalExtension();
+            $picture_name = ProductEloquent::get()->count() + 1;
+            $picture_full_name = $picture_name . '.' . $ext;
+            $save_path = public_path('images/products/');
+            imagejpeg($origin_picture, $save_path . $picture_full_name);
+            $image_path = 'images/products/' . $picture_full_name;
+        }else{
+            $image_path = null;
+        }
+        
 
         // 新增資料
         $product = ProductEloquent::create([
@@ -45,10 +53,9 @@ class ProductService extends BaseService
             'unit' => $request->unit,
             'quantity' => $request->quantity,
             'safeQuantity' => $request->safeQuantity,
-            'picture' => 'images/products/' . $picture_name,
+            'picture' => $image_path,
             'intro' => $request->intro,
-            'specification' => $request->specificatio
-
+            'specification' => $request->specification
         ]);
 
         return $product;

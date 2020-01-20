@@ -33,7 +33,7 @@
                             <label for="picture" class="col-md-6 col-form-label text-md-right">上傳圖片(支援JPG、PNG)</label>
     
                             <div class="col-md-6">
-                                <input id="picture" name="picture" type="file" class="form-control-file" required accept="image/jpeg,image/png">
+                                <input id="picture" name="picture" type="file" class="form-control-file" accept="image/jpeg,image/png">
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="intro" class="col-md-3 col-form-label text-md-right"><span class="text-danger">*</span>慣用單位</label>
+                            <label for="unit" class="col-md-3 col-form-label text-md-right"><span class="text-danger">*</span>慣用單位</label>
                             
                             <div class="col-md-6">
                                 <select id="unit" class="form-control @error('unit') is-invalid @enderror" name="unit" required>
@@ -185,7 +185,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label for="" class="col-md-3 col-form-label text-md-right">
+                            <label for="category_id" class="col-md-3 col-form-label text-md-right">
                                 商品類別
                             </label>
         
@@ -249,7 +249,6 @@
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
-                                                <input type="hidden">
                                             </div>
                                         </div>
                                     </td>

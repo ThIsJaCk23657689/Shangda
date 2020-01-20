@@ -67,8 +67,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        $basicMaterials = $this->BasicMaterialService->getList();
+        $categories = $this->CategoryService->getList();
         $product = $this->ProductService->getOne($id);
-        return view('products.show', compact('product'));
+        return view('products.show', compact(['basicMaterials', 'categories', 'product']));
     }
 
     /**
