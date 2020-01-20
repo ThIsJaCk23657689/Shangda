@@ -4,15 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Category as CategoryEloquent;
+use App\Product_log as ProductLogEloquent;
 use URL;
 
 class Product extends Model
 {
     protected $fillable = [
-        'category_id', 'name', 'shortName', 'fundamentalPrice', 'retailPrice', 
+        'category_id', 'name', 'shortName', 'fundamentalPrice', 'retailPrice',
         'materialCoefficient1', 'materialCoefficient2', 'materialCoefficient3',
-        'materialCoefficient4', 'materialCoefficient5', 
-        
+        'materialCoefficient4', 'materialCoefficient5',
+
         'comment', 'internationalNum', 'unit', 'quantity', 'safeQuantity',
         'picture', 'intro', 'specification',
     ];
@@ -20,6 +21,12 @@ class Product extends Model
     public function category(){
         return $this->belongsTo(CategoryEloquent::class);
     }
+
+    public function product_log(){
+        return $this->hasMany(ProductLogEloquent::class);
+    }
+
+
 
     public function showUnit(){
         switch($this->unit){

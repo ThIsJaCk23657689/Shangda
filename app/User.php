@@ -9,6 +9,7 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\Material_log as Material_logEloquent;
 use App\JobTitle as JobTitleEloquent;
 
 class User extends Authenticatable
@@ -48,6 +49,10 @@ class User extends Authenticatable
 
     public function purchaseOrders(){
         return $this->hasMany(PurchaseOrderEloquent::class);
+    }
+
+    public function Material_log(){
+        return $this->hasMany(Material_logEloquent::class);
     }
 
     public function jobTitle(){
