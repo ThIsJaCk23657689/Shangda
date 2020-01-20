@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\Material_log as Material_logEloquent;
 
 class Material extends Model
 {
@@ -25,5 +26,9 @@ class Material extends Model
             return $this->stock / 1000;
         }
         return $this->stock;
+    }
+
+    public function Material_log(){
+        return $this->hasMany(Material_logEloquent::class);
     }
 }

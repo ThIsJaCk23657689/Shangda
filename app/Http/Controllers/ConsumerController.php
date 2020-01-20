@@ -44,16 +44,13 @@ class ConsumerController extends Controller
     {
         $comsumer = $this->ConsumerService->getOne($id);
         return view('consumers.show', compact('comsumer'));
-<<<<<<< HEAD
     }
 
     //以顧客ID尋找相關折扣，若無回傳0
-    public function showDiscountList($id)
+    public function showDiscount($id)
     {
         $discountList = $this->DiscountService->getDiscountList($id);
         return view('consumers.showDiscount', compact('discountList'));
-=======
->>>>>>> a4d2810bf28fd231e85716cc188096a4c25d7cdb
     }
 
     public function edit($id)
