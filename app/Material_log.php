@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\User as UserEloquent;
 use App\Material as MaterialEloquent;
+use App\ProductQuantityDetail as ProductQuantityDetailEloquent;
 
 class Material_log extends Model
 {
@@ -23,5 +24,9 @@ class Material_log extends Model
 
     public function user(){
         return $this->belongsTo(UserEloquent::class);
+    }
+
+    public function productQuantityDetail(){
+        return $this->belongsTo(ProductQuantityDetailEloquent::class);
     }
 }

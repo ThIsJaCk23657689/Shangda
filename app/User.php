@@ -11,6 +11,7 @@ use App\PurchaseOrder as PurchaseOrderEloquent;
 use App\Material_log as Material_logEloquent;
 use App\Product_log as Product_logEloquent;
 use App\JobTitle as JobTitleEloquent;
+use App\ProductQuantity as ProductQuantityEloquent;
 
 class User extends Authenticatable
 {
@@ -49,6 +50,10 @@ class User extends Authenticatable
 
     public function purchaseOrders(){
         return $this->hasMany(PurchaseOrderEloquent::class);
+    }
+    
+    public function productQuantityEloquentOrders(){
+        return $this->hasMany(ProductQuantityEloquent::class);
     }
 
     public function material_log(){

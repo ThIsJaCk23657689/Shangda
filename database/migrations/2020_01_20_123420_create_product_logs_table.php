@@ -17,7 +17,8 @@ class CreateProductLogsTable extends Migration
             $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('user_id')->comment('員工編號');
             $table->unsignedBigInteger('product_id')->comment('商品編號');
-            $table->unsignedInteger('act')->comment('執行動作');//1. 新增 2.修改 3.刪除
+            //1.訂單新增 2.訂單修改 3.訂單刪除 4.存貨新增 5.存貨修改 6.存貨刪除
+            $table->unsignedInteger('act')->comment('執行動作');
             $table->double('amount')->comment('數量');
             $table->timestamps();
             $table->softDeletes();
