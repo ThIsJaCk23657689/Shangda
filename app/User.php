@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\PurchaseOrder as PurchaseOrderEloquent;
 use App\Material_log as Material_logEloquent;
+use App\Product_log as Product_logEloquent;
 use App\JobTitle as JobTitleEloquent;
 
 class User extends Authenticatable
@@ -51,8 +52,12 @@ class User extends Authenticatable
         return $this->hasMany(PurchaseOrderEloquent::class);
     }
 
-    public function Material_log(){
+    public function material_log(){
         return $this->hasMany(Material_logEloquent::class);
+    }
+
+    public function product_log(){
+        return $this->hasMany(Product_logEloquent::class);
     }
 
     public function jobTitle(){
