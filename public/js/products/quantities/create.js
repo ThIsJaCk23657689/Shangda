@@ -148,16 +148,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: [],
+  props: ['products', 'current_product'],
   mounted: function mounted() {
     console.log('PurchaseCreateForm.vue mounted.');
   },
   data: function data() {
-    return {};
+    return {
+      getProductQuantitiesIndex: $('#getProductQuantitiesIndex').html()
+    };
   },
-  methods: {}
+  methods: {
+    getProductData: function getProductData() {
+      var product_id = $('#product_id').val();
+
+      if (product_id != 0) {
+        this.$emit('get-product-data', {
+          id: product_id
+        });
+      } else {
+        alert('請選擇商品');
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -177,110 +190,129 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("form", { attrs: { method: "POST", action: "#" } }, [
+        _c("div", { staticClass: "form-group row" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c(
+              "select",
+              {
+                staticClass: "form-control",
+                attrs: { id: "product_id", name: "product_id" },
+                on: { change: _vm.getProductData }
+              },
+              [
+                _c("option", { attrs: { value: "0" } }, [_vm._v("請選擇...")]),
+                _vm._v(" "),
+                _vm._l(_vm.products, function(product) {
+                  return _c("option-item", {
+                    key: product.id,
+                    attrs: { data: product }
+                  })
+                })
+              ],
+              2
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2" }, [
+            _c("span", { staticClass: "form-control" }, [
+              _vm._v(_vm._s(_vm.current_product.unit))
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row justify-content-center" }, [
+          _c("div", { staticClass: "col-md-8" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-block btn-primary",
+                attrs: { type: "submit" }
+              },
+              [
+                _vm._v(
+                  "\r\n                        確認新增\r\n                    "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-block btn-danger",
+                attrs: { href: _vm.getProductQuantitiesIndex }
+              },
+              [
+                _vm._v(
+                  "\r\n                        返回上一頁\r\n                    "
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("form", { attrs: { method: "POST", action: "#" } }, [
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-md-4 col-form-label text-md-right",
-                attrs: { for: "product_id" }
-              },
-              [
-                _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-                _vm._v("\r\n                    商品名稱\r\n                ")
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("select", {
-                staticClass: "form-control",
-                attrs: {
-                  id: "product_id",
-                  name: "product_id",
-                  required: "",
-                  autofocus: ""
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-md-4 col-form-label text-md-right",
-                attrs: { for: "quantity" }
-              },
-              [
-                _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-                _vm._v(
-                  "\r\n                    庫存增量數量\r\n                "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-4" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  id: "quantity",
-                  type: "text",
-                  name: "quantity",
-                  value: "0",
-                  required: "",
-                  autocomplete: "quantity"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-2" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { id: "unit", type: "text", value: "", disabled: "" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row justify-content-center" }, [
-            _c("div", { staticClass: "col-md-8" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-block btn-primary",
-                  attrs: { type: "submit" }
-                },
-                [
-                  _vm._v(
-                    "\r\n                        確認新增\r\n                    "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-block btn-danger",
-                  attrs: { href: "#" }
-                },
-                [
-                  _vm._v(
-                    "\r\n                        返回上一頁\r\n                    "
-                  )
-                ]
-              )
-            ])
-          ])
-        ])
-      ])
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-4 col-form-label text-md-right",
+        attrs: { for: "product_id" }
+      },
+      [
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _vm._v("\r\n                    商品名稱\r\n                ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-4 col-form-label text-md-right",
+        attrs: { for: "quantity" }
+      },
+      [
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _vm._v("\r\n                    庫存增量數量\r\n                ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          id: "quantity",
+          type: "text",
+          name: "quantity",
+          value: "0",
+          required: "",
+          autocomplete: "quantity"
+        }
+      })
     ])
   }
 ]
@@ -484,14 +516,22 @@ var app = new Vue({
     };
   },
   methods: {
-    getProductData: function getProductData(id) {}
+    getProductData: function getProductData(id) {
+      var _this = this;
+
+      var getProductsInfo = $('#getProductsInfo').html();
+      axios.post(getProductsInfo, id).then(function (response) {
+        console.log(response);
+        _this.current_product = response.data;
+      });
+    }
   },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     var getProductsName = $('#getProductsName').html();
     axios.get(getProductsName).then(function (response) {
-      _this.products = response.data;
+      _this2.products = response.data;
     });
 
     $.fn.serializeObject = function () {

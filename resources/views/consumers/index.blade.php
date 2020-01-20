@@ -11,16 +11,16 @@
 			<a href="#">{{ __('People Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="{{ route('suppliers.index') }}">{{ __('Suppliers') }}</a>
+			<a href="#">{{ __('Consumers') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
 	@endcomponent
 
-    <div class="row mb-3">
+	<div class="row mb-3">
         <div class="col-md-12">
-            <a href="{{ route('suppliers.create') }}" class="btn btn-md btn-primary">
+            <a href="{{ route('consumers.create') }}" class="btn btn-md btn-primary">
                 <i class="fas fa-plus"></i>
-                新增供應商
+                新增顧客
             </a>
         </div>
     </div>
@@ -29,7 +29,7 @@
 	<div class="card mb-3">
 		<div class="card-header">
 			<i class="fas fa-table"></i>
-			供應商資料
+			顧客資料
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
@@ -37,42 +37,44 @@
 					<thead>
 						<tr>
 							<th>編號</th>
-							<th>簡稱</th>
+							<th>姓名</th>
 							<th>統一編號</th>
-                            <th>負責人姓名</th>
-                            <th>負責人電話</th>
+							<th>聯絡人名稱</th>
+							<th>聯絡人電話</th>
+                            <th>未沖帳總額</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($suppliers as $supplier)
+						@foreach ($consumers as $consumer)
 							<tr>
-								<td>{{ $supplier->id }}</td>
-								<td>{{ $supplier->shortName }}</td>
-								<td>{{ $supplier->taxId }}</td>
-                                <td>{{ $supplier->inCharge1 }}</td>
-                                <td>{{ $supplier->tel1 }}</td>
+								<td>{{ $consumer->id }}</td>
+								<td>{{ $consumer->name }}</td>
+								<td>{{ $consumer->taxID }}</td>
+								<td>{{ $consumer->inCharge1 }}</td>
+								<td>{{ $consumer->tel1 }}</td>
+                                <td>{{ $consumer->uncheckedAmount }}</td>
 								<td>
-									<a href="{{ route('suppliers.show', [$supplier->id]) }}" class="btn btn-md btn-info">
+									<a href="{{ route('consumers.show', [$consumer->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
 										查看
 									</a>
-									<a href="{{ route('suppliers.edit', [$supplier->id]) }}" class="btn btn-md btn-success">
+									<a href="{{ route('consumers.edit', [$consumer->id]) }}" class="btn btn-md btn-success">
 										<i class="fas fa-edit"></i>
 										編輯
 									</a>
 									<a href="#" class="btn btn-md btn-danger" onclick="
 										event.preventDefault();
-										ans = confirm('確定要刪除此廠商嗎?');
+										ans = confirm('確定要刪除此顧客嗎?');
 										if(ans){
-											$('#deleteform-{{ $supplier->id }}').submit();
+											$('#deleteform-{{ $consumer->id }}').submit();
 										}
 									">
 										<i class="far fa-trash-alt"></i>
 										刪除
 									</a>
 
-									<form id="deleteform-{{ $supplier->id }}" action="{{ route('suppliers.destroy', [$supplier->id]) }}" method="POST" style="displat: none;">
+									<form id="deleteform-{{ $consumer->id }}" action="{{ route('consumers.destroy', [$consumer->id]) }}" method="POST" style="displat: none;">
 										@csrf
 										@method('DELETE')
 									</form>
@@ -85,5 +87,5 @@
 		</div>
 		<div class="card-footer small text-muted"> {{ __('Last Updated') }} {{ $lastUpdate??'無' }}</div>
 	</div>
-	
+
 @endsection

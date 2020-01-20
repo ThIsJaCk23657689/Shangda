@@ -29,7 +29,7 @@ class CreatePurchaseOrderDetailsTable extends Migration
             
             $table->softDeletes();
             $table->foreign('material_id')->references('id')->on('materials');
-            $table->foreign('purchaseOrder_id')->references('id')->on('purchase_orders');1
+            $table->foreign('purchaseOrder_id')->references('id')->on('purchase_orders');
         });
     }
 

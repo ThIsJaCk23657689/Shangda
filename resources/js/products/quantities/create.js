@@ -11,7 +11,12 @@ const app = new Vue({
     },
     methods: {
         getProductData(id){
-            
+            let getProductsInfo = $('#getProductsInfo').html();
+
+            axios.post(getProductsInfo, id).then(response => {
+                console.log(response);
+                this.current_product = response.data;
+            });
         },
     },
     created(){

@@ -57,6 +57,8 @@ Route::prefix('/backend')->group(function(){
         // Route::get('show', 'ProductController@getProductListByCategory')->name('Product.getProductListByCategory');
     });
     Route::resource('/categories', 'CategoryController');
+
+    Route::resource('/consumers', 'ConsumerController');
     
     // 進貨單管理路由
     Route::resource('/orders/purchase', 'Orders\PurchaseOrderController');

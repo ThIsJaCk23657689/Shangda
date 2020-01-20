@@ -7,7 +7,7 @@
 			<a href="#">{{ __('People Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Staffs') }}</a>
+			<a href="{{ route('users.index') }}">{{ __('Staffs') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Show') }}</li>
 	@endcomponent

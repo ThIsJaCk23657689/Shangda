@@ -16,7 +16,7 @@
 			<h6 class="dropdown-header">{{ __('Basic:') }}</h6>
 			<a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Staffs') }}</a>
 			<a class="dropdown-item" href="{{ route('suppliers.index') }}">{{ __('Suppliers') }}</a>
-			<a class="dropdown-item" href="#">{{ __('Consumers') }}</a>
+			<a class="dropdown-item" href="{{ route('consumers.index') }}">{{ __('Consumers') }}</a>
 			<div class="dropdown-divider"></div>
 			<h6 class="dropdown-header">{{ __('Related:') }}</h6>
 			<a class="dropdown-item" href="#">{{ __('Job Titles') }}</a>

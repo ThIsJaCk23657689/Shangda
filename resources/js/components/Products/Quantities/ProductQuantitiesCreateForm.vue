@@ -10,10 +10,9 @@
                 </label>
 
                 <div class="col-md-6">
-                    <select id="product_id" class="form-control" name="product_id" required autofocus>
-                        <!-- @foreach ($products as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
-                        @endforeach -->
+                    <select id="product_id" class="form-control" name="product_id" @change="getProductData">
+                        <option value="0">請選擇...</option>
+                        <option-item v-for="product in products" :key="product.id" :data="product"></option-item>
                     </select>
                 </div>
             </div>
@@ -29,7 +28,7 @@
                 </div>
 
                 <div class="col-md-2">
-                    <input id="unit" type="text" class="form-control" value="" disabled>
+                    <span class="form-control">{{ current_product.unit }}</span>
                 </div>
             </div>
 
@@ -38,7 +37,7 @@
                     <button type="submit" class="btn btn-block btn-primary">
                         確認新增
                     </button>
-                    <a href="#" class="btn btn-block btn-danger">
+                    <a :href="getProductQuantitiesIndex" class="btn btn-block btn-danger">
                         返回上一頁
                     </a>
                 </div>
@@ -54,18 +53,27 @@
 
 <script>
 export default {
-    props: [],
+    props: ['products', 'current_product'],
     mounted() {
         console.log('PurchaseCreateForm.vue mounted.')
         
     },
     data(){
         return {
-
+            getProductQuantitiesIndex: $('#getProductQuantitiesIndex').html()
         }
     },
     methods: {
-        
+        getProductData(){
+            let product_id = $('#product_id').val();
+            if(product_id != 0){
+                this.$emit('get-product-data', {
+                    id: product_id
+                });
+            }else{
+                alert('請選擇商品');
+            }
+        },
     }
 }
 </script>

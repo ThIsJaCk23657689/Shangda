@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\User as UserEloquent;
 use Carbon\Carbon;
+use Auth;
 
 class UserService extends BaseService
 {
@@ -50,10 +51,12 @@ class UserService extends BaseService
     public function delete($id)
     {
         $user = $this->getOne($id);
-        if($user->trashed()){
-            $user->restore();
-        }else{
-            $user->delete();
+        if($id != 1 && Auth::id() != $id){
+            if($user->trashed()){
+                $user->restore();
+            }else{
+                $user->delete();
+            }
         }
     }
 

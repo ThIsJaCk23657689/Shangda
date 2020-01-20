@@ -18,7 +18,9 @@
     
     <div id="ProductQuantities">
         {{-- <span id="getSuppliersName" style="display: none;">{{ route('suppliers.showName') }}</span> --}}
-        <span id="getProductsName" style="display: none;">{{ route('products.showName') }}</span>
+		<span id="getProductsName" style="display: none;">{{ route('products.showName') }}</span>
+		<span id="getProductsInfo" style="display: none;">{{ route('products.getInfo') }}</span>
+
         <span id="createSupplier" style="display: none;">{{ route('products.quantities.store') }}</span>
         <span id="getProductQuantitiesIndex" style="display: none;">{{ route('products.quantities.index') }}</span>
 		

@@ -56,7 +56,7 @@ class ProductService extends BaseService
     }
 
     public function getNamesList(){
-        $product_names = ProductEloquent::select('id','name')->get();
+        $product_names = ProductEloquent::select('id', 'name')->get();
         return $product_names;
     }
 

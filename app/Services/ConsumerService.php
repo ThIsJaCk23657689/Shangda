@@ -29,7 +29,7 @@ class ConsumerService extends BaseService
             'comment' => $request->comment,
             'companyAddress' => $request->companyAddress,
             'deliveryAddress' => $request->deliveryAddress,
-            'deliveryAddress' => $request->name,
+            'invoiceAddress' => $request->invoiceAddress,
         ]);
 
         return $consumer;

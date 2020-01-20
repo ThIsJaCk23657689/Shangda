@@ -47,17 +47,25 @@ class UsersController extends Controller
     }
 
     public function edit($id){
+        if($id == 1){
+            return redirect()->route('users.index');
+        }
+        
         $user = $this->UserService->getOne($id);
         $jobTitles = $this->JobTitleService->getList();
         return view('users.edit', compact('user', 'jobTitles'));
     }
 
-    public function update($id, Request $request){
+    public function update(Request $request, $id){
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'boolean'],
             'jobTitle' => ['required', 'integer', 'exists:job_titles,id'],
         ]);
+
+        if($id == 1){
+            return redirect()->route('users.index');
+        }
         
         $user = $this->UserService->update($request, $id);
         return redirect()->route('users.show', [$id]);
