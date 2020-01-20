@@ -108,7 +108,7 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    /** API Function **/
+    // ========== Response JSON ==========
     public function getProductListByCategory($category_id)
     {
         $products = $this->ProductService->getProductByCategory($category_id);

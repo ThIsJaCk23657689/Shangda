@@ -13,8 +13,7 @@ class MaterialController extends Controller
 
     public function __construct()
     {
-        $apiFunctions = ['showName', 'getInfo'];
-        $this->middleware('auth')->except($apiFunctions);
+        $this->middleware('auth');
         $this->materialService = new MaterialService();
     }
 
@@ -101,14 +100,12 @@ class MaterialController extends Controller
         return redirect()->route('materials.index');
     }
 
-    // ========== API Function ==========
-    // get name and id list
+    // ========== Response JSON ==========
     public function showName(){
         $materials = $this->materialService->getNamesList();
         return response()->json($materials, 200);
     }
 
-    // get info by id
     public function getInfo(Request $request){
         $material_info = $this->materialService->getInfoList($request->id);
         return response()->json($material_info, 200);

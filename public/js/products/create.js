@@ -94,6 +94,24 @@
 /***/ (function(module, exports) {
 
 $(function () {
+  $('#picture').change(function () {
+    var input = $(this)[0];
+    readURL(input);
+  });
+
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      $('#preview-upload').fadeIn();
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#previewImg-upload').attr('src', e.target.result);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
   $('#fundamentalPrice').change(function () {
     if (checkFormat($(this))) {
       caluatedRetailPrice();

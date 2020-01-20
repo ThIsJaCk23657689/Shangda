@@ -36,12 +36,12 @@ class ProductRequest extends FormRequest
         'materialCoefficient3' => 'required|numeric|min:0',
         'materialCoefficient4' => 'required|numeric|min:0',
         'materialCoefficient5' => 'required|numeric|min:0',
-
+        
         'comment' => 'nullable|string',
         'unit' => 'nullable|string|max:100',
         'quantity' => 'required|integer|min:0',
         'safeQuantity' => 'required|integer|min:0',
-        'picture' => 'nullable|string',
+        'picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         'intro' => 'nullable|string',
         'specification' => 'nullable|string',
         ];

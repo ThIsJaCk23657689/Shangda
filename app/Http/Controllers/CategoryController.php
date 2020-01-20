@@ -11,7 +11,7 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['showName']);
+        $this->middleware('auth');
         $this->CategoryService = new CategoryService();
     }
     /**
@@ -107,7 +107,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    /** API Function  **/
+    // ========== Response JSON ==========
     public function showName(){
         $categories = $this->CategoryService->getNamesList();
         return response()->json($categories, 200);

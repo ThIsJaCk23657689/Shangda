@@ -30,10 +30,10 @@
                             </div>
                         </div>
                         <div class="form-group row my-4">
-                            <label for="img-input" class="col-md-6 col-form-label text-md-right">上傳圖片(支援JPG、PNG)</label>
+                            <label for="picture" class="col-md-6 col-form-label text-md-right">上傳圖片(支援JPG、PNG)</label>
     
                             <div class="col-md-6">
-                                <input id="img-input" name="img-input" type="file" class="form-control-file" required accept="image/jpeg,image/png">
+                                <input id="picture" name="picture" type="file" class="form-control-file" required accept="image/jpeg,image/png">
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             <label for="internationalNum" class="col-md-3 col-form-label text-md-right">國際條碼</label>
     
                             <div class="col-md-6">
-                                <input id="internationalNum" name="internationalNum" type="text" class="form-control @error('internationalNum') is-invalid @enderror" value="{{ old('internationalNum') }}" required autocomplete="internationalNum">
+                                <input id="internationalNum" name="internationalNum" type="text" class="form-control @error('internationalNum') is-invalid @enderror" value="{{ old('internationalNum') }}" autocomplete="internationalNum">
                                 
                                 @error('internationalNum')
                                     <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                             <label for="intro" class="col-md-3 col-form-label text-md-right">商品簡介</label>
     
                             <div class="col-md-6">
-                                <input id="intro" name="intro" type="text" class="form-control @error('intro') is-invalid @enderror" value="{{ old('intro') }}" required autocomplete="intro">
+                                <input id="intro" name="intro" type="text" class="form-control @error('intro') is-invalid @enderror" value="{{ old('intro') }}" autocomplete="intro">
                                 
                                 @error('intro')
                                     <span class="invalid-feedback" role="alert">
@@ -168,7 +168,7 @@
                     <div class="col-md-6">
                         <div class="form-group row">
                             <label for="comment" class="offset-md-3 col-md-3 col-form-label text-md-right">
-                                <span class="text-danger">*</span>備註
+                                備註
                             </label>
         
                             <div class="col-md-6">

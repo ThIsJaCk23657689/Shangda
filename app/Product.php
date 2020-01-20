@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Category as CategoryEloquent;
+use URL;
 
 class Product extends Model
 {

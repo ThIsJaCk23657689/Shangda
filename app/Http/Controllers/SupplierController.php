@@ -13,9 +13,7 @@ class SupplierController extends Controller
 
     public function __construct()
     {
-        $apiFunctions = ['showName', 'getInfo'];
-        $this->middleware('auth')->except($apiFunctions);
-        // $this->middleware('auth:api')->only($apiFunctions);
+        $this->middleware('auth');
         $this->SupplierService = new SupplierService();
     }
 
@@ -102,8 +100,7 @@ class SupplierController extends Controller
         return redirect()->route('suppliers.index');
     }
 
-
-    // ========== API Function ==========
+    // ========== Response JSON ==========
     public function showName(){
         $supplier = $this->SupplierService->getNamesList();
         return response()->json($supplier, 200);

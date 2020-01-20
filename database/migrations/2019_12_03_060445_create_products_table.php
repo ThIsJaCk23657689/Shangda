@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id')->comment('商品類別編號');
 
             $table->string('name', 100)->comment('名稱');
-            $table->string('shortName',100)->nullable()->comment('容量');
+            $table->string('shortName', 100)->nullable()->comment('商品容量');
             $table->string('internationalNum', 100)->nullable()->comment('國際條碼');
 
             $table->double('fundamentalPrice')->default(0)->comment('基礎價格');

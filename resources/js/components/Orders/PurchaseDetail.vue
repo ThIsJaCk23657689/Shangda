@@ -160,9 +160,9 @@ export default {
             let material_id = $('#material_id').val();
 
             if(material_id != 0){
-                let apiMeterialGetInfo = $('#apiMeterialGetInfo').html();
+                let getMeterialInfo = $('#getMeterialInfo').html();
 
-                axios.post(apiMeterialGetInfo, {
+                axios.post(getMeterialInfo, {
                     id: material_id
                 }).then(response => {
                     this.current_material = response.data;

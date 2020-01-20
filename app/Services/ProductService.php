@@ -7,10 +7,9 @@ use App\Category as CategoryEloquent;
 
 class ProductService extends BaseService
 {
-
-
     public function add($request)
     {
+        // 計算零售價
         $x1 = BasicMaterialEloquent::where('id', 1)->first()->price;
         $x2 = BasicMaterialEloquent::where('id', 2)->first()->price;
         $x3 = BasicMaterialEloquent::where('id', 3)->first()->price;
@@ -20,6 +19,14 @@ class ProductService extends BaseService
         $retail_price = $x1 * $request->materialCoefficient1 + $x2 * $request->materialCoefficient2 + $x3 * $request->materialCoefficient3 +
         $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
 
+        // 圖片儲存
+        $origin_picture = imagecreatefromjpeg($request->picture);
+        $ext = $request->picture->getClientOriginalExtension();
+        $picture_name = 'Test' . '.' . $ext;
+        $save_path = public_path('images/products/');
+        imagejpeg($origin_picture, $save_path . $picture_name);
+
+        // 新增資料
         $product = ProductEloquent::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
@@ -38,9 +45,9 @@ class ProductService extends BaseService
             'unit' => $request->unit,
             'quantity' => $request->quantity,
             'safeQuantity' => $request->safeQuantity,
-            'picture' => $request->picture,
+            'picture' => 'images/products/' . $picture_name,
             'intro' => $request->intro,
-            'specification' => $request->specification,
+            'specification' => $request->specificatio
 
         ]);
 
