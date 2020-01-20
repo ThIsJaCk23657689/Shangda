@@ -65,10 +65,16 @@ class ConsumerController extends Controller
         return redirect()->route('consumers.show', [$id]);
     }
 
-
     public function destroy($id)
     {
         $this->ConsumerService->delete($id);
         return redirect()->route('consumers.index');
+    }
+
+    //以顧客ID尋找相關折扣，若無回傳0
+    public function showDiscountList($id)
+    {
+        $discountList = $this->DiscountService->getDiscountList($id);
+        return view('consumers.showDiscount', compact('discountList'));
     }
 }

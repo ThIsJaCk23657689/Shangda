@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
+use App\Services\BasicMaterialService;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
 
     public $ProductService;
+    public $BasicMaterialService;
+    public $CategoryService;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->ProductService = new ProductService();
+        $this->BasicMaterialService = new BasicMaterialService();
+        $this->CategoryService = new CategoryService();
     }
 
     /**
@@ -36,7 +42,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $basicMaterials = $this->BasicMaterialService->getList();
+        $categories = $this->CategoryService->getList();
+        return view('products.create', compact('basicMaterials', 'categories'));
     }
 
     /**
@@ -63,16 +71,6 @@ class ProductController extends Controller
         return view('products.show', compact('product'));
     }
 
-    public function getProductListByCategory($category_id)
-    {
-        $products = $this->ProductService->getProductByCategory($category_id);
-        if($products == "此類別查無資料"){
-            return response()->json($products, 400);
-        }else{
-            return response()->json($products, 200);
-        }
-        ;
-    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -108,5 +106,17 @@ class ProductController extends Controller
     {
         $this->ProductService->delete($id);
         return redirect()->route('products.index');
+    }
+
+    // ========== Response JSON ==========
+    public function getProductListByCategory($category_id)
+    {
+        $products = $this->ProductService->getProductByCategory($category_id);
+        if($products == "此類別查無資料"){
+            return response()->json($products, 400);
+        }else{
+            return response()->json($products, 200);
+        }
+        ;
     }
 }

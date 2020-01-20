@@ -11,31 +11,29 @@ const app = new Vue({
         return {
             suppliers: [],
             current_supplier: [],
-
             materials: [],
-
-            form_error: []
+            form_error: [],
         }
     },
     methods: {
         getSupplierData(id){
-            let apiSupplierGetInfo = $('#apiSupplierGetInfo').html();
+            let getSupplierInfo = $('#getSupplierInfo').html();
 
-            axios.post(apiSupplierGetInfo, id).then(response => {
+            axios.post(getSupplierInfo, id).then(response => {
                 console.log(response);
                 this.current_supplier = response.data;
             });
         },
     },
     created(){
-        let apiSupplierShowName = $('#apiSupplierShowName').html();
-        let apiMeterialShowName = $('#apiMeterialShowName').html();
+        let getSuppliersName = $('#getSuppliersName').html();
+        let getMeterialsName = $('#getMeterialsName').html();
 
-        axios.get(apiSupplierShowName).then(response => {
+        axios.get(getSuppliersName).then(response => {
             this.suppliers = response.data;
         });
 
-        axios.get(apiMeterialShowName).then(response => {
+        axios.get(getMeterialsName).then(response => {
             this.materials = response.data;
         });
 

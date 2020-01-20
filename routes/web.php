@@ -15,46 +15,64 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('index');
 
-Route::prefix('/resource')->group(function(){
+// 後臺管理路由
+Route::prefix('/backend')->group(function(){
     Route::get('/', 'HomeController@backend')->name('backend');
     
+    // 員工管理路由
     Route::resource('/users', 'UsersController');
 
+    // 供應商管理路由
+    Route::prefix('suppliers')->group(function(){
+        Route::get('showName', 'SupplierController@showName')->name('suppliers.showName');
+        Route::post('getInfo', 'SupplierController@getInfo')->name('suppliers.getInfo');
+    });
     Route::resource('/suppliers', 'SupplierController');
+
+    // 原物料管理路由
+    Route::prefix('materials')->group(function(){
+        Route::get('showName','MaterialController@showName')->name('materials.showName');
+        Route::post('getInfo','MaterialController@getInfo')->name('materials.getInfo');
+        
+        //基礎原物料管理路由
+        Route::prefix('basic')->group(function(){
+            Route::get('showName','MaterialController@showName')->name('material.basic.showName');
+            Route::post('getInfo','MaterialController@getInfo')->name('material.basic.getInfo');
+        });
+    });
     Route::resource('/materials', 'MaterialController');
+
+    // 商品管理路由
     Route::resource('/products', 'ProductController');
 
+    // 商品類別管理路由
+    Route::prefix('/categories')->group(function(){
+        Route::get('showName','CategoryController@showName')->name('categories.showName');
+        // Route::get('show', 'ProductController@getProductListByCategory')->name('Product.getProductListByCategory');
+    });
+    Route::resource('/categories', 'CategoryController');
+    
+    // 進貨單管理路由
     Route::resource('/orders/purchase', 'Orders\PurchaseOrderController');
+    // 進貨單細項資料管理路由
+    Route::prefix('/orders/purchase/details')->group(function(){
+        Route::post('store', 'Orders\PurchaseOrderDetailController@store')->name('purchase.details.store');
+        Route::get('showDetails', 'Orders\PurchaseOrderDetailController@showDetails')->name('purchase.details.showDetails');
+        Route::patch('update', 'Orders\PurchaseOrderDetailController@update')->name('purchase.details.update');
+        Route::delete('destroy', 'Orders\PurchaseOrderDetailController@destroy')->name('purchase.details.destroy');
+    });
+
+    // 銷貨單管理路由
     Route::resource('/orders/sales', 'Orders\SaleOrderController');
+    // 銷貨單細項資料管理路由
+    Route::prefix('/orders/sales/details')->group(function(){
+        
+    });
+
+    // 退貨單管理路由
     Route::resource('/orders/return', 'Orders\ReturnOrderController');
-});
-
-
-Route::prefix('/api')->group(function(){
-    Route::get('showName', 'SupplierController@showName')->name('api.supplier.showName');
-    Route::post('getInfo', 'SupplierController@getInfo')->name('api.supplier.getInfo');
-});
-
-Route::prefix('material')->group(function(){
-    Route::get('showName','MaterialController@showName')->name('api.material.showName');
-    Route::post('getInfo','MaterialController@getInfo')->name('api.material.getInfo');
-});
-
-//新增刪除修改查詢訂單細項資料。
-Route::post('store', 'Orders\PurchaseOrderDetailController@store')->name('api.PurchaseOrderDetail.store');
-Route::get('showDetails', 'Orders\PurchaseOrderDetailController@showDetails')->name('api.PurchaseOrderDetail.showDetails');
-Route::patch('update', 'Orders\PurchaseOrderDetailController@update')->name('api.PurchaseOrderDetail.update');
-Route::delete('destroy', 'Orders\PurchaseOrderDetailController@destroy')->name('api.PurchaseOrderDetail.destroy');
-
-
-//修改顯示基礎原物料價格(會影響商品總價)
-Route::get('show', 'BasicMaterialController@show')->name('api.BasicMaterial.show');
-Route::patch('update', 'BasicMaterialController@update')->name('api.BasicMaterial.update');
-
-//get product list by category_id
-Route::get('show', 'ProductController@getProductListByCategory')->name('api.Product.getProductListByCategory');
-
-//取得所有類別名稱與id
-Route::prefix('material')->group(function(){
-    Route::get('showName','CategoryController@showName')->name('api.category.showName');
+    // 退貨單細項資料管理路由
+    Route::prefix('/orders/return/details')->group(function(){
+        
+    });
 });

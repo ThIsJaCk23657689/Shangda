@@ -220,8 +220,8 @@
                     <button type="submit" class="btn btn-block btn-primary">
                         確認新增
                     </button>
-                    <a :href="PurchaseOrderIndex" class="btn btn-block btn-danger">
-                        返回上一頁
+                    <a :href="getPurchaseOrderIndex" class="btn btn-block btn-danger">
+                        返回進貨單首頁
                     </a>
                 </div>
             </div>
@@ -256,7 +256,7 @@ export default {
     data(){
         return {
             total_price: 0,
-            PurchaseOrderIndex: $('#PurchaseOrderIndex').html(),
+            getPurchaseOrderIndex: $('#getPurchaseOrderIndex').html(),
         }
     },
     methods: {

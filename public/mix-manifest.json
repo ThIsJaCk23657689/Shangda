@@ -5,5 +5,6 @@
     "/js/backend.js": "/js/backend.js",
     "/js/materials/create.js": "/js/materials/create.js",
     "/js/orders/purchase.js": "/js/orders/purchase.js",
+    "/js/products/create.js": "/js/products/create.js",
     "/js/suppliers/create.js": "/js/suppliers/create.js"
 }

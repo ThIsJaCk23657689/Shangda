@@ -11,26 +11,24 @@ class BasicMaterialService extends BaseService
 
     public function __construct()
     {
-        $this->middleware('auth');
         $this->ProductService = new ProductService();
     }
 
     public function getList()
     {
-        $basicMaterials = BasicMaterialEloquent::get();
-
-        if($basicMaterials){
-            $msg = [
-                'data'=>$basicMaterials,
-                'status'=>'OK'
-            ];
-        }else{
-            $msg = [
-                'data'=>$basicMaterials,
-                'status'=>'Failed'
-            ];
-        }
-        return $msg;
+        $BasicMaterials = BasicMaterialEloquent::get();
+        return $BasicMaterials;
+        // if($basicMaterials){
+        //     $msg = [
+        //         'data'=>$basicMaterials,
+        //         'status'=>'OK'
+        //     ];
+        // }else{
+        //     $msg = [
+        //         'data'=>$basicMaterials,
+        //         'status'=>'Failed'
+        //     ];
+        // }
     }
 
 

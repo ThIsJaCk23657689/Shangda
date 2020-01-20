@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-
+    <script src="{{ asset('js/products/create.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -18,22 +18,22 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <form id="product_create_form" method="POST" action="{{ route('products.store') }}">
+            <form id="product_create_form" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
                     <div class="col-md-6">
                         {{-- 商品圖片 --}}
                         <div class="form-group row">
-                            <div class="offset-md-6 col-md-6">
-                                <img id="preview" class="img-fluid rounded" src="https://fakeimg.pl/250x250/282828/EAE0D0/">
+                            <div id="preview-upload" class="offset-md-6 col-md-6">
+                                <img id="previewImg-upload" class="img-fluid rounded" src="{{ asset('images/upload-default.png') }}">
                             </div>
                         </div>
                         <div class="form-group row my-4">
-                            <label for="picture" class="offset-md-3 col-md-3 col-form-label text-md-right">上傳圖片</label>
+                            <label for="picture" class="col-md-6 col-form-label text-md-right">上傳圖片(支援JPG、PNG)</label>
     
                             <div class="col-md-6">
-                                <input id="picture" name="picture" type="file" required>
+                                <input id="picture" name="picture" type="file" class="form-control-file" required accept="image/jpeg,image/png">
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             <label for="internationalNum" class="col-md-3 col-form-label text-md-right">國際條碼</label>
     
                             <div class="col-md-6">
-                                <input id="internationalNum" name="internationalNum" type="text" class="form-control @error('internationalNum') is-invalid @enderror" value="{{ old('internationalNum') }}" required autocomplete="internationalNum">
+                                <input id="internationalNum" name="internationalNum" type="text" class="form-control @error('internationalNum') is-invalid @enderror" value="{{ old('internationalNum') }}" autocomplete="internationalNum">
                                 
                                 @error('internationalNum')
                                     <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                             <label for="intro" class="col-md-3 col-form-label text-md-right">商品簡介</label>
     
                             <div class="col-md-6">
-                                <input id="intro" name="intro" type="text" class="form-control @error('intro') is-invalid @enderror" value="{{ old('intro') }}" required autocomplete="intro">
+                                <input id="intro" name="intro" type="text" class="form-control @error('intro') is-invalid @enderror" value="{{ old('intro') }}" autocomplete="intro">
                                 
                                 @error('intro')
                                     <span class="invalid-feedback" role="alert">
@@ -168,7 +168,7 @@
                     <div class="col-md-6">
                         <div class="form-group row">
                             <label for="comment" class="offset-md-3 col-md-3 col-form-label text-md-right">
-                                <span class="text-danger">*</span>備註
+                                備註
                             </label>
         
                             <div class="col-md-6">
@@ -191,7 +191,9 @@
         
                             <div class="col-md-6">
                                 <select id="category_id" class="form-control @error('category_id') is-invalid @enderror" name="category_id">
-                                    <option value="0">請選擇...</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
 
                                 @error('category_id')
@@ -213,11 +215,14 @@
                             <thead>
                                 <tr>
                                     <th><label for="fundamentalPrice"><span class="text-danger">*</span>基礎價格</label></th>
-                                    <th><label for="materialCoefficient1"><span class="text-danger">*</span>原物料比重1</label></th>
-                                    <th><label for="materialCoefficient2"><span class="text-danger">*</span>原物料比重2</label></th>
-                                    <th><label for="materialCoefficient3"><span class="text-danger">*</span>原物料比重3</label></th>
-                                    <th><label for="materialCoefficient4"><span class="text-danger">*</span>原物料比重4</label></th>
-                                    <th><label for="materialCoefficient5"><span class="text-danger">*</span>原物料比重5</label></th>
+                                    @foreach ($basicMaterials as $basicMaterial)
+                                        <th>
+                                            <label for="materialCoefficient{{ $loop->iteration }}">
+                                                <span class="text-danger">*</span>原物料比重{{ $loop->iteration }}<br>
+                                                價格：<span id="{{ $basicMaterial->name }}">{{ $basicMaterial->price }}</span>
+                                            </label>
+                                        </th>
+                                    @endforeach
                                     <th><label for="retailPrice">零售價</label></th>
                                 </tr>
                             </thead>
@@ -244,6 +249,7 @@
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
+                                                <input type="hidden">
                                             </div>
                                         </div>
                                     </td>

@@ -569,7 +569,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       total_price: 0,
-      PurchaseOrderIndex: $('#PurchaseOrderIndex').html()
+      getPurchaseOrderIndex: $('#getPurchaseOrderIndex').html()
     };
   },
   methods: {
@@ -774,8 +774,8 @@ __webpack_require__.r(__webpack_exports__);
       var material_id = $('#material_id').val();
 
       if (material_id != 0) {
-        var apiMeterialGetInfo = $('#apiMeterialGetInfo').html();
-        axios.post(apiMeterialGetInfo, {
+        var getMeterialInfo = $('#getMeterialInfo').html();
+        axios.post(getMeterialInfo, {
           id: material_id
         }).then(function (response) {
           _this.current_material = response.data; // console.log(response);
@@ -1760,11 +1760,11 @@ var render = function() {
                 "a",
                 {
                   staticClass: "btn btn-block btn-danger",
-                  attrs: { href: _vm.PurchaseOrderIndex }
+                  attrs: { href: _vm.getPurchaseOrderIndex }
                 },
                 [
                   _vm._v(
-                    "\r\n                        返回上一頁\r\n                    "
+                    "\r\n                        返回進貨單首頁\r\n                    "
                   )
                 ]
               )
@@ -2673,8 +2673,8 @@ var app = new Vue({
     getSupplierData: function getSupplierData(id) {
       var _this = this;
 
-      var apiSupplierGetInfo = $('#apiSupplierGetInfo').html();
-      axios.post(apiSupplierGetInfo, id).then(function (response) {
+      var getSupplierInfo = $('#getSupplierInfo').html();
+      axios.post(getSupplierInfo, id).then(function (response) {
         console.log(response);
         _this.current_supplier = response.data;
       });
@@ -2683,12 +2683,12 @@ var app = new Vue({
   created: function created() {
     var _this2 = this;
 
-    var apiSupplierShowName = $('#apiSupplierShowName').html();
-    var apiMeterialShowName = $('#apiMeterialShowName').html();
-    axios.get(apiSupplierShowName).then(function (response) {
+    var getSuppliersName = $('#getSuppliersName').html();
+    var getMeterialsName = $('#getMeterialsName').html();
+    axios.get(getSuppliersName).then(function (response) {
       _this2.suppliers = response.data;
     });
-    axios.get(apiMeterialShowName).then(function (response) {
+    axios.get(getMeterialsName).then(function (response) {
       _this2.materials = response.data;
     });
 
