@@ -7,11 +7,13 @@ use App\Supplier as SupplierEloquent;
 use App\User as UserEloquent;
 use App\PurchaseOrderDetail as PurchaseOrderDetailEloquent;
 // use App\Material as MaterialEloquent;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class PurchaseOrder extends Model
 {
+
+    use SoftDeletes;
     protected $fillable = [
-        'supplier_id', 'user_id', 'paid_at', 'received_at', 'expectReceived_at', 
+        'supplier_id', 'user_id', 'paid_at', 'received_at', 'expectReceived_at', 'last_user_id',
         'totalPrice', 'comment', 'taxType', 'invoiceType', 'address', 'shown_id'
     ];
 

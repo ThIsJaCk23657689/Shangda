@@ -24,8 +24,8 @@ class ConsumerController extends Controller
 
     public function index()
     {
-        $consumer = $this->ConsumerRequest->getList();
-        $lastUpdate = $this->ConsumerRequest->getlastupdate();
+        $consumer = $this->ConsumerService->getList();
+        $lastUpdate = $this->ConsumerService->getlastupdate();
         return view('consumers.index', compact('consumer', 'lastUpdate'));
     }
 

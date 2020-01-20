@@ -26,6 +26,7 @@ class PurchaseOrderService extends BaseService
         $purchaseOrder = PurchaseOrderEloquent::create([
             'supplier_id' => $request->supplier_id,
             'user_id' => Auth::id(),
+            'last_user_id' => Auth::id(),
             'paid_at' => $request->paid_at,
             'received_at' => $request->received_at,
             'expectReceived_at' => $request->expectReceived_at,
@@ -78,7 +79,7 @@ class PurchaseOrderService extends BaseService
         $purchaseOrder = $this->getOne($id);
         $purchaseOrder->update([
             'supplier_id' => $request->supplier_id,
-            'user_id' => $request->user_id,
+            'last_user_id' => Auth::id(),
             'paid_at' => $request->paid_at,
             'received_at' => $request->received_at,
             'expectReceived_at' => $request->expectReceived_at,
