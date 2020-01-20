@@ -2,26 +2,42 @@
 
 namespace App\Services\Orders;
 use App\Services\BaseService;
-use App\Services\Orders\PurchaseOrderService;
-use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\Services\Material_logService;
 use App\PurchaseOrderDetail as PurchaseOrderDetailEloquent;
+use App\PurchaseOrder as PurchaseOrderEloquent;
+use Auth;
 
-use Carbon\Carbon;
 
 class PurchaseOrderDetailService extends BaseService
 {
+
+    public $Material_logService;
+
+
+    public function __construct()
+    {
+        $this->Material_logService = new Material_logService();
+    }
+
     public function add($request)
     {
+        $user_id = Auth::id();
+        
         $p_id = $request->purchaseOrder_id;
         $data = $request->details;
         $count = 0;
+        
         foreach($data as $obj){
+
+            $material_id = $obj['material_id'];
+            $amount = $obj['amount'];
+            $this->Material_logService->add($user_id, $material_id, 1, $amount);
             $count += 1;
             $subTotal = round($obj['price'] * $obj['discount'] * $obj['quantity'], 4);
+
             $purchaseOrderDetail = PurchaseOrderDetailEloquent::create([
                 'purchaseOrder_id' => $p_id,
                 'count' => $count,
-
                 'material_id' => $obj['material_id'],
                 'price' => $obj['price'],
                 'quantity' => $obj['quantity'],
@@ -64,7 +80,9 @@ class PurchaseOrderDetailService extends BaseService
     {
         $details = PurchaseOrderDetailEloquent::where('purchaseOrder_id',$p_id)
                                             ->where('count',$count)->get();
+        
 
+        $orig_quantity = $details->quantity;
         $detail = $details->update([
             'material_id' => $request->material_id,
             'price' => $request->price,
@@ -73,7 +91,16 @@ class PurchaseOrderDetailService extends BaseService
             'subTotal' => $request->subTotal,
             'comment' => $request->comment,
         ]);
+
+
         if($detail){
+            $user_id = Auth::id();
+            $material_id = $request->material_id;
+            $amount = $orig_quantity - $request->quantity;
+            $this->Material_logService->add($user_id, $material_id, 2, $amount);
+            $purchaseOrder = PurchaseOrderEloquent::find($p_id);
+            $purchaseOrder->last_user_id = Auth::id();
+            $purchaseOrder->save();
             $msg = [
                 'massenge'=>"更新成功。",
                 'status'=>'OK'
@@ -92,6 +119,13 @@ class PurchaseOrderDetailService extends BaseService
         $details = PurchaseOrderDetailEloquent::where('purchaseOrder_id',$p_id)
                                             ->where('count',$count)->get();
         if($details){
+            $purchaseOrder = PurchaseOrderEloquent::find($p_id);
+            $purchaseOrder->last_user_id = Auth::id();
+            $purchaseOrder->save();
+            $user_id = Auth::id();
+            $material_id = $details->material_id;
+            $this->Material_logService->add($user_id, $material_id, 3, 0);
+
             $details->delete();
             $msg = [
                 'massenge'=>"刪除成功。",

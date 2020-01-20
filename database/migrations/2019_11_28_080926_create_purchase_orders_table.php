@@ -17,7 +17,8 @@ class CreatePurchaseOrdersTable extends Migration
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('supplier_id')->comment('供應商編號');
-            $table->unsignedBigInteger('user_id')->comment('使用者編號');//不顯示在前端
+            $table->unsignedBigInteger('user_id')->comment('創建使用者編號');//創建者，不顯示在前端
+            $table->unsignedBigInteger('last_user_id')->comment('最後修改使用者編號');//最終修改者，不顯示在前端
 
             $table->timestamp('expectReceived_at')->comment('預期到貨時間');
             $table->timestamp('paid_at')->nullable()->comment('付款時間');
@@ -31,7 +32,8 @@ class CreatePurchaseOrdersTable extends Migration
             $table->string('comment')->nullable()->comment('備註');
 
             $table->timestamps();
-
+            $table->softDeletes();
+            
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->foreign('user_id')->references('id')->on('users');
         });
