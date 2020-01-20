@@ -13,4 +13,8 @@ class Category extends Model
     public function products(){
         return $this->hasmany(ProductEloquent::class);
     }
+
+    public function productsWithTrashed(){
+        return $this->hasmany(ProductEloquent::class)->withTrashed()->get();
+    }
 }

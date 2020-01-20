@@ -135,23 +135,6 @@
                     </div>
                 </div>
 
-                {{-- <div class="form-group row">
-                    <label for="picture" class="col-md-4 col-form-label text-md-right">
-                        <span class="text-danger">*</span>
-                        圖片
-                    </label>
-    
-                    <div class="col-md-6">
-                        <input id="picture" type="file" name="picture" value="{{ old('picture') }}" autocomplete="picture">
-    
-                        @error('picture')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div> --}}
-
             </form>
         </div>
     </div>

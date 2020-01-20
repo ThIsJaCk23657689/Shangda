@@ -40,6 +40,7 @@ class CreateProductsTable extends Migration
 
             $table->text('comment')->nullable()->comment('備註');
             $table->timestamps();
+            $table->softDeletes();
 
             // $table->foreign('category_id')->references('id')->on('categories');
         });

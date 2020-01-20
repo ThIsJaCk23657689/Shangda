@@ -81,8 +81,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        $basicMaterials = $this->BasicMaterialService->getList();
+        $categories = $this->CategoryService->getList();
         $product = $this->ProductService->getOne($id);
-        return view('products.edit', compact('product'));
+        return view('products.edit', compact(['basicMaterials', 'categories', 'product']));
     }
 
     /**
@@ -111,6 +113,16 @@ class ProductController extends Controller
     }
 
     // ========== Response JSON ==========
+    public function showName(){
+        $product = $this->ProductService->getNamesList();
+        return response()->json($product, 200);
+    }
+
+    public function getInfo(Request $request){
+        $product_info = $this->ProductService->getInfoList($request->id);
+        return response()->json($product_info, 200);
+    }
+
     public function getProductListByCategory($category_id)
     {
         $products = $this->ProductService->getProductByCategory($category_id);

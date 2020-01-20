@@ -4,11 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Category as CategoryEloquent;
+use App\ProductQuantity as ProductQuantityEloquent;
 use App\Product_log as ProductLogEloquent;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use URL;
 
 class Product extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'category_id', 'name', 'shortName', 'fundamentalPrice', 'retailPrice',
         'materialCoefficient1', 'materialCoefficient2', 'materialCoefficient3',
@@ -18,6 +22,10 @@ class Product extends Model
         'picture', 'intro', 'specification',
     ];
 
+    public function productQuantities(){
+        return $this->hasMany(ProductQuantityEloquent::class);
+    }
+
     public function category(){
         return $this->belongsTo(CategoryEloquent::class);
     }
@@ -25,8 +33,6 @@ class Product extends Model
     public function product_log(){
         return $this->hasMany(ProductLogEloquent::class);
     }
-
-
 
     public function showUnit(){
         switch($this->unit){

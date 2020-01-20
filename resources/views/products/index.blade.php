@@ -8,7 +8,7 @@
 				
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Stuffs Management') }}</a>
+			<a href="#">{{ __('Products Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('Products') }}</a>
@@ -21,8 +21,11 @@
             <a href="{{ route('products.create') }}" class="btn btn-md btn-primary">
                 <i class="fas fa-plus"></i>
                 新增商品
+			</a>
+			<a href="{{ route('products.quantities.create') }}" class="btn btn-md btn-warning">
+                新增商品庫存
             </a>
-        </div>
+		</div>
     </div>
 	
 	<!-- DataTables Example -->
@@ -48,7 +51,7 @@
 					</thead>
 					<tbody>
 						@foreach ($products as $product)
-							<tr>
+							<tr class="{{ $product->trashed()?'bg-warning':'' }}">
                                 <td>{{ $product->id }}</td>
                                 <td style="width:10%">
                                     <img class="img-fluid rounded" src="{{ $product->showPicture() }}">
@@ -71,17 +74,29 @@
 										<i class="fas fa-edit"></i>
 										編輯
 									</a>
-									<a href="#" class="btn btn-md btn-danger" onclick="
-										event.preventDefault();
-										ans = confirm('確定要刪除此廠商嗎?');
-										if(ans){
-											$('#deleteform-{{ $product->id }}').submit();
-										}
-									">
-										<i class="far fa-trash-alt"></i>
-										刪除
-									</a>
-
+									@if($product->trashed())
+										<a href="#" class="btn btn-md btn-light" onclick="
+											event.preventDefault();
+											ans = confirm('確定要上架此商品嗎?');
+											if(ans){
+												$('#deleteform-{{ $product->id }}').submit();
+											}
+										">
+											<i class="fas fa-arrow-alt-circle-up"></i>
+											上架
+										</a>
+									@else
+										<a href="#" class="btn btn-md btn-danger" onclick="
+											event.preventDefault();
+											ans = confirm('確定要下架此商品嗎?');
+											if(ans){
+												$('#deleteform-{{ $product->id }}').submit();
+											}
+										">
+											<i class="fas fa-arrow-alt-circle-down"></i>
+											下架
+										</a>
+									@endif
 									<form id="deleteform-{{ $product->id }}" action="{{ route('products.destroy', [$product->id]) }}" method="POST" style="displat: none;">
 										@csrf
 										@method('DELETE')

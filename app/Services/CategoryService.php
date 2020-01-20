@@ -31,10 +31,11 @@ class CategoryService extends BaseService
     public function update($request, $id)
     {
         $category = $this->getOne($id);
-        $category->update([
-            'name' => $request->name,
-            'intro' => $request->intro,
-        ]);
+        if($id != 1){
+            $category->name = $request->name;
+        }
+        $category->intro = $request->intro;
+        $category->save();
         return $category;
     }
 

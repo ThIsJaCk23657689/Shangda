@@ -20,19 +20,7 @@ class ProductService extends BaseService
         $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
 
         // 圖片儲存
-        
-        if(!empty($request->picture)){
-            $origin_picture = imagecreatefromjpeg($request->picture);
-            $ext = $request->picture->getClientOriginalExtension();
-            $picture_name = ProductEloquent::get()->count() + 1;
-            $picture_full_name = $picture_name . '.' . $ext;
-            $save_path = public_path('images/products/');
-            imagejpeg($origin_picture, $save_path . $picture_full_name);
-            $image_path = 'images/products/' . $picture_full_name;
-        }else{
-            $image_path = null;
-        }
-        
+        $image_path = $this->savePicture($request->picture);
 
         // 新增資料
         $product = ProductEloquent::create([
@@ -63,13 +51,23 @@ class ProductService extends BaseService
 
     public function getList()
     {
-        $products = ProductEloquent::get();
+        $products = ProductEloquent::withTrashed()->get();
         return $products;
+    }
+
+    public function getNamesList(){
+        $product_names = ProductEloquent::select('id','name')->get();
+        return $product_names;
+    }
+
+    public function getInfoList($id){
+        $product_info = ProductEloquent::select('name','taxId','tel','tax','inCharge1','tel1','companyAddress')->find($id);
+        return $product_info;
     }
 
     public function getOne($id)
     {
-        $product = ProductEloquent::find($id);
+        $product = ProductEloquent::withTrashed()->find($id);
         return $product;
     }
 
@@ -85,6 +83,9 @@ class ProductService extends BaseService
 
         $retail_price = $x1 * $request->materialCoefficient1 + $x2 * $request->materialCoefficient2 + $x3 * $request->materialCoefficient3 +
         $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
+
+        // 圖片儲存
+        $image_path = $this->savePicture($request->picture);
 
         $product->update([
             'category_id' => $request->category_id,
@@ -104,7 +105,7 @@ class ProductService extends BaseService
             'unit' => $request->unit,
             'quantity' => $request->quantity,
             'safeQuantity' => $request->safeQuantity,
-            'picture' => $request->picture,
+            'picture' => $image_path,
             'intro' => $request->intro,
             'specification' => $request->specification,
         ]);
@@ -114,7 +115,11 @@ class ProductService extends BaseService
     public function delete($id)
     {
         $product = $this->getOne($id);
-        $product->delete();
+        if($product->trashed()){
+            $product->restore();
+        }else{
+            $product->delete();
+        }
     }
 
     public function getlastupdate()
@@ -123,7 +128,6 @@ class ProductService extends BaseService
         if(!empty($product)){
             return $product->updated_at;
         }
-
         return null;
     }
 
@@ -135,5 +139,20 @@ class ProductService extends BaseService
         }else{
             return "此類別查無資料";
         }
+    }
+
+    private function savePicture($picture){
+        if(!empty($picture)){
+            $origin_picture = imagecreatefromjpeg($picture);
+            $ext = $picture->getClientOriginalExtension();
+            $picture_name = ProductEloquent::get()->count() + 1;
+            $picture_full_name = $picture_name . '.' . $ext;
+            $save_path = public_path('images/products/');
+            imagejpeg($origin_picture, $save_path . $picture_full_name);
+            $image_path = 'images/products/' . $picture_full_name;
+        }else{
+            $image_path = null;
+        }
+        return $image_path;
     }
 }

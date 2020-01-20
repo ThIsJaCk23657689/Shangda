@@ -42,7 +42,13 @@ Route::prefix('/backend')->group(function(){
     });
     Route::resource('/materials', 'MaterialController');
 
+    // 商品庫存管理路由
+    Route::resource('/products/quantities', 'ProductQuantityController', ['as' => 'products']);
     // 商品管理路由
+    Route::prefix('/products')->group(function(){
+        Route::get('showName','ProductController@showName')->name('products.showName');
+        Route::post('getInfo','ProductController@getInfo')->name('products.getInfo');
+    });
     Route::resource('/products', 'ProductController');
 
     // 商品類別管理路由

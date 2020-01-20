@@ -25,9 +25,6 @@
                             <img id="previewImg-upload" class="img-fluid rounded" src="{{ $product->showPicture() }}">
                         </div>
                     </div>
-                    <div class="form-group row my-4">
-                        <label for="picture" class="col-md-6 col-form-label text-md-right">商品圖片</label>
-                    </div>
                 </div>
             
                 <div class="col-md-6">
