@@ -2,7 +2,7 @@
 
 namespace App\Services\Orders;
 use App\Services\BaseService;
-use App\Services\Material_logService;
+use App\Services\log\Material_logService;
 use App\PurchaseOrderDetail as PurchaseOrderDetailEloquent;
 use App\PurchaseOrder as PurchaseOrderEloquent;
 use Auth;

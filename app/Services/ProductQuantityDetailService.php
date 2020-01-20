@@ -5,21 +5,13 @@ use App\ProductQuantity as ProductQuantityEloquent;
 
 class ProductQuantityService extends BaseService
 {
-    
-    public $Material_logService;
-    public function __construct()
-    {
-        $this->Material_logService = new Material_logService();
-    }
     public function add($request)
     {
         $pq = ProductQuantityEloquent::create([
             'product_id' => $request->product_id,
             'quantity ' => $request->quantity
         ]);
-        if($pq){
 
-        }
         return $pq;
     }
 

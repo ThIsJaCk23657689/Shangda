@@ -61,7 +61,7 @@ class ProductService extends BaseService
     }
 
     public function getInfoList($id){
-        $product_info = ProductEloquent::select('name','taxId','tel','tax','inCharge1','tel1','companyAddress')->find($id);
+        $product_info = ProductEloquent::select('name','quantity','unit')->find($id);
         return $product_info;
     }
 
