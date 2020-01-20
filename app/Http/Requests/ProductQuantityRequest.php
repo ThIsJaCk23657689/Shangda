@@ -13,7 +13,7 @@ class ProductQuantityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class ProductQuantityRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'product_id' => 'required|integer|exists:product,id',
+            'user_id' => 'required|integer|exists:user,id',
+            'last_user_id' => 'required|integer|exists:last_user_id,id',
+            'quantity' => 'required|integer|min:0',
         ];
     }
 }

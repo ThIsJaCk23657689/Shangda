@@ -13,7 +13,7 @@ class ProductQuantityDetailRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class ProductQuantityDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'product_quantity_id' => 'required|integer|exists:productQuantities,id',
+            'material_id' => 'required|integer|exists:materia,id',
+            'quantity' => 'required|integer|min:0',
         ];
     }
 }
