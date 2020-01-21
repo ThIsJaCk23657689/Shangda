@@ -8,17 +8,17 @@
 				
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Product Quantities Management') }}</a>
+			<a href="#">{{ __('Stuffs Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Product Quantities') }}</a>
+			<a href="#">{{ __('Produces') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
 	@endcomponent
 
 	<div class="row mb-3">
         <div class="col-md-12">
-            <a href="{{ route('products.quantities.create') }}" class="btn btn-md btn-primary">
+            <a href="{{ route('produces.create') }}" class="btn btn-md btn-primary">
                 <i class="fas fa-plus"></i>
                 新增商品庫存
 			</a>
@@ -44,18 +44,18 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($pqs as $pq)
+						@foreach ($produces as $produce)
 							<tr>
-                                <td>{{ $pq->id }}</td>
-                                <td>{{ $pq->product->name }}</td>
-								<td>{{ $pq->quantity }}</td>
-								<td>{{ $pq->created_at }}</td>
+                                <td>{{ $produce->id }}</td>
+                                <td>{{ $produce->product->name }}</td>
+								<td>{{ $produce->quantity }}</td>
+								<td>{{ $produce->created_at }}</td>
 								<td>
-									<a href="{{ route('pqs.show', [$pq->id]) }}" class="btn btn-md btn-info">
+									<a href="{{ route('produces.show', [$produce->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
 										查看
 									</a>
-									<a href="{{ route('pqs.edit', [$pq->id]) }}" class="btn btn-md btn-success">
+									<a href="{{ route('produces.edit', [$produce->id]) }}" class="btn btn-md btn-success">
 										<i class="fas fa-edit"></i>
 										編輯
 									</a>
@@ -63,13 +63,13 @@
 										event.preventDefault();
 										ans = confirm('確定要刪除此增量嗎?(將會還原至尚未增量之前。)');
 										if(ans){
-											$('#deleteform-{{ $pq->id }}').submit();
+											$('#deleteform-{{ $produce->id }}').submit();
 										}
 									">
 										<i class="far fa-trash-alt"></i>
 										刪除
 									</a>
-									<form id="deleteform-{{ $pq->id }}" action="{{ route('pqs.destroy', [$pq->id]) }}" method="POST" style="displat: none;">
+									<form id="deleteform-{{ $produce->id }}" action="{{ route('produces.destroy', [$produce->id]) }}" method="POST" style="displat: none;">
 										@csrf
 										@method('DELETE')
 									</form>

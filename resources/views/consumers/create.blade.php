@@ -85,7 +85,7 @@
                             </label>
         
                             <div class="col-md-6">
-                                <input id="taxID" name="name" type="text" class="form-control @error('taxID') is-invalid @enderror"  value="{{ old('taxID') }}" autocomplete="taxID">
+                                <input id="taxID" name="taxID" type="text" class="form-control @error('taxID') is-invalid @enderror"  value="{{ old('taxID') }}" autocomplete="taxID">
         
                                 @error('taxID')
                                     <span class="invalid-feedback" role="alert">
@@ -317,9 +317,8 @@
                             </div>
 
                             <div class="col-md-5">
-                                <input id="monthlyCheck" name="monthlyCheck" type="checkbox" value="{{ old('monthlyCheckDate') }}" autocomplete="monthlyCheckDate">
+                                <input id="monthlyCheck" name="monthlyCheck" type="checkbox" value="true" autocomplete="monthlyCheckDate">
                                 <label for="monthlyCheck" class="col-form-label">
-
                                     日結
                                 </label>
                             </div>

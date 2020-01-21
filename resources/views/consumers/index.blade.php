@@ -47,7 +47,7 @@
 					</thead>
 					<tbody>
 						@foreach ($consumers as $consumer)
-							<tr>
+							<tr class="{{ $consumer->trashed()?'bg-warning':'' }}">
 								<td>{{ $consumer->id }}</td>
 								<td>{{ $consumer->name }}</td>
 								<td>{{ $consumer->taxID }}</td>
@@ -63,17 +63,29 @@
 										<i class="fas fa-edit"></i>
 										編輯
 									</a>
-									<a href="#" class="btn btn-md btn-danger" onclick="
-										event.preventDefault();
-										ans = confirm('確定要刪除此顧客嗎?');
-										if(ans){
-											$('#deleteform-{{ $consumer->id }}').submit();
-										}
-									">
-										<i class="far fa-trash-alt"></i>
-										刪除
-									</a>
-
+									@if($consumer->trashed())
+										<a href="#" class="btn btn-md btn-light" onclick="
+											event.preventDefault();
+											ans = confirm('確定要解鎖此顧客嗎?');
+											if(ans){
+												$('#deleteform-{{ $consumer->id }}').submit();
+											}
+										">
+											<i class="fas fa-unlock"></i>
+											解鎖
+										</a>
+									@else
+										<a href="#" class="btn btn-md btn-danger" onclick="
+											event.preventDefault();
+											ans = confirm('確定要封鎖此顧客嗎?');
+											if(ans){
+												$('#deleteform-{{ $consumer->id }}').submit();
+											}
+										">
+											<i class="fas fa-user-slash"></i>
+											封鎖
+										</a>
+									@endif
 									<form id="deleteform-{{ $consumer->id }}" action="{{ route('consumers.destroy', [$consumer->id]) }}" method="POST" style="displat: none;">
 										@csrf
 										@method('DELETE')

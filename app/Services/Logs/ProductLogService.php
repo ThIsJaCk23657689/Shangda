@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Services;
-use App\Product_log as Product_logEloquent;
+namespace App\Services\Logs;
 
-class Product_logService extends BaseService
+use App\Services\BaseService;
+use App\ProductLog as ProductLogEloquent;
+
+class ProductLogService extends BaseService
 {
     public function add($user_id, $product_id, $act, $amount)
     {
-        $product_log = Product_logEloquent::create([
+        $product_log = ProductLogEloquent::create([
             'user_id' => $user_id,
             'product_id' => $product_id,
             'act' => $act,
@@ -19,7 +21,7 @@ class Product_logService extends BaseService
 
     public function getList()
     {
-        $product_logs = Product_logEloquent::get();
+        $product_logs = ProductLogEloquent::get();
         return $product_logs;
     }
 

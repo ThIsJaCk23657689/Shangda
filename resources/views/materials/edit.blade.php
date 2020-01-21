@@ -1,0 +1,143 @@
+@extends('layouts.backend.master')
+
+@push('CustomJS')
+    <script src="{{ asset('js/materials/create.js') }}" defer></script>
+@endpush
+
+@section('content')
+				
+	@component('components.breadcrumbs')
+		<li class="breadcrumb-item">
+			<a href="#">{{ __('Stuffs Management') }}</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="#">{{ __('Materials') }}</a>
+		</li>
+		<li class="breadcrumb-item active">{{ __('Edit') }}</li>
+	@endcomponent
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form id="material_create_form" method="POST" action="{{ route('materials.update', [$material->id]) }}">
+                @csrf
+                @method('PATCH')
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label text-md-right">
+                        <span class="text-danger">*</span>
+                        原物料名稱
+                    </label>
+
+                    <div class="col-md-6">
+                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $material->name }}" required autocomplete="name" autofocus>
+
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="shortName" class="col-md-4 col-form-label text-md-right">原物料簡稱</label>
+
+                    <div class="col-md-6">
+                        <input id="shortName" type="text" class="form-control @error('shortName') is-invalid @enderror" name="shortName" value="{{ old('shortName') ?? $material->shortName }}" autocomplete="shortName">
+
+                        @error('shortName')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="internationalNum" class="col-md-4 col-form-label text-md-right">國際條碼</label>
+
+                    <div class="col-md-6">
+                        <input id="internationalNum" type="text" class="form-control @error('internationalNum') is-invalid @enderror" name="internationalNum" value="{{ old('internationalNum') ?? $material->internationalNum }}" autocomplete="internationalNum">
+
+                        @error('internationalNum')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="unitPrice" class="col-md-4 col-form-label text-md-right">單價</label>
+
+                    <div class="col-md-6">
+                        <input id="unitPrice" type="text" class="form-control @error('unitPrice') is-invalid @enderror" name="unitPrice" value="{{ old('unitPrice') ?? $material->unitPrice }}" autocomplete="unitPrice">
+
+                        @error('unitPrice')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="stock" class="col-md-4 col-form-label text-md-right">
+                        <span class="text-danger">*</span>
+                        目前存貨量
+                    </label>
+
+                    <div class="col-md-4">
+                        <input id="stock" type="text" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock') ?? $material->showStock() }}" autocomplete="stock">
+                        
+                        @error('stock')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-2">
+                        <select id="unit" class="form-control @error('unit') is-invalid @enderror" name="unit">
+                            <option value="1" {{ ($material->unit == '1')?'selected':'' }}>公斤</option>
+                            <option value="2" {{ ($material->unit == '2')?'selected':'' }}>公噸</option>
+                        </select>
+
+                        @error('unit')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="comment" class="col-md-4 col-form-label text-md-right">備註</label>
+
+                    <div class="col-md-6">
+                        <input id="comment" type="text" class="form-control @error('comment') is-invalid @enderror" name="comment" value="{{ old('comment') ?? $material->comment }}" autocomplete="comment">
+
+                        @error('comment')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row justify-content-center">
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-block btn-primary">
+                            確認修改
+                        </button>
+                        <a href="{{ route('materials.index') }}" class="btn btn-block btn-danger">
+                            返回列表
+                        </a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+	
+@endsection

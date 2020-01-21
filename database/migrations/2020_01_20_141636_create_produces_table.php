@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductQuantitiesTable extends Migration
+class CreateProducesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProductQuantitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_quantities', function (Blueprint $table) {
+        Schema::create('produces', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('商品增量編號');
             $table->unsignedBigInteger('product_id')->comment('所增量的商品編號');
             $table->unsignedBigInteger('user_id')->comment('員工編號');
@@ -31,6 +31,6 @@ class CreateProductQuantitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_quantities');
+        Schema::dropIfExists('produces');
     }
 }

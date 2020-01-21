@@ -39,7 +39,6 @@
 							<th>編號</th>
 							<th>名稱</th>
 							<th>國際條碼</th>
-							
 							<th>單價</th>
 							<th>目前存貨量</th>
 							<th>單位</th>
@@ -52,7 +51,6 @@
 								<td>{{ $material->id }}</td>
 								<td>{{ $material->name }}</td>
 								<td>{{ $material->internationalNum }}</td>
-								
 								<td>{{ $material->unitPrice }}</td>
 								<td>{{ $material->showStock() }}</td>
 								<td>{{ $material->showUnit() }}</td>
@@ -67,7 +65,7 @@
 									</a>
 									<a href="#" class="btn btn-md btn-danger" onclick="
 										event.preventDefault();
-										ans = confirm('確定要刪除此廠商嗎?');
+										ans = confirm('確定要刪除此原物料嗎?');
 										if(ans){
 											$('#deleteform-{{ $material->id }}').submit();
 										}
@@ -87,7 +85,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="card-footer small text-muted"> {{ __('Last Updated') }} {{ $lastUpdate??'無' }}</div>
+		<div class="card-footer small text-muted"> {{ __('Last Updated') }} {{ $lastUpdate ?? '無' }}</div>
 	</div>
 
 @endsection

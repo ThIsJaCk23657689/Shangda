@@ -32,7 +32,7 @@
 			<h6 class="dropdown-header">{{ __('Basic:') }}</h6>
 			<a class="dropdown-item" href="{{ route('materials.index') }}">{{ __('Materials') }}</a>
 			<a class="dropdown-item" href="{{ route('products.index') }}">{{ __('Products') }}</a>
-			<a class="dropdown-item" href="{{ route('products.quantities.index') }}">商品庫存</a>
+			<a class="dropdown-item" href="{{ route('produces.index') }}">{{ __('Produces') }}</a>
 			<h6 class="dropdown-header">{{ __('Related:') }}</h6>
 			<a class="dropdown-item" href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
 		</div>

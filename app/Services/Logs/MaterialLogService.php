@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Services;
-use App\Material_log as Material_logEloquent;
-use Carbon\Carbon;
+namespace App\Services\Logs;
 
-class Material_logService extends BaseService
+use App\Services\BaseService;
+use App\MaterialLog as MaterialLogEloquent;
+
+class MaterialLogService extends BaseService
 {
     public function add($user_id, $material_id, $act, $amount)
     {
-        $material_log = Material_logEloquent::create([
+        $material_log = MaterialLogEloquent::create([
             'user_id' => $user_id,
             'material_id' => $material_id,
             'act' => $act,
@@ -20,7 +21,7 @@ class Material_logService extends BaseService
 
     public function getList()
     {
-        $material_logs = Material_logEloquent::get();
+        $material_logs = MaterialLogEloquent::get();
         return $material_logs;
     }
 }

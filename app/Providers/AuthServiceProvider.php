@@ -6,7 +6,6 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
 
-
 class AuthServiceProvider extends ServiceProvider
 {
     /**

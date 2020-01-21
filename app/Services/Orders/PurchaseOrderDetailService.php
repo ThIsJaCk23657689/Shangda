@@ -2,7 +2,7 @@
 
 namespace App\Services\Orders;
 use App\Services\BaseService;
-use App\Services\log\Material_logService;
+use App\Services\Logs\MaterialLogService;
 use App\PurchaseOrderDetail as PurchaseOrderDetailEloquent;
 use App\PurchaseOrder as PurchaseOrderEloquent;
 use Auth;
@@ -11,12 +11,12 @@ use Auth;
 class PurchaseOrderDetailService extends BaseService
 {
 
-    public $Material_logService;
+    public $MaterialLogService;
 
 
     public function __construct()
     {
-        $this->Material_logService = new Material_logService();
+        $this->MaterialLogService = new MaterialLogService();
     }
 
     public function add($request)
@@ -31,7 +31,7 @@ class PurchaseOrderDetailService extends BaseService
 
             $material_id = $obj['material_id'];
             $amount = $obj['amount'];
-            $this->Material_logService->add($user_id, $material_id, 1, $amount);
+            $this->MaterialLogService->add($user_id, $material_id, 1, $amount);
             $count += 1;
             $subTotal = round($obj['price'] * $obj['discount'] * $obj['quantity'], 4);
 
@@ -97,7 +97,7 @@ class PurchaseOrderDetailService extends BaseService
             $user_id = Auth::id();
             $material_id = $request->material_id;
             $amount = $orig_quantity - $request->quantity;
-            $this->Material_logService->add($user_id, $material_id, 2, $amount);
+            $this->MaterialLogService->add($user_id, $material_id, 2, $amount);
             $purchaseOrder = PurchaseOrderEloquent::find($p_id);
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
@@ -124,7 +124,7 @@ class PurchaseOrderDetailService extends BaseService
             $purchaseOrder->save();
             $user_id = Auth::id();
             $material_id = $details->material_id;
-            $this->Material_logService->add($user_id, $material_id, 3, 0);
+            $this->MaterialLogService->add($user_id, $material_id, 3, 0);
 
             $details->delete();
             $msg = [

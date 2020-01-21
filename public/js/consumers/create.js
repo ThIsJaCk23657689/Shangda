@@ -110,10 +110,10 @@ $(function () {
   });
   $('#monthlyCheck').change(function (e) {
     if ($(this).prop("checked")) {
-      $('#monthlyCheckDate').val(1);
+      $('#monthlyCheckDate').val("");
       $('#monthlyCheckDate').attr('disabled', true);
     } else {
-      $('#monthlyCheckDate').val(1);
+      $('#monthlyCheckDate').val("");
       $('#monthlyCheckDate').attr('disabled', false);
     }
   });

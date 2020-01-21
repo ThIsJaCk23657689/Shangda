@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Product as ProductEloquent;
-use App\ProductQuantityDetail as ProductQuantityDetailEloquent;
-use App\Product_log as Product_logEloquent;
+use App\ProduceDetail as ProduceDetailEloquent;
+use App\ProductLog as ProductLogEloquent;
 use App\User as UserEloquent;
 
-class ProductQuantity extends Model
+class Produce extends Model
 {
     protected $fillable = [
         'product_id', 'quantity', 'user_id', 'last_user_id'
@@ -18,12 +18,12 @@ class ProductQuantity extends Model
         return $this->belongsTo(ProductEloquent::class);
     }
 
-    public function productQuantityDetail(){
-        return $this->hasMany(ProductQuantityDetailEloquent::class);
+    public function ProduceDetail(){
+        return $this->hasMany(ProduceDetailEloquent::class);
     }
 
-    public function product_log(){
-        return $this->hasMany(Product_logEloquent::class);
+    public function productLog(){
+        return $this->hasMany(ProductLogEloquent::class);
     }
 
     public function user(){

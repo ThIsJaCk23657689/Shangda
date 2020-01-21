@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ConsumerRequest extends FormRequest
+class ConsumerEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,6 @@ class ConsumerRequest extends FormRequest
             // 'discount_id' => 'required',
             'name' => 'required|max:100|string',
             'shortName' => 'nullable|max:100|string',
-            'act' => 'required|max:30|unique:consumers|string',
-            'pwd' => 'required|string|min:8|confirmed',
             'taxID' => 'nullable|max:8|string',
             'idNumber' => 'nullable|max:10|string',
 

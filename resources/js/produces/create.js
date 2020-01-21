@@ -1,7 +1,8 @@
-Vue.component('product-quantities-create-form', require('./../../components/Products/Quantities/ProductQuantitiesCreateForm.vue').default);
+Vue.component('produces-create-form', require('./../components/Produces/ProducesCreateForm.vue').default);
+Vue.component('produces-detail', require('./../components/Produces/ProducesDetail.vue').default);
 
 const app = new Vue({
-    el: '#ProductQuantities',
+    el: '#Produces',
     data() {
         return {
             products: [],
@@ -21,9 +22,14 @@ const app = new Vue({
     },
     created(){
         let getProductsName = $('#getProductsName').html();
+        let getMeterialsName = $('#getMeterialsName').html();
 
         axios.get(getProductsName).then(response => {
             this.products = response.data;
+        });
+
+        axios.get(getMeterialsName).then(response => {
+            this.materials = response.data;
         });
 
         $.fn.serializeObject = function()
