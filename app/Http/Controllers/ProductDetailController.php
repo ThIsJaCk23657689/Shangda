@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\ProductDetailService;
+use App\Http\Requests\ProductDetailRequest;
 
 class ProductDetailController extends Controller
 {
@@ -16,13 +17,13 @@ class ProductDetailController extends Controller
     }
 
     // api  
-    public function store(Request $request, $product_id)
+    public function store(ProductDetailRequest $request, $product_id)
     {
         $product_details = $this->ProductDetailService->add($request, $product_id);
         return response()->json($product_details, 200);
     }
 
-    public function update(Request $request, $id)
+    public function update(ProductDetailRequest $request, $id)
     {
         $product_detail = $this->ProductDetailService->update($request, $id);
         return response()->json($product_detail, 200);
