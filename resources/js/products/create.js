@@ -4,7 +4,6 @@ $(function(){
         readURL(input);
     });
 
-
     function readURL(input) {
         if (input.files && input.files[0]) {
             $('#preview-upload').fadeIn();
@@ -17,52 +16,34 @@ $(function(){
     }
     
     $('#fundamentalPrice').change(function(){
-        if(checkFormat($(this))){
-            caluatedRetailPrice();
-        }
+        $.isFloatOrInt($(this));
+        caluatedRetailPrice();
     });
 
     $('#materialCoefficient1').change(function(){
-        if(checkFormat($(this))){
-            caluatedRetailPrice();
-        }
+        $.isFloatOrInt($(this));
+        caluatedRetailPrice();
     });
 
     $('#materialCoefficient2').change(function(){
-        if(checkFormat($(this))){
-            caluatedRetailPrice();
-        }
+        $.isFloatOrInt($(this));
+        caluatedRetailPrice();
     });
 
     $('#materialCoefficient3').change(function(){
-        if(checkFormat($(this))){
-            caluatedRetailPrice();
-        }
+        $.isFloatOrInt($(this));
+        caluatedRetailPrice();
     });
 
     $('#materialCoefficient4').change(function(){
-        if(checkFormat($(this))){
-            caluatedRetailPrice();
-        }
+        $.isFloatOrInt($(this));
+        caluatedRetailPrice();
     });
 
     $('#materialCoefficient5').change(function(){
-        if(checkFormat($(this))){
-            caluatedRetailPrice();
-        }
-    });
-
-    function checkFormat($input){
-        let value = $input.val();
-        let rules = /^\d+$|^\d+[.]?\d+$/;
-        if (rules.test(value)){
-            return true;
-        }
-        alert("請輸入數字。");
-        $input.val(0);
+        $.isFloatOrInt($(this));
         caluatedRetailPrice();
-        return false;
-    }
+    });
 
     function caluatedRetailPrice(){
         let fp = parseFloat($('#fundamentalPrice').val()) ;

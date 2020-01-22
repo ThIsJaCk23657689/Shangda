@@ -113,49 +113,29 @@ $(function () {
   }
 
   $('#fundamentalPrice').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
+    $.isFloatOrInt($(this));
+    caluatedRetailPrice();
   });
   $('#materialCoefficient1').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
+    $.isFloatOrInt($(this));
+    caluatedRetailPrice();
   });
   $('#materialCoefficient2').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
+    $.isFloatOrInt($(this));
+    caluatedRetailPrice();
   });
   $('#materialCoefficient3').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
+    $.isFloatOrInt($(this));
+    caluatedRetailPrice();
   });
   $('#materialCoefficient4').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
+    $.isFloatOrInt($(this));
+    caluatedRetailPrice();
   });
   $('#materialCoefficient5').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
-  });
-
-  function checkFormat($input) {
-    var value = $input.val();
-    var rules = /^\d+$|^\d+[.]?\d+$/;
-
-    if (rules.test(value)) {
-      return true;
-    }
-
-    alert("請輸入數字。");
-    $input.val(0);
+    $.isFloatOrInt($(this));
     caluatedRetailPrice();
-    return false;
-  }
+  });
 
   function caluatedRetailPrice() {
     var fp = parseFloat($('#fundamentalPrice').val());

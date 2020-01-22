@@ -186,7 +186,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['products', 'current_product', 'materials'],
   mounted: function mounted() {
-    console.log('ProducesCreateForm.vue mounted.');
+    console.log('ProducesCreateForm.vue mounted.'); // 庫存細項 表單程式碼
+
+    $('#ProduceDetailForm').submit(function (e) {
+      e.preventDefault();
+      var url = $('#createProduceDetail').html();
+      var data = $(this).serialize();
+      axios.post(url, data).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
+      });
+    });
   },
   data: function data() {
     return {
@@ -195,8 +206,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    // 取得商品資料 => 觸發監聽事件:get-product-data，並回傳所選擇的商品id到父元件
     getProductData: function getProductData() {
-      $('#product_quantity').val(0);
       var product_id = $('#product_id').val();
 
       if (product_id != 0) {
@@ -207,15 +218,39 @@ __webpack_require__.r(__webpack_exports__);
         alert('請選擇商品');
       }
     },
+    // 觸發事件：當"庫存增量數量"欄位被更動時
+    // 試算商品庫存：目前庫存 + 增加量 = 最終庫存 (四捨五入到小數點後4位)
     calculateProductAfterQty: function calculateProductAfterQty() {
-      if ($('#product_currentQty').val() == "") {
+      if ($('#product_id').val() == "0") {
         alert("請先選擇商品!");
         $('#product_quantity').val(0);
-      } else {
-        var currentQty = $('#product_currentQty').val();
-        var qty = $('#product_quantity').val();
-        var afterQty = currentQty - qty;
+      } else if ($.isFloatOrInt($('#product_quantity'))) {
+        var currentQty = parseFloat($('#product_currentQty').val());
+        var qty = parseFloat($('#product_quantity').val());
+        var afterQty = parseFloat(Math.round((currentQty + qty) * 10000) / 10000);
         $('#product_afterQty').val(afterQty);
+      } else {
+        var _afterQty = parseFloat($('#product_currentQty').val());
+
+        $('#product_afterQty').val(_afterQty);
+      }
+    },
+    // 遞交Produce Create Form
+    submitProduceForm: function submitProduceForm(event) {
+      if ($('#product_id').val() == "0") {
+        alert("請先選擇商品!");
+      } else {
+        // 1. 先創建 Produce
+        var url = event.target.action;
+        var data = $(event.target).serialize();
+        axios.post(url, data).then(function (response) {
+          console.log(response);
+          $('#produceID').val(response.data.produce_id); // 2. 建立 Produce Detail
+
+          $('#ProduceDetailForm').submit();
+        })["catch"](function (error) {
+          console.error('新增商品庫存時發生錯誤，錯誤訊息：' + error);
+        });
       }
     }
   }
@@ -308,6 +343,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    // 新增原物料細項
     addDetail: function addDetail() {
       if (this.current_material.length != 0) {
         this.details.push({
@@ -326,17 +362,29 @@ __webpack_require__.r(__webpack_exports__);
         alert('請選擇原物料');
       }
     },
+    // 刪除原物料細項
     deleteDetail: function deleteDetail(id) {
       this.details.splice(id, 1);
     },
+    // 計算原物料減量
     calculateAfterQty: function calculateAfterQty(id) {
-      var currentQty = $('#currentQty_' + id).val();
-      var quantity = $('#quantity_' + id).val();
-      var afterQty = currentQty - quantity;
+      var currentQty = parseFloat($('#currentQty_' + id).val());
+      var quantity, afterQty;
+
+      if ($.isFloatOrInt($('#quantity_' + id))) {
+        quantity = parseFloat($('#quantity_' + id).val());
+        afterQty = parseFloat(Math.round((currentQty - quantity) * 10000) / 10000);
+        this.details[id - 1].quantity = quantity;
+      } else {
+        $('#quantity_' + id).val(0);
+        afterQty = parseFloat(Math.round(currentQty * 10000) / 10000);
+        this.details[id - 1].quantity = 0;
+      }
+
       $('#afterQty' + id).val(afterQty);
-      this.details[id - 1].quantity = quantity;
       this.details[id - 1].afterQty = afterQty;
     },
+    // 取得原物料資料
     getMaterialData: function getMaterialData() {
       var _this = this;
 
@@ -347,7 +395,8 @@ __webpack_require__.r(__webpack_exports__);
         axios.post(getMeterialInfo, {
           id: material_id
         }).then(function (response) {
-          _this.current_material = response.data; // console.log(response);
+          // console.log(response);
+          _this.current_material = response.data;
         });
       } else {
         alert('請選擇原物料');
@@ -377,7 +426,19 @@ var render = function() {
     _c("div", { staticClass: "col-md-12" }, [
       _c(
         "form",
-        { attrs: { method: "POST", action: _vm.createProduce } },
+        {
+          attrs: {
+            id: "ProduceCreateForm",
+            method: "POST",
+            action: _vm.createProduce
+          },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.submitProduceForm($event)
+            }
+          }
+        },
         [
           _c("div", { staticClass: "form-group row" }, [
             _vm._m(0),
@@ -426,7 +487,7 @@ var render = function() {
                   name: "product_currentQty",
                   disabled: ""
                 },
-                domProps: { value: _vm.current_product.quantity }
+                domProps: { value: _vm.current_product.quantity || 0 }
               })
             ]),
             _vm._v(" "),
@@ -1064,44 +1125,36 @@ var app = new Vue({
     };
   },
   methods: {
+    // 取得商品資料
     getProductData: function getProductData(id) {
       var _this = this;
 
       var getProductsInfo = $('#getProductsInfo').html();
       axios.post(getProductsInfo, id).then(function (response) {
-        console.log(response);
-        _this.current_product = response.data;
+        // console.log(response);
+        _this.current_product = response.data; // 觸發事件：當"商品名稱"欄位被更動時
+        // 試算商品庫存：目前庫存 + 增加量 = 最終庫存 (四捨五入到小數點後4位)
+
+        var currentQty = _this.current_product.quantity;
+        var qty = parseFloat($('#product_quantity').val());
+        var afterQty = parseFloat(Math.round((currentQty + qty) * 10000) / 10000);
+        $('#product_afterQty').val(afterQty);
       });
     }
   },
   created: function created() {
     var _this2 = this;
 
+    // 取得所有商品列表(id與name)
     var getProductsName = $('#getProductsName').html();
-    var getMeterialsName = $('#getMeterialsName').html();
     axios.get(getProductsName).then(function (response) {
       _this2.products = response.data;
-    });
+    }); // 取得所有原物料列表(id與name)
+
+    var getMeterialsName = $('#getMeterialsName').html();
     axios.get(getMeterialsName).then(function (response) {
       _this2.materials = response.data;
     });
-
-    $.fn.serializeObject = function () {
-      var o = {};
-      var a = this.serializeArray();
-      $.each(a, function () {
-        if (o[this.name] !== undefined) {
-          if (!o[this.name].push) {
-            o[this.name] = [o[this.name]];
-          }
-
-          o[this.name].push(this.value || '');
-        } else {
-          o[this.name] = this.value || '';
-        }
-      });
-      return o;
-    };
   }
 });
 

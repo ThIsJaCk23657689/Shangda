@@ -705,6 +705,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    // 新增原物料細項
     addDetail: function addDetail() {
       if (this.current_material.length != 0) {
         this.details.push({
@@ -725,6 +726,7 @@ __webpack_require__.r(__webpack_exports__);
         alert('請選擇原物料');
       }
     },
+    // 刪除原物料細項
     deleteDetail: function deleteDetail(id) {
       this.details.splice(id, 1);
 

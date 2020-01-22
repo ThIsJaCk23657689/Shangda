@@ -75,6 +75,7 @@ export default {
         };
     },
     methods: {
+        // 新增原物料細項
         addDetail(){
             if(this.current_material.length != 0){
                 this.details.push({
@@ -94,20 +95,29 @@ export default {
             }
         },
 
+        // 刪除原物料細項
         deleteDetail(id){
             this.details.splice(id, 1);
         },
 
+        // 計算原物料減量
         calculateAfterQty(id){
-            let currentQty = $('#currentQty_' + id).val();
-            let quantity = $('#quantity_'+ id).val();
-            let afterQty = currentQty - quantity;
+            let currentQty = parseFloat($('#currentQty_' + id).val());
+            let quantity, afterQty;
+            if($.isFloatOrInt($('#quantity_'+ id))){
+                quantity = parseFloat($('#quantity_'+ id).val());
+                afterQty = parseFloat(Math.round((currentQty - quantity) * 10000) / 10000);
+                this.details[id - 1].quantity = quantity;
+            }else{
+                $('#quantity_'+ id).val(0);
+                afterQty = parseFloat(Math.round((currentQty) * 10000) / 10000);
+                this.details[id - 1].quantity = 0;
+            }
             $('#afterQty' + id).val(afterQty);
-
-            this.details[id - 1].quantity = quantity;
             this.details[id - 1].afterQty = afterQty;
         },
 
+        // 取得原物料資料
         getMaterialData(){
             let material_id = $('#material_id').val();
 
@@ -117,8 +127,8 @@ export default {
                 axios.post(getMeterialInfo, {
                     id: material_id
                 }).then(response => {
-                    this.current_material = response.data;
                     // console.log(response);
+                    this.current_material = response.data;
                 });
             }else{
                 alert('請選擇原物料');

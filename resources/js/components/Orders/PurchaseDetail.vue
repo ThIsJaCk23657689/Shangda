@@ -86,6 +86,7 @@ export default {
         };
     },
     methods: {
+        // 新增原物料細項
         addDetail(){
             if(this.current_material.length != 0){
                 this.details.push({
@@ -107,6 +108,7 @@ export default {
             }
         },
 
+        // 刪除原物料細項
         deleteDetail(id){
             this.details.splice(id, 1);
             if(this.details.length != 0){

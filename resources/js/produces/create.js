@@ -11,42 +11,34 @@ const app = new Vue({
         }
     },
     methods: {
+        // 取得商品資料
         getProductData(id){
             let getProductsInfo = $('#getProductsInfo').html();
 
             axios.post(getProductsInfo, id).then(response => {
-                console.log(response);
+                // console.log(response);
                 this.current_product = response.data;
+                
+                // 觸發事件：當"商品名稱"欄位被更動時
+                // 試算商品庫存：目前庫存 + 增加量 = 最終庫存 (四捨五入到小數點後4位)
+                let currentQty = this.current_product.quantity;
+                let qty = parseFloat($('#product_quantity').val());
+                let afterQty = parseFloat(Math.round((currentQty + qty) * 10000) / 10000);
+                $('#product_afterQty').val(afterQty);
             });
         },
     },
     created(){
+        // 取得所有商品列表(id與name)
         let getProductsName = $('#getProductsName').html();
-        let getMeterialsName = $('#getMeterialsName').html();
-
         axios.get(getProductsName).then(response => {
             this.products = response.data;
         });
 
+        // 取得所有原物料列表(id與name)
+        let getMeterialsName = $('#getMeterialsName').html();
         axios.get(getMeterialsName).then(response => {
             this.materials = response.data;
         });
-
-        $.fn.serializeObject = function()
-        {
-            var o = {};
-            var a = this.serializeArray();
-            $.each(a, function() {
-                if (o[this.name] !== undefined) {
-                    if (!o[this.name].push) {
-                        o[this.name] = [o[this.name]];
-                    }
-                    o[this.name].push(this.value || '');
-                } else {
-                    o[this.name] = this.value || '';
-                }
-            });
-            return o;
-        };
     }
 });

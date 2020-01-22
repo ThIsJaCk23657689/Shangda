@@ -1,7 +1,7 @@
 <template>
 <div class="row justify-content-center">
     <div class="col-md-12">
-        <form method="POST" :action="createProduce">
+        <form id="ProduceCreateForm" method="POST" :action="createProduce" v-on:submit.prevent="submitProduceForm">
 
             <div class="form-group row">
                 <label for="product_id" class="col-md-4 col-form-label text-md-right">
@@ -23,7 +23,7 @@
                 </label>
 
                 <div class="col-md-4">
-                    <input id="product_currentQty" type="text" class="form-control" name="product_currentQty" :value="current_product.quantity" disabled>
+                    <input id="product_currentQty" type="text" class="form-control" name="product_currentQty" :value="current_product.quantity || 0" disabled>
                 </div>
 
                 <div class="col-md-2">
@@ -90,7 +90,20 @@
 export default {
     props: ['products', 'current_product', 'materials'],
     mounted() {
-        console.log('ProducesCreateForm.vue mounted.')
+        console.log('ProducesCreateForm.vue mounted.');
+
+        // 庫存細項 表單程式碼
+        $('#ProduceDetailForm').submit(function(e){
+            e.preventDefault();
+
+            let url = $('#createProduceDetail').html();
+            let data = $(this).serialize();
+            axios.post(url, data).then(response => {
+                console.log(response);
+            }).catch((error) => {
+                console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
+            });
+        });
     },
     data(){
         return {
@@ -99,8 +112,8 @@ export default {
         }
     },
     methods: {
+        // 取得商品資料 => 觸發監聽事件:get-product-data，並回傳所選擇的商品id到父元件
         getProductData(){
-            $('#product_quantity').val(0);
             let product_id = $('#product_id').val();
             if(product_id != 0){
                 this.$emit('get-product-data', {
@@ -111,15 +124,41 @@ export default {
             }
         },
 
+        // 觸發事件：當"庫存增量數量"欄位被更動時
+        // 試算商品庫存：目前庫存 + 增加量 = 最終庫存 (四捨五入到小數點後4位)
         calculateProductAfterQty(){
-            if($('#product_currentQty').val() == ""){
+            if($('#product_id').val() == "0"){
                 alert("請先選擇商品!");
                 $('#product_quantity').val(0);
-            }else{
-                let currentQty = $('#product_currentQty').val();
-                let qty = $('#product_quantity').val();
-                let afterQty = currentQty - qty;
+            }else if($.isFloatOrInt($('#product_quantity'))){
+                let currentQty = parseFloat($('#product_currentQty').val());
+                let qty = parseFloat($('#product_quantity').val());
+                let afterQty = parseFloat(Math.round((currentQty + qty) * 10000) / 10000);
                 $('#product_afterQty').val(afterQty);
+            }else{
+                let afterQty = parseFloat($('#product_currentQty').val());
+                $('#product_afterQty').val(afterQty);
+            }
+        },
+
+        // 遞交Produce Create Form
+        submitProduceForm(event){
+            if($('#product_id').val() == "0"){
+                alert("請先選擇商品!");
+            }else{
+                // 1. 先創建 Produce
+                let url = event.target.action;
+                let data = $(event.target).serialize();
+
+                axios.post(url, data).then(response => {
+                    console.log(response);
+                    $('#produceID').val(response.data.produce_id);
+
+                    // 2. 建立 Produce Detail
+                    $('#ProduceDetailForm').submit();
+                }).catch((error) => {
+                    console.error('新增商品庫存時發生錯誤，錯誤訊息：' + error);
+                });
             }
         }
     }

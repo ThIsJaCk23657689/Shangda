@@ -26,9 +26,9 @@
 
         <span id="createProduce" style="display: none;">{{ route('produces.store') }}</span>
 		<span id="getProducesIndex" style="display: none;">{{ route('produces.index') }}</span>
+
+		{{-- <span id="createProduceDetail" style="display: none;">{{ route('produces.details.store') }}</span> --}}
 		
-		
-		
-		<produces-create-form :products="products" :current_product="current_product" :materials="materials" v-on:get-product-data="getProductData"></produces-create-form>
+		<produces-create-form ref="ProduceCreateForm" :products="products" :current_product="current_product" :materials="materials" v-on:get-product-data="getProductData"></produces-create-form>
 	</div>
 @endsection
