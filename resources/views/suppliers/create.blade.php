@@ -11,7 +11,7 @@
 			<a href="#">{{ __('People Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Suppliers') }}</a>
+			<a href="{{ route('suppliers.index') }}">{{ __('Suppliers') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Create') }}</li>
 	@endcomponent
@@ -269,23 +269,10 @@
                             確認新增
                         </button>
                         <a href="{{ route('suppliers.index') }}" class="btn btn-block btn-danger">
-                            返回上一頁
+                            返回列表
                         </a>
                     </div>
                 </div>
-
-                {{-- <div class="form-group row">
-                    <div class="col-md-6 offset-md-4">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                {{ old('remember') ? 'checked' : '' }}>
-
-                            <label class="form-check-label" for="remember">
-                                {{ __('Remember Me') }}
-                            </label>
-                        </div>
-                    </div>
-                </div> --}}
 
             </form>
         </div>

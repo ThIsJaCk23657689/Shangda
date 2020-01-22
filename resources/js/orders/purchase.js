@@ -2,7 +2,6 @@
 Vue.component('purchase-create-form', require('./../components/Orders/PurchaseCreateForm.vue').default);
 Vue.component('purchase-detail', require('./../components/Orders/PurchaseDetail.vue').default);
 
-Vue.component('option-item', require('./../components/Partials/OptionItem.vue').default);
 Vue.component('create-supplier-modal', require('./../components/Modals/CreateSupplierModal.vue').default);
 
 const app = new Vue({

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ConsumerRequest;
+use App\Http\Requests\ConsumerEditRequest;
 use App\Services\ConsumerService;
 use App\Services\DiscountService;
 
@@ -24,9 +25,9 @@ class ConsumerController extends Controller
 
     public function index()
     {
-        $consumer = $this->ConsumerService->getList();
+        $consumers = $this->ConsumerService->getList();
         $lastUpdate = $this->ConsumerService->getlastupdate();
-        return view('consumers.index', compact('consumer', 'lastUpdate'));
+        return view('consumers.index', compact('consumers', 'lastUpdate'));
     }
 
     public function create()
@@ -36,14 +37,14 @@ class ConsumerController extends Controller
 
     public function store(ConsumerRequest $request)
     {
-        $comsumer = $this->ConsumerService->add($request);
+        $consumer = $this->ConsumerService->add($request);
         return redirect()->route('consumers.index');
     }
 
     public function show($id)
     {
-        $comsumer = $this->ConsumerService->getOne($id);
-        return view('consumers.show', compact('comsumer'));
+        $consumer = $this->ConsumerService->getOne($id);
+        return view('consumers.show', compact('consumer'));
     }
 
     public function edit($id)
@@ -52,7 +53,7 @@ class ConsumerController extends Controller
         return view('consumers.edit', compact('consumer'));
     }
 
-    public function update(ConsumerRequest $request, $id)
+    public function update(ConsumerEditRequest $request, $id)
     {
         $consumer = $this->ConsumerService->update($request, $id);
         return redirect()->route('consumers.show', [$id]);

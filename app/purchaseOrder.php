@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Supplier as SupplierEloquent;
 use App\User as UserEloquent;
 use App\PurchaseOrderDetail as PurchaseOrderDetailEloquent;
-// use App\Material as MaterialEloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 class PurchaseOrder extends Model
 {
 

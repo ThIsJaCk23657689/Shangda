@@ -56,12 +56,13 @@ class ProductService extends BaseService
     }
 
     public function getNamesList(){
-        $product_names = ProductEloquent::select('id','name')->get();
+        $product_names = ProductEloquent::select('id', 'name')->get();
         return $product_names;
     }
 
     public function getInfoList($id){
-        $product_info = ProductEloquent::select('name','quantity','unit')->find($id);
+        $product_info = ProductEloquent::select('quantity','unit')->find($id);
+        $product_info['showUnit'] = $product_info->showUnit();
         return $product_info;
     }
 
@@ -124,7 +125,7 @@ class ProductService extends BaseService
 
     public function getlastupdate()
     {
-        $product = ProductEloquent::orderBy('id', 'DESC')->first();
+        $product = ProductEloquent::withTrashed()->orderBy('id', 'DESC')->first();
         if(!empty($product)){
             return $product->updated_at;
         }

@@ -4,13 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 use App\User as UserEloquent;
 use App\Product as ProductEloquent;
-use App\ProductQuantity as ProductQuantityEloquent;
+use App\Produce as ProduceEloquent;
 
-class Product_log extends Model
+class ProductLog extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'user_id', 'product_id', 'act', 'amount'
     ];
@@ -23,10 +25,7 @@ class Product_log extends Model
         return $this->belongsTo(ProductEloquent::class);
     }
 
-    
-
-    public function productQuantity(){
-        return $this->belongsTo(ProductQuantityEloquent::class);
+    public function produce(){
+        return $this->belongsTo(ProduceEloquent::class);
     }
-
 }

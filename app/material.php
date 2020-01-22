@@ -15,7 +15,7 @@ class Material extends Model
 
     public function purchaseOrders(){
         return $this->belongsToMany(PurchaseOrderEloquent::class)
-        ->withPivot('price','totalPrice','quantity','comment','discount');
+            ->withPivot('price', 'totalPrice', 'quantity', 'comment', 'discount');
     }
 
     public function showUnit(){

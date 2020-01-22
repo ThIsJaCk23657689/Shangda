@@ -14,8 +14,8 @@ class ConsumerService extends BaseService
             'shortName' => $request->shortName,
             'act' => $request->act,
             'pwd' => bcrypt($request->pwd),
-            'taxId' => $request->taxId,
-            'idNumber' => $request->idNumber,
+            'taxID' => $request->taxID,
+            'idNumber' => strtoupper($request->idNumber),
             'inCharge1' => $request->inCharge1,
             'tel1' => $request->tel1,
             'email1' => $request->email1,
@@ -29,7 +29,7 @@ class ConsumerService extends BaseService
             'comment' => $request->comment,
             'companyAddress' => $request->companyAddress,
             'deliveryAddress' => $request->deliveryAddress,
-            'deliveryAddress' => $request->name,
+            'invoiceAddress' => $request->invoiceAddress,
         ]);
 
         return $consumer;
@@ -37,13 +37,13 @@ class ConsumerService extends BaseService
 
     public function getList()
     {
-        $consumers = ConsumerEloquent::get();
+        $consumers = ConsumerEloquent::withTrashed()->get();
         return $consumers;
     }
 
     public function getOne($id)
     {
-        $consumer = ConsumerEloquent::find($id);
+        $consumer = ConsumerEloquent::withTrashed()->findOrFail($id);
         return $consumer;
     }
 
@@ -53,9 +53,7 @@ class ConsumerService extends BaseService
         $consumer->update([
             'name' => $request->name,
             'shortName' => $request->shortName,
-            'act' => $request->act,
-            'pwd' => bcrypt($request->pwd),
-            'taxId' => $request->taxId,
+            'taxID' => $request->taxID,
             'idNumber' => $request->idNumber,
             'inCharge1' => $request->inCharge1,
             'tel1' => $request->tel1,
@@ -70,7 +68,7 @@ class ConsumerService extends BaseService
             'comment' => $request->comment,
             'companyAddress' => $request->companyAddress,
             'deliveryAddress' => $request->deliveryAddress,
-            'deliveryAddress' => $request->name,
+            'invoiceAddress' => $request->invoiceAddress,
         ]);
 
         return $consumer;
@@ -79,12 +77,16 @@ class ConsumerService extends BaseService
     public function delete($id)
     {
         $consumer = $this->getOne($id);
-        $consumer->delete();
+        if($consumer->trashed()){
+            $consumer->restore();
+        }else{
+            $consumer->delete();
+        }
     }
 
     public function getlastupdate()
     {
-        $consumer = ConsumerEloquent::orderBy('id', 'DESC')->first();
+        $consumer = ConsumerEloquent::withTrashed()->orderBy('id', 'DESC')->first();
         return $consumer->updated_at;
     }
 }

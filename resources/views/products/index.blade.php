@@ -22,7 +22,7 @@
                 <i class="fas fa-plus"></i>
                 新增商品
 			</a>
-			<a href="{{ route('products.quantities.create') }}" class="btn btn-md btn-warning">
+			<a href="{{ route('produces.create') }}" class="btn btn-md btn-warning">
                 新增商品庫存
             </a>
 		</div>
@@ -68,11 +68,9 @@
 								<td>
 									<a href="{{ route('products.show', [$product->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
-										查看
 									</a>
 									<a href="{{ route('products.edit', [$product->id]) }}" class="btn btn-md btn-success">
 										<i class="fas fa-edit"></i>
-										編輯
 									</a>
 									@if($product->trashed())
 										<a href="#" class="btn btn-md btn-light" onclick="

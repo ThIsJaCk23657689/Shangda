@@ -114,7 +114,7 @@
                     <label for="comment" class="col-md-4 col-form-label text-md-right">備註</label>
 
                     <div class="col-md-6">
-                        <input id="comment" type="email" class="form-control @error('comment') is-invalid @enderror" name="comment" value="{{ old('comment') }}" autocomplete="comment">
+                        <input id="comment" type="text" class="form-control @error('comment') is-invalid @enderror" name="comment" value="{{ old('comment') }}" autocomplete="comment">
 
                         @error('comment')
                             <span class="invalid-feedback" role="alert">
@@ -130,7 +130,7 @@
                             確認新增
                         </button>
                         <a href="{{ route('materials.index') }}" class="btn btn-block btn-danger">
-                            返回上一頁
+                            返回列表
                         </a>
                     </div>
                 </div>

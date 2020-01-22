@@ -7,7 +7,7 @@
 			<a href="#">{{ __('People Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Staffs') }}</a>
+			<a href="{{ route('users.index') }}">{{ __('Staffs') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Create') }}</li>
 	@endcomponent
@@ -126,7 +126,7 @@
                             確認新增
                         </button>
                         <a href="{{ route('users.index') }}" class="btn btn-block btn-danger">
-                            返回上一頁
+                            返回列表
                         </a>
                     </div>
                 </div>

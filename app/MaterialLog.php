@@ -7,16 +7,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\User as UserEloquent;
 use App\Material as MaterialEloquent;
-use App\ProductQuantityDetail as ProductQuantityDetailEloquent;
+use App\ProduceDetail as ProduceDetailEloquent;
 
-class Material_log extends Model
+class MaterialLog extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
         'user_id', 'material_id', 'act', 'amount',
     ];
-
 
     public function material(){
         return $this->belongsTo(MaterialEloquent::class);
@@ -26,7 +25,7 @@ class Material_log extends Model
         return $this->belongsTo(UserEloquent::class);
     }
 
-    public function productQuantityDetail(){
-        return $this->belongsTo(ProductQuantityDetailEloquent::class);
+    public function produceDetail(){
+        return $this->belongsTo(ProduceDetailEloquent::class);
     }
 }

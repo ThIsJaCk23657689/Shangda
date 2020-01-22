@@ -81,109 +81,54 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/products/create.js":
-/*!*****************************************!*\
-  !*** ./resources/js/products/create.js ***!
-  \*****************************************/
+/***/ "./resources/js/consumers/create.js":
+/*!******************************************!*\
+  !*** ./resources/js/consumers/create.js ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 $(function () {
-  $('#picture').change(function () {
-    var input = $(this)[0];
-    readURL(input);
-  });
-
-  function readURL(input) {
-    if (input.files && input.files[0]) {
-      $('#preview-upload').fadeIn();
-      var reader = new FileReader();
-
-      reader.onload = function (e) {
-        $('#previewImg-upload').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  $('#fundamentalPrice').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
+  $('#copycompany1').click(function (e) {
+    if ($(this).prop("checked")) {
+      $('#deliveryAddress').val($('#companyAddress').val());
+    } else {
+      $('#deliveryAddress').val('');
     }
   });
-  $('#materialCoefficient1').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
+  $('#copycompany2').click(function (e) {
+    if ($(this).prop("checked")) {
+      $('#invoiceAddress').val($('#companyAddress').val());
+    } else {
+      $('#invoiceAddress').val('');
     }
   });
-  $('#materialCoefficient2').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
+  $('#monthlyCheck').change(function (e) {
+    if ($(this).prop("checked")) {
+      $('#monthlyCheckDate').val("");
+      $('#monthlyCheckDate').attr('disabled', true);
+    } else {
+      $('#monthlyCheckDate').val("");
+      $('#monthlyCheckDate').attr('disabled', false);
     }
   });
-  $('#materialCoefficient3').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
-  });
-  $('#materialCoefficient4').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
-  });
-  $('#materialCoefficient5').change(function () {
-    if (checkFormat($(this))) {
-      caluatedRetailPrice();
-    }
-  });
-
-  function checkFormat($input) {
-    var value = $input.val();
-    var rules = /^\d+$|^\d+[.]?\d+$/;
-
-    if (rules.test(value)) {
-      return true;
-    }
-
-    alert("請輸入數字。");
-    $input.val(0);
-    caluatedRetailPrice();
-    return false;
-  }
-
-  function caluatedRetailPrice() {
-    var fp = parseFloat($('#fundamentalPrice').val());
-    var mc1 = parseFloat($('#materialCoefficient1').val());
-    var mc2 = parseFloat($('#materialCoefficient2').val());
-    var mc3 = parseFloat($('#materialCoefficient3').val());
-    var mc4 = parseFloat($('#materialCoefficient4').val());
-    var mc5 = parseFloat($('#materialCoefficient5').val());
-    var mp1 = parseFloat($('#material_1').html());
-    var mp2 = parseFloat($('#material_2').html());
-    var mp3 = parseFloat($('#material_3').html());
-    var mp4 = parseFloat($('#material_4').html());
-    var mp5 = parseFloat($('#material_5').html());
-    var rp = fp + mc1 * mp1 + mc2 * mp2 + mc3 * mp3 + mc4 * mp4 + mc5 * mp5;
-    $('#retailPrice').val(rp);
-  }
 });
 
 /***/ }),
 
-/***/ 5:
-/*!***********************************************!*\
-  !*** multi ./resources/js/products/create.js ***!
-  \***********************************************/
+/***/ 7:
+/*!************************************************!*\
+  !*** multi ./resources/js/consumers/create.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\products\create.js */"./resources/js/products/create.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\consumers\create.js */"./resources/js/consumers/create.js");
 
 
 /***/ })
