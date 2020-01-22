@@ -63,7 +63,7 @@
 
             <hr>
 
-            <produces-detail :materials="materials" v-on:refresh-materials="refreshMaterials"></produces-detail>
+            <produces-detail ref="ProduceDetailForm" :materials="materials" v-on:refresh-materials="refreshMaterials"></produces-detail>
 
             <hr>
 
@@ -99,7 +99,9 @@ export default {
             let url = $('#createProduceDetail').html();
             let data = $(this).serialize();
             axios.post(url, data).then(response => {
-                console.log(response);
+                // console.log(response);
+                alert("新增成功！" + response.data.massenge);
+                location.href = response.data.redirect;
             }).catch((error) => {
                 console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
             });
@@ -149,13 +151,15 @@ export default {
         submitProduceForm(event){
             if($('#product_id').val() == "0"){
                 alert("請先選擇商品!");
+            }else if(this.$refs.ProduceDetailForm.details.length == 0){
+                alert("請新增所消耗原物料!");
             }else{
                 // 1. 先創建 Produce
                 let url = event.target.action;
                 let data = $(event.target).serialize();
 
                 axios.post(url, data).then(response => {
-                    console.log(response);
+                    // console.log(response);
                     $('#produceID').val(response.data.produce_id);
 
                     // 2. 建立 Produce Detail

@@ -44,6 +44,7 @@ class ProduceDetailService extends BaseService
         if($produce_detail){
             $msg = [
                 'massenge' => "總共有".$count."筆原料新增成功。",
+                'redirect' => route('produces.index'),
                 'status' => 'OK'
             ];
         }else{

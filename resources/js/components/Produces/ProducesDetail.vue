@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-md btn-success" @click="addDetail">新增至細項</button>
+                    <button id="addMaterialBtn" type="button" class="btn btn-md btn-success" @click="addDetail">新增至細項</button>
                 </div>
             </div>
 
@@ -78,26 +78,32 @@ export default {
         // 新增原物料細項
         addDetail(){
             let material_id = $('#material_id').val();
-            this.$emit('refresh-materials', {
-                id: material_id - 1,
-                type: 'add'
-            });
-
-            if(this.current_material.length != 0){
-                this.details.push({
-                    count: this.details.length,
-                    material: {
-                        id: this.current_material.id,
-                        name: this.current_material.name,
-                        unit: this.current_material.unit,
-                        showUnit: this.current_material.showUnit
-                    },
-                    currentQty: this.current_material.showStock,
-                    quantity: 0,
-                    afterQty: 0,
-                });
+            if(material_id == 0){
+                alert("請先選擇原物料!");
             }else{
-                alert('請選擇原物料');
+                this.$emit('refresh-materials', {
+                    id: material_id - 1,
+                    type: 'add'
+                });
+
+                if(this.current_material.length != 0){
+                    this.details.push({
+                        count: this.details.length,
+                        material: {
+                            id: this.current_material.id,
+                            name: this.current_material.name,
+                            unit: this.current_material.unit,
+                            showUnit: this.current_material.showUnit
+                        },
+                        currentQty: this.current_material.showStock,
+                        quantity: 0,
+                        afterQty: 0,
+                    });
+
+                    this.current_material = [];
+                }else{
+                    alert('請選擇原物料');
+                }
             }
         },
 
@@ -133,12 +139,13 @@ export default {
 
             if(material_id != 0){
                 let getMeterialInfo = $('#getMeterialInfo').html();
-
+                $('#addMaterialBtn').attr('disabled', true);
                 axios.post(getMeterialInfo, {
                     id: material_id
                 }).then(response => {
                     // console.log(response);
                     this.current_material = response.data;
+                    $('#addMaterialBtn').attr('disabled', false);
                 });
             }else{
                 alert('請選擇原物料');

@@ -193,7 +193,9 @@ __webpack_require__.r(__webpack_exports__);
       var url = $('#createProduceDetail').html();
       var data = $(this).serialize();
       axios.post(url, data).then(function (response) {
-        console.log(response);
+        // console.log(response);
+        alert("新增成功！" + response.data.massenge);
+        location.href = response.data.redirect;
       })["catch"](function (error) {
         console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
       });
@@ -242,12 +244,14 @@ __webpack_require__.r(__webpack_exports__);
     submitProduceForm: function submitProduceForm(event) {
       if ($('#product_id').val() == "0") {
         alert("請先選擇商品!");
+      } else if (this.$refs.ProduceDetailForm.details.length == 0) {
+        alert("請新增所消耗原物料!");
       } else {
         // 1. 先創建 Produce
         var url = event.target.action;
         var data = $(event.target).serialize();
         axios.post(url, data).then(function (response) {
-          console.log(response);
+          // console.log(response);
           $('#produceID').val(response.data.produce_id); // 2. 建立 Produce Detail
 
           $('#ProduceDetailForm').submit();
@@ -349,26 +353,32 @@ __webpack_require__.r(__webpack_exports__);
     // 新增原物料細項
     addDetail: function addDetail() {
       var material_id = $('#material_id').val();
-      this.$emit('refresh-materials', {
-        id: material_id - 1,
-        type: 'add'
-      });
 
-      if (this.current_material.length != 0) {
-        this.details.push({
-          count: this.details.length,
-          material: {
-            id: this.current_material.id,
-            name: this.current_material.name,
-            unit: this.current_material.unit,
-            showUnit: this.current_material.showUnit
-          },
-          currentQty: this.current_material.showStock,
-          quantity: 0,
-          afterQty: 0
-        });
+      if (material_id == 0) {
+        alert("請先選擇原物料!");
       } else {
-        alert('請選擇原物料');
+        this.$emit('refresh-materials', {
+          id: material_id - 1,
+          type: 'add'
+        });
+
+        if (this.current_material.length != 0) {
+          this.details.push({
+            count: this.details.length,
+            material: {
+              id: this.current_material.id,
+              name: this.current_material.name,
+              unit: this.current_material.unit,
+              showUnit: this.current_material.showUnit
+            },
+            currentQty: this.current_material.showStock,
+            quantity: 0,
+            afterQty: 0
+          });
+          this.current_material = [];
+        } else {
+          alert('請選擇原物料');
+        }
       }
     },
     // 刪除原物料細項
@@ -405,11 +415,13 @@ __webpack_require__.r(__webpack_exports__);
 
       if (material_id != 0) {
         var getMeterialInfo = $('#getMeterialInfo').html();
+        $('#addMaterialBtn').attr('disabled', true);
         axios.post(getMeterialInfo, {
           id: material_id
         }).then(function (response) {
           // console.log(response);
           _this.current_material = response.data;
+          $('#addMaterialBtn').attr('disabled', false);
         });
       } else {
         alert('請選擇原物料');
@@ -562,6 +574,7 @@ var render = function() {
           _c("hr"),
           _vm._v(" "),
           _c("produces-detail", {
+            ref: "ProduceDetailForm",
             attrs: { materials: _vm.materials },
             on: { "refresh-materials": _vm.refreshMaterials }
           }),
@@ -735,7 +748,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-md btn-success",
-                  attrs: { type: "button" },
+                  attrs: { id: "addMaterialBtn", type: "button" },
                   on: { click: _vm.addDetail }
                 },
                 [_vm._v("新增至細項")]
