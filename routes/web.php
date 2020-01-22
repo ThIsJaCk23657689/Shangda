@@ -42,6 +42,13 @@ Route::prefix('/backend')->group(function(){
     });
     Route::resource('/materials', 'MaterialController');
 
+    //商品細項(原物料成分)相關路由
+    Route::prefix('/product/details')->group(function(){
+        Route::post('store','ProductDetailController@store')->name('products.details.store');
+        Route::patch('update','ProductDetailController@update')->name('products.details.update');
+        Route::delete('destroy','ProductDetailController@destroy')->name('products.details.destroy');
+    });
+
     // 商品管理路由
     Route::prefix('/products')->group(function(){
         Route::get('showName','ProductController@showName')->name('products.showName');
@@ -49,13 +56,12 @@ Route::prefix('/backend')->group(function(){
     });
     Route::resource('/products', 'ProductController');
 
-    //商品細項相關路由
-     Route::prefix('/productDetail')->group(function(){
-        Route::post('store','ProductDetailController@store')->name('productDetail.store');
-        Route::patch('update','ProductDetailController@update')->name('productDetail.update');
-        Route::delete('destroy','ProductDetailController@destroy')->name('productDetail.destroy');
+    //商品庫存細項管理路由
+    Route::prefix('/produces/details')->group(function(){
+        Route::post('store','ProduceController@detailstore')->name('produces.details.store');
+        // Route::patch('update','ProduceController@update')->name('productDetail.update');
+        // Route::delete('destroy','ProduceController@destroy')->name('productDetail.destroy');
     });
-
     // 商品庫存管理路由
     Route::resource('/produces', 'ProduceController');
 

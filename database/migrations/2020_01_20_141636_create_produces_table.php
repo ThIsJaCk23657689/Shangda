@@ -19,7 +19,7 @@ class CreateProducesTable extends Migration
             $table->unsignedBigInteger('user_id')->comment('員工編號');
             $table->unsignedBigInteger('last_user_id')->comment('員工編號');
 
-            $table->unsignedInteger('quantity')->comment('所增量的商品數量');
+            $table->double('quantity')->comment('所增量的商品數量');
             $table->timestamps();
         });
     }

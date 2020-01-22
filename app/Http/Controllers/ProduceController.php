@@ -3,19 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ProduceRequest;
+use App\Http\Requests\ProduceDetailRequest;
+
 use App\Services\ProduceService;
 use App\Services\ProductService;
+use App\Services\ProduceDetailService;
 
 class ProduceController extends Controller
 {
     public $ProduceService;
     public $ProductService;
+    public $ProduceDetailService;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->ProduceService = new ProduceService();
         $this->ProductService = new ProductService();
+        $this->ProduceDetailService = new ProduceDetailService();
     }
 
     public function index(){
@@ -25,12 +31,16 @@ class ProduceController extends Controller
     }
 
     public function create(){
-        $products = $this->ProductService->getList();
-        return view('produces.create', compact('products'));
+        return view('produces.create');
     }
 
-    public function store(Request $request){
-        return redirect()->route('produces.index');
+    public function store(ProduceRequest $request){
+        $produce = $this->ProduceService->add($request);
+        return response()->json([
+            'produce_id' => $produce->id,
+            'massenge' => '編號' . $produce->id . '建立成功。',
+            'status' => 'OK'
+        ]);
     }
 
     public function show($id){
@@ -50,5 +60,11 @@ class ProduceController extends Controller
     public function destroy($id){
         $produce = $this->ProduceService->getOne($id);
         return redirect()->route('produces.index');
+    }
+
+    // Produce Detail Function
+    public function detailstore(ProduceDetailRequest $request){
+        $msg = $this->ProduceDetailService->add($request);
+        return response()->json($msg, 200);
     }
 }

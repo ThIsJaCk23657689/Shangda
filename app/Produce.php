@@ -14,16 +14,12 @@ class Produce extends Model
         'product_id', 'quantity', 'user_id', 'last_user_id'
     ];
 
-    public function products(){
+    public function product(){
         return $this->belongsTo(ProductEloquent::class);
     }
 
-    public function ProduceDetail(){
+    public function produceDetails(){
         return $this->hasMany(ProduceDetailEloquent::class);
-    }
-
-    public function productLog(){
-        return $this->hasMany(ProductLogEloquent::class);
     }
 
     public function user(){

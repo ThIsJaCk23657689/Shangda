@@ -17,7 +17,7 @@ class CreateProduceDetailsTable extends Migration
             $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('produce_id')->comment('對應商品數量表主鍵的外來鍵');
             $table->unsignedBigInteger('material_id')->comment('所減量的原物料編號');
-            $table->unsignedInteger('quantity')->comment('所減的數量');
+            $table->double('quantity')->comment('所減的數量');
         });
     }
 

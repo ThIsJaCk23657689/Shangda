@@ -14,6 +14,8 @@ class ProduceDetail extends Model
         'produce_id', 'material_id', 'quantity', 
     ];
 
+    public $timestamps = false;
+
     public function produce(){
         return $this->belongsTo(ProduceEloquent::class);
     }

@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Category as CategoryEloquent;
 use App\Produce as ProduceEloquent;
-use App\Product_log as ProductLogEloquent;
+use App\ProductLog as ProductLogEloquent;
 use App\ProductDetail as ProductDetailEloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use URL;
@@ -31,7 +31,7 @@ class Product extends Model
         return $this->belongsTo(CategoryEloquent::class);
     }
 
-    public function product_log(){
+    public function productlogs(){
         return $this->hasMany(ProductLogEloquent::class);
     }
 

@@ -11,35 +11,32 @@ class ProduceService extends BaseService
 {
     public function add($request)
     {
-        $product = ProductEloquent::find($request->product_id);
-        if($product){
-            $produce = ProduceEloquent::create([
-                        'product_id' => $request->product_id,
-                        'quantity ' => $request->quantity,
-                        'user_id' => Auth::id(),
-                        'last_user_id' => Auth::id()
-            ]);
-            if($produce){
-                // 更改商品存貨量
-                $product->quantity = $product->quantity + $request->quantity;
-                if($product->quantity < 0){
-                    return 'Quantity Not Enough';
-                }
-                $product->save();
+        $product = ProductEloquent::findOrFail($request->product_id);
+        $produce = ProduceEloquent::create([
+            'product_id' => $request->product_id,
+            'quantity' => $request->product_quantity,
+            'user_id' => Auth::id(),
+            'last_user_id' => Auth::id()
+        ]);
 
-                //新增商品存貨Log
-                $ProductLog = ProductLogEloquent::create([
-                    'user_id' => Auth::id(),
-                    'product_id'=> $request->product_id,
-                    'act' => 4,
-                    'amount' => $request->quantity
-                ]);
-                return $produce;
-            }else{
-                return "Failed";
+        if($produce){
+            // 更改商品存貨量
+            $product->quantity = $product->quantity + $request->product_quantity;
+            if($product->quantity < 0){
+                throw new Exception('Quantity Not Enough.');
             }
+            $product->save();
+
+            //新增商品存貨Log
+            $ProductLog = ProductLogEloquent::create([
+                'user_id' => Auth::id(),
+                'product_id'=> $request->product_id,
+                'act' => 4,
+                'amount' => $request->product_quantity
+            ]);
+            return $produce;
         }else{
-            return "Product Not Found";
+            throw new Exception('Create Produce Failed');
         }
     }
 
