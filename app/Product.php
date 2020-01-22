@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Category as CategoryEloquent;
-use App\ProductQuantity as ProductQuantityEloquent;
+use App\Produce as ProduceEloquent;
 use App\Product_log as ProductLogEloquent;
+use App\ProductDetail as ProductDetailEloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use URL;
 
@@ -22,8 +23,8 @@ class Product extends Model
         'picture', 'intro', 'specification',
     ];
 
-    public function productQuantities(){
-        return $this->hasMany(ProductQuantityEloquent::class);
+    public function produce(){
+        return $this->hasMany(ProduceEloquent::class);
     }
 
     public function category(){
@@ -32,6 +33,10 @@ class Product extends Model
 
     public function product_log(){
         return $this->hasMany(ProductLogEloquent::class);
+    }
+
+    public function productDetail(){
+        return $this->hasMany(ProductDetailEloquent::class);
     }
 
     public function showUnit(){

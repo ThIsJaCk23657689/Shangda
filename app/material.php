@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\PurchaseOrder as PurchaseOrderEloquent;
 use App\Material_log as Material_logEloquent;
-use App\ProductQuantityDetail as ProductQuantityDetailEloquent;
+use App\ProduceDetail as ProduceDetailEloquent;
+use App\ProductDetail as ProductDetailEloquent;
 
 class Material extends Model
 {
@@ -33,7 +34,11 @@ class Material extends Model
         return $this->hasMany(Material_logEloquent::class);
     }
 
-    public function productQuantityDetail(){
-        return $this->hasMany(ProductQuantityDetailEloquent::class);
+    public function ProduceDetail(){
+        return $this->hasMany(ProduceDetailEloquent::class);
+    }
+
+    public function productDetail(){
+        return $this->hasMany(ProductDetailEloquent::class);
     }
 }

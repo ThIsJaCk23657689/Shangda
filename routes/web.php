@@ -49,6 +49,13 @@ Route::prefix('/backend')->group(function(){
     });
     Route::resource('/products', 'ProductController');
 
+    //商品細項相關路由
+     Route::prefix('/productDetail')->group(function(){
+        Route::post('store','ProductDetailController@store')->name('productDetail.store');
+        Route::patch('update','ProductDetailController@update')->name('productDetail.update');
+        Route::delete('destroy','ProductDetailController@destroy')->name('productDetail.destroy');
+    });
+
     // 商品庫存管理路由
     Route::resource('/produces', 'ProduceController');
 

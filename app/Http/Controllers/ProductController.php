@@ -6,6 +6,7 @@ use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
 use App\Services\BasicMaterialService;
 use App\Services\CategoryService;
+use App\Services\ProductDetailService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,6 +15,7 @@ class ProductController extends Controller
     public $ProductService;
     public $BasicMaterialService;
     public $CategoryService;
+    public $ProductDetailService;
 
     public function __construct()
     {
@@ -21,6 +23,7 @@ class ProductController extends Controller
         $this->ProductService = new ProductService();
         $this->BasicMaterialService = new BasicMaterialService();
         $this->CategoryService = new CategoryService();
+        $this->ProductDetailService = new ProductDetailService();
     }
 
     /**
@@ -70,7 +73,8 @@ class ProductController extends Controller
         $basicMaterials = $this->BasicMaterialService->getList();
         $categories = $this->CategoryService->getList();
         $product = $this->ProductService->getOne($id);
-        return view('products.show', compact(['basicMaterials', 'categories', 'product']));
+        $product_details = $product->productDetails();
+        return view('products.show', compact(['basicMaterials', 'categories', 'product', 'product_details']));
     }
 
     /**
@@ -84,7 +88,8 @@ class ProductController extends Controller
         $basicMaterials = $this->BasicMaterialService->getList();
         $categories = $this->CategoryService->getList();
         $product = $this->ProductService->getOne($id);
-        return view('products.edit', compact(['basicMaterials', 'categories', 'product']));
+        $product_details = $product->productDetails();
+        return view('products.edit', compact(['basicMaterials', 'categories', 'product', 'product_details']));
     }
 
     /**
