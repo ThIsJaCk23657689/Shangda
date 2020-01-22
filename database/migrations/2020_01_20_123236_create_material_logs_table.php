@@ -17,7 +17,8 @@ class CreateMaterialLogsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->comment('員工編號');
             $table->unsignedBigInteger('material_id')->comment('原物料編號');
-            $table->unsignedBigInteger('act')->comment('執行動作'); //1.新增 2.修改 3.刪除 4.使用
+            //1.進貨新增 2.進貨修改 3.進貨刪除 4.原料使用 5.原料使用修改 6.原料使用刪除
+            $table->unsignedBigInteger('act')->comment('執行動作'); 
             $table->double('amount')->comment('數量');
             $table->softDeletes();
             $table->timestamps();

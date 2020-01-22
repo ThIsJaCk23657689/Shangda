@@ -46,13 +46,6 @@ class ConsumerController extends Controller
         return view('consumers.show', compact('comsumer'));
     }
 
-    //以顧客ID尋找相關折扣，若無回傳0
-    public function showDiscount($id)
-    {
-        $discountList = $this->DiscountService->getDiscountList($id);
-        return view('consumers.showDiscount', compact('discountList'));
-    }
-
     public function edit($id)
     {
         $consumer = $this->ConsumerService->getOne($id);
