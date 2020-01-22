@@ -34,7 +34,7 @@
                         <td>{{ index + 1 }}</td>
                         <td>
                             {{ detail.material.name }}
-                            <input type="hidden" :name="'details[' + (index + 1) + '][material_id]'" :value="detail.material.id">
+                            <input type="hidden" :id="'materialID_' + (index + 1)" :name="'details[' + (index + 1) + '][material_id]'" :value="detail.material.id">
                         </td>
                         <td>
                             <input :id="'currentQty_' + (index + 1)" type="text" class="form-control mr-2" :value="detail.currentQty" disabled style="width:60%;display:inline-block;">
@@ -77,6 +77,12 @@ export default {
     methods: {
         // 新增原物料細項
         addDetail(){
+            let material_id = $('#material_id').val();
+            this.$emit('refresh-materials', {
+                id: material_id - 1,
+                type: 'add'
+            });
+
             if(this.current_material.length != 0){
                 this.details.push({
                     count: this.details.length,
@@ -98,6 +104,10 @@ export default {
         // 刪除原物料細項
         deleteDetail(id){
             this.details.splice(id, 1);
+            this.$emit('refresh-materials', {
+                id: $('#materialID_' + (id+1)).val(),
+                type: 'deleted'
+            });
         },
 
         // 計算原物料減量

@@ -63,7 +63,7 @@
 
             <hr>
 
-            <produces-detail :materials="materials"></produces-detail>
+            <produces-detail :materials="materials" v-on:refresh-materials="refreshMaterials"></produces-detail>
 
             <hr>
 
@@ -112,6 +112,10 @@ export default {
         }
     },
     methods: {
+        refreshMaterials(data){
+            this.$emit('refresh-materials', data);
+        },
+
         // 取得商品資料 => 觸發監聽事件:get-product-data，並回傳所選擇的商品id到父元件
         getProductData(){
             let product_id = $('#product_id').val();

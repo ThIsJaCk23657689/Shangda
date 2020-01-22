@@ -7,10 +7,46 @@ const app = new Vue({
         return {
             products: [],
             current_product: [],
-            materials: []
+            materials: [],
+            all_materials: [],
+            materials_disabled: [],
         }
     },
     methods: {
+        // 更新原物料清單
+        refreshMaterials(data){
+            this.materials = this.all_materials;
+
+            if(data.type == 'add'){
+                this.materials_disabled.push({
+                    id: this.materials[data.id].id,
+                    name: this.materials[data.id].name
+                });
+            }else{
+                let index;
+                for(let i = 0; i < this.materials_disabled.length; i++){
+                    if(this.materials_disabled[i].id == data.id){
+                        index = i;
+                        break;
+                    }
+                }
+                this.materials_disabled.splice(index, 1);
+            }
+            
+            this.materials = [];
+            for(let i = 0; i < this.all_materials.length; i++){
+                let canAdd = true;
+                for(let j = 0; j < this.materials_disabled.length; j++){
+                    if(this.all_materials[i].id == this.materials_disabled[j].id){
+                        canAdd = false;
+                    }
+                }
+                if(canAdd){
+                    this.materials.push(this.all_materials[i]);
+                }
+            }
+        },
+        
         // 取得商品資料
         getProductData(id){
             let getProductsInfo = $('#getProductsInfo').html();
@@ -39,6 +75,7 @@ const app = new Vue({
         let getMeterialsName = $('#getMeterialsName').html();
         axios.get(getMeterialsName).then(response => {
             this.materials = response.data;
+            this.all_materials = this.materials;
         });
     }
 });

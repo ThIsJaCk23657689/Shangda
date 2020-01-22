@@ -206,6 +206,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    refreshMaterials: function refreshMaterials(data) {
+      this.$emit('refresh-materials', data);
+    },
     // 取得商品資料 => 觸發監聽事件:get-product-data，並回傳所選擇的商品id到父元件
     getProductData: function getProductData() {
       var product_id = $('#product_id').val();
@@ -345,6 +348,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     // 新增原物料細項
     addDetail: function addDetail() {
+      var material_id = $('#material_id').val();
+      this.$emit('refresh-materials', {
+        id: material_id - 1,
+        type: 'add'
+      });
+
       if (this.current_material.length != 0) {
         this.details.push({
           count: this.details.length,
@@ -365,6 +374,10 @@ __webpack_require__.r(__webpack_exports__);
     // 刪除原物料細項
     deleteDetail: function deleteDetail(id) {
       this.details.splice(id, 1);
+      this.$emit('refresh-materials', {
+        id: $('#materialID_' + (id + 1)).val(),
+        type: 'deleted'
+      });
     },
     // 計算原物料減量
     calculateAfterQty: function calculateAfterQty(id) {
@@ -548,7 +561,10 @@ var render = function() {
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
-          _c("produces-detail", { attrs: { materials: _vm.materials } }),
+          _c("produces-detail", {
+            attrs: { materials: _vm.materials },
+            on: { "refresh-materials": _vm.refreshMaterials }
+          }),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
@@ -751,6 +767,7 @@ var render = function() {
                       _c("input", {
                         attrs: {
                           type: "hidden",
+                          id: "materialID_" + (index + 1),
                           name: "details[" + (index + 1) + "][material_id]"
                         },
                         domProps: { value: detail.material.id }
@@ -1121,10 +1138,50 @@ var app = new Vue({
     return {
       products: [],
       current_product: [],
-      materials: []
+      materials: [],
+      all_materials: [],
+      materials_disabled: []
     };
   },
   methods: {
+    // 更新原物料清單
+    refreshMaterials: function refreshMaterials(data) {
+      this.materials = this.all_materials;
+
+      if (data.type == 'add') {
+        this.materials_disabled.push({
+          id: this.materials[data.id].id,
+          name: this.materials[data.id].name
+        });
+      } else {
+        var index;
+
+        for (var i = 0; i < this.materials_disabled.length; i++) {
+          if (this.materials_disabled[i].id == data.id) {
+            index = i;
+            break;
+          }
+        }
+
+        this.materials_disabled.splice(index, 1);
+      }
+
+      this.materials = [];
+
+      for (var _i = 0; _i < this.all_materials.length; _i++) {
+        var canAdd = true;
+
+        for (var j = 0; j < this.materials_disabled.length; j++) {
+          if (this.all_materials[_i].id == this.materials_disabled[j].id) {
+            canAdd = false;
+          }
+        }
+
+        if (canAdd) {
+          this.materials.push(this.all_materials[_i]);
+        }
+      }
+    },
     // 取得商品資料
     getProductData: function getProductData(id) {
       var _this = this;
@@ -1154,6 +1211,7 @@ var app = new Vue({
     var getMeterialsName = $('#getMeterialsName').html();
     axios.get(getMeterialsName).then(function (response) {
       _this2.materials = response.data;
+      _this2.all_materials = _this2.materials;
     });
   }
 });
