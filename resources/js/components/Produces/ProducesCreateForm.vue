@@ -101,7 +101,7 @@ export default {
             axios.post(url, data).then(response => {
                 // console.log(response);
                 alert("新增成功！" + response.data.massenge);
-                location.href = response.data.redirect;
+                // location.href = response.data.redirect;
             }).catch((error) => {
                 console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
             });

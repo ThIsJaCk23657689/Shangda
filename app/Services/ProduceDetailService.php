@@ -27,7 +27,12 @@ class ProduceDetailService extends BaseService
             ]);
             if($produce_detail){
                 //更改原料存量
-                $material->stock = $material->stock - $quantity;
+                if($material->unit == 2){
+                    // 此原物料慣用單位是公噸，quantity也會是公噸
+                    $material->stock = $material->stock - ($quantity * 1000);
+                }else{
+                    $material->stock = $material->stock - $quantity;
+                }
                 $material->save();
 
                 //新增原物料log
@@ -43,7 +48,7 @@ class ProduceDetailService extends BaseService
         }
         if($produce_detail){
             $msg = [
-                'massenge' => "總共有".$count."筆原料新增成功。",
+                'massenge' => "總共有" . $count . "筆原料新增成功。",
                 'redirect' => route('produces.index'),
                 'status' => 'OK'
             ];

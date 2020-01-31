@@ -32,7 +32,7 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'boolean'],
-            'jobTitle' => ['required', 'integer', 'exists:job_titles,id'],
+            'jobTitle' => ['required', 'integer', 'min:2', 'exists:job_titles,id'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -60,7 +60,7 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'boolean'],
-            'jobTitle' => ['required', 'integer', 'exists:job_titles,id'],
+            'jobTitle' => ['required', 'integer', 'min:2', 'exists:job_titles,id'],
         ]);
 
         if($id == 1){

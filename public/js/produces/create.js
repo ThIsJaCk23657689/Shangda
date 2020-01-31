@@ -194,8 +194,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = $(this).serialize();
       axios.post(url, data).then(function (response) {
         // console.log(response);
-        alert("新增成功！" + response.data.massenge);
-        location.href = response.data.redirect;
+        alert("新增成功！" + response.data.massenge); // location.href = response.data.redirect;
       })["catch"](function (error) {
         console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
       });

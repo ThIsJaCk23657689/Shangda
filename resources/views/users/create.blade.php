@@ -63,7 +63,9 @@
                     <div class="col-md-6">
                         <select id="jobTitle" class="form-control @error('jobTitle') is-invalid @enderror" name="jobTitle">
                             @foreach ($jobTitles as $jobTitle)
-                                <option value="{{ $jobTitle->id }}">{{ $jobTitle->name }}</option>
+                                @if($jobTitle->id != 1)
+                                    <option value="{{ $jobTitle->id }}">{{ $jobTitle->name }}</option>
+                                @endif
                             @endforeach
                         </select>
 

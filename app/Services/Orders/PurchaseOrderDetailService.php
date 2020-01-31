@@ -30,8 +30,8 @@ class PurchaseOrderDetailService extends BaseService
         foreach($data as $obj){
 
             $material_id = $obj['material_id'];
-            $amount = $obj['amount'];
-            $this->MaterialLogService->add($user_id, $material_id, 1, $amount);
+            $quantity = $obj['quantity'];
+            $this->MaterialLogService->add($user_id, $material_id, 1, $quantity);
             $count += 1;
             $subTotal = round($obj['price'] * $obj['discount'] * $obj['quantity'], 4);
 
@@ -96,8 +96,8 @@ class PurchaseOrderDetailService extends BaseService
         if($detail){
             $user_id = Auth::id();
             $material_id = $request->material_id;
-            $amount = $orig_quantity - $request->quantity;
-            $this->MaterialLogService->add($user_id, $material_id, 2, $amount);
+            $quantity = $orig_quantity - $request->quantity;
+            $this->MaterialLogService->add($user_id, $material_id, 2, $quantity);
             $purchaseOrder = PurchaseOrderEloquent::find($p_id);
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();

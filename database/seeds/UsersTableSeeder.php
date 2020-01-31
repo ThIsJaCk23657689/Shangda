@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@mail.com',
             'password' => bcrypt('00000000'),
         ]);
-        $user->job_title_id = 3;
+        $user->job_title_id = 1;
         $user->save();
         
         
@@ -28,10 +28,9 @@ class UsersTableSeeder extends Seeder
             'email' => 'y23657689@gmail.com',
             'password' => bcrypt('jack0619'),
         ]);
-        $user->job_title_id = 3;
+        $user->job_title_id = 2;
         $user->save();
         
-
-        $users = factory(UserEloquent::class, 9)->create();
+        $users = factory(UserEloquent::class, 8)->create();
     }
 }

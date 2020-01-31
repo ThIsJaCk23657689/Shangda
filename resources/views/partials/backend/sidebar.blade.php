@@ -19,7 +19,7 @@
 			<a class="dropdown-item" href="{{ route('consumers.index') }}">{{ __('Consumers') }}</a>
 			<div class="dropdown-divider"></div>
 			<h6 class="dropdown-header">{{ __('Related:') }}</h6>
-			<a class="dropdown-item" href="#">{{ __('Job Titles') }}</a>
+			<a class="dropdown-item" href="{{ route('jobtitles.index') }}">{{ __('Job Titles') }}</a>
 		</div>
 	</li>
 

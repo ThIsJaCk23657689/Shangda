@@ -55,27 +55,29 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="jobTitle" class="col-md-4 col-form-label text-md-right">
-                        <span class="text-danger">*</span>
-                        職稱
-                    </label>
+                @if($user->job_title_id != 1)
+                    <div class="form-group row">
+                        <label for="jobTitle" class="col-md-4 col-form-label text-md-right">
+                            <span class="text-danger">*</span>
+                            職稱
+                        </label>
 
-                    <div class="col-md-6">
-                        <select id="jobTitle" class="form-control @error('jobTitle') is-invalid @enderror" name="jobTitle">
-                            @foreach ($jobTitles as $jobTitle)
-                                <option value="{{ $jobTitle->id }}" {{ ($user->job_title_id ==  $jobTitle->id)?'selected':'' }}>{{ $jobTitle->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="col-md-6">
+                            <select id="jobTitle" class="form-control @error('jobTitle') is-invalid @enderror" name="jobTitle">
+                                @foreach ($jobTitles as $jobTitle)
+                                    <option value="{{ $jobTitle->id }}" {{ ($user->job_title_id ==  $jobTitle->id)?'selected':'' }}>{{ $jobTitle->name }}</option>
+                                @endforeach
+                            </select>
 
-                        @error('jobTitle')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                            @error('jobTitle')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
-                </div>
-
+                @endif
+                
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">
                         <button type="submit" class="btn btn-block btn-primary">

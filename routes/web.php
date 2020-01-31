@@ -22,6 +22,9 @@ Route::prefix('/backend')->group(function(){
     // 員工管理路由
     Route::resource('/users', 'UsersController');
 
+    // 職稱管理路由
+    Route::resource('/jobtitles', 'JobTitleController');
+
     // 供應商管理路由
     Route::prefix('suppliers')->group(function(){
         Route::get('showName', 'SupplierController@showName')->name('suppliers.showName');
