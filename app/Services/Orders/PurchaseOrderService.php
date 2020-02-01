@@ -3,6 +3,9 @@
 namespace App\Services\Orders;
 use App\Services\BaseService;
 use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\MaterialLog as MaterialLogEloquent;
+use App\Material as MaterialEloquent;
+
 use Carbon\Carbon;
 use Auth;
 
@@ -48,8 +51,8 @@ class PurchaseOrderService extends BaseService
 
     public function getOne($id)
     {
-        $purchaseOrder = PurchaseOrderEloquent::find($id);
-        
+        $purchaseOrder = PurchaseOrderEloquent::findOrFail($id);
+
         // if($purchaseOrder->taxType == 1){
         //     $beforePrice = $purchaseOrder->totalPrice*0.95;
         //     $tax = $purchaseOrder->totalPrice*0.05;
@@ -105,5 +108,37 @@ class PurchaseOrderService extends BaseService
             return $purchaseOrder->updated_at;
         }
         return null;
+    }
+
+    public function received($request){
+        $purchase_order_id = $request->id;
+        $received_at = $request->received_at;
+
+        $purchaseOrder = $this->getOne($purchase_order_id);
+        if($purchaseOrder){
+            $purchaseOrder->received_at = $received_at;
+            $purchaseOrder->last_user_id = Auth::id();
+            $purchaseOrder->save();
+            $purchaseOrder_details = $purchaseOrder->details();
+            if($purchaseOrder_details){
+                foreach($purchaseOrder_details as $detail){
+                    $material = MaterialEloquent::findOrFail($detail->material_id);
+                    $material->stock = $material->stock + $detail->quantity;
+                    $material->save();
+                    MaterialLogEloquent::create([
+                        'user_id' => Auth::id(),
+                        'material_id' => $detail->material_id,
+                        'act' => 1,
+                        'amount' => $detail->quantity,
+                    ]);
+                }
+                return "Success";
+            }else{
+                return 'Details Not Found';
+            }
+        }else{
+            return 'Purchase Order Not Found';
+        }
+
     }
 }

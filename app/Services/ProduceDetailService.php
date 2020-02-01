@@ -80,7 +80,7 @@ class ProduceDetailService extends BaseService
         if($material){
             if($produce_detail){
                 $orig_quantity = $produce_detail->quantity;
-                $new_quantity = $material->quantity + $orig_quantity - $request->quantity;
+                $new_quantity = $material->stock + $orig_quantity - $request->quantity;
                 if($new_quantity > 0){
                     $produce_detail->update([
                         'produce_id' => $request->produce_id,
@@ -88,7 +88,7 @@ class ProduceDetailService extends BaseService
                     ]);
 
                     //更改原料存量
-                    $material->quantity = $new_quantity;
+                    $material->stock = $new_quantity;
                     $material->save();
 
                     //新增原料log
@@ -117,11 +117,11 @@ class ProduceDetailService extends BaseService
             $material = MaterialEloquent::find($produce_detail->material_id);
             if($material){
                 $orig_quantity = $produce_detail->quantity;
-                $new_quantity = $material->quantity + $orig_quantity;
+                $new_quantity = $material->stock + $orig_quantity;
                 $produce_detail->delete();
 
                 //更改原料存量
-                $material->quantity = $new_quantity;
+                $material->stock = $new_quantity;
                 $material->save();
 
                 //新增原料log

@@ -103,4 +103,9 @@ class PurchaseOrderController extends Controller
         $this->PurchaseOrderService->delete($id);
         return redirect()->route('purchase.index');
     }
+
+    public function received(Request $request){
+        $msg = $this->PurchaseOrderService->received($request);
+        return response()->json($msg, 200);
+    }
 }
