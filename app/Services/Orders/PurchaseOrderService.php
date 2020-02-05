@@ -52,28 +52,6 @@ class PurchaseOrderService extends BaseService
     public function getOne($id)
     {
         $purchaseOrder = PurchaseOrderEloquent::findOrFail($id);
-
-        // if($purchaseOrder->taxType == 1){
-        //     $beforePrice = $purchaseOrder->totalPrice*0.95;
-        //     $tax = $purchaseOrder->totalPrice*0.05;
-        // }elseif($purchaseOrder->taxType == 2 or $purchaseOrder->taxType == 3){
-        //     $beforePrice = $purchaseOrder->totalPrice;
-        //     $tax = 0;
-        // }
-
-        // if($purchaseOrder){
-        //     $msg = [
-        //         'data'=>$purchaseOrder,
-        //         'beforePrice'=>$beforePrice,
-        //         'tax'=>$tax,
-        //         'status'=>'OK'
-        //     ];
-        // }else{
-        //     $msg = [
-        //         'data'=>$purchaseOrder,
-        //         'status'=>'No data exist.'
-        //     ];
-        // }
         return $purchaseOrder;
     }
 
@@ -115,7 +93,8 @@ class PurchaseOrderService extends BaseService
         $received_at = $request->received_at;
 
         $purchaseOrder = $this->getOne($purchase_order_id);
-        if($purchaseOrder){
+        if($purchaseOrder and $purchaseOrder->received_at == NULL){
+            // 確認到貨
             $purchaseOrder->received_at = $received_at;
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
@@ -128,20 +107,90 @@ class PurchaseOrderService extends BaseService
                     MaterialLogEloquent::create([
                         'user_id' => Auth::id(),
                         'material_id' => $detail->material_id,
-                        'act' => 1,
+                        'act' => 7,
                         'amount' => $detail->quantity,
                     ]);
                 }
-                return "Success";
+                return "Received Success";
             }else{
                 return 'Details Not Found';
             }
+        }else if($purchaseOrder and $purchaseOrder->received_at != NULL){
+            // 重複按 => 取消到貨
+            $purchaseOrder->received_at = NULL;
+            $purchaseOrder->last_user_id = Auth::id();
+            $purchaseOrder->save();
+            $purchaseOrder_details = $purchaseOrder->details();
+            if($purchaseOrder_details){
+
+                foreach($purchaseOrder_details as $detail){
+                    $material = MaterialEloquent::findOrFail($detail->material_id);
+                    $material->stock = $material->stock - $detail->quantity;
+                    $material->save();
+                    MaterialLogEloquent::create([
+                        'user_id' => Auth::id(),
+                        'material_id' => $detail->material_id,
+                        'act' => 8,
+                        'amount' => -$detail->quantity,
+                    ]);
+                }
+                return "Received Canceled";
+            }else{
+                return 'Details Not Found';
+            }
+
         }else{
             return 'Purchase Order Not Found';
         }
     }
 
-    public function paid(){
-        
+    public function paid($request){
+        $purchase_order_id = $request->id;
+        $paid_at = $request->paid_at;
+        $purchaseOrder = $this->getOne($purchase_order_id);
+
+        if($purchaseOrder and $purchaseOrder->received_at == NULL){
+            // 確認付款
+            $purchaseOrder->received_at = $paid_at;
+            $purchaseOrder->last_user_id = Auth::id();
+            $purchaseOrder->save();
+            $purchaseOrder_details = $purchaseOrder->details();
+            if($purchaseOrder_details){
+                foreach($purchaseOrder_details as $detail){
+                    MaterialLogEloquent::create([
+                        'user_id' => Auth::id(),
+                        'material_id' => $detail->material_id,
+                        'act' => 9,
+                        'amount' => 0,
+                    ]);
+                }
+                return "Payment Confirmed";
+            }else{
+                return 'Details Not Found';
+            }
+        }else if($purchaseOrder and $purchaseOrder->paid_at != NULL){
+            // 重複按 => 取消付款
+            $purchaseOrder->paid_at = NULL;
+            $purchaseOrder->last_user_id = Auth::id();
+            $purchaseOrder->save();
+            $purchaseOrder_details = $purchaseOrder->details();
+            if($purchaseOrder_details){
+                foreach($purchaseOrder_details as $detail){
+                    MaterialLogEloquent::create([
+                        'user_id' => Auth::id(),
+                        'material_id' => $detail->material_id,
+                        'act' => 10,
+                        'amount' => 0,
+                    ]);
+                }
+                return "Payment Canceled";
+            }else{
+                return 'Details Not Found';
+            }
+
+        }else{
+            return 'Purchase Order Not Found';
+        }
+
     }
 }

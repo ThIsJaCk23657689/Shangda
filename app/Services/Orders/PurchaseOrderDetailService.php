@@ -18,11 +18,11 @@ class PurchaseOrderDetailService extends BaseService
 
     public function add($request){
         $user_id = Auth::id();
-        
+
         $p_id = $request->purchaseOrder_id;
         $data = $request->details;
         $count = 0;
-        
+
         foreach($data as $obj){
             $count++;
 
@@ -30,7 +30,7 @@ class PurchaseOrderDetailService extends BaseService
             $quantity = $obj['quantity'];
             $subTotal = round($obj['price'] * $obj['discount'] * $obj['quantity'], 4);
             $this->MaterialLogService->add($user_id, $material_id, 1, $quantity);
-            
+
             $purchaseOrderDetail = PurchaseOrderDetailEloquent::create([
                 'purchaseOrder_id' => $p_id,
                 'count' => $count,
@@ -112,7 +112,7 @@ class PurchaseOrderDetailService extends BaseService
     {
         $details = PurchaseOrderDetailEloquent::where('purchaseOrder_id',$p_id)
             ->where('count',$count)->get();
-        
+
         if($details){
             $purchaseOrder = PurchaseOrderEloquent::find($p_id);
             $purchaseOrder->last_user_id = Auth::id();
