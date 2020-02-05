@@ -8,7 +8,7 @@
 				
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Products Management') }}</a>
+			<a href="#">{{ __('Stuffs Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('Products') }}</a>

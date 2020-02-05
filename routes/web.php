@@ -23,7 +23,7 @@ Route::prefix('/backend')->group(function(){
     Route::resource('/users', 'UsersController');
 
     // 職稱管理路由
-    Route::resource('/jobtitles', 'JobTitleController');
+    Route::resource('/jobtitles', 'JobTitleController')->only(['index', 'show']);
 
     // 供應商管理路由
     Route::prefix('suppliers')->group(function(){
@@ -39,9 +39,12 @@ Route::prefix('/backend')->group(function(){
 
         //基礎原物料管理路由
         Route::prefix('basic')->group(function(){
-            Route::get('showName','MaterialController@showName')->name('material.basic.showName');
-            Route::post('getInfo','MaterialController@getInfo')->name('material.basic.getInfo');
+            Route::get('getInfo','BasicMaterialController@getList')->name('material.basic.getList');
         });
+        Route::resource('/basic', 'BasicMaterialController')->only(['index', 'update'])->names([
+            'index' => 'material.basic.index',
+            'update' => 'material.basic.update'
+        ]);
     });
     Route::resource('/materials', 'MaterialController');
 

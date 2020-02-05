@@ -1,76 +1,55 @@
 <?php
 
 namespace App\Services;
+
 use App\BasicMaterial as BasicMaterialEloquent;
 use App\Services\ProductService;
-
 
 class BasicMaterialService extends BaseService
 {
     public $ProductService;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->ProductService = new ProductService();
     }
 
-    public function getList()
-    {
+    public function getList(){
         $BasicMaterials = BasicMaterialEloquent::get();
         return $BasicMaterials;
-        // if($basicMaterials){
-        //     $msg = [
-        //         'data'=>$basicMaterials,
-        //         'status'=>'OK'
-        //     ];
-        // }else{
-        //     $msg = [
-        //         'data'=>$basicMaterials,
-        //         'status'=>'Failed'
-        //     ];
-        // }
     }
 
-
-    public function update($requests)
+    public function update($request, $id)
     {
-        $count = 1; 
-        foreach ($requests as $request) {
-            $basicMaterial = BasicMaterialEloquent::find($count);
-            $basicMaterial->update([
-                'name' => $request->name,
-                'price' => $request->price,
-            ]);
-            $new_price[$count] = $request->price;
-            $count += 1;
-        }
+        $basic_material = BasicMaterialEloquent::findOrFail($id);
+        $basic_material->update([
+            'name' => $request->name,
+            'price' => $request->price,
+        ]);
 
+        $this->refreshProductPrice();
+
+        return [
+            'data' => $basic_material,
+            'status' => '基礎原物料已更新成功'
+        ];
+    }
+
+    private function refreshProductPrice(){
+        $basic_materials = BasicMaterialEloquent::get();
+        foreach($basic_materials as $index => $basic_material){
+            $price[$index] = $basic_material->price;
+        }
 
         $products = $this->ProductService->getList();
         foreach ($products as $product) {
             $product->update([
-                'retailPrice'=>$product->materialCoefficient1 * $new_price[1] + 
-                $product->materialCoefficient2 * $new_price[2] + 
-                $product->materialCoefficient3 * $new_price[3] +
-                $product->materialCoefficient4 * $new_price[4] +
-                $product->materialCoefficient5 * $new_price[5] +
+                'retailPrice' => $product->materialCoefficient1 * $price[0] + 
+                $product->materialCoefficient2 * $price[1] + 
+                $product->materialCoefficient3 * $price[2] +
+                $product->materialCoefficient4 * $price[3] +
+                $product->materialCoefficient5 * $price[4] +
                 $product->fundamentalPrice
             ]);
         }
-
-
-        if($basicMaterial){
-            $msg = [
-                'data'=>$basicMaterial,
-                'status'=>'Updated'
-            ];
-        }else{
-            $msg = [
-                'data'=>$basicMaterial,
-                'status'=>'Failed'
-            ];
-        }
-        return $msg;
     }
-
 }

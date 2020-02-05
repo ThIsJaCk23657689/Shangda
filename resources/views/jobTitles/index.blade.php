@@ -16,14 +16,14 @@
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
 	@endcomponent
 
-	<div class="row mb-3">
+	{{-- <div class="row mb-3">
         <div class="col-md-12">
             <a href="{{ route('jobtitles.create') }}" class="btn btn-md btn-primary">
                 <i class="fas fa-plus"></i>
                 新增職稱
             </a>
         </div>
-    </div>
+    </div> --}}
 	
 	<!-- DataTables Example -->
 	<div class="card mb-3">
@@ -53,27 +53,27 @@
 										<i class="fas fa-info-circle"></i>
 										查看
                                     </a>
-                                    @if($jobtitle->id != 1 && $jobtitle->id != 2)
-                                        <a href="{{ route('jobtitles.edit', [$jobtitle->id]) }}" class="btn btn-md btn-success">
-                                            <i class="fas fa-edit"></i>
-                                            編輯
-                                        </a>
-										<a href="#" class="btn btn-md btn-danger" onclick="
-											event.preventDefault();
-											ans = confirm('確定要刪除此職稱嗎?');
-											if(ans){
-												$('#deleteform-{{ $jobtitle->id }}').submit();
-											}
-										">
-											<i class="far fa-trash-alt"></i>
-											刪除
-										</a>
+                                    
+                                    {{-- <a href="{{ route('jobtitles.edit', [$jobtitle->id]) }}" class="btn btn-md btn-success">
+                                        <i class="fas fa-edit"></i>
+                                        編輯
+                                    </a>
+									<a href="#" class="btn btn-md btn-danger" onclick="
+										event.preventDefault();
+										ans = confirm('確定要刪除此職稱嗎?');
+										if(ans){
+											$('#deleteform-{{ $jobtitle->id }}').submit();
+										}
+									">
+										<i class="far fa-trash-alt"></i>
+										刪除
+									</a>
 
-										<form id="deleteform-{{ $jobtitle->id }}" action="{{ route('jobtitles.destroy', [$jobtitle->id]) }}" method="POST" style="displat: none;">
-											@csrf
-											@method('DELETE')
-										</form>
-									@endif
+									<form id="deleteform-{{ $jobtitle->id }}" action="{{ route('jobtitles.destroy', [$jobtitle->id]) }}" method="POST" style="displat: none;">
+										@csrf
+										@method('DELETE')
+									</form> --}}
+
 								</td>
 							</tr>	
 						@endforeach

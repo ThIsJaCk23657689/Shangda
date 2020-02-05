@@ -11,7 +11,7 @@
 			<a href="#">{{ __('Stuffs Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Material') }}</a>
+			<a href="#">{{ __('Materials') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
 	@endcomponent

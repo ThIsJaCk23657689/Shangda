@@ -15,6 +15,7 @@ mix.js('resources/js/app.js', 'public/js')
    .js('resources/js/backend.js', 'public/js')
    .js('resources/js/orders/purchase.js', 'public/js/orders')
    .js('resources/js/orders/purchase/index.js', 'public/js/orders/purchase')
+   .js('resources/js/materials/basic/index.js', 'public/js/materials/basic')
    
    .js('resources/js/materials/create.js', 'public/js/materials')
    .js('resources/js/suppliers/create.js', 'public/js/suppliers')

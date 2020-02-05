@@ -1,30 +1,32 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Services\BasicMaterialService;
-use App\Request\BasicMaterialRequest;
+use App\Http\Requests\BasicMaterialRequest;
 use Illuminate\Http\Request;
 
 class BasicMaterialController extends Controller
 {
-    public $BasicMaterialService;
+    public $basic_material_service;
     
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth');
-        $this->BasicMaterialService = new BasicMaterialService();
+        $this->basic_material_service = new BasicMaterialService();
     }
 
+    public function index(){
+        return view('materials.basic.index');
+    }
 
-    public function show($id)
-    {
-        $basicMaterials = $this->BasicMaterialService->getList($id);
+    public function update(BasicMaterialRequest $request, $id){
+        $basicMaterials = $this->basic_material_service->update($request, $id);
         return response()->json($basicMaterials, 200);
     }
 
-    public function update(BasicMaterialRequest $request, $id)
-    {
-        $basicMaterials = $this->BasicMaterialsService->update($request, $id);
+    // ========== Response JSON ==========
+    public function getList(){
+        $basicMaterials = $this->basic_material_service->getList();
         return response()->json($basicMaterials, 200);
     }
 }

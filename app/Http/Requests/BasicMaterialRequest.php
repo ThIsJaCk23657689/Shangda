@@ -24,8 +24,8 @@ class BasicMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            'price.*' => 'required|min:0|numeric',
-            'name.*' => 'required|string',
+            'name' => 'required|string|max:150',
+            'price' => 'required|min:0|numeric',
         ];
     }
 }
