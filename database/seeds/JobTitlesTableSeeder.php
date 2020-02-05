@@ -12,20 +12,23 @@ class JobTitlesTableSeeder extends Seeder
      */
     public function run()
     {
+
+        JobTitleEloquent::create([
+            'name' => '廠務'
+        ]);
+
+        JobTitleEloquent::create([
+            'name' => '業務'
+        ]);
+
         JobTitleEloquent::create([
             'name' => '廠長'
         ]);
 
         JobTitleEloquent::create([
-            'name' => '基層員工'
+            'name' => 'Admin'
         ]);
 
-        JobTitleEloquent::create([
-            'name' => '經理'
-        ]);
 
-        JobTitleEloquent::create([
-            'name' => '主管'
-        ]);
     }
 }

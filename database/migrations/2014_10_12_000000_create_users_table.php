@@ -16,7 +16,8 @@ class CreateUsersTable extends Migration
         // 員工資料表
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
-            $table->unsignedBigInteger('job_title_id')->default(2)->comment('職稱編號');
+            // 4.Admin、3.廠長、2.業務、1.廠務
+            $table->unsignedBigInteger('job_title_id')->default(1)->comment('職稱編號');
 
             $table->string('name')->comment('名稱');
             $table->string('email')->unique()->comment('信箱');

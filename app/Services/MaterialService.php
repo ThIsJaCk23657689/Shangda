@@ -21,6 +21,7 @@ class MaterialService extends BaseService
             'unitPrice' => $request->unitPrice,
             'comment' => $request->comment,
             'stock' => $stock,
+            'safeQuantity' => $request->safeQuantity,
             'picture' => $request->picture,
         ]);
         return $material;
@@ -68,6 +69,7 @@ class MaterialService extends BaseService
             'unitPrice' => $request->unitPrice,
             'comment' => $request->comment,
             'stock' => $stock,
+            'safeQuantity' => $request->safeQuantity,
             'picture' => $request->picture,
         ]);
 

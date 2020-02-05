@@ -11,7 +11,7 @@ use App\ProductDetail as ProductDetailEloquent;
 class Material extends Model
 {
     protected $fillable = [
-        'name', 'shortName', 'comment', 'internationalNum', 'unit', 'unitPrice', 'stock', 'picture',
+        'name', 'shortName', 'comment', 'internationalNum', 'unit', 'unitPrice', 'stock', 'safeQuantity', 'picture',
     ];
 
     public function purchaseOrders(){
