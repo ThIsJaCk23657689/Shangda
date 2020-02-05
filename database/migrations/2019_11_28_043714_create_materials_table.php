@@ -23,6 +23,7 @@ class CreateMaterialsTable extends Migration
             $table->double('unitPrice')->default(0)->comment('單價');
             $table->string('comment')->nullable()->comment('備註');
             $table->float('stock')->default(0)->comment('目前存貨量');
+            $table->float('safeQuantity')->default(0)->comment('安全存貨量');
             $table->string('picture')->nullable()->comment('圖片');
             $table->timestamps();
         });
