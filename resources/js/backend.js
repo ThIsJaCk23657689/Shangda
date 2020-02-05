@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('option-item', require('./components/Partials/OptionItem.vue').default);
+Vue.component('loading-modal', require('./components/Modals/LoadingModal.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -68,4 +69,6 @@ $(function(){
             return false;
         }
     }
+
+    $.datepicker.setDefaults( $.datepicker.regional[ "zh-TW" ] );
 });

@@ -122,7 +122,7 @@
                         </label>
 
                         <div class="col-md-6">
-                            <input id="expectReceived_at" type="date" class="form-control" name="expectReceived_at" value="" required>
+                            <input id="expectReceived_at" type="text" class="form-control" name="expectReceived_at" value="" required>
                         </div>
                     </div>
                 </div>
@@ -226,6 +226,8 @@
                 </div>
             </div>
 
+            <loading-modal></loading-modal>
+
         </form>
     </div>
 </div>
@@ -238,7 +240,13 @@
 export default {
     props: ['suppliers', 'current_supplier', 'materials'],
     mounted() {
-        console.log('PurchaseCreareForm.vue mounted.')
+        console.log('PurchaseCreareForm.vue mounted.');
+
+        $("#expectReceived_at").datepicker({
+            changeYear: true,
+            changeMonth: true,
+            maxDate: new Date,
+        });
         
         // 訂單細項 表單程式碼
         $('#PurchaseOrderDetailForm').submit(function(e){
@@ -247,9 +255,13 @@ export default {
             let url = $('#createPurchaseOrderDetail').html();
             let data = $(this).serialize();
             axios.post(url, data).then(response => {
-                console.log(response);
+                console.log(response.data.messenge);
+                alert('新增進貨單成功！');
+                location.href = getPurchaseOrderIndex;
             }).catch((error) => {
                 console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+                alert('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+                $('#LoadingModal').modal('hide');
             });
         });
     },
@@ -286,14 +298,16 @@ export default {
             let url = $('#createPurchaseOrder').html();
 
             let data = $('#PurchaseOrderCreateForm').serialize();
+            $('#LoadingModal').modal('show');
             axios.post(url, data).then(response => {
-                console.log(response);
                 $('#purchaseOrderID').val(response.data.purchaseOrder_id);
 
                 // 2. 建立 PurchaseOrderDetail
                 $('#PurchaseOrderDetailForm').submit();
             }).catch((error) => {
                 console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
+                alert('新增進貨單時發生錯誤，錯誤訊息：' + error);
+                $('#LoadingModal').modal('hide');
             });
         },
     }

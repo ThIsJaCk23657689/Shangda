@@ -139,6 +139,9 @@ class PurchaseOrderService extends BaseService
         }else{
             return 'Purchase Order Not Found';
         }
+    }
 
+    public function paid(){
+        
     }
 }

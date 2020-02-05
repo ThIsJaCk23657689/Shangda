@@ -81,45 +81,40 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/suppliers/create.js":
-/*!******************************************!*\
-  !*** ./resources/js/suppliers/create.js ***!
-  \******************************************/
+/***/ "./resources/js/orders/purchase/index.js":
+/*!***********************************************!*\
+  !*** ./resources/js/orders/purchase/index.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 $(function () {
-  $('#copycompany1').click(function (e) {
-    if ($(this).prop("checked")) {
-      $('#deliveryAddress').val($('#companyAddress').val());
-    } else {
-      $('#deliveryAddress').val('');
-    }
+  $("#expectReceived_at").datepicker({
+    format: 'yyyy-mm-dd',
+    changeYear: true,
+    changeMonth: true,
+    maxDate: new Date()
   });
-  $('#copycompany2').click(function (e) {
-    if ($(this).prop("checked")) {
-      $('#invoiceAddress').val($('#companyAddress').val());
-    } else {
-      $('#invoiceAddress').val('');
-    }
-  });
+  var myDate = new Date();
+  var date = myDate.getFullYear() + '-' + ('0' + (myDate.getMonth() + 1)).slice(-2) + '-' + ('0' + myDate.getDate()).slice(-2);
+  $("#expectReceived_at").val(date);
 });
 
 /***/ }),
 
-/***/ 5:
-/*!************************************************!*\
-  !*** multi ./resources/js/suppliers/create.js ***!
-  \************************************************/
+/***/ 3:
+/*!*****************************************************!*\
+  !*** multi ./resources/js/orders/purchase/index.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\suppliers\create.js */"./resources/js/suppliers/create.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\orders\purchase\index.js */"./resources/js/orders/purchase/index.js");
 
 
 /***/ })

@@ -550,19 +550,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['suppliers', 'current_supplier', 'materials'],
   mounted: function mounted() {
-    console.log('PurchaseCreareForm.vue mounted.'); // 訂單細項 表單程式碼
+    console.log('PurchaseCreareForm.vue mounted.');
+    $("#expectReceived_at").datepicker({
+      changeYear: true,
+      changeMonth: true,
+      maxDate: new Date()
+    }); // 訂單細項 表單程式碼
 
     $('#PurchaseOrderDetailForm').submit(function (e) {
       e.preventDefault();
       var url = $('#createPurchaseOrderDetail').html();
       var data = $(this).serialize();
       axios.post(url, data).then(function (response) {
-        console.log(response);
+        console.log(response.data.messenge);
+        alert('新增進貨單成功！');
+        location.href = getPurchaseOrderIndex;
       })["catch"](function (error) {
         console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+        alert('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+        $('#LoadingModal').modal('hide');
       });
     });
   },
@@ -595,13 +606,15 @@ __webpack_require__.r(__webpack_exports__);
       // 1. 先創建 PurchaseOrder
       var url = $('#createPurchaseOrder').html();
       var data = $('#PurchaseOrderCreateForm').serialize();
+      $('#LoadingModal').modal('show');
       axios.post(url, data).then(function (response) {
-        console.log(response);
         $('#purchaseOrderID').val(response.data.purchaseOrder_id); // 2. 建立 PurchaseOrderDetail
 
         $('#PurchaseOrderDetailForm').submit();
       })["catch"](function (error) {
         console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
+        alert('新增進貨單時發生錯誤，錯誤訊息：' + error);
+        $('#LoadingModal').modal('hide');
       });
     }
   }
@@ -1746,7 +1759,9 @@ var render = function() {
                 ]
               )
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _c("loading-modal")
         ],
         1
       )
@@ -1820,7 +1835,7 @@ var staticRenderFns = [
               staticClass: "form-control",
               attrs: {
                 id: "expectReceived_at",
-                type: "date",
+                type: "text",
                 name: "expectReceived_at",
                 value: "",
                 required: ""

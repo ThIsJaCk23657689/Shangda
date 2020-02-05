@@ -108,4 +108,9 @@ class PurchaseOrderController extends Controller
         $msg = $this->PurchaseOrderService->received($request);
         return response()->json($msg, 200);
     }
+
+    public function paid(Request $request){
+        $msg = $this->PurchaseOrderService->paid($request);
+        return response()->json($msg, 200);
+    }
 }

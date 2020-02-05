@@ -77,10 +77,11 @@ Route::prefix('/backend')->group(function(){
 
     Route::resource('/consumers', 'ConsumerController');
 
+    //  確認進貨 -> 寫進log並增加原物料存貨量
+    Route::patch('/orders/purchase/received', 'Orders\PurchaseOrderController@received')->name('purchase.received');
+    Route::patch('/orders/purchase/paid', 'Orders\PurchaseOrderController@paid')->name('purchase.paid');
     // 進貨單管理路由
     Route::resource('/orders/purchase', 'Orders\PurchaseOrderController');
-    //  確認進貨->寫進log並增加原物料存貨量
-    Route::patch('/orders/purchase/received', 'Orders\PurchaseOrderController@received');
     // 進貨單細項資料管理路由
     Route::prefix('/orders/purchase/details')->group(function(){
         Route::post('store', 'Orders\PurchaseOrderDetailController@store')->name('purchase.details.store');
