@@ -65,33 +65,72 @@ class SaleOrderService extends BaseService
     public function update($request, $id)
     {
         $saleOrder = $this->getOne($id);
-        $saleOrder->update([
-            'consumers_id' => $request->consumers_id,
-            'last_user_id' => Auth::id(),
+        if($request->taxType == $saleOrder->taxType){
+            $saleOrder->update([
+                'consumers_id' => $request->consumers_id,
+                'last_user_id' => Auth::id(),
 
-            'expectPay_at' => $request->expectPay_at,
-            'paid_at' => $request->paid_at,
-            'expectDeliver_at' => $request->expectDeliver_at,
-            'delivered_at' => $request->delivered_at,
-            'makeInvoice_at' => $request->makeInvoice_at,
+                'expectPay_at' => $request->expectPay_at,
+                'paid_at' => $request->paid_at,
+                'expectDeliver_at' => $request->expectDeliver_at,
+                'delivered_at' => $request->delivered_at,
+                'makeInvoice_at' => $request->makeInvoice_at,
 
-            'piadAmount' => $request->piadAmount,
-            'unpiadAmount' => $request->unpiadAmount,
-            'totalPrice' => $request->totalPrice,
-            'taxPrice' => $request->taxPrice,
-            'totalTaxPrice' => $request->totalTaxPrice,
+                'comment' => $request->comment,
+                'taxType' => $request->taxType,
+                'invoiceType' => $request->invoiceType,
+                'address' => $request->address,
+            ]);
+        }else if($saleOrder->taxType != 1 && $request->taxType != 1){
+            $saleOrder->update([
+                'consumers_id' => $request->consumers_id,
+                'last_user_id' => Auth::id(),
 
-            'comment' => $request->comment,
-            'taxType' => $request->taxType,
-            'invoiceType' => $request->invoiceType,
-            'address' => $request->address,
-        ]);
+                'expectPay_at' => $request->expectPay_at,
+                'paid_at' => $request->paid_at,
+                'expectDeliver_at' => $request->expectDeliver_at,
+                'delivered_at' => $request->delivered_at,
+                'makeInvoice_at' => $request->makeInvoice_at,
+
+                'comment' => $request->comment,
+                'taxType' => $request->taxType,
+                'invoiceType' => $request->invoiceType,
+                'address' => $request->address,
+            ]);
+        }else if($saleOrder->taxType != 1 && $request->taxType == 1){
+            $saleOrder->update([
+                'consumers_id' => $request->consumers_id,
+                'last_user_id' => Auth::id(),
+
+                'expectPay_at' => $request->expectPay_at,
+                'paid_at' => $request->paid_at,
+                'expectDeliver_at' => $request->expectDeliver_at,
+                'delivered_at' => $request->delivered_at,
+                'makeInvoice_at' => $request->makeInvoice_at,
+
+                // 'piadAmount' => $request->piadAmount,
+                // 'unpiadAmount' => $request->unpiadAmount,
+                // 'totalPrice' => $request->totalPrice,
+                'taxPrice' => $request->taxPrice*1.05,
+                'totalTaxPrice' => $request->totalTaxPrice*1.05,
+
+                'comment' => $request->comment,
+                'taxType' => $request->taxType,
+                'invoiceType' => $request->invoiceType,
+                'address' => $request->address,
+            ]);
+            $saleOrder->consumer->uncheckedAmount =  $saleOrder->consumer->uncheckedAmount - $request->taxPrice + $request->taxPrice*1.05;
+            $saleOrder->consumer->save();
+        }
+
         return $saleOrder;
     }
 
     public function delete($id)
     {
         $saleOrder = $this->getOne($id);
+        $saleOrder->consumer->uncheckedAmount -= $saleOrder->totalTaxPrice;
+        $saleOrder->consumer->save();
         $saleOrder->delete();
     }
 
@@ -155,6 +194,7 @@ class SaleOrderService extends BaseService
         }
     }
 
+    // 待改
     public function paid($request){
         $saleOrder_id = $request->id;
         $paid_at = $request->paid_at;
