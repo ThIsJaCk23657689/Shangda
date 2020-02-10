@@ -35,7 +35,7 @@ class Product extends Model
         return $this->hasMany(ProductLogEloquent::class);
     }
 
-    public function productDetail(){
+    public function productDetails(){
         return $this->hasMany(ProductDetailEloquent::class);
     }
 

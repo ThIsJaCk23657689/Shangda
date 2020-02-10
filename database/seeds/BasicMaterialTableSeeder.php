@@ -12,40 +12,29 @@ class BasicMaterialTableSeeder extends Seeder
      */
     public function run()
     {
-        $basic_material_1 = BasicMaterialEloquent::create([
-            'name' => 'material_1',
-            'price' => '80',
+        BasicMaterialEloquent::create([
+            'name' => '高密度聚乙烯（HDPE）',
+            'price' => '50',
         ]);
-        $basic_material_1->timestamps = false;
-        $basic_material_1->save();
 
-        $basic_material_2 = BasicMaterialEloquent::create([
-            'name' => 'material_2',
-            'price' => '90',
+        BasicMaterialEloquent::create([
+            'name' => '低密度聚乙烯（LDPE）',
+            'price' => '50',
         ]);
-        $basic_material_2->timestamps = false;
-        $basic_material_2->save();
 
-        $basic_material_3 = BasicMaterialEloquent::create([
-            'name' => 'material_3',
-            'price' => '100',
+        BasicMaterialEloquent::create([
+            'name' => '聚丙烯（PP）',
+            'price' => '50',
         ]);
-        $basic_material_3->timestamps = false;
-        $basic_material_3->save();
 
-        $basic_material_4 = BasicMaterialEloquent::create([
-            'name' => 'material_4',
-            'price' => '110',
+        BasicMaterialEloquent::create([
+            'name' => '聚氯乙烯（PVC）',
+            'price' => '50',
         ]);
-        $basic_material_4->timestamps = false;
-        $basic_material_4->save();
 
-        $basic_material_5 = BasicMaterialEloquent::create([
-            'name' => 'material_5',
-            'price' => '120',
+        BasicMaterialEloquent::create([
+            'name' => '醋酸乙烯（EVA）',
+            'price' => '50',
         ]);
-        $basic_material_5->timestamps = false;
-        $basic_material_5->save();
-
     }
 }

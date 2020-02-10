@@ -57,8 +57,6 @@ export default {
     },
     methods:{
         startEdit(id){
-            // 把其他的也要關起來
-
             $('#startBtn_' + id).attr('disabled', true);
             $('#startBtn_' + id).fadeOut();
             $('#name_' + id).attr('disabled', false);
@@ -67,25 +65,26 @@ export default {
             $('#saveBtn_' + id).fadeIn();
         },
         editdata(id){
-            confirm('您確定要更變此原物料資料？')
-            $('#loading_' + id).fadeIn();
-            $('#saveBtn_' + id).attr('disabled', true);
-            $('#name_' + id).attr('disabled', true);
-            $('#price_' + id).attr('disabled', true);
+            if(confirm('您確定要更變此原物料資料？')){
+                $('#loading_' + id).fadeIn();
+                $('#saveBtn_' + id).attr('disabled', true);
+                $('#name_' + id).attr('disabled', true);
+                $('#price_' + id).attr('disabled', true);
 
-            let getBasicMaterialsURL = $('#getBasicMaterialsURL').html();
-            axios.post(getBasicMaterialsURL + '/' + id, {
-                name: this.basic_materials[id-1].name,
-                price: this.basic_materials[id-1].price,
-                _method: 'PATCH'
-            }).then(response => {
-                console.log(response);
-                alert('修改成功！');
-                $('#loading_' + id).fadeOut();
-                $('#saveBtn_' + id).fadeOut();
-                $('#startBtn_' + id).attr('disabled', false);
-                $('#startBtn_' + id).fadeIn();
-            });
+                let getBasicMaterialsURL = $('#getBasicMaterialsURL').html();
+                axios.post(getBasicMaterialsURL + '/' + id, {
+                    name: this.basic_materials[id-1].name,
+                    price: this.basic_materials[id-1].price,
+                    _method: 'PATCH'
+                }).then(response => {
+                    console.log(response);
+                    alert('修改成功！');
+                    $('#loading_' + id).fadeOut();
+                    $('#saveBtn_' + id).fadeOut();
+                    $('#startBtn_' + id).attr('disabled', false);
+                    $('#startBtn_' + id).fadeIn();
+                });
+            }
         }
     }
 }

@@ -7,17 +7,21 @@ use App\Category as CategoryEloquent;
 
 class ProductService extends BaseService
 {
-    public function add($request)
-    {
+    public function add($request){
         // 計算零售價
-        $x1 = BasicMaterialEloquent::where('id', 1)->first()->price;
-        $x2 = BasicMaterialEloquent::where('id', 2)->first()->price;
-        $x3 = BasicMaterialEloquent::where('id', 3)->first()->price;
-        $x4 = BasicMaterialEloquent::where('id', 4)->first()->price;
-        $x5 = BasicMaterialEloquent::where('id', 5)->first()->price;
+        $x1 = BasicMaterialEloquent::findOrFail(1)->price;
+        $x2 = BasicMaterialEloquent::findOrFail(2)->price;
+        $x3 = BasicMaterialEloquent::findOrFail(3)->price;
+        $x4 = BasicMaterialEloquent::findOrFail(4)->price;
+        $x5 = BasicMaterialEloquent::findOrFail(5)->price;
 
-        $retail_price = $x1 * $request->materialCoefficient1 + $x2 * $request->materialCoefficient2 + $x3 * $request->materialCoefficient3 +
-        $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
+        $retail_price = 
+            $x1 * $request->materialCoefficient1 +
+            $x2 * $request->materialCoefficient2 + 
+            $x3 * $request->materialCoefficient3 +
+            $x4 * $request->materialCoefficient4 + 
+            $x5 * $request->materialCoefficient5 + 
+            $request->fundamentalPrice;
 
         // 圖片儲存
         $image_path = $this->savePicture($request->picture);
@@ -49,8 +53,7 @@ class ProductService extends BaseService
         return $product;
     }
 
-    public function getList()
-    {
+    public function getList(){
         $products = ProductEloquent::withTrashed()->get();
         return $products;
     }
@@ -66,24 +69,27 @@ class ProductService extends BaseService
         return $product_info;
     }
 
-    public function getOne($id)
-    {
+    public function getOne($id){
         $product = ProductEloquent::withTrashed()->find($id);
         return $product;
     }
 
-    public function update($request, $id)
-    {
+    public function update($request, $id){
         $product = $this->getOne($id);
 
-        $x1 = BasicMaterialEloquent::where('id', 1)->first()->price;
-        $x2 = BasicMaterialEloquent::where('id', 2)->first()->price;
-        $x3 = BasicMaterialEloquent::where('id', 3)->first()->price;
-        $x4 = BasicMaterialEloquent::where('id', 4)->first()->price;
-        $x5 = BasicMaterialEloquent::where('id', 5)->first()->price;
+        $x1 = BasicMaterialEloquent::findOrFail(1)->price;
+        $x2 = BasicMaterialEloquent::findOrFail(2)->price;
+        $x3 = BasicMaterialEloquent::findOrFail(3)->price;
+        $x4 = BasicMaterialEloquent::findOrFail(4)->price;
+        $x5 = BasicMaterialEloquent::findOrFail(5)->price;
 
-        $retail_price = $x1 * $request->materialCoefficient1 + $x2 * $request->materialCoefficient2 + $x3 * $request->materialCoefficient3 +
-        $x4 * $request->materialCoefficient4 + $x5 * $request->materialCoefficient5 + $request->fundamentalPrice;
+        $retail_price = 
+            $x1 * $request->materialCoefficient1 + 
+            $x2 * $request->materialCoefficient2 + 
+            $x3 * $request->materialCoefficient3 +
+            $x4 * $request->materialCoefficient4 + 
+            $x5 * $request->materialCoefficient5 + 
+            $request->fundamentalPrice;
 
         // 圖片儲存
         $image_path = $this->savePicture($request->picture);
@@ -113,8 +119,7 @@ class ProductService extends BaseService
         return $product;
     }
 
-    public function delete($id)
-    {
+    public function delete($id){
         $product = $this->getOne($id);
         if($product->trashed()){
             $product->restore();
@@ -123,8 +128,7 @@ class ProductService extends BaseService
         }
     }
 
-    public function getlastupdate()
-    {
+    public function getlastupdate(){
         $product = ProductEloquent::withTrashed()->orderBy('id', 'DESC')->first();
         if(!empty($product)){
             return $product->updated_at;
@@ -132,8 +136,7 @@ class ProductService extends BaseService
         return null;
     }
 
-    public function getProductByCategory($category_id)
-    {
+    public function getProductByCategory($category_id){
         $products = CategoryEloquent::where('id', $category_id)->get()->products;
         if($products){
            return $products;
