@@ -34,7 +34,7 @@ class CreateConsumersTable extends Migration
             $table->string('email2', 100)->nullable()->comment('聯絡人信箱2');
 
             $table->unsignedInteger('monthlyCheckDate')->nullable()->comment('月結日');
-            $table->float('uncheckedAmount')->default(0)->comment('未沖帳總額');
+            $table->float('uncheckedAmount')->default(0)->comment('未沖帳總額'); //未結帳金額 + ；超付金額 -
             $table->float('totalConsumption')->default(0)->comment('總消費額');
 
             $table->string('companyAddress')->comment('公司地址');

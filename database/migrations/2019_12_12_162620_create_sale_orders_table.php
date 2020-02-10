@@ -28,7 +28,7 @@ class CreateSaleOrdersTable extends Migration
             $table->float('piadAmount')->default(0)->comment('訂單已付額');
             $table->float('unpiadAmount')->default(0)->comment('訂單未付額');
             $table->float('totalPrice')->default(0)->comment('訂單未稅額');
-            $table->float('taxPrice')->default(0)->comment('訂單稅額');
+            $table->float('taxPrice')->default(0)->comment('訂單稅額'); // taxType = 1 要加 5%
             $table->float('totalTaxPrice')->default(0)->comment('訂單總價');
 
             $table->text('comment')->nullable()->comment('備註');

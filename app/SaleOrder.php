@@ -20,7 +20,7 @@ class SaleOrder extends Model
         return $this->belongsTo(UserEloquent::class);
     }
 
-    public function consumers(){
+    public function consumer(){
         return $this->belongsTo(ConsumerEloquent::class);
     }
 
