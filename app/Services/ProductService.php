@@ -28,7 +28,7 @@ class ProductService extends BaseService
 
 
         //名字加規格
-        $realName = $request->name."(".$request->specification."+".$request->size."+".$request->weight."+".")";
+        $realName = $request->name."(".$request->specification."/".$request->size."/".$request->weight.")";
 
         // 新增資料
         $product = ProductEloquent::create([
@@ -98,7 +98,7 @@ class ProductService extends BaseService
         // 圖片儲存
         $image_path = $this->savePicture($request->picture);
 
-        $realName = $request->name."(".$request->specification."+".$request->size."+".$request->weight."+".")";
+        $realName = $request->name."(".$request->specification."/".$request->size."/".$request->weight.")";
 
         $product->update([
             'category_id' => $request->category_id,
