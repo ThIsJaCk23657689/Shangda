@@ -54,6 +54,23 @@ class Product extends Model
         return $result;
     }
 
+    public function nameDivide(){
+        $array = explode("/",$this->name);
+        $specification_arr = explode("(",$array[0]);
+        $specification = $specification_arr[1];
+        $name = $specification_arr[0];
+
+        $weight_arr =  explode(")",$array[2]);
+        $weight = $weight_arr[0];
+
+        $result = [];
+        $result['name'] = $name;
+        $result['specification'] = $specification;
+        $result['size'] = $array[1];
+        $result['weight'] = $weight;
+        return $result;
+    }
+
     public function showPicture(){
         if(empty($this->picture)){
             return URL::asset('images/products/default.png');

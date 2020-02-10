@@ -26,8 +26,12 @@ class ProductRequest extends FormRequest
         return [
         'category_id'=>"required|exists:categories,id",
         'name' => 'required|max:100|string',
-        'shortName' => 'nullable|max:100|string',
+        'shownID' => 'required|max:100|string',
         'internationalNum' => 'nullable|max:100|string',
+
+        'size' => 'required|max:100|string',
+        'weight' => 'required|max:100|string',
+        'specification' => 'required|max:100|string',
 
         'fundamentalPrice' => 'required|numeric|min:0',
         // 'retailPrice' => 'required|numeric|min:0',
