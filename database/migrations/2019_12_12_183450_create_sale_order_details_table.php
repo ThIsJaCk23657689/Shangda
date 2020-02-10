@@ -14,9 +14,11 @@ class CreateSaleOrderDetailsTable extends Migration
     public function up()
     {
         Schema::create('sale_order_details', function (Blueprint $table) {
+            $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('saleOrder_id')->comment('銷貨單編號');
             $table->unsignedBigInteger('product_id')->comment('銷貨單編號');
 
+            $table->integer('count')->comment('銷貨單序號');
             $table->double('price')->default(0)->comment('單價');
             $table->integer('quantity')->default(0)->comment('數量');
             $table->float('discount')->default(1)->comment('折數');

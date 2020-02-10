@@ -5,10 +5,18 @@ namespace App\Services;
 use App\Produce as ProduceEloquent;
 use App\Product as ProductEloquent;
 use App\ProductLog as ProductLogEloquent;
+use App\Services\NotificationService;
 use Auth;
 
 class ProduceService extends BaseService
 {
+    // public $NotificationService;
+
+    // public function __construct(){
+    //     $this->NotificationService = new NotificationService();
+    //     $this->NotificationService->materialUnderSafe($material_id);
+    // }
+
     public function add($request)
     {
         $product = ProductEloquent::findOrFail($request->product_id);

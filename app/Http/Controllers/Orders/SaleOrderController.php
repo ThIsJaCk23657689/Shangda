@@ -15,7 +15,7 @@ class SaleOrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public $SaleOrderService;
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -99,5 +99,15 @@ class SaleOrderController extends Controller
     {
         $this->SaleOrderService->delete($id);
         return redirect()->route('saleOrders.index');
+    }
+
+    public function delivered(Request $request){
+        $msg = $this->SaleOrderService->delivered($request);
+        return response()->json($msg, 200);
+    }
+
+    public function paid(Request $request){
+        $msg = $this->SaleOrderService->paid($request);
+        return response()->json($msg, 200);
     }
 }

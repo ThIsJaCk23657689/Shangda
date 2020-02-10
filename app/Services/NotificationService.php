@@ -7,6 +7,7 @@ use App\Consumer as ConsumerEloquent;
 
 use App\Events\AddSaleOrderEvnet;
 use App\Events\MaterialUnderSafeEvent;
+use App\Events\MonthlyCheckDateExpiredEvent;
 
 
 class NotificationService extends BaseService
@@ -62,14 +63,27 @@ class NotificationService extends BaseService
     public function monthlyCheckDateExpired($consumer_id){
         $consumer = ConsumerEloquent::findOrFail($consumer_id);
         $consumer_name = $consumer->name;
-        $notice_comment = '客戶 '.$consumer_name.' 月結日已到期';
+        $uncheckedAmount = $consumer->uncheckedAmount;
+        $notice_comment = '客戶 '.$consumer_name.' 月結日已到期，尚有未結帳之訂單';
         $notice = NotificationEloquent::create([
             'job_title_id' => 2,
             'type' => 3,
             'status' => 0,
             'comment' => $notice_comment
         ]);
-        broadcast(new MonthlyCheckDateExpiredEvent($notice, $consumer_id))->toOthers();
+        broadcast(new MonthlyCheckDateExpiredEvent($notice, $consumer_id, $uncheckedAmount))->toOthers();
+    }
+
+    //原物料進貨單逾期通知 => joBTitle >= 2 (暫定)
+    public function purchaseOrderExpired($purchase_order_id){
+        $notice_comment = '有進貨單已逾期未到貨';
+        $notice = NotificationEloquent::create([
+            'job_title_id' => 2,
+            'type' => 4,
+            'status' => 0,
+            'comment' => $notice_comment
+        ]);
+        broadcast(new PurchaseOrderExpiredEvent($notice, $purchase_order_id))->toOthers();
     }
 
 }

@@ -4,10 +4,17 @@ namespace App\Services;
 use App\ProduceDetail as ProduceDetailEloquent;
 use App\Material as MaterialEloquent;
 use App\MaterialLog as MaterialLogEloquent;
+use App\Services\NotificationService;
 use Auth;
 
 class ProduceDetailService extends BaseService
 {
+    public $NotificationService;
+
+    public function __construct(){
+        $this->NotificationService = new NotificationService();
+    }
+
     public function add($request)
     {
         $produce_id = $request->produce_id;
@@ -32,6 +39,10 @@ class ProduceDetailService extends BaseService
                     $material->stock = $material->stock - ($quantity * 1000);
                 }else{
                     $material->stock = $material->stock - $quantity;
+                }
+                // 原物料低於安全庫存量
+                if($material->stock< $material->safeQuantity){
+                    $this->NotificationService->materialUnderSafe($material_id);
                 }
                 $material->save();
 
@@ -89,6 +100,10 @@ class ProduceDetailService extends BaseService
 
                     //更改原料存量
                     $material->stock = $new_quantity;
+                    // 原物料低於安全庫存量
+                    if($material->stock< $material->safeQuantity){
+                        $this->NotificationService->materialUnderSafe($material->id);
+                    }
                     $material->save();
 
                     //新增原料log
@@ -122,6 +137,10 @@ class ProduceDetailService extends BaseService
 
                 //更改原料存量
                 $material->stock = $new_quantity;
+                // 原物料低於安全庫存量
+                if($material->stock< $material->safeQuantity){
+                    $this->NotificationService->materialUnderSafe($$material->id);
+                }
                 $material->save();
 
                 //新增原料log

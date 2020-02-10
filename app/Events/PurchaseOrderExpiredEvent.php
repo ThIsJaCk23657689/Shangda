@@ -11,22 +11,20 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Notification;
 
-class MonthlyCheckDateExpiredEvent
+class PurchaseOrderExpiredEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $notice;
-    public $consumer_id;
-    public $uncheckedAmount;
+    public $purchase_order_id;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Notification $notice, $consumer_id, $uncheckedAmount)
+    public function __construct(Notification $notice, $purchase_order_id)
     {
         $this->notice = $notice->comment;
-        $this->consumer_id = $consumer_id;
-        $this->uncheckedAmount = $uncheckedAmount;
+        $this->purchase_order_id = $purchase_order_id;
     }
 
     /**

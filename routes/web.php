@@ -99,6 +99,9 @@ Route::prefix('/backend')->group(function(){
     Route::prefix('/orders/sales/details')->group(function(){
 
     });
+        //  確認出貨及付款 -> 寫進log(商品)
+    Route::patch('/orders/sales/delivered', 'Orders\SaleOrderController@received')->name('sales.delivered');
+    Route::patch('/orders/sales/paid', 'Orders\SaleOrderController@paid')->name('sales.paid');
 
     // 退貨單管理路由
     Route::resource('/orders/return', 'Orders\ReturnOrderController');

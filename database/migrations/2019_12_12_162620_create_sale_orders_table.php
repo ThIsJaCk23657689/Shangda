@@ -17,6 +17,7 @@ class CreateSaleOrdersTable extends Migration
             $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('consumers_id')->comment('客戶編號');
             $table->unsignedBigInteger('user_id')->comment('員工編號');
+            $table->unsignedBigInteger('last_user_id')->comment('最後修改使用者編號');//最終修改者，不顯示在前端
 
             $table->timestamp('expectPay_at')->nullable()->comment('預計付款日');
             $table->timestamp('paid_at')->nullable()->comment('實際付款日');

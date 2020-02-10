@@ -78,12 +78,13 @@ class PurchaseOrderDetailService extends BaseService
             ->where('count',$count)->get();
 
         $orig_quantity = $details->quantity;
+        $subTotal = round($request->price * $request->discount *  $request->quantity, 4);
         $detail = $details->update([
             'material_id' => $request->material_id,
             'price' => $request->price,
             'quantity' => $request->quantity,
             'discount' => $request->discount,
-            'subTotal' => $request->subTotal,
+            'subTotal' => $subTotal,
             'comment' => $request->comment,
         ]);
 
@@ -137,7 +138,7 @@ class PurchaseOrderDetailService extends BaseService
 
     public function getlastupdate()
     {
-        $saleOrder = SaleOrderEloquent::orderBy('id', 'DESC')->first();
+        $saleOrder = PurchaseOrderDetailEloquent::orderBy('id', 'DESC')->first();
         if(!empty($saleOrder)){
             return $saleOrder->updated_at;
         }
