@@ -121,6 +121,10 @@ class SaleOrderService extends BaseService
                     $product = ProductEloquent::findOrFail($detail->product_id);
                     $product->quantity = $product->quantity - $detail->quantity;
                     $product->save();
+                    // 若低於安全庫存量發通知
+                    if($product->quantity<$product->safeQuantity){
+                        $this->NotificationService->productUnderSafe($product->id);
+                    }
                     $this->ProductLogService->add(Auth::id(), $detail->product_id, 7, $detail->quantity);
                 }
                 return "Delivered Success";

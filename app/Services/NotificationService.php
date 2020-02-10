@@ -3,11 +3,14 @@
 namespace App\Services;
 use App\Notification as NotificationEloquent;
 use App\Material as MaterialEloquent;
+use App\Product as ProductEloquent;
 use App\Consumer as ConsumerEloquent;
 
 use App\Events\AddSaleOrderEvnet;
 use App\Events\MaterialUnderSafeEvent;
 use App\Events\MonthlyCheckDateExpiredEvent;
+use App\Events\ProductUnderSafeEvent;
+use App\Events\SaleOrderExpiredEvent;
 
 
 class NotificationService extends BaseService
@@ -59,6 +62,20 @@ class NotificationService extends BaseService
         broadcast(new MaterialUnderSafeEvent($notice, $material_id))->toOthers();
     }
 
+    //商品庫存低於安全庫存通知 => joBTitle >= 2 (暫定)
+    public function productUnderSafe($product_id){
+        $product = ProductEloquent::findOrFail($product_id);
+        $product_name = $product->name;
+        $notice_comment = '商品 '.$product_name.' 目前存量低於安全庫存量';
+        $notice = NotificationEloquent::create([
+            'job_title_id' => 2,
+            'type' => 6,
+            'status' => 0,
+            'comment' => $notice_comment
+        ]);
+        broadcast(new ProductUnderSafeEvent($notice, $product_id))->toOthers();
+    }
+
     // 月結日期到結帳通知 => joBTitle >= 2 (暫定)
     public function monthlyCheckDateExpired($consumer_id){
         $consumer = ConsumerEloquent::findOrFail($consumer_id);
@@ -74,7 +91,7 @@ class NotificationService extends BaseService
         broadcast(new MonthlyCheckDateExpiredEvent($notice, $consumer_id, $uncheckedAmount))->toOthers();
     }
 
-    //原物料進貨單逾期通知 => joBTitle >= 2 (暫定)
+    //原物料進貨單逾期未到貨通知 => joBTitle >= 2 (暫定)
     public function purchaseOrderExpired($purchase_order_id){
         $notice_comment = '有進貨單已逾期未到貨';
         $notice = NotificationEloquent::create([
@@ -84,6 +101,18 @@ class NotificationService extends BaseService
             'comment' => $notice_comment
         ]);
         broadcast(new PurchaseOrderExpiredEvent($notice, $purchase_order_id))->toOthers();
+    }
+
+    //預計出貨未出貨通知 => joBTitle >= 2 (暫定)
+    public function saleOrderExpired($sale_order_id){
+        $notice_comment = '有出貨單已逾期未出貨';
+        $notice = NotificationEloquent::create([
+            'job_title_id' => 2,
+            'type' => 5,
+            'status' => 0,
+            'comment' => $notice_comment
+        ]);
+        broadcast(new SaleOrderExpiredEvent($notice, $sale_order_id))->toOthers();
     }
 
 }
