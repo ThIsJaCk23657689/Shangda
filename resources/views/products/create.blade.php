@@ -40,7 +40,25 @@
 
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label for="name" class="col-md-3 col-form-label text-md-right"><span class="text-danger">*</span>商品名稱</label>
+                            <label for="shownID" class="col-md-3 col-form-label text-md-right">
+                                <span class="text-danger">*</span>商品編號
+                            </label>
+    
+                            <div class="col-md-6">
+                                <input id="shownID" name="shownID" type="text" class="form-control @error('shownID') is-invalid @enderror" value="{{ old('shownID') }}" required autocomplete="shownID" autofocus>
+                                
+                                @error('shownID')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label text-md-right">
+                                <span class="text-danger">*</span>商品名稱
+                            </label>
     
                             <div class="col-md-6">
                                 <input id="name" name="name" type="text" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -54,7 +72,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="internationalNum" class="col-md-3 col-form-label text-md-right">國際條碼</label>
+                            <label for="internationalNum" class="col-md-3 col-form-label text-md-right">
+                                國際條碼
+                            </label>
     
                             <div class="col-md-6">
                                 <input id="internationalNum" name="internationalNum" type="text" class="form-control @error('internationalNum') is-invalid @enderror" value="{{ old('internationalNum') }}" autocomplete="internationalNum">
@@ -68,6 +88,58 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="specification" class="col-md-3 col-form-label text-md-right">
+                                <span class="text-danger">*</span>商品規格
+                            </label>
+    
+                            <div class="col-md-6">
+                                <input id="specification" name="specification" type="text" class="form-control @error('specification') is-invalid @enderror" value="{{ old('specification') }}" required autocomplete="specification" placeholder="塑膠袋能裝的重量（單位：兩、公斤）">
+                                
+                                @error('specification')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="size_h" class="col-md-3 col-form-label text-md-right">
+                                <span class="text-danger">*</span>商品尺寸
+                            </label>
+    
+                            <div class="col-md-2">
+                                <input id="size_h" name="size_h" type="text" class="form-control @error('size_h') is-invalid @enderror" value="{{ old('size_h') }}" required placeholder="長">
+                            </div>
+                            <div class="col-md-1" style="padding: 0px;margin-top:1%;">
+                                公分 × 
+                            </div>
+                            <div class="col-md-2">
+                                <input id="size_w" name="size_w" type="text" class="form-control @error('size_w') is-invalid @enderror" value="{{ old('size_w') }}" required placeholder="寬">
+                            </div>
+                            <div class="col-md-1" style="padding: 0px;margin-top:1%;">
+                                公分
+                            </div>
+                            <input id="size" name="size" type="hidden" value="">
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="weight" class="col-md-3 col-form-label text-md-right">
+                                <span class="text-danger">*</span>商品重量
+                            </label>
+    
+                            <div class="col-md-6">
+                                <input id="weight" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror" value="{{ old('weight') }}" required autocomplete="weight" placeholder="塑膠袋一包的重量（單位：兩）">
+                                
+                                @error('weight')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- <div class="form-group row">
                             <label for="intro" class="col-md-3 col-form-label text-md-right">商品簡介</label>
     
                             <div class="col-md-6">
@@ -79,44 +151,16 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="shortName" class="col-md-3 col-form-label text-md-right"><span class="text-danger">*</span>商品容量</label>
-    
-                            <div class="col-md-6">
-                                <input id="shortName" name="shortName" type="text" class="form-control @error('shortName') is-invalid @enderror" value="{{ old('shortName') }}" required autocomplete="shortName" placeholder="一兩、半斤...等。">
-                                
-                                @error('shortName')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="specification" class="col-md-3 col-form-label text-md-right"><span class="text-danger">*</span>商品規格</label>
-    
-                            <div class="col-md-6">
-                                <input id="specification" name="specification" type="text" class="form-control @error('specification') is-invalid @enderror" value="{{ old('specification') }}" required autocomplete="specification" placeholder="88cm * 25cm ...等。">
-                                
-                                @error('specification')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group row">
                             <label for="unit" class="col-md-3 col-form-label text-md-right"><span class="text-danger">*</span>慣用單位</label>
                             
                             <div class="col-md-6">
                                 <select id="unit" class="form-control @error('unit') is-invalid @enderror" name="unit" required>
-                                    <option value="g">公噸</option>
                                     <option value="kg" selected>公斤</option>
-                                    <option value="mt">公噸</option>
+                                    <option value="lb">磅</option>
+                                    <option value="package">包</option>
                                 </select>
 
                                 @error('unit')

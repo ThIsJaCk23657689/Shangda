@@ -76,7 +76,7 @@ Route::prefix('/backend')->group(function(){
         Route::get('showName','CategoryController@showName')->name('categories.showName');
         // Route::get('show', 'ProductController@getProductListByCategory')->name('Product.getProductListByCategory');
     });
-    Route::resource('/categories', 'CategoryController');
+    Route::resource('/categories', 'CategoryController')->only(['index', 'show']);;
 
     Route::resource('/consumers', 'ConsumerController');
 

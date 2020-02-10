@@ -15,8 +15,36 @@ class CategoryTableSeeder extends Seeder
     {
         CategoryEloquent::create([
             'name' => '未分類商品',
-            'intro' => '尚未分類的商品，孤單寂寞覺得冷。',
+            'intro' => '',
         ]);
-        $categories = factory(CategoryEloquent::class, 10)->create();
+        CategoryEloquent::create([
+            'name' => '不公開之商品',
+            'intro' => '',
+        ]);
+        CategoryEloquent::create([
+            'name' => '耐熱袋',
+            'intro' => '',
+        ]);
+        CategoryEloquent::create([
+            'name' => '提袋',
+            'intro' => '',
+        ]);
+        CategoryEloquent::create([
+            'name' => '杯袋',
+            'intro' => '',
+        ]);
+        CategoryEloquent::create([
+            'name' => '碗袋',
+            'intro' => '',
+        ]);
+        CategoryEloquent::create([
+            'name' => '湯袋',
+            'intro' => '',
+        ]);
+        CategoryEloquent::create([
+            'name' => '客製化塑膠袋',
+            'intro' => '',
+        ]);
+        // $categories = factory(CategoryEloquent::class, 10)->create();
     }
 }

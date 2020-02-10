@@ -23,7 +23,7 @@ $factory->define(Product::class, function (Faker $faker) {
     $c5 = $faker->randomFloat(2, 0, 1);
     $retail_price = $x1 * $c1 + $x2 * $c2 + $x3 * $c3 + $x4 * $c4 + $x5 * $c5 + $fund_price;
     return [
-        'category_id' => $faker->numberBetween($min = 1, $max = 10),
+        'category_id' => $faker->numberBetween($min = 3, $max = 8),
         'name' => $faker->name,
         'shortName' => $faker->userName,
         'internationalNum' => $faker->numberBetween($min = 10000000, $max = 99999999),

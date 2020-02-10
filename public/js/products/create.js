@@ -152,6 +152,17 @@ $(function () {
     var rp = fp + mc1 * mp1 + mc2 * mp2 + mc3 * mp3 + mc4 * mp4 + mc5 * mp5;
     $('#retailPrice').val(rp);
   }
+
+  $('#size_h').change(function () {
+    var h = $('#size_h').val();
+    var w = $('#size_w').val();
+    $('#size').val(h + '公分 × ' + w + '公分');
+  });
+  $('#size_w').change(function () {
+    var h = $('#size_h').val();
+    var w = $('#size_w').val();
+    $('#size').val(h + '公分 × ' + w + '公分');
+  });
 });
 
 /***/ }),

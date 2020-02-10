@@ -559,7 +559,8 @@ __webpack_require__.r(__webpack_exports__);
     $("#expectReceived_at").datepicker({
       changeYear: true,
       changeMonth: true,
-      maxDate: new Date()
+      maxDate: new Date(),
+      dateFormat: 'yy-mm-dd'
     }); // 訂單細項 表單程式碼
 
     $('#PurchaseOrderDetailForm').submit(function (e) {
@@ -569,7 +570,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(url, data).then(function (response) {
         console.log(response.data.messenge);
         alert('新增進貨單成功！');
-        location.href = getPurchaseOrderIndex;
+        history.go(-1);
       })["catch"](function (error) {
         console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
         alert('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
