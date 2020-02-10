@@ -69,7 +69,8 @@
 
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
-                    <button type="submit" class="btn btn-block btn-primary">
+                    <button id="producesubmitBtn" type="submit" class="btn btn-block btn-primary">
+                        <span id="loading_icon" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
                         確認新增
                     </button>
                     <a :href="getProducesIndex" class="btn btn-block btn-danger">
@@ -101,7 +102,7 @@ export default {
             axios.post(url, data).then(response => {
                 // console.log(response);
                 alert("新增成功！" + response.data.massenge);
-                // location.href = response.data.redirect;
+                location.href = $('#getProducesIndex').html();
             }).catch((error) => {
                 console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
             });
@@ -154,6 +155,9 @@ export default {
             }else if(this.$refs.ProduceDetailForm.details.length == 0){
                 alert("請新增所消耗原物料!");
             }else{
+                $('#producesubmitBtn').attr('disabled', true);
+                $('#loading_icon').fadeIn();
+
                 // 1. 先創建 Produce
                 let url = event.target.action;
                 let data = $(event.target).serialize();

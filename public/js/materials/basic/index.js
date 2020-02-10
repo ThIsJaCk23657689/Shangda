@@ -151,7 +151,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     startEdit: function startEdit(id) {
-      // 把其他的也要關起來
       $('#startBtn_' + id).attr('disabled', true);
       $('#startBtn_' + id).fadeOut();
       $('#name_' + id).attr('disabled', false);
@@ -160,24 +159,25 @@ __webpack_require__.r(__webpack_exports__);
       $('#saveBtn_' + id).fadeIn();
     },
     editdata: function editdata(id) {
-      confirm('您確定要更變此原物料資料？');
-      $('#loading_' + id).fadeIn();
-      $('#saveBtn_' + id).attr('disabled', true);
-      $('#name_' + id).attr('disabled', true);
-      $('#price_' + id).attr('disabled', true);
-      var getBasicMaterialsURL = $('#getBasicMaterialsURL').html();
-      axios.post(getBasicMaterialsURL + '/' + id, {
-        name: this.basic_materials[id - 1].name,
-        price: this.basic_materials[id - 1].price,
-        _method: 'PATCH'
-      }).then(function (response) {
-        console.log(response);
-        alert('修改成功！');
-        $('#loading_' + id).fadeOut();
-        $('#saveBtn_' + id).fadeOut();
-        $('#startBtn_' + id).attr('disabled', false);
-        $('#startBtn_' + id).fadeIn();
-      });
+      if (confirm('您確定要更變此原物料資料？')) {
+        $('#loading_' + id).fadeIn();
+        $('#saveBtn_' + id).attr('disabled', true);
+        $('#name_' + id).attr('disabled', true);
+        $('#price_' + id).attr('disabled', true);
+        var getBasicMaterialsURL = $('#getBasicMaterialsURL').html();
+        axios.post(getBasicMaterialsURL + '/' + id, {
+          name: this.basic_materials[id - 1].name,
+          price: this.basic_materials[id - 1].price,
+          _method: 'PATCH'
+        }).then(function (response) {
+          console.log(response);
+          alert('修改成功！');
+          $('#loading_' + id).fadeOut();
+          $('#saveBtn_' + id).fadeOut();
+          $('#startBtn_' + id).attr('disabled', false);
+          $('#startBtn_' + id).fadeIn();
+        });
+      }
     }
   }
 });

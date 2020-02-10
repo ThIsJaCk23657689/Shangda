@@ -145,8 +145,8 @@
                                 @foreach ($basicMaterials as $basicMaterial)
                                     <th>
                                         <label for="materialCoefficient{{ $loop->iteration }}">
-                                            原物料比重{{ $loop->iteration }}<br>
-                                            價格：<span id="{{ $basicMaterial->name }}">{{ $basicMaterial->price }}</span>
+                                            {{ $basicMaterial->name }}比重<br>
+                                            價格：<span id="material_{{ $loop->iteration }}">{{ $basicMaterial->price }}</span>
                                         </label>
                                     </th>
                                 @endforeach

@@ -183,6 +183,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['products', 'current_product', 'materials'],
   mounted: function mounted() {
@@ -194,7 +195,8 @@ __webpack_require__.r(__webpack_exports__);
       var data = $(this).serialize();
       axios.post(url, data).then(function (response) {
         // console.log(response);
-        alert("新增成功！" + response.data.massenge); // location.href = response.data.redirect;
+        alert("新增成功！" + response.data.massenge);
+        location.href = $('#getProducesIndex').html();
       })["catch"](function (error) {
         console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
       });
@@ -246,7 +248,9 @@ __webpack_require__.r(__webpack_exports__);
       } else if (this.$refs.ProduceDetailForm.details.length == 0) {
         alert("請新增所消耗原物料!");
       } else {
-        // 1. 先創建 Produce
+        $('#producesubmitBtn').attr('disabled', true);
+        $('#loading_icon').fadeIn(); // 1. 先創建 Produce
+
         var url = event.target.action;
         var data = $(event.target).serialize();
         axios.post(url, data).then(function (response) {
@@ -582,18 +586,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "form-group row justify-content-center" }, [
             _c("div", { staticClass: "col-md-8" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-block btn-primary",
-                  attrs: { type: "submit" }
-                },
-                [
-                  _vm._v(
-                    "\r\n                        確認新增\r\n                    "
-                  )
-                ]
-              ),
+              _vm._m(4),
               _vm._v(" "),
               _c(
                 "a",
@@ -679,6 +672,26 @@ var staticRenderFns = [
         }
       })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-block btn-primary",
+        attrs: { id: "producesubmitBtn", type: "submit" }
+      },
+      [
+        _c("span", {
+          staticClass: "spinner-border spinner-border-sm",
+          staticStyle: { display: "none" },
+          attrs: { id: "loading_icon", role: "status", "aria-hidden": "true" }
+        }),
+        _vm._v("\r\n                        確認新增\r\n                    ")
+      ]
+    )
   }
 ]
 render._withStripped = true
