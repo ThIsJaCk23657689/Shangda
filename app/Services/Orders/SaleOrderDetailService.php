@@ -69,6 +69,7 @@ class SaleOrderDetailService extends BaseService
             }
             $saleOrder->save();
             $saleOrder->consumer->uncheckedAmount += $add_price;
+            $saleOrder->consumer->totalConsumption += $add_price;
             $saleOrder->consumer->save();
 
             $msg = [
@@ -109,6 +110,7 @@ class SaleOrderDetailService extends BaseService
             ->where('count',$count)->get();
 
         $orig_quantity = $details->quantity;
+        $orig_subtotal_tax = $details->subTotal;
         $subTotal = round($request->price * $request->discount *  $request->quantity, 4);
         $detail = $details->update([
             'product_id' => $request->product_id,
@@ -127,16 +129,17 @@ class SaleOrderDetailService extends BaseService
 
             if($saleOrder->taxType == 1){
                 $subTotal_tax = $subTotal*1.05;
+                $orig_subTotal_unTax = $orig_subtotal_tax/1.05;
             }
-            $saleOrder->unpiadAmount += $subTotal_tax;
-            $saleOrder->totalPrice += $subTotal;
-            $saleOrder->taxPrice += $subTotal_tax;
-            $saleOrder->totalTaxPrice += $subTotal_tax;
+            $saleOrder->unpiadAmount += $subTotal_tax - $orig_subtotal_tax;
+            $saleOrder->totalPrice += $subTotal - $orig_subTotal_unTax;
+            $saleOrder->taxPrice += $subTotal_tax - $orig_subtotal_tax;
+            $saleOrder->totalTaxPrice += $subTotal_tax - $orig_subtotal_tax;
 
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
 
-            $saleOrder->consumer->uncheckedAmount += $subTotal_tax;
+            $saleOrder->consumer->uncheckedAmount += $subTotal_tax - $orig_subtotal_tax;
             $saleOrder->consumer->save();
 
             $this->ProductLogService->add($user_id, $product_id, 2, $quantity);
@@ -179,6 +182,7 @@ class SaleOrderDetailService extends BaseService
             $saleOrder->save();
 
             $saleOrder->consumer->uncheckedAmount -= $subTotal_tax;
+            $saleOrder->consumer->totalConsumption -= $subTotal_tax;
             $saleOrder->consumer->save();
             $this->ProductLogService->add($user_id, $product_id, 3, 0);
             $details->delete();

@@ -106,6 +106,7 @@ class SaleOrderController extends Controller
         return response()->json($msg, 200);
     }
 
+    // 傳 id, paid_at, paidAmount
     public function paid(Request $request){
         $msg = $this->SaleOrderService->paid($request);
         return response()->json($msg, 200);
