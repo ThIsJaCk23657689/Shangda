@@ -9,8 +9,8 @@ use App\SaleOrder as SaleOrderEloquent;
 
 use Auth;
 
-     // ('piadAmount')->comment('訂單已付額');
-    // ('unpiadAmount')->comment('訂單未付額');
+     // ('paidAmount')->comment('訂單已付額');
+    // ('unpaidAmount')->comment('訂單未付額');
     // ('totalPrice')->comment('訂單未稅額');
     // ('taxPrice')->comment('訂單稅額'); // taxType = 1 要加 5%
     // ('totalTaxPrice')->comment('訂單總價');
@@ -59,12 +59,12 @@ class SaleOrderDetailService extends BaseService
             if($saleOrder->taxType == 1){
                 $saleOrder->taxPrice = $total_unTax*1.05;
                 $saleOrder->totalTaxPrice = $total_unTax*1.05;
-                $saleOrder->unpiadAmount = $total_unTax*1.05;
+                $saleOrder->unpaidAmount = $total_unTax*1.05;
                 $add_price=$total_unTax*1.05;
             }else{
                 $saleOrder->taxPrice = $total_unTax;
                 $saleOrder->totalTaxPrice = $total_unTax;
-                $saleOrder->unpiadAmount = $total_unTax;
+                $saleOrder->unpaidAmount = $total_unTax;
                 $add_price=$total_unTax;
             }
             $saleOrder->save();
@@ -131,7 +131,7 @@ class SaleOrderDetailService extends BaseService
                 $subTotal_tax = $subTotal*1.05;
                 $orig_subTotal_unTax = $orig_subtotal_tax/1.05;
             }
-            $saleOrder->unpiadAmount += $subTotal_tax - $orig_subtotal_tax;
+            $saleOrder->unpaidAmount += $subTotal_tax - $orig_subtotal_tax;
             $saleOrder->totalPrice += $subTotal - $orig_subTotal_unTax;
             $saleOrder->taxPrice += $subTotal_tax - $orig_subtotal_tax;
             $saleOrder->totalTaxPrice += $subTotal_tax - $orig_subtotal_tax;
@@ -173,7 +173,7 @@ class SaleOrderDetailService extends BaseService
             if($saleOrder->taxType == 1){
                 $subTotal_tax = $subTotal*1.05;
             }
-            $saleOrder->unpiadAmount -= $subTotal_tax;
+            $saleOrder->unpaidAmount -= $subTotal_tax;
             $saleOrder->totalPrice -= $subTotal;
             $saleOrder->taxPrice -= $subTotal_tax;
             $saleOrder->totalTaxPrice -= $subTotal_tax;

@@ -32,8 +32,8 @@ class SaleOrderService extends BaseService
             'delivered_at' => $request->delivered_at,
             'makeInvoice_at' => $request->makeInvoice_at,
 
-            'piadAmount' => $request->piadAmount,
-            'unpiadAmount' => $request->unpiadAmount,
+            'paidAmount' => $request->paidAmount,
+            'unpaidAmount' => $request->unpaidAmount,
             'totalPrice' => $request->totalPrice,
             'taxPrice' => $request->taxPrice,
             'totalTaxPrice' => $request->totalTaxPrice,
@@ -108,8 +108,8 @@ class SaleOrderService extends BaseService
                 'delivered_at' => $request->delivered_at,
                 'makeInvoice_at' => $request->makeInvoice_at,
 
-                // 'piadAmount' => $request->piadAmount,
-                // 'unpiadAmount' => $request->unpiadAmount,
+                // 'paidAmount' => $request->paidAmount,
+                // 'unpaidAmount' => $request->unpaidAmount,
                 // 'totalPrice' => $request->totalPrice,
                 'taxPrice' => $request->taxPrice*1.05,
                 'totalTaxPrice' => $request->totalTaxPrice*1.05,
@@ -195,8 +195,8 @@ class SaleOrderService extends BaseService
     }
 
     // SaleOrder 以下註解是方便查看用
-    // ('piadAmount')->comment('訂單已付額');
-    // ('unpiadAmount')->comment('訂單未付額');
+    // ('paidAmount')->comment('訂單已付額');
+    // ('unpaidAmount')->comment('訂單未付額');
     // ('totalPrice')->comment('訂單未稅額');
     // ('taxPrice')->comment('訂單稅額'); // taxType = 1 要加 5%
     // ('totalTaxPrice')->comment('訂單總價');
@@ -205,25 +205,26 @@ class SaleOrderService extends BaseService
         $saleOrder_id = $request->id;
         $paid_at = $request->paid_at;
         // 此次付款金額 可超付或少付
-        $piadAmount = $request->piadAmount;
+        $paidAmount = $request->paidAmount;
         $saleOrder = $this->getOne($saleOrder_id);
 
         if($saleOrder and $saleOrder->paid_at == NULL){
-            // 確認付款 unpiadAmount piadAmount
+            // 確認付款 unpaidAmount paidAmount
             $saleOrder->paid_at = $paid_at;
-            $orig_unpaidAmount = $saleOrder->unpiadAmount;
+            $orig_unpaidAmount = $saleOrder->unpaidAmount;
 
             //  付清或少付
-            if($piadAmount <= $orig_unpaidAmount){
-                $saleOrder->piadAmount += $piadAmount;
-                $saleOrder->unpiadAmount -= $piadAmount;
+            if($paidAmount <= $orig_unpaidAmount){
+                $saleOrder->paidAmount += $paidAmount;
+                $saleOrder->unpaidAmount -= $paidAmount;
 
             }else{ // 超付
-                $saleOrder->unpiadAmount = 0;
-                $saleOrder->piadAmount = $saleOrder->totalTaxPrice;
+                $saleOrder->overpaidAmount = $paidAmount - $orig_unpaidAmount;
+                $saleOrder->unpaidAmount = 0;
+                $saleOrder->paidAmount = $saleOrder->totalTaxPrice;
             }
             // 扣除客戶未結款項
-            $saleOrder->consumer->uncheckedAmount -= $piadAmount;
+            $saleOrder->consumer->uncheckedAmount -= $paidAmount;
             $saleOrder->consumer->save();
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
@@ -233,5 +234,31 @@ class SaleOrderService extends BaseService
 
     }
 
+    public function paymentCancel($request){
+        $saleOrder_id = $request->id;
+        $saleOrder = $this->getOne($saleOrder_id);
+
+        if($saleOrder){
+            // 確認付款 unpaidAmount piadAmount
+            $saleOrder->paid_at = NULL;
+
+            $totalTaxPrice = $saleOrder->totalTaxPrice;
+            $orig_paid = $saleOrder->paidAmount;
+            $orig_overpaidAmount = $saleOrder->overpaidAmount;
+
+            $saleOrder->paidAmount = 0;
+            $saleOrder->unpaidAmount = $totalTaxPrice;
+            $saleOrder->overpaidAmount = 0;
+
+            // 加回客戶未結款項
+            $saleOrder->consumer->uncheckedAmount += $orig_paid + $orig_overpaidAmount;
+            $saleOrder->consumer->save();
+            $saleOrder->last_user_id = Auth::id();
+            $saleOrder->save();
+        }else{
+            return 'Sale Order Not Found';
+        }
+
+    }
 
 }
