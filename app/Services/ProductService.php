@@ -26,17 +26,28 @@ class ProductService extends BaseService
         // 圖片儲存
         $image_path = $this->savePicture($request->picture);
 
-
-        //名字加規格
-        $realName = $request->name."(".$request->specification."/".$request->size."/".$request->weight.")";
-
         // 新增資料
         $product = ProductEloquent::create([
             'category_id' => $request->category_id,
-            'name' => $realName,
-            'shortName' => $request->shownID,
+            'name' => $request->name,
+            'isManualNamed' => $request->isManualNamed,
+            'shownID' => $request->shownID,
             'internationalNum' => $request->internationalNum,
 
+            'specification' => $request->specification,
+            'color' => $request->color,
+            'length' => $request->length,
+            'width' => $request->width,
+            'chamfer' => $request->chamfer,
+            'weight' => $request->weight,
+            'qty_per_pack' => $request->qty_per_pack,
+            'comment' => $request->comment,
+            'unit' => $request->unit,
+            'quantity' => $request->quantity,
+            'safeQuantity' => $request->safeQuantity,
+            'picture' => $image_path,
+            'intro' => $request->intro,
+            
             'fundamentalPrice' => $request->fundamentalPrice,
             'retailPrice' => $retail_price,
             'materialCoefficient1' => $request->materialCoefficient1,
@@ -44,14 +55,6 @@ class ProductService extends BaseService
             'materialCoefficient3' => $request->materialCoefficient3,
             'materialCoefficient4' => $request->materialCoefficient4,
             'materialCoefficient5' => $request->materialCoefficient5,
-
-            'comment' => $request->comment,
-            'unit' => $request->unit,
-            'quantity' => $request->quantity,
-            'safeQuantity' => $request->safeQuantity,
-            'picture' => $image_path,
-            'intro' => $request->intro,
-            'specification' => $request->specification
         ]);
 
         return $product;
@@ -102,10 +105,25 @@ class ProductService extends BaseService
 
         $product->update([
             'category_id' => $request->category_id,
-            'name' => $request->$realName,
-            'shortName' => $request->shownID,
+            'name' => $request->name,
+            'isManualNamed' => $request->isManualNamed,
+            'shownID' => $request->shownID,
             'internationalNum' => $request->internationalNum,
 
+            'specification' => $request->specification,
+            'color' => $request->color,
+            'length' => $request->length,
+            'width' => $request->width,
+            'chamfer' => $request->chamfer,
+            'weight' => $request->weight,
+            'qty_per_pack' => $request->qty_per_pack,
+            'comment' => $request->comment,
+            'unit' => $request->unit,
+            'quantity' => $request->quantity,
+            'safeQuantity' => $request->safeQuantity,
+            'picture' => $image_path,
+            'intro' => $request->intro,
+            
             'fundamentalPrice' => $request->fundamentalPrice,
             'retailPrice' => $retail_price,
             'materialCoefficient1' => $request->materialCoefficient1,
@@ -113,14 +131,6 @@ class ProductService extends BaseService
             'materialCoefficient3' => $request->materialCoefficient3,
             'materialCoefficient4' => $request->materialCoefficient4,
             'materialCoefficient5' => $request->materialCoefficient5,
-
-            'comment' => $request->comment,
-            'unit' => $request->unit,
-            'quantity' => $request->quantity,
-            'safeQuantity' => $request->safeQuantity,
-            'picture' => $image_path,
-            'intro' => $request->intro,
-            'specification' => $request->specification,
         ]);
         return $product;
     }

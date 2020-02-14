@@ -15,20 +15,25 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'category_id', 'name', 'shortName', 'fundamentalPrice', 'retailPrice',
-        'materialCoefficient1', 'materialCoefficient2', 'materialCoefficient3',
-        'materialCoefficient4', 'materialCoefficient5',
+        'category_id', 'shownID', 'name', 'isManualNamed', 'internationalNum', 'picture', 'specification',
+        'color', 'length' ,'width', 'chamfer', 'weight', 'qty_per_pack',
+        'unit', 'intro', 'quantity', 'safeQuantity', 'comment',
 
-        'comment', 'internationalNum', 'unit', 'quantity', 'safeQuantity',
-        'picture', 'intro', 'specification',
+        'fundamentalPrice', 
+        'materialCoefficient1', 'materialCoefficient2', 'materialCoefficient3',
+        'materialCoefficient4', 'materialCoefficient5', 'retailPrice',
     ];
 
-    public function produce(){
-        return $this->hasMany(ProduceEloquent::class);
-    }
+    protected $casts = [
+        'isManualNamed' => 'boolean',
+    ];
 
     public function category(){
         return $this->belongsTo(CategoryEloquent::class);
+    }
+
+    public function produce(){
+        return $this->hasMany(ProduceEloquent::class);
     }
 
     public function productlogs(){
@@ -41,17 +46,31 @@ class Product extends Model
 
     public function showUnit(){
         switch($this->unit){
-            case "g":
-                $result = "公克";
+            case "package":
+                $result = "包";
                 break;
             case "kg":
                 $result = "公斤";
                 break;
-            case "mt":
-                $result = "公噸";
+            case "roll":
+                $result = "捲";
                 break;
+            default:
+                $result = "個";
         }
         return $result;
+    }
+
+    public function showPicture(){
+        if(empty($this->picture)){
+            return URL::asset('images/products/default.png');
+        }else{
+            if(!preg_match("/^[a-zA-Z]+:\/\//", $this->picture)){
+                return URL::asset($this->picture);
+            }else{
+                return $this->picture;
+            }
+        }
     }
 
     public function nameDivide(){
@@ -69,17 +88,5 @@ class Product extends Model
         $result['size'] = $array[1];
         $result['weight'] = $weight;
         return $result;
-    }
-
-    public function showPicture(){
-        if(empty($this->picture)){
-            return URL::asset('images/products/default.png');
-        }else{
-            if(!preg_match("/^[a-zA-Z]+:\/\//", $this->picture)){
-                return URL::asset($this->picture);
-            }else{
-                return $this->picture;
-            }
-        }
     }
 }

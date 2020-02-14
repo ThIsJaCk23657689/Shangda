@@ -24,30 +24,36 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-        'category_id'=>"required|exists:categories,id",
-        'name' => 'required|max:100|string',
-        'shownID' => 'required|max:100|string',
-        'internationalNum' => 'nullable|max:100|string',
+            'category_id' => "required|exists:categories,id",
+            'shownID' => 'required|string|max:255',
 
-        'size' => 'required|max:100|string',
-        'weight' => 'required|max:100|string',
-        'specification' => 'required|max:100|string',
+            'name' => 'required|string|max:255',
+            'isManualNamed' => 'required|boolean',
+            'internationalNum' => 'nullable|string|max:50',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'specification' => 'nullable|string|max:255',
+            'color' => 'nullable|string|max:255',
 
-        'fundamentalPrice' => 'required|numeric|min:0',
-        // 'retailPrice' => 'required|numeric|min:0',
-        'materialCoefficient1' => 'required|numeric|min:0',
-        'materialCoefficient2' => 'required|numeric|min:0',
-        'materialCoefficient3' => 'required|numeric|min:0',
-        'materialCoefficient4' => 'required|numeric|min:0',
-        'materialCoefficient5' => 'required|numeric|min:0',
-        
-        'comment' => 'nullable|string',
-        'unit' => 'nullable|string|max:100',
-        'quantity' => 'required|integer|min:0',
-        'safeQuantity' => 'required|integer|min:0',
-        'picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        'intro' => 'nullable|string',
-        'specification' => 'nullable|string',
+            'length' => 'required|numeric|min:0',
+            'width' => 'required|numeric|min:0',
+            'chamfer' => 'nullable|numeric|min:0',
+
+            'weight' => 'required|numeric|min:0',
+            'qty_per_pack' => 'required|integer|min:0',
+            'unit' => 'nullable|string|max:100',
+            'intro' => 'nullable|string',
+
+            'quantity' => 'required|integer|min:0',
+            'safeQuantity' => 'required|integer|min:0',
+            'comment' => 'nullable|string',
+
+            'fundamentalPrice' => 'required|numeric|min:0',
+            'materialCoefficient1' => 'required|numeric|min:0',
+            'materialCoefficient2' => 'required|numeric|min:0',
+            'materialCoefficient3' => 'required|numeric|min:0',
+            'materialCoefficient4' => 'required|numeric|min:0',
+            'materialCoefficient5' => 'required|numeric|min:0',
+            // 'retailPrice' => 'required|numeric|min:0',
         ];
     }
 }
