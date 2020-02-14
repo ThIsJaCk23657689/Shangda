@@ -32,8 +32,8 @@ class SaleOrderService extends BaseService
             'delivered_at' => $request->delivered_at,
             'makeInvoice_at' => $request->makeInvoice_at,
 
-            'piadAmount' => $request->piadAmount,
-            'unpiadAmount' => $request->unpiadAmount,
+            'paidAmount' => $request->paidAmount,
+            'unpaidAmount' => $request->unpaidAmount,
             'totalPrice' => $request->totalPrice,
             'taxPrice' => $request->taxPrice,
             'totalTaxPrice' => $request->totalTaxPrice,
@@ -108,8 +108,8 @@ class SaleOrderService extends BaseService
                 'delivered_at' => $request->delivered_at,
                 'makeInvoice_at' => $request->makeInvoice_at,
 
-                // 'piadAmount' => $request->piadAmount,
-                // 'unpiadAmount' => $request->unpiadAmount,
+                // 'paidAmount' => $request->paidAmount,
+                // 'unpaidAmount' => $request->unpaidAmount,
                 // 'totalPrice' => $request->totalPrice,
                 'taxPrice' => $request->taxPrice*1.05,
                 'totalTaxPrice' => $request->totalTaxPrice*1.05,
@@ -194,46 +194,71 @@ class SaleOrderService extends BaseService
         }
     }
 
-    // 待改
+    // SaleOrder 以下註解是方便查看用
+    // ('paidAmount')->comment('訂單已付額');
+    // ('unpaidAmount')->comment('訂單未付額');
+    // ('totalPrice')->comment('訂單未稅額');
+    // ('taxPrice')->comment('訂單稅額'); // taxType = 1 要加 5%
+    // ('totalTaxPrice')->comment('訂單總價');
+    // uncheckedAmount -> consumer 未沖帳金額
     public function paid($request){
         $saleOrder_id = $request->id;
         $paid_at = $request->paid_at;
+        // 此次付款金額 可超付或少付
+        $paidAmount = $request->paidAmount;
         $saleOrder = $this->getOne($saleOrder_id);
 
-        if($saleOrder and $saleOrder->received_at == NULL){
-            // 確認付款
-            $saleOrder->received_at = $paid_at;
-            $saleOrder->last_user_id = Auth::id();
-            $saleOrder->save();
-            $saleOrder_details = $saleOrder->details();
-            if($saleOrder_details){
-                foreach($saleOrder_details as $detail){
-                    $this->ProductLogService->add(Auth::id(), $detail->product_id, 9, 0);
-                }
-                return "Payment Confirmed";
-            }else{
-                return 'Details Not Found';
-            }
-        }else if($saleOrder and $saleOrder->paid_at != NULL){
-            // 重複按 => 取消付款
-            $saleOrder->paid_at = NULL;
-            $saleOrder->last_user_id = Auth::id();
-            $saleOrder->save();
-            $saleOrder_details = $saleOrder->details();
-            if($saleOrder_details){
-                foreach($saleOrder_details as $detail){
-                    $this->ProductLogService->add(Auth::id(), $detail->product_id, 10, 0);
-                }
-                return "Payment Canceled";
-            }else{
-                return 'Details Not Found';
-            }
+        if($saleOrder and $saleOrder->paid_at == NULL){
+            // 確認付款 unpaidAmount paidAmount
+            $saleOrder->paid_at = $paid_at;
+            $orig_unpaidAmount = $saleOrder->unpaidAmount;
 
+            //  付清或少付
+            if($paidAmount <= $orig_unpaidAmount){
+                $saleOrder->paidAmount += $paidAmount;
+                $saleOrder->unpaidAmount -= $paidAmount;
+
+            }else{ // 超付
+                $saleOrder->overpaidAmount = $paidAmount - $orig_unpaidAmount;
+                $saleOrder->unpaidAmount = 0;
+                $saleOrder->paidAmount = $saleOrder->totalTaxPrice;
+            }
+            // 扣除客戶未結款項
+            $saleOrder->consumer->uncheckedAmount -= $paidAmount;
+            $saleOrder->consumer->save();
+            $saleOrder->last_user_id = Auth::id();
+            $saleOrder->save();
         }else{
             return 'Sale Order Not Found';
         }
 
     }
 
+    public function paymentCancel($request){
+        $saleOrder_id = $request->id;
+        $saleOrder = $this->getOne($saleOrder_id);
+
+        if($saleOrder){
+            // 確認付款 unpaidAmount piadAmount
+            $saleOrder->paid_at = NULL;
+
+            $totalTaxPrice = $saleOrder->totalTaxPrice;
+            $orig_paid = $saleOrder->paidAmount;
+            $orig_overpaidAmount = $saleOrder->overpaidAmount;
+
+            $saleOrder->paidAmount = 0;
+            $saleOrder->unpaidAmount = $totalTaxPrice;
+            $saleOrder->overpaidAmount = 0;
+
+            // 加回客戶未結款項
+            $saleOrder->consumer->uncheckedAmount += $orig_paid + $orig_overpaidAmount;
+            $saleOrder->consumer->save();
+            $saleOrder->last_user_id = Auth::id();
+            $saleOrder->save();
+        }else{
+            return 'Sale Order Not Found';
+        }
+
+    }
 
 }

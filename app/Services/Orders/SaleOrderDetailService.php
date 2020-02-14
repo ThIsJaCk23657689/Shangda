@@ -9,8 +9,8 @@ use App\SaleOrder as SaleOrderEloquent;
 
 use Auth;
 
-     // ('piadAmount')->comment('訂單已付額');
-    // ('unpiadAmount')->comment('訂單未付額');
+     // ('paidAmount')->comment('訂單已付額');
+    // ('unpaidAmount')->comment('訂單未付額');
     // ('totalPrice')->comment('訂單未稅額');
     // ('taxPrice')->comment('訂單稅額'); // taxType = 1 要加 5%
     // ('totalTaxPrice')->comment('訂單總價');
@@ -59,16 +59,17 @@ class SaleOrderDetailService extends BaseService
             if($saleOrder->taxType == 1){
                 $saleOrder->taxPrice = $total_unTax*1.05;
                 $saleOrder->totalTaxPrice = $total_unTax*1.05;
-                $saleOrder->unpiadAmount = $total_unTax*1.05;
+                $saleOrder->unpaidAmount = $total_unTax*1.05;
                 $add_price=$total_unTax*1.05;
             }else{
                 $saleOrder->taxPrice = $total_unTax;
                 $saleOrder->totalTaxPrice = $total_unTax;
-                $saleOrder->unpiadAmount = $total_unTax;
+                $saleOrder->unpaidAmount = $total_unTax;
                 $add_price=$total_unTax;
             }
             $saleOrder->save();
             $saleOrder->consumer->uncheckedAmount += $add_price;
+            $saleOrder->consumer->totalConsumption += $add_price;
             $saleOrder->consumer->save();
 
             $msg = [
@@ -109,6 +110,7 @@ class SaleOrderDetailService extends BaseService
             ->where('count',$count)->get();
 
         $orig_quantity = $details->quantity;
+        $orig_subtotal_tax = $details->subTotal;
         $subTotal = round($request->price * $request->discount *  $request->quantity, 4);
         $detail = $details->update([
             'product_id' => $request->product_id,
@@ -127,16 +129,17 @@ class SaleOrderDetailService extends BaseService
 
             if($saleOrder->taxType == 1){
                 $subTotal_tax = $subTotal*1.05;
+                $orig_subTotal_unTax = $orig_subtotal_tax/1.05;
             }
-            $saleOrder->unpiadAmount += $subTotal_tax;
-            $saleOrder->totalPrice += $subTotal;
-            $saleOrder->taxPrice += $subTotal_tax;
-            $saleOrder->totalTaxPrice += $subTotal_tax;
+            $saleOrder->unpaidAmount += $subTotal_tax - $orig_subtotal_tax;
+            $saleOrder->totalPrice += $subTotal - $orig_subTotal_unTax;
+            $saleOrder->taxPrice += $subTotal_tax - $orig_subtotal_tax;
+            $saleOrder->totalTaxPrice += $subTotal_tax - $orig_subtotal_tax;
 
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
 
-            $saleOrder->consumer->uncheckedAmount += $subTotal_tax;
+            $saleOrder->consumer->uncheckedAmount += $subTotal_tax - $orig_subtotal_tax;
             $saleOrder->consumer->save();
 
             $this->ProductLogService->add($user_id, $product_id, 2, $quantity);
@@ -170,7 +173,7 @@ class SaleOrderDetailService extends BaseService
             if($saleOrder->taxType == 1){
                 $subTotal_tax = $subTotal*1.05;
             }
-            $saleOrder->unpiadAmount -= $subTotal_tax;
+            $saleOrder->unpaidAmount -= $subTotal_tax;
             $saleOrder->totalPrice -= $subTotal;
             $saleOrder->taxPrice -= $subTotal_tax;
             $saleOrder->totalTaxPrice -= $subTotal_tax;
@@ -179,6 +182,7 @@ class SaleOrderDetailService extends BaseService
             $saleOrder->save();
 
             $saleOrder->consumer->uncheckedAmount -= $subTotal_tax;
+            $saleOrder->consumer->totalConsumption -= $subTotal_tax;
             $saleOrder->consumer->save();
             $this->ProductLogService->add($user_id, $product_id, 3, 0);
             $details->delete();
