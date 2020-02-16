@@ -14,6 +14,7 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('index');
+Route::get('/old', 'HomeController@old')->name('old');
 
 // 後臺管理路由
 Route::prefix('/backend')->group(function(){
