@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('category_id')->comment('商品類別編號');
 
-            $table->string('shownID')->comment('識別編號');
+            $table->string('shownID')->unique()->comment('識別編號');
             $table->string('name')->comment('名稱');
             $table->boolean('isManualNamed')->nullable()->default('0')->comment('是否為手動命名');
             $table->string('internationalNum', 50)->nullable()->comment('國際條碼');

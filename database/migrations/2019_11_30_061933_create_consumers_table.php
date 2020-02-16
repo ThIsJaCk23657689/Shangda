@@ -33,7 +33,7 @@ class CreateConsumersTable extends Migration
             $table->string('tel2', 25)->nullable()->comment('聯絡人電話2');
             $table->string('email2', 100)->nullable()->comment('聯絡人信箱2');
 
-            $table->unsignedInteger('monthlyCheckDate')->nullable()->comment('月結日');
+            $table->unsignedInteger('monthlyCheckDate')->nullable()->default(0)->comment('月結日');
             $table->float('uncheckedAmount')->default(0)->comment('未沖帳總額'); //未結帳金額 + ；超付金額 -
             $table->float('totalConsumption')->default(0)->comment('總消費額');
 
@@ -41,6 +41,9 @@ class CreateConsumersTable extends Migration
             $table->string('deliveryAddress')->comment('送貨地址');
             $table->string('invoiceAddress')->comment('發票地址');
             $table->string('comment')->nullable()->comment('備註');
+            
+            // 預設為0，代表是顧客自己創建(註冊) | 如果為1代表為管理者所創建。
+            $table->boolean('account_type')->nullable()->default(0)->comment('帳號類型');
 
             $table->softDeletes(); //黑名單
             $table->rememberToken();

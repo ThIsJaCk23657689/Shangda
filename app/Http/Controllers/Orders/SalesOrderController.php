@@ -4,30 +4,29 @@ namespace App\Http\Controllers\Orders;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\SaleOrderRequest;
-use App\Services\Orders\SaleOrderService;
+use App\Http\Requests\SalesOrderRequest;
+use App\Services\Orders\SalesOrderService;
 
-class SaleOrderController extends Controller
+class SalesOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public $SaleOrderService;
+    public $SalesOrderService;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->SaleOrderService = new SaleOrderService();
+        $this->SalesOrderService = new SalesOrderService();
     }
-
 
     public function index()
     {
-        $saleOrders = $this->SaleOrderService->getList();
-        $lastUpdate = $this->SaleOrderService->getlastupdate();
-        return view('saleOrders.index', compact('saleOrders', 'lastUpdate'));
+        $saleOrders = $this->SalesOrderService->getList();
+        $lastUpdate = $this->SalesOrderService->getlastupdate();
+        return view('salesOrders.index', compact('saleOrders', 'lastUpdate'));
     }
 
     /**
@@ -35,9 +34,9 @@ class SaleOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('saleOrders.create');
+    public function create(){
+        $new_shownID = $this->SalesOrderService->generateShownID();
+        return view('salesOrders.create', compact('new_shownID'));
     }
 
     /**
@@ -46,10 +45,9 @@ class SaleOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SaleOrderRequest $request)
-    {
-        $saleOrder = $this->SaleOrderService->add($request);
-        return redirect()->route('saleOrders.index');
+    public function store(SalesOrderRequest $request){
+        $saleOrder = $this->SalesOrderService->add($request);
+        return redirect()->route('sales.index');
     }
 
     /**
@@ -60,7 +58,7 @@ class SaleOrderController extends Controller
      */
     public function show($id)
     {
-        $saleOrder = $this->SaleOrderService->getOne($id);
+        $saleOrder = $this->SalesOrderService->getOne($id);
         return view('saleOrders.show', compact('saleOrder'));
     }
 
@@ -72,7 +70,7 @@ class SaleOrderController extends Controller
      */
     public function edit($id)
     {
-        $saleOrder = $this->SaleOrderService->getOne($id);
+        $saleOrder = $this->SalesOrderService->getOne($id);
         return view('saleOrders.edit', compact('saleOrder'));
     }
 
@@ -83,9 +81,9 @@ class SaleOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SaleOrderRequest $request, $id)
+    public function update(SalesOrderRequest $request, $id)
     {
-        $saleOrder = $this->SaleOrderService->update($request, $id);
+        $saleOrder = $this->SalesOrderService->update($request, $id);
         return redirect()->route('saleOrders.show', [$id]);
     }
 
@@ -97,24 +95,24 @@ class SaleOrderController extends Controller
      */
     public function destroy($id)
     {
-        $this->SaleOrderService->delete($id);
+        $this->SalesOrderService->delete($id);
         return redirect()->route('saleOrders.index');
     }
 
     public function delivered(Request $request){
-        $msg = $this->SaleOrderService->delivered($request);
+        $msg = $this->SalesOrderService->delivered($request);
         return response()->json($msg, 200);
     }
 
     // 傳 id, paid_at, paidAmount
     public function paid(Request $request){
-        $msg = $this->SaleOrderService->paid($request);
+        $msg = $this->SalesOrderService->paid($request);
         return response()->json($msg, 200);
     }
 
     // 取消付款 傳id
     public function paymentCancel(Request $request){
-        $msg = $this->SaleOrderService->paymentCancel($request);
+        $msg = $this->SalesOrderService->paymentCancel($request);
         return response()->json($msg, 200);
     }
 }

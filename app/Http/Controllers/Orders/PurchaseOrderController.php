@@ -26,7 +26,7 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrders = $this->PurchaseOrderService->getList();
         $lastUpdate = $this->PurchaseOrderService->getlastupdate();
-        return view('purchaseOrder.index', compact('purchaseOrders', 'lastUpdate'));
+        return view('purchaseOrders.index', compact('purchaseOrders', 'lastUpdate'));
     }
 
     /**
@@ -36,7 +36,7 @@ class PurchaseOrderController extends Controller
      */
     public function create()
     {
-        return view('purchaseOrder.create');
+        return view('purchaseOrders.create');
     }
 
     /**
@@ -64,7 +64,7 @@ class PurchaseOrderController extends Controller
     public function show($id)
     {
         $purchaseOrder = $this->PurchaseOrderService->getOne($id);
-        return view('purchaseOrder.show', compact('purchaseOrder'));
+        return view('purchaseOrders.show', compact('purchaseOrder'));
     }
 
     /**
@@ -76,7 +76,7 @@ class PurchaseOrderController extends Controller
     public function edit($id)
     {
         $purchaseOrder = $this->PurchaseOrderService->getOne($id);
-        return view('purchaseOrder.edit', compact('purchaseOrder'));
+        return view('purchaseOrders.edit', compact('purchaseOrder'));
     }
 
     /**

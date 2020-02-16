@@ -2,13 +2,14 @@
 
 namespace App\Services\Orders;
 use App\Services\BaseService;
-use App\SaleOrder as SaleOrderEloquent;
+use App\SalesOrder as SalesOrderEloquent;
 use App\Product as ProductEloquent;
 use App\Services\NotificationService;
 use App\Services\Logs\ProductLogService;
 use Auth;
+use Carbon\Carbon;
 
-class SaleOrderService extends BaseService
+class SalesOrderService extends BaseService
 {
     public $NotificationService;
     public $ProductLogService;
@@ -22,21 +23,24 @@ class SaleOrderService extends BaseService
 
     public function add($request)
     {
-        $saleOrder = SaleOrderEloquent::create([
-            'consumers_id' => $request->consumers_id,
-            'user_id' => $request->user_id,
-            'last_user_id' => $request->user_id,
-            'expectPay_at' => $request->expectPay_at,
-            'paid_at' => $request->paid_at,
-            'expectDeliver_at' => $request->expectDeliver_at,
-            'delivered_at' => $request->delivered_at,
-            'makeInvoice_at' => $request->makeInvoice_at,
+        $shownID = $this->generateShownID();
+        $saleOrder = SalesOrderEloquent::create([
+            'consumer_id' => $request->consumer_id,
+            'shown_id' => $shownID,
 
-            'paidAmount' => $request->paidAmount,
-            'unpaidAmount' => $request->unpaidAmount,
-            'totalPrice' => $request->totalPrice,
-            'taxPrice' => $request->taxPrice,
-            'totalTaxPrice' => $request->totalTaxPrice,
+            'user_id' => Auth::id(),
+            'last_user_id' => Auth::id(),
+            'expectPay_at' => $request->expectPay_at,
+            // 'paid_at' => $request->paid_at,
+            'expectDeliver_at' => $request->expectDeliver_at,
+            // 'delivered_at' => $request->delivered_at,
+            // 'makeInvoice_at' => $request->makeInvoice_at,
+
+            // 'paidAmount' => $request->paidAmount,
+            // 'unpaidAmount' => $request->unpaidAmount,
+            // 'totalPrice' => $request->totalPrice,
+            // 'taxPrice' => $request->taxPrice,
+            // 'totalTaxPrice' => $request->totalTaxPrice,
 
             'comment' => $request->comment,
             'taxType' => $request->taxType,
@@ -52,13 +56,13 @@ class SaleOrderService extends BaseService
 
     public function getList()
     {
-        $saleOrders = SaleOrderEloquent::get();
+        $saleOrders = SalesOrderEloquent::get();
         return $saleOrders;
     }
 
     public function getOne($id)
     {
-        $saleOrder = SaleOrderEloquent::find($id);
+        $saleOrder = SalesOrderEloquent::find($id);
         return $saleOrder;
     }
 
@@ -136,7 +140,7 @@ class SaleOrderService extends BaseService
 
     public function getlastupdate()
     {
-        $saleOrder = SaleOrderEloquent::orderBy('id', 'DESC')->first();
+        $saleOrder = SalesOrderEloquent::orderBy('id', 'DESC')->first();
         if(!empty($saleOrder)){
             return $saleOrder->updated_at;
         }
@@ -258,7 +262,16 @@ class SaleOrderService extends BaseService
         }else{
             return 'Sale Order Not Found';
         }
-
     }
 
+    public function generateShownID(){
+        $today = Carbon::today()->toDateTimeString();   //2019-12-26 00:00:00
+        $today = substr($today, 0, 10);                 //2019-12-26
+        $today = str_replace('-', '', $today);            //20191226
+        $count = SalesOrderEloquent::where('shown_id', 'like', 'S' . $today . '%')->count();
+        $count += 1;
+        $count = str_pad($count, 4, '0', STR_PAD_LEFT);
+        $shown_id = 'S' . $today . $count;                  //S201912260001
+        return $shown_id;
+    }
 }

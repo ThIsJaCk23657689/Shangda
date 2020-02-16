@@ -6,8 +6,10 @@
     "/js/consumers/create.js": "/js/consumers/create.js",
     "/js/materials/basic/index.js": "/js/materials/basic/index.js",
     "/js/materials/create.js": "/js/materials/create.js",
-    "/js/orders/purchase.js": "/js/orders/purchase.js",
+    "/js/orders/purchase/create.js": "/js/orders/purchase/create.js",
     "/js/orders/purchase/index.js": "/js/orders/purchase/index.js",
+    "/js/orders/sales/create.js": "/js/orders/sales/create.js",
+    "/js/orders/sales/index.js": "/js/orders/sales/index.js",
     "/js/produces/create.js": "/js/produces/create.js",
     "/js/products/create.js": "/js/products/create.js",
     "/js/suppliers/create.js": "/js/suppliers/create.js"

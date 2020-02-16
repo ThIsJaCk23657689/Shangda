@@ -47,7 +47,7 @@
 		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 			<h6 class="dropdown-header">{{ __('Basic:') }}</h6>
 			<a class="dropdown-item" href="{{ route('purchase.index') }}">{{ __('Purchase Orders') }}</a>
-			<a class="dropdown-item" href="#">{{ __('Sales Orders') }}</a>
+			<a class="dropdown-item" href="{{ route('sales.index') }}">{{ __('Sales Orders') }}</a>
 			<a class="dropdown-item" href="#">{{ __('Return Orders') }}</a>
 		</div>
 	</li>

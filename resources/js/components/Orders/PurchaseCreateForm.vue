@@ -122,7 +122,7 @@
                         </label>
 
                         <div class="col-md-6">
-                            <input id="expectReceived_at" type="text" class="form-control" name="expectReceived_at" value="" required>
+                            <input id="expectReceived_at" name="expectReceived_at" type="text" class="form-control"  value="" autocomplete="off" required>
                         </div>
                     </div>
                 </div>

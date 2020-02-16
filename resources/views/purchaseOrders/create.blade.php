@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-	<script src="{{ asset('js/orders/purchase.js') }}" defer></script>
+	<script src="{{ asset('js/orders/purchase/create.js') }}" defer></script>
 @endpush   
 
 @section('content')

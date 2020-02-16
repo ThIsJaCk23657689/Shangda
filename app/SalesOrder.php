@@ -5,13 +5,13 @@ namespace App;
 use App\Product as ProductEloquent;
 use App\Consumer as ConsumerEloquent;
 use App\User as UserEloquent;
-use App\SaleOrderDetail as SaleOrderDetailEloquent;
+use App\SalesOrderDetail as SalesOrderDetailEloquent;
 use Illuminate\Database\Eloquent\Model;
 
-class SaleOrder extends Model
+class SalesOrder extends Model
 {
     protected $fillable = [
-        'consumers_id', 'user_id', 'last_user_id', 'expectPay_at', 'paid_at', 'expectDeliver_at',
+        'consumer_id', 'shown_id', 'user_id', 'last_user_id', 'expectPay_at', 'paid_at', 'expectDeliver_at',
         'delivered_at', 'makeInvoice_at', 'piadAmount', 'unpiadAmount', 'totalPrice',
         'taxPrice', 'totalTaxPrice', 'comment', 'taxType', 'invoiceType', 'address',
     ];
@@ -30,6 +30,6 @@ class SaleOrder extends Model
     }
 
     public function details(){
-        return $this->hasMany(SaleOrderDetailEloquent::class);
+        return $this->hasMany(SalesOrderDetailEloquent::class);
     }
 }

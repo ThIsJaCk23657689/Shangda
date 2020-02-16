@@ -89,4 +89,14 @@ class ConsumerService extends BaseService
         $consumer = ConsumerEloquent::withTrashed()->orderBy('id', 'DESC')->first();
         return $consumer->updated_at;
     }
+
+    public function getNamesList(){
+        $consumer_names = ConsumerEloquent::select('id', 'name')->get();
+        return $consumer_names;
+    }
+
+    public function getInfoList($id){
+        $consumer_info = ConsumerEloquent::find($id);
+        return $consumer_info;
+    }
 }

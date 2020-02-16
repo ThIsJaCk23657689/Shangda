@@ -71,4 +71,15 @@ class ConsumerController extends Controller
         $discountList = $this->DiscountService->getDiscountList($id);
         return view('consumers.showDiscount', compact('discountList'));
     }
+
+    // ========== Response JSON ==========
+    public function showName(){
+        $comsumer = $this->ConsumerService->getNamesList();
+        return response()->json($comsumer, 200);
+    }
+
+    public function getInfo(Request $request){
+        $comsumer_info = $this->ConsumerService->getInfoList($request->id);
+        return response()->json($comsumer_info, 200);
+    }
 }

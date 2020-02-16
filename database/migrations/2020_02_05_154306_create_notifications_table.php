@@ -13,7 +13,7 @@ class CreateNotificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('Notification', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
             $table->unsignedBigInteger('job_title_id')->comment('職稱編號');
             // 0 => 未分類
@@ -34,6 +34,6 @@ class CreateNotificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Notification');
+        Schema::dropIfExists('notifications');
     }
 }

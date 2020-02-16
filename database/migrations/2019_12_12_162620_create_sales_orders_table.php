@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSaleOrdersTable extends Migration
+class CreateSalesOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateSaleOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('sale_orders', function (Blueprint $table) {
+        Schema::create('sales_orders', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
-            $table->unsignedBigInteger('consumers_id')->comment('客戶編號');
+            $table->unsignedBigInteger('consumer_id')->comment('客戶編號');
             $table->unsignedBigInteger('user_id')->comment('員工編號');
-            $table->unsignedBigInteger('last_user_id')->comment('最後修改使用者編號');//最終修改者，不顯示在前端
+            $table->unsignedBigInteger('last_user_id')->comment('最後修改使用者編號'); //最終修改者，不顯示在前端
 
+            $table->string('shown_id')->unique()->comment('顯示ID'); // [進貨：S  退貨：R] + 西元年 + 今日第幾個單
             $table->timestamp('expectPay_at')->nullable()->comment('預計付款日');
             $table->timestamp('paid_at')->nullable()->comment('實際付款日');
             $table->timestamp('expectDeliver_at')->nullable()->comment('預計出貨日');
@@ -37,6 +38,10 @@ class CreateSaleOrdersTable extends Migration
             $table->integer('invoiceType')->default(1)->comment('發票類型'); //1~5
             $table->string('address')->nullable()->comment('地址');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('last_user_id')->references('id')->on('users');
+            $table->foreign('consumer_id')->references('id')->on('consumers');
         });
     }
 
@@ -47,6 +52,6 @@ class CreateSaleOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sale_orders');
+        Schema::dropIfExists('sales_orders');
     }
 }

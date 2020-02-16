@@ -4,8 +4,8 @@ namespace App\Services\Orders;
 
 use App\Services\BaseService;
 use App\Services\Logs\ProductLogService;
-use App\SaleOrderDetail as SaleOrderDetailEloquent;
-use App\SaleOrder as SaleOrderEloquent;
+use App\SalesOrderDetail as SalesOrderDetailEloquent;
+use App\SalesOrder as SalesOrderEloquent;
 
 use Auth;
 
@@ -15,7 +15,7 @@ use Auth;
     // ('taxPrice')->comment('訂單稅額'); // taxType = 1 要加 5%
     // ('totalTaxPrice')->comment('訂單總價');
 
-class SaleOrderDetailService extends BaseService
+class SalesOrderDetailService extends BaseService
 {
     public $ProductLogService;
 
@@ -26,7 +26,7 @@ class SaleOrderDetailService extends BaseService
 
     public function add($request){
         $user_id = Auth::id();
-        $saleOrder = SaleOrderEloquent::findOrFail();
+        $saleOrder = SalesOrderEloquent::findOrFail();
 
         $s_id = $request->saleOrder_id;
         $data = $request->details;
@@ -42,7 +42,7 @@ class SaleOrderDetailService extends BaseService
             $total_unTax += $subTotal;
             $this->ProductLogService->add($user_id, $product_id, 1, $quantity);
 
-            $saleOrderDetail = SaleOrderDetailEloquent::create([
+            $saleOrderDetail = SalesOrderDetailEloquent::create([
                 'saleOrder_id' => $s_id,
                 'count' => $count,
                 'product_id' => $obj['product_id'],
@@ -86,7 +86,7 @@ class SaleOrderDetailService extends BaseService
     }
 
     public function getOrderDetails($s_id){
-        $details = SaleOrderDetailEloquent::where('saleOrder_id',$s_id)->get();
+        $details = SalesOrderDetailEloquent::where('saleOrder_id',$s_id)->get();
         if($details){
             $msg = [
                 'data'=>$details,
@@ -106,7 +106,7 @@ class SaleOrderDetailService extends BaseService
 
 
     public function update($request, $s_id, $count){
-        $details = SaleOrderDetailEloquent::where('id',$s_id)
+        $details = SalesOrderDetailEloquent::where('id',$s_id)
             ->where('count',$count)->get();
 
         $orig_quantity = $details->quantity;
@@ -125,7 +125,7 @@ class SaleOrderDetailService extends BaseService
             $user_id = Auth::id();
             $product_id = $request->product_id;
             $quantity = $orig_quantity - $request->quantity;
-            $saleOrder = SaleOrderEloquent::findOrFail($s_id);
+            $saleOrder = SalesOrderEloquent::findOrFail($s_id);
 
             if($saleOrder->taxType == 1){
                 $subTotal_tax = $subTotal*1.05;
@@ -159,11 +159,11 @@ class SaleOrderDetailService extends BaseService
 
     public function delete($s_id, $count)
     {
-        $details = SaleOrderDetailEloquent::where('saleOrder_id',$s_id)
+        $details = SalesOrderDetailEloquent::where('saleOrder_id',$s_id)
             ->where('count',$count)->get();
 
         if($details){
-            $saleOrder = SaleOrderEloquent::find($s_id);
+            $saleOrder = SalesOrderEloquent::find($s_id);
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
             $user_id = Auth::id();

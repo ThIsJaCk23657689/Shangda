@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1836,9 +1836,10 @@ var staticRenderFns = [
               staticClass: "form-control",
               attrs: {
                 id: "expectReceived_at",
-                type: "text",
                 name: "expectReceived_at",
+                type: "text",
                 value: "",
+                autocomplete: "off",
                 required: ""
               }
             })
@@ -2546,16 +2547,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/orders/purchase.js":
-/*!*****************************************!*\
-  !*** ./resources/js/orders/purchase.js ***!
-  \*****************************************/
+/***/ "./resources/js/orders/purchase/create.js":
+/*!************************************************!*\
+  !*** ./resources/js/orders/purchase/create.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-Vue.component('purchase-create-form', __webpack_require__(/*! ./../components/Orders/PurchaseCreateForm.vue */ "./resources/js/components/Orders/PurchaseCreateForm.vue")["default"]);
-Vue.component('purchase-detail', __webpack_require__(/*! ./../components/Orders/PurchaseDetail.vue */ "./resources/js/components/Orders/PurchaseDetail.vue")["default"]);
-Vue.component('create-supplier-modal', __webpack_require__(/*! ./../components/Modals/CreateSupplierModal.vue */ "./resources/js/components/Modals/CreateSupplierModal.vue")["default"]);
+Vue.component('purchase-create-form', __webpack_require__(/*! ./../../components/Orders/PurchaseCreateForm.vue */ "./resources/js/components/Orders/PurchaseCreateForm.vue")["default"]);
+Vue.component('purchase-detail', __webpack_require__(/*! ./../../components/Orders/PurchaseDetail.vue */ "./resources/js/components/Orders/PurchaseDetail.vue")["default"]);
+Vue.component('create-supplier-modal', __webpack_require__(/*! ./../../components/Modals/CreateSupplierModal.vue */ "./resources/js/components/Modals/CreateSupplierModal.vue")["default"]);
 var app = new Vue({
   el: '#purchase',
   data: function data() {
@@ -2608,14 +2609,14 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 2:
-/*!***********************************************!*\
-  !*** multi ./resources/js/orders/purchase.js ***!
-  \***********************************************/
+/***/ 5:
+/*!******************************************************!*\
+  !*** multi ./resources/js/orders/purchase/create.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\orders\purchase.js */"./resources/js/orders/purchase.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\orders\purchase\create.js */"./resources/js/orders/purchase/create.js");
 
 
 /***/ })

@@ -78,6 +78,11 @@ Route::prefix('/backend')->group(function(){
     });
     Route::resource('/categories', 'CategoryController')->only(['index', 'show']);;
 
+    // 顧客管理路由
+    Route::prefix('/consumers')->group(function(){
+        Route::get('showName','ConsumerController@showName')->name('consumers.showName');
+        Route::post('getInfo','ConsumerController@getInfo')->name('consumers.getInfo');
+    });
     Route::resource('/consumers', 'ConsumerController');
 
     //  確認進貨 -> 寫進log並增加原物料存貨量
@@ -93,16 +98,19 @@ Route::prefix('/backend')->group(function(){
         Route::delete('destroy', 'Orders\PurchaseOrderDetailController@destroy')->name('purchase.details.destroy');
     });
 
+    //  確認出貨及付款 -> 寫進log(商品)
+    Route::patch('/orders/sales/delivered', 'Orders\SalesOrderController@received')->name('sales.delivered');
+    Route::patch('/orders/sales/paid', 'Orders\SalesOrderController@paid')->name('sales.paid');
+    Route::patch('/orders/sales/paymentCancel', 'Orders\SalesOrderController@paymentCancel')->name('sales.paymentCancel');
     // 銷貨單管理路由
-    Route::resource('/orders/sales', 'Orders\SaleOrderController');
+    Route::resource('/orders/sales', 'Orders\SalesOrderController');
     // 銷貨單細項資料管理路由
     Route::prefix('/orders/sales/details')->group(function(){
-
+        Route::post('store', 'Orders\SalesOrderController@store')->name('sales.details.store');
+        Route::get('showDetails', 'Orders\SalesOrderController@showDetails')->name('sales.details.showDetails');
+        Route::patch('update', 'Orders\SalesOrderController@update')->name('sales.details.update');
+        Route::delete('destroy', 'Orders\SalesOrderController@destroy')->name('sales.details.destroy');
     });
-        //  確認出貨及付款 -> 寫進log(商品)
-    Route::patch('/orders/sales/delivered', 'Orders\SaleOrderController@received')->name('sales.delivered');
-    Route::patch('/orders/sales/paid', 'Orders\SaleOrderController@paid')->name('sales.paid');
-    Route::patch('/orders/sales/paymentCancel', 'Orders\SaleOrderController@paymentCancel')->name('sales.paymentCancel');
 
     // 退貨單管理路由
     Route::resource('/orders/return', 'Orders\ReturnOrderController');

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaleOrderRequest extends FormRequest
+class SalesOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,11 @@ class SaleOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'consumers_id' => 'required',
-            'user_id' => 'required',
-
-            'expectPay_at' => 'nullable|date',
+            'consumer_id' => 'required|exists:consumers,id',
+            
+            'expectPay_at' => 'required|date',
             'paid_at' => 'nullable|date',
-            'expectDeliver_at' => 'nullable|date',
+            'expectDeliver_at' => 'required|date',
             'delivered_at' => 'nullable|date',
             'makeInvoice_at' => 'nullable|date',
 
@@ -39,10 +38,10 @@ class SaleOrderRequest extends FormRequest
             'taxPrice' => 'nullable|min:0|numeric',
             'totalTaxPrice' => 'nullable|min:0|numeric',
 
-            'comment' => 'nullable|string',
-            'taxType' => 'nullable|min:1|max:6',
-            'invoiceType' => 'nullable|min:1|max:5',
-            'address' => 'nullable|max:255|string',
+            'comment' => 'nullable|string|max:255',
+            'taxType' => 'required|min:1|max:6',
+            'invoiceType' => 'required|min:1|max:5',
+            'address' => 'nullable|string|max:255',
         ];
     }
 }

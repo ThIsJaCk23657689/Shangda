@@ -71,7 +71,7 @@ class ProductService extends BaseService
     }
 
     public function getInfoList($id){
-        $product_info = ProductEloquent::select('quantity','unit')->find($id);
+        $product_info = ProductEloquent::find($id);
         $product_info['showUnit'] = $product_info->showUnit();
         return $product_info;
     }

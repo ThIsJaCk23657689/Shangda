@@ -81,45 +81,30 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/suppliers/create.js":
-/*!******************************************!*\
-  !*** ./resources/js/suppliers/create.js ***!
-  \******************************************/
+/***/ "./resources/js/orders/sales/index.js":
+/*!********************************************!*\
+  !*** ./resources/js/orders/sales/index.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-$(function () {
-  $('#copycompany1').click(function (e) {
-    if ($(this).prop("checked")) {
-      $('#deliveryAddress').val($('#companyAddress').val());
-    } else {
-      $('#deliveryAddress').val('');
-    }
-  });
-  $('#copycompany2').click(function (e) {
-    if ($(this).prop("checked")) {
-      $('#invoiceAddress').val($('#companyAddress').val());
-    } else {
-      $('#invoiceAddress').val('');
-    }
-  });
-});
+
 
 /***/ }),
 
-/***/ 2:
-/*!************************************************!*\
-  !*** multi ./resources/js/suppliers/create.js ***!
-  \************************************************/
+/***/ 8:
+/*!**************************************************!*\
+  !*** multi ./resources/js/orders/sales/index.js ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\suppliers\create.js */"./resources/js/suppliers/create.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\orders\sales\index.js */"./resources/js/orders/sales/index.js");
 
 
 /***/ })

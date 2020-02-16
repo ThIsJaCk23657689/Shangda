@@ -53,7 +53,7 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'category_id' => $category_id,
         
-        'shownID' => $faker->numberBetween($min = 1, $max = 99) . '-' . str_pad($faker->numberBetween(1, 9999), 4, '0', STR_PAD_LEFT),
+        'shownID' => $faker->numberBetween($min = 1, $max = 99) . '-' . str_pad($faker->unique()->numberBetween(1, 9999), 4, '0', STR_PAD_LEFT),
         'name' => $name,
         'internationalNum' => $faker->numberBetween($min = 471920000000, $max = 471929999999),
         'picture' => 'https://fakeimg.pl/250x250/' . substr($faker->hexcolor, 1) . '/' . substr($faker->hexcolor, 1) . '/',
