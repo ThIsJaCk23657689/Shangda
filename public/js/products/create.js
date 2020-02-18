@@ -153,6 +153,49 @@ $(function () {
     $('#retailPrice').val(rp);
   }
 
+  function genereateProductID() {
+    // 取得商品規格 (例如：兩斤、半斤、四兩)
+    var specification = $('#specification').val();
+    var specification_text_array = ['四兩', '六兩', '大六兩', '半斤', '一斤', '兩斤', '三斤', '五斤', '七斤', '十斤', '十五斤', '二十斤'];
+    var specification_id_array = ['004', '006', '0066', '008', '010', '020', '030', '050', '070', '110', '115', '120'];
+    var temp_index = specification_text_array.indexOf(specification);
+    var specification_id = temp_index != -1 ? specification_id_array[temp_index] : ''; // 取得商品重量（例如：5 6 7 10 10.5 11 12，單位：兩）
+
+    var weight = $('#weight').val();
+    var weight_text_array = ['5', '6', '7', '10', '10.5', '11', '12'];
+    var weight_id_array = ['5', '6', '7', '3', '1', '', '2'];
+    temp_index = weight_text_array.indexOf(weight);
+    var weight_id = temp_index != -1 ? weight_id_array[temp_index] : ''; // 取得商品慣用單位
+
+    var unit = $('#unit').val(); // 取得商品類別名稱
+
+    var product_category_name = $('#category_id :selected').text();
+    var first_code = '';
+
+    if (product_category_name == '耐熱袋') {
+      if (unit == 'package') {
+        first_code = '2';
+      } else if (unit == 'roll') {
+        first_code = '1';
+      }
+    }
+
+    if (first_code != '' || weight_id != '' || specification_id != '') {
+      $('#shownID').val(first_code + weight_id + '-' + specification_id);
+    }
+  }
+
+  $('#ManualID').click(function () {
+    var result = $(this).prop('checked');
+
+    if (result) {
+      $('#shownID').attr('readonly', false);
+    } else {
+      $('#shownID').attr('readonly', true);
+      genereateProductID();
+    }
+  });
+
   function genereateProductName() {
     // 取得商品規格 (例如：兩斤、半斤、四兩)
     var specification = $('#specification').val(); // 取得商品顏色或花樣 (例如：黑、紅白、白花)
@@ -187,7 +230,9 @@ $(function () {
       pack_unit = '5P * ';
     }
 
-    $('#name').val(color + product_category_name + specification + ' ' + pack_unit + qty_per_pack + weight);
+    if (color != '' || specification != '' || qty_per_pack != '' || weight != '') {
+      $('#name').val(color + product_category_name + specification + ' ' + pack_unit + qty_per_pack + weight);
+    }
   }
 
   $('#ManualNamed').click(function () {
@@ -198,11 +243,13 @@ $(function () {
     } else {
       $('#name').attr('readonly', true);
       genereateProductName();
+      genereateProductID();
     }
   });
   $('#specification').change(function () {
     if (!$('#ManualNamed').prop('checked')) {
       genereateProductName();
+      genereateProductID();
     }
   });
   $('#color').change(function () {
@@ -213,6 +260,7 @@ $(function () {
   $('#weight').change(function () {
     if (!$('#ManualNamed').prop('checked')) {
       genereateProductName();
+      genereateProductID();
     }
   });
   $('#qty_per_pack').change(function () {
@@ -220,19 +268,16 @@ $(function () {
       genereateProductName();
     }
   });
-  $('#weight').change(function () {
-    if (!$('#ManualNamed').prop('checked')) {
-      genereateProductName();
-    }
-  });
   $('#category_id').change(function () {
     if (!$('#ManualNamed').prop('checked')) {
       genereateProductName();
+      genereateProductID();
     }
   });
   $('#unit').change(function () {
     if (!$('#ManualNamed').prop('checked')) {
       genereateProductName();
+      genereateProductID();
     }
   });
 });

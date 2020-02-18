@@ -28,7 +28,15 @@
                             <label for="shownID">
                                 <span class="text-danger mr-2">*</span>商品編號
                             </label>
-                            <input id="shownID" name="shownID" type="text" class="form-control @error('shownID') is-invalid @enderror" value="{{ old('shownID') }}" required autocomplete="shownID" autofocus placeholder="請輸入可識別的商品編號">
+                            <input id="shownID" name="shownID" type="text" class="form-control mb-2 @error('shownID') is-invalid @enderror" value="{{ old('shownID') }}" required autocomplete="off" placeholder="商品編號會自動生產" readonly>
+                            
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="isManualID" id="ManualID" value="1">
+                                <label class="custom-control-label" for="ManualID">
+                                    <small>手動編號</small>
+                                </label>
+                            </div>
+                            
                             @error('shownID')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -43,10 +51,10 @@
                                 <span class="text-danger mr-2">*</span>商品名稱
                             </label>
 
-                            <input id="name" name="name" type="text" class="form-control mb-2 @error('name') is-invalid @enderror" value="{{ old('name') }}" required autocomplete="name" placeholder="商品名稱預設會自動命名" readonly>
+                            <input id="name" name="name" type="text" class="form-control mb-2 @error('name') is-invalid @enderror" value="{{ old('name') }}" required autocomplete="off" placeholder="商品名稱預設會自動命名" readonly>
                             
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" name="isManualNamed" id="ManualNamed">
+                                <input type="checkbox" class="custom-control-input" name="isManualNamed" id="ManualNamed" value="1">
                                 <label class="custom-control-label" for="ManualNamed">
                                     <small>手動命名</small>
                                 </label>
@@ -77,19 +85,22 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 text-center">
                         {{-- 商品圖片 --}}
-                        <div class="form-group row">
+                        <div class="form-group">
                             <div id="preview-upload" class="col-md-12">
                                 <img id="previewImg-upload" class="img-fluid rounded" src="{{ asset('images/upload-default.png') }}">
                             </div>
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="picture">
+                        <div class="form-group">
+                            <label for="picture" class="mb-2">
                                 商品圖片
                             </label>
-                            <input id="picture" name="picture" type="file" class="form-control-file" accept="image/jpeg,image/png" aria-describedby="PictureHelp">
-                            <small id="PictureHelp" class="form-text text-muted">僅支援JPG、JPEG與PNG格式圖片，且檔案大小上限為20MB。</small>
+                            <div class="custom-file">
+                                <input type="file" id="picture" name="picture" class="custom-file-input" accept="image/jpeg,image/png" aria-describedby="PictureHelp">
+                                <small id="PictureHelp" class="form-text text-muted">僅支援JPG、JPEG與PNG格式圖片，且檔案大小上限為20MB。</small>
+                                <label class="custom-file-label" for="picture">請選擇檔案</label>
+                            </div>
                         </div>
                     </div>
 
@@ -222,25 +233,49 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="category_id">
-                                <span class="text-danger mr-2">*</span>
-                                商品類別
-                            </label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="category_id">
+                                        <span class="text-danger mr-2">*</span>
+                                        商品類別
+                                    </label>
+                
+                                    <select id="category_id" class="form-control @error('category_id') is-invalid @enderror" name="category_id" required>
+                                        @foreach ($categories as $category)
+                                            @if($category->id != 2)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
         
-                            <select id="category_id" class="form-control @error('category_id') is-invalid @enderror" name="category_id" required>
-                                @foreach ($categories as $category)
-                                    @if($category->id != 2)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-
-                            @error('category_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                    @error('category_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-auto my-1">
+                                    <div class="custom-control custom-checkbox mr-sm-2">
+                                        <input type="checkbox" class="custom-control-input mr-2" id="isCustomize" name="isCustomize" value="1">
+                                        <label class="custom-control-label" for="isCustomize">是否為客製化商品</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto my-1">
+                                    <div class="custom-control custom-checkbox mr-sm-2">
+                                        <input type="checkbox" class="custom-control-input mr-2" id="isPublic" name="isPublic" value="1">
+                                        <label class="custom-control-label" for="isPublic">是否公開此商品</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto my-1">
+                                    <div class="custom-control custom-checkbox mr-sm-2">
+                                        <input type="checkbox" class="custom-control-input mr-2" id="showPrice" name="showPrice" value="1">
+                                        <label class="custom-control-label" for="showPrice">是否顯示此商品價格</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">

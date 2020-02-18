@@ -26,13 +26,16 @@ class ProductRequest extends FormRequest
         return [
             'category_id' => "required|exists:categories,id",
             'shownID' => 'required|string|max:255',
-
+            'isManualID' => 'nullable|boolean',
             'name' => 'required|string|max:255',
-            'isManualNamed' => 'required|boolean',
-            'internationalNum' => 'nullable|string|max:50',
+            'isManualNamed' => 'nullable|boolean',
+            'internationalNum' => 'nullable|string|max:20',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'specification' => 'nullable|string|max:255',
             'color' => 'nullable|string|max:255',
+            'isCustomize' => 'nullable|boolean',
+            'isPublic' => 'nullable|boolean',
+            'showPrice' => 'nullable|boolean',
 
             'length' => 'required|numeric|min:0',
             'width' => 'required|numeric|min:0',

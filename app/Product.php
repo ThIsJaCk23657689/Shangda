@@ -15,8 +15,10 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'category_id', 'shownID', 'name', 'isManualNamed', 'internationalNum', 'picture', 'specification',
-        'color', 'length' ,'width', 'chamfer', 'weight', 'qty_per_pack',
+        'category_id', 'shownID', 'isManualID', 'name', 'isManualNamed', 
+        'internationalNum', 'picture', 'specification', 'color', 
+        'isCustomize', 'isPublic', 'showPrice',
+        'length' ,'width', 'chamfer', 'weight', 'qty_per_pack',
         'unit', 'intro', 'quantity', 'safeQuantity', 'comment',
 
         'fundamentalPrice', 
@@ -25,7 +27,9 @@ class Product extends Model
     ];
 
     protected $casts = [
+        'isManualID' => 'boolean',
         'isManualNamed' => 'boolean',
+        'isCustomize' => 'boolean',
     ];
 
     public function category(){

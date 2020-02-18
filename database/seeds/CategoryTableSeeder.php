@@ -18,7 +18,7 @@ class CategoryTableSeeder extends Seeder
             'intro' => '',
         ]);
         CategoryEloquent::create([
-            'name' => '不公開之商品',
+            'name' => '雜項',
             'intro' => '',
         ]);
         CategoryEloquent::create([
@@ -41,10 +41,10 @@ class CategoryTableSeeder extends Seeder
             'name' => '湯袋',
             'intro' => '',
         ]);
-        CategoryEloquent::create([
-            'name' => '客製化塑膠袋',
-            'intro' => '',
-        ]);
+        // CategoryEloquent::create([
+        //     'name' => '客製化塑膠袋',
+        //     'intro' => '',
+        // ]);
         // $categories = factory(CategoryEloquent::class, 10)->create();
     }
 }

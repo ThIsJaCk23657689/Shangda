@@ -30,12 +30,18 @@ class ProductService extends BaseService
         $product = ProductEloquent::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
-            'isManualNamed' => $request->isManualNamed,
+            'isManualNamed' => $request->isManualNamed ?? '0',
             'shownID' => $request->shownID,
+            'isManualID' => $request->isManualID ?? '0',
             'internationalNum' => $request->internationalNum,
 
             'specification' => $request->specification,
             'color' => $request->color,
+
+            'isCustomize' => $request->isCustomize ?? '0',
+            'isPublic' => $request->isPublic ?? '0',
+            'showPrice' => $request->showPrice ?? '0',
+
             'length' => $request->length,
             'width' => $request->width,
             'chamfer' => $request->chamfer,
@@ -106,12 +112,18 @@ class ProductService extends BaseService
         $product->update([
             'category_id' => $request->category_id,
             'name' => $request->name,
-            'isManualNamed' => $request->isManualNamed,
+            'isManualNamed' => $request->isManualNamed ?? '0',
             'shownID' => $request->shownID,
+            'isManualID' => $request->isManualID ?? '0',
             'internationalNum' => $request->internationalNum,
 
             'specification' => $request->specification,
             'color' => $request->color,
+
+            'isCustomize' => $request->isCustomize ?? '0',
+            'isPublic' => $request->isPublic ?? '0',
+            'showPrice' => $request->showPrice ?? '0',
+
             'length' => $request->length,
             'width' => $request->width,
             'chamfer' => $request->chamfer,

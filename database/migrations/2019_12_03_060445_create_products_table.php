@@ -19,12 +19,16 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id')->comment('商品類別編號');
 
             $table->string('shownID')->unique()->comment('識別編號');
+            $table->boolean('isManualID')->default('0')->comment('是否為手動編號');
             $table->string('name')->comment('名稱');
-            $table->boolean('isManualNamed')->nullable()->default('0')->comment('是否為手動命名');
-            $table->string('internationalNum', 50)->nullable()->comment('國際條碼');
+            $table->boolean('isManualNamed')->default('0')->comment('是否為手動命名');
+            $table->string('internationalNum', 20)->nullable()->comment('國際條碼');
             $table->string('picture')->nullable()->comment('圖片');
             $table->string('specification')->nullable()->comment('商品規格');
             $table->string('color')->nullable()->comment('商品顏色或花樣');
+            $table->boolean('isCustomize')->default('0')->comment('是否為客製化商品');
+            $table->boolean('isPublic')->default('0')->comment('是否公開顯示在前台');
+            $table->boolean('showPrice')->default('0')->comment('是否公開價格');
 
             // length、width和chamfer 單位都是公分，如果值為0將不顯示。
             $table->integer('length')->nullable()->default(0)->comment('商品長度');

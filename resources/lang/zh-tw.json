@@ -108,5 +108,9 @@
 	"Material": "原物料",
 	"Basic Materials" : "基本原物料",
 	"Backend Control": "後臺管理",
-	"Last Updated": "最近修改日期："
+	"Last Updated": "最近修改日期：",
+
+	"System Management": "系統管理",
+	"Web Setting": "網站設定",
+	"Log File": "日誌檔"
 }
