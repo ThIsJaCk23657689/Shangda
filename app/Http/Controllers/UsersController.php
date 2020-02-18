@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use App\Http\Requests\UserRequest;
 use App\Services\JobTitleService;
 
 class UsersController extends Controller
@@ -28,15 +29,7 @@ class UsersController extends Controller
         return view('users.create', compact('jobTitles'));
     }
 
-    public function store(Request $request){
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'gender' => ['required', 'boolean'],
-            'jobTitle' => ['required', 'integer', 'min:2', 'exists:job_titles,id'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-        
+    public function store(UserRequest $request){
         $user = $this->UserService->add($request);
         return redirect()->route('users.index');
     }
@@ -58,9 +51,15 @@ class UsersController extends Controller
 
     public function update(Request $request, $id){
         $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'gender' => ['required', 'boolean'],
-            'jobTitle' => ['required', 'integer', 'min:2', 'exists:job_titles,id'],
+            'jobTitle' => 'nullable|integer|exists:job_titles,id',
+            'name' => 'required|string|max:255',
+            'gender' => 'required|boolean',
+            'birthday' => 'nullable|date',
+
+            'zipcode' => 'nullable|string|size:3',
+            'county' => 'nullable|string|max:10',
+            'district' => 'nullable|string|max:10',
+            'address' => 'nullable|string|max:255',
         ]);
 
         if($id == 1){

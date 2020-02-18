@@ -24,13 +24,13 @@ class SalesOrderDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'salesOrder_id' => 'required|integer',
-            'product_id' => 'required|integer',
-            'price'  => 'nullable|min:0|numeric',
-            'quantity' => 'required|integer',
-            'discount'  => 'nullable|min:0|numeric',
-            'subTotal'  => 'nullable|min:0|numeric',
-            'comment' => 'nullable|max:255|string',
+            'product_id.*' => 'required|integer',
+            'salesOrder_id.*' => 'required|integer',
+            
+            'price.*'  => 'nullable|min:0|numeric',
+            'quantity.*' => 'required|integer',
+            'discount.*'  => 'nullable|min:0|numeric',
+            'comment.*' => 'nullable|max:255|string',
         ];
     }
 }

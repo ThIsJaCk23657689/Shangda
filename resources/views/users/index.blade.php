@@ -39,8 +39,10 @@
 							<th>編號</th>
 							<th>名稱</th>
 							<th>性別</th>
+							<th>年齡</th>
                             <th>職稱</th>
-                            <th>信箱</th>
+							<th>信箱</th>
+							<th>縣市</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -50,8 +52,10 @@
 								<td>{{ $user->id }}</td>
 								<td>{{ $user->name }}</td>
 								<td>{{ $user->showGender() }}</td>
+								<td>{{ $user->showAge() }}</td>
                                 <td>{{ $user->jobTitle->name }}</td>
-                                <td>{{ $user->email }}</td>
+								<td>{{ $user->email }}</td>
+								<td>{{ $user->county ?? '無' }}</td>
 								<td>
 									<a href="{{ route('users.show', [$user->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>

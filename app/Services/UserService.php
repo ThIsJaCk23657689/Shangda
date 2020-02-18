@@ -2,7 +2,6 @@
 
 namespace App\Services;
 use App\User as UserEloquent;
-use Carbon\Carbon;
 use Auth;
 
 class UserService extends BaseService
@@ -14,6 +13,12 @@ class UserService extends BaseService
             'gender' => $request->gender,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'birthday' => $request->birthday,
+
+            'zipcode' => $request->zipcode,
+            'county' => $request->county,
+            'district' => $request->district,
+            'address' => $request->address,
         ]);
         if(!empty($request->jobTitle)){
             $user->job_title_id = $request->jobTitle;
@@ -30,7 +35,7 @@ class UserService extends BaseService
 
     public function getOne($id)
     {
-        $user = UserEloquent::withTrashed()->find($id);
+        $user = UserEloquent::withTrashed()->findOrFail($id);
         return $user;
     }
 
@@ -40,6 +45,11 @@ class UserService extends BaseService
         $user->update([
             'name' => $request->name,
             'gender' => $request->gender,
+            'birthday' => $request->birthday,
+            'zipcode' => $request->zipcode,
+            'county' => $request->county,
+            'district' => $request->district,
+            'address' => $request->address,
         ]);
         if(!empty($request->jobTitle)){
             $user->job_title_id = $request->jobTitle;

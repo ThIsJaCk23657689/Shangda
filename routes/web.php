@@ -107,10 +107,10 @@ Route::prefix('/backend')->group(function(){
     Route::resource('/orders/sales', 'Orders\SalesOrderController');
     // 銷貨單細項資料管理路由
     Route::prefix('/orders/sales/details')->group(function(){
-        Route::post('store', 'Orders\SalesOrderController@store')->name('sales.details.store');
-        Route::get('showDetails', 'Orders\SalesOrderController@showDetails')->name('sales.details.showDetails');
-        Route::patch('update', 'Orders\SalesOrderController@update')->name('sales.details.update');
-        Route::delete('destroy', 'Orders\SalesOrderController@destroy')->name('sales.details.destroy');
+        Route::post('store', 'Orders\SalesOrderDetailController@store')->name('sales.details.store');
+        Route::get('showDetails', 'Orders\SalesOrderDetailController@showDetails')->name('sales.details.showDetails');
+        Route::patch('update', 'Orders\SalesOrderDetailController@update')->name('sales.details.update');
+        Route::delete('destroy', 'Orders\SalesOrderDetailController@destroy')->name('sales.details.destroy');
     });
 
     // 退貨單管理路由

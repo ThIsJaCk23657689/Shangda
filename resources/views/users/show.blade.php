@@ -65,6 +65,40 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <label for="birthday" class="col-md-4 col-form-label text-md-right">
+                    生日
+                </label>
+
+                <div class="col-md-4">
+                    <input id="birthday" type="text" class="form-control" name="birthday" value="{{ $user->showBirthday() ?? '無' }}" disabled>
+                </div>
+                <div class="col-md-2">
+                    <input id="age" type="text" class="form-control" name="age" value="{{ $user->showAge() }}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-right">
+                    地址
+                </label>
+                <div class="col-md-2">
+                    <input id="county" type="text" class="form-control" name="county" value="{{ $user->county ?? '無' }}" disabled>
+                </div>
+                <div class="col-md-2">
+                    <input id="district" type="text" class="form-control" name="district" value="{{ $user->district ?? '無' }}" disabled>
+                </div>
+                <div class="col-md-2">
+                    <input id="zipcode" type="text" class="form-control" name="zipcode" value="{{ $user->zipcode ?? '無' }}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-md-4 col-md-6">
+                    <input id="address" type="text" class="form-control" name="address" value="{{ $user->address ?? '無' }}" disabled>
+                </div>
+            </div>
+
             <hr>
 
             <div class="form-group row">
@@ -89,6 +123,9 @@
 
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
+                    <a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-block btn-success">
+                        編輯資料
+                    </a>
                     <a href="{{ route('users.index') }}" class="btn btn-block btn-danger">
                         返回列表
                     </a>

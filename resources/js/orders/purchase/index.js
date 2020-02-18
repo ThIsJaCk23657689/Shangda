@@ -1,6 +1,6 @@
 $(function(){
     $("#expectReceived_at").datepicker({
-        format: 'yyyy-mm-dd',
+        dateFormat: 'yy-mm-dd',
         changeYear: true,
         changeMonth: true,
         maxDate: new Date,

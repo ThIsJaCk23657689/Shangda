@@ -1,6 +1,6 @@
 <template>
 <div class="row justify-content-center">
-    <div class="col-md-10">
+    <div class="col-md-11">
         <form id="SalesOrderCreateForm" method="POST" action="#" v-on:submit.prevent="createSalesOrder">
             
             <div class="row">
@@ -322,6 +322,8 @@ export default {
             let data = $('#SalesOrderCreateForm').serialize();
             $('#LoadingModal').modal('show');
             axios.post(url, data).then(response => {
+                alert('ddddd');
+                console.log(response);
                 $('#salesOrderID').val(response.data.salesOrder_id);
 
                 // 2. 建立 SalesOrderDetail

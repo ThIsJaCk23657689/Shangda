@@ -22,6 +22,7 @@ mix.js('resources/js/app.js', 'public/js')
    
 // 後台
 mix.js('resources/js/backend.js', 'public/js')
+   .js('resources/js/users/create.js', 'public/js/users')
    .js('resources/js/suppliers/create.js', 'public/js/suppliers')
    .js('resources/js/materials/create.js', 'public/js/materials')
    .js('resources/js/materials/basic/index.js', 'public/js/materials/basic')

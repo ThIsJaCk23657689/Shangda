@@ -81,40 +81,42 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/orders/purchase/index.js":
-/*!***********************************************!*\
-  !*** ./resources/js/orders/purchase/index.js ***!
-  \***********************************************/
+/***/ "./resources/js/users/create.js":
+/*!**************************************!*\
+  !*** ./resources/js/users/create.js ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 $(function () {
-  $("#expectReceived_at").datepicker({
+  // $('#twzipcode').twzipcode();
+  $('#twzipcode').twzipcode({
+    'readonly': true
+  });
+  $("#birthday").datepicker({
     dateFormat: 'yy-mm-dd',
     changeYear: true,
     changeMonth: true,
-    maxDate: new Date()
+    yearRange: "-80:+0",
+    maxDate: '-15y'
   });
-  var myDate = new Date();
-  var date = myDate.getFullYear() + '-' + ('0' + (myDate.getMonth() + 1)).slice(-2) + '-' + ('0' + myDate.getDate()).slice(-2);
-  $("#expectReceived_at").val(date);
 });
 
 /***/ }),
 
-/***/ 9:
-/*!*****************************************************!*\
-  !*** multi ./resources/js/orders/purchase/index.js ***!
-  \*****************************************************/
+/***/ 4:
+/*!********************************************!*\
+  !*** multi ./resources/js/users/create.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\orders\purchase\index.js */"./resources/js/orders/purchase/index.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\users\create.js */"./resources/js/users/create.js");
 
 
 /***/ })

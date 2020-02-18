@@ -22,7 +22,7 @@
                 <thead>
                     <tr>
                         <th>編號</th>
-                        <th>原物料</th>
+                        <th>商品</th>
                         <th>國際條碼</th>
                         <th>數量</th>
                         <th>單價</th>
@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(detail, index) in details" :key="index">
-                        <td style="width: 5%">{{ index + 1 }}</td>
+                        <td style="width: 4%">{{ index + 1 }}</td>
                         <td style="width: 20%">
                             {{ detail.product.name }}
                             <input type="hidden" :name="'details[' + (index + 1) + '][product_id]'" :value="detail.product.id">
@@ -42,17 +42,20 @@
                         <td style="width: 10%">
                             {{ detail.product.internationalNum }}
                         </td>
-                        <td style="width: 15%">
-                            <input :id="'qty_' + (index + 1)" type="text" class="form-control mr-2" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateSubtotal(index+1)" style="width:60%;display:inline-block;">
+                        <td style="width: 20%">
+                            <input :id="'pcs_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][pieces]'" :value="detail.pieces" @change="calculateQty(index+1, 'p'); calculateSubtotal(index+1);" style="width:30%;display:inline-block;">
+                            <span class="mr-2">件</span>
+                            <input :id="'qty_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateQty(index+1, 'q'); calculateSubtotal(index+1);" style="width:30%;display:inline-block;">
                             <span>{{ detail.product.showUnit }}</span>
+                            <input type="hidden" :id="'qty_per_pack_' + (index + 1)" :value="detail.product.qty_per_pack">
                         </td>
                         <td style="width: 10%">
                             <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][price]'" :value="detail.product.unitPrice" @change="calculateSubtotal(index+1)">
                         </td>
-                        <td style="width: 10%">
+                        <td style="width: 8%">
                             <input :id="'discount_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][discount]'" :value="detail.discount" @change="calculateSubtotal(index+1)">
                         </td>
-                        <td style="width: 10%">
+                        <td style="width: 8%">
                             <input :id="'subtotal_' + (index + 1)" type="text" class="form-control" :value="detail.subTotal" disabled>
                         </td>
                         <td style="width: 15%">
@@ -96,8 +99,10 @@ export default {
                         name: this.current_product.name,
                         internationalNum: this.current_product.internationalNum,
                         unitPrice: this.current_product.retailPrice,
+                        qty_per_pack: this.current_product.qty_per_pack,
                         showUnit: this.current_product.showUnit
                     },
+                    pieces: 0,
                     quantity: 0,
                     discount: 1,
                     subTotal: 0,
@@ -151,6 +156,21 @@ export default {
             this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
             this.$emit('showTotalPrice', this.total_price)
             // console.log(this.total_price);
+        },
+
+        calculateQty(id, type){
+            let qty_per_pack = $('#qty_per_pack_' + id).val();
+            if(type == 'p'){
+                let pcs = $('#pcs_' + id).val();
+                $('#qty_' + id).val(pcs * qty_per_pack);
+
+                this.details[id - 1].pieces = pcs;
+            }else if(type == 'q'){
+                let qty = $('#qty_' + id).val();
+                $('#pcs_' + id).val(qty / qty_per_pack);
+
+                this.details[id - 1].pieces = qty / qty_per_pack;
+            }        
         },
 
         updateComment(id){

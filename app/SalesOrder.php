@@ -16,6 +16,14 @@ class SalesOrder extends Model
         'taxPrice', 'totalTaxPrice', 'comment', 'taxType', 'invoiceType', 'address',
     ];
 
+    protected $casts = [
+        'expectPay_at' => 'datetime',
+        'paid_at' => 'datetime',
+        'expectDeliver_at' => 'datetime',
+        'delivered_at' => 'datetime',
+        'makeInvoice_at' => 'datetime',
+    ];
+
     public function user(){
         return $this->belongsTo(UserEloquent::class);
     }

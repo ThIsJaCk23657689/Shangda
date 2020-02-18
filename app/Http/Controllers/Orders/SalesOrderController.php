@@ -24,9 +24,9 @@ class SalesOrderController extends Controller
 
     public function index()
     {
-        $saleOrders = $this->SalesOrderService->getList();
+        $salesOrders = $this->SalesOrderService->getList();
         $lastUpdate = $this->SalesOrderService->getlastupdate();
-        return view('salesOrders.index', compact('saleOrders', 'lastUpdate'));
+        return view('salesOrders.index', compact('salesOrders', 'lastUpdate'));
     }
 
     /**
@@ -46,8 +46,12 @@ class SalesOrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(SalesOrderRequest $request){
-        $saleOrder = $this->SalesOrderService->add($request);
-        return redirect()->route('sales.index');
+        $salesOrder = $this->SalesOrderService->add($request);
+        return response()->json([
+            'salesOrder_id' => $salesOrder->id,
+            'massenge' => '單號' . $salesOrder->shown_id . '建立成功。',
+            'status' => 'OK'
+        ]);
     }
 
     /**
@@ -58,8 +62,8 @@ class SalesOrderController extends Controller
      */
     public function show($id)
     {
-        $saleOrder = $this->SalesOrderService->getOne($id);
-        return view('saleOrders.show', compact('saleOrder'));
+        $salesOrder = $this->SalesOrderService->getOne($id);
+        return view('salesOrders.show', compact('salesOrder'));
     }
 
     /**
@@ -70,8 +74,8 @@ class SalesOrderController extends Controller
      */
     public function edit($id)
     {
-        $saleOrder = $this->SalesOrderService->getOne($id);
-        return view('saleOrders.edit', compact('saleOrder'));
+        $salesOrder = $this->SalesOrderService->getOne($id);
+        return view('salesOrders.edit', compact('salesOrder'));
     }
 
     /**
@@ -83,8 +87,8 @@ class SalesOrderController extends Controller
      */
     public function update(SalesOrderRequest $request, $id)
     {
-        $saleOrder = $this->SalesOrderService->update($request, $id);
-        return redirect()->route('saleOrders.show', [$id]);
+        $salesOrder = $this->SalesOrderService->update($request, $id);
+        return redirect()->route('salesOrders.show', [$id]);
     }
 
     /**
@@ -96,7 +100,7 @@ class SalesOrderController extends Controller
     public function destroy($id)
     {
         $this->SalesOrderService->delete($id);
-        return redirect()->route('saleOrders.index');
+        return redirect()->route('salesOrders.index');
     }
 
     public function delivered(Request $request){

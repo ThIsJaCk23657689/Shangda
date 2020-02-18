@@ -12,6 +12,7 @@ use App\Material_log as Material_logEloquent;
 use App\Product_log as Product_logEloquent;
 use App\JobTitle as JobTitleEloquent;
 use App\ProductQuantity as ProductQuantityEloquent;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -23,7 +24,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'gender'
+        'name', 'email', 'password', 'gender', 'birthday', 
+        'zipcode', 'county', 'district', 'address'
     ];
 
     /**
@@ -42,10 +44,25 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthday' => 'date',
     ];
 
     public function showGender(){
         return ($this->gender)? '男': '女';
+    }
+
+    public function showAge(){
+        if($this->birthday != null){
+            return Carbon::parse($this->birthday)->age . ' 歲';
+        }
+        return '無';
+    }
+
+    public function showBirthday(){
+        if($this->birthday != null){
+            return $this->birthday->toDateString();
+        }
+        return null;
     }
 
     public function purchaseOrders(){

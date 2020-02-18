@@ -37,24 +37,22 @@
 				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 					<thead>
 						<tr>
-							<th>供應商名稱</th>
-                            <th>總價(元)</th>
-							<th>預期到貨日</th>
-							<th>目前付款狀況</th>
-							<th>目前交貨狀況</th>
+							<th>顧客名稱</th>
+                            <th>總銷售額(含稅)</th>
+							<th>預期付款日</th>
+							<th>預期出貨日</th>
 							<th>建單日期</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($saleOrders as $saleOrders)
+						@foreach ($salesOrders as $salesOrder)
 							<tr>
-								<td>{{ $saleOrders->supplier->name }}</td>
-								<td>{{ $saleOrders->totalPrice }}</td>
-								<td>{{ $saleOrders->expectReceived_at->toDateString() }}</td>
-								<td>{{ $saleOrders->showPaidStatus() }}</td>
-								<td>{{ $saleOrders->showReceivedStatus() }}</td>
-								<td>{{ $saleOrders->created_at->toDateString() }}</td>
+								<td>{{ $salesOrder->consumer->name }}</td>
+								<td>{{ $salesOrder->totalTaxPrice }}</td>
+								<td>{{ $salesOrder->expectPay_at->toDateString() }}</td>
+								<td>{{ $salesOrder->expectDeliver_at->toDateString() }}</td>
+								<td>{{ $salesOrder->created_at->toDateString() }}</td>
 								<td>
 									<button type="button" class="btn btn-md btn-primary" data-toggle="modal" data-target="#ReceivedModal">
 										<i class="fas fa-truck-loading"></i>
@@ -66,22 +64,22 @@
 										event.preventDefault();
 										ans = confirm('確認此進貨單已經完成付款？');
 										if(ans){
-											$('#paidform-{{ $saleOrders->id }}').submit();
+											$('#paidform-{{ $salesOrder->id }}').submit();
 										}
 									">
 										<i class="fas fa-hand-holding-usd"></i>
 										付款
 									</a>
-									<form id="paidform-{{ $saleOrders->id }}" action="{{ route('sales.paid', [$saleOrders->id]) }}" method="POST" style="display: none;">
+									<form id="paidform-{{ $salesOrder->id }}" action="{{ route('sales.paid', [$salesOrder->id]) }}" method="POST" style="display: none;">
 										@csrf
 										@method('PATCH')
 									</form>
 
-									<a href="{{ route('sales.show', [$saleOrders->id]) }}" class="btn btn-md btn-info">
+									<a href="{{ route('sales.show', [$salesOrder->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
 										查看
 									</a>
-									<a href="{{ route('sales.edit', [$saleOrders->id]) }}" class="btn btn-md btn-success">
+									<a href="{{ route('sales.edit', [$salesOrder->id]) }}" class="btn btn-md btn-success">
 										<i class="fas fa-edit"></i>
 										編輯
 									</a>
@@ -89,13 +87,13 @@
 										event.preventDefault();
 										ans = confirm('確定要刪除此廠商嗎?');
 										if(ans){
-											$('#deleteform-{{ $saleOrders->id }}').submit();
+											$('#deleteform-{{ $salesOrder->id }}').submit();
 										}
 									">
 										<i class="far fa-trash-alt"></i>
 										刪除
 									</a>
-									<form id="deleteform-{{ $saleOrders->id }}" action="{{ route('sales.destroy', [$saleOrders->id]) }}" method="POST" style="display: none;">
+									<form id="deleteform-{{ $salesOrder->id }}" action="{{ route('sales.destroy', [$salesOrder->id]) }}" method="POST" style="display: none;">
 										@csrf
 										@method('DELETE')
 									</form>

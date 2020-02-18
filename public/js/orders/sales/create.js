@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -407,6 +407,8 @@ __webpack_require__.r(__webpack_exports__);
       var data = $('#SalesOrderCreateForm').serialize();
       $('#LoadingModal').modal('show');
       axios.post(url, data).then(function (response) {
+        alert('ddddd');
+        console.log(response);
         $('#salesOrderID').val(response.data.salesOrder_id); // 2. 建立 SalesOrderDetail
 
         $('#SalesOrderDetailForm').submit();
@@ -504,6 +506,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['products'],
   mounted: function mounted() {
@@ -527,8 +532,10 @@ __webpack_require__.r(__webpack_exports__);
             name: this.current_product.name,
             internationalNum: this.current_product.internationalNum,
             unitPrice: this.current_product.retailPrice,
+            qty_per_pack: this.current_product.qty_per_pack,
             showUnit: this.current_product.showUnit
           },
+          pieces: 0,
           quantity: 0,
           discount: 1,
           subTotal: 0,
@@ -578,6 +585,19 @@ __webpack_require__.r(__webpack_exports__);
       this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
       this.$emit('showTotalPrice', this.total_price); // console.log(this.total_price);
     },
+    calculateQty: function calculateQty(id, type) {
+      var qty_per_pack = $('#qty_per_pack_' + id).val();
+
+      if (type == 'p') {
+        var pcs = $('#pcs_' + id).val();
+        $('#qty_' + id).val(pcs * qty_per_pack);
+        this.details[id - 1].pieces = pcs;
+      } else if (type == 'q') {
+        var qty = $('#qty_' + id).val();
+        $('#pcs_' + id).val(qty / qty_per_pack);
+        this.details[id - 1].pieces = qty / qty_per_pack;
+      }
+    },
     updateComment: function updateComment(id) {
       var comment = $('#comment_' + id).val();
       this.details[id - 1].comment = comment;
@@ -622,7 +642,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row justify-content-center" }, [
-    _c("div", { staticClass: "col-md-10" }, [
+    _c("div", { staticClass: "col-md-11" }, [
       _c(
         "form",
         {
@@ -1306,7 +1326,7 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.details, function(detail, index) {
                   return _c("tr", { key: index }, [
-                    _c("td", { staticStyle: { width: "5%" } }, [
+                    _c("td", { staticStyle: { width: "4%" } }, [
                       _vm._v(_vm._s(index + 1))
                     ]),
                     _vm._v(" "),
@@ -1333,10 +1353,29 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { width: "15%" } }, [
+                    _c("td", { staticStyle: { width: "20%" } }, [
                       _c("input", {
-                        staticClass: "form-control mr-2",
-                        staticStyle: { width: "60%", display: "inline-block" },
+                        staticClass: "form-control",
+                        staticStyle: { width: "30%", display: "inline-block" },
+                        attrs: {
+                          id: "pcs_" + (index + 1),
+                          type: "text",
+                          name: "details[" + (index + 1) + "][pieces]"
+                        },
+                        domProps: { value: detail.pieces },
+                        on: {
+                          change: function($event) {
+                            _vm.calculateQty(index + 1, "p")
+                            _vm.calculateSubtotal(index + 1)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "mr-2" }, [_vm._v("件")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        staticStyle: { width: "30%", display: "inline-block" },
                         attrs: {
                           id: "qty_" + (index + 1),
                           type: "text",
@@ -1345,12 +1384,21 @@ var render = function() {
                         domProps: { value: detail.quantity },
                         on: {
                           change: function($event) {
-                            return _vm.calculateSubtotal(index + 1)
+                            _vm.calculateQty(index + 1, "q")
+                            _vm.calculateSubtotal(index + 1)
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _c("span", [_vm._v(_vm._s(detail.product.showUnit))])
+                      _c("span", [_vm._v(_vm._s(detail.product.showUnit))]),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          type: "hidden",
+                          id: "qty_per_pack_" + (index + 1)
+                        },
+                        domProps: { value: detail.product.qty_per_pack }
+                      })
                     ]),
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "10%" } }, [
@@ -1370,7 +1418,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { width: "10%" } }, [
+                    _c("td", { staticStyle: { width: "8%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         attrs: {
@@ -1387,7 +1435,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { width: "10%" } }, [
+                    _c("td", { staticStyle: { width: "8%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         attrs: {
@@ -1451,7 +1499,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("編號")]),
         _vm._v(" "),
-        _c("th", [_vm._v("原物料")]),
+        _c("th", [_vm._v("商品")]),
         _vm._v(" "),
         _c("th", [_vm._v("國際條碼")]),
         _vm._v(" "),
@@ -1773,7 +1821,7 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 9:
+/***/ 10:
 /*!***************************************************!*\
   !*** multi ./resources/js/orders/sales/create.js ***!
   \***************************************************/

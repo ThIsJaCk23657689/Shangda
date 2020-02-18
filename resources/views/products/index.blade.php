@@ -51,7 +51,7 @@
 					<tbody>
 						@foreach ($products as $product)
 							<tr class="{{ $product->trashed()?'bg-warning':'' }}">
-                                <td>{{ $product->id }}</td>
+                                <td>{{ $product->shownID }}</td>
 								<td>{{ $product->name }}</td>
 								<td>
 									<a href="{{ route('categories.show', [$product->category->id]) }}">

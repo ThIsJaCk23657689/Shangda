@@ -6,29 +6,29 @@ use App\Services\BaseService;
 use App\Services\Logs\ProductLogService;
 use App\SalesOrderDetail as SalesOrderDetailEloquent;
 use App\SalesOrder as SalesOrderEloquent;
-
 use Auth;
 
-     // ('paidAmount')->comment('訂單已付額');
+class SalesOrderDetailService extends BaseService
+{
+    // ('paidAmount')->comment('訂單已付額');
     // ('unpaidAmount')->comment('訂單未付額');
     // ('totalPrice')->comment('訂單未稅額');
     // ('taxPrice')->comment('訂單稅額'); // taxType = 1 要加 5%
     // ('totalTaxPrice')->comment('訂單總價');
 
-class SalesOrderDetailService extends BaseService
-{
     public $ProductLogService;
 
     public function __construct(){
-         //act 1.訂單新增 2.訂單修改 3.訂單刪除
+        //act 1.訂單新增 2.訂單修改 3.訂單刪除
         $this->ProductLogService = new ProductLogService();
     }
 
     public function add($request){
         $user_id = Auth::id();
-        $saleOrder = SalesOrderEloquent::findOrFail();
 
-        $s_id = $request->saleOrder_id;
+        $s_id = $request->salesOrder_id;
+        $saleOrder = SalesOrderEloquent::findOrFail($s_id);
+
         $data = $request->details;
         $total_unTax = 0;
         $count = 0;
@@ -43,7 +43,7 @@ class SalesOrderDetailService extends BaseService
             $this->ProductLogService->add($user_id, $product_id, 1, $quantity);
 
             $saleOrderDetail = SalesOrderDetailEloquent::create([
-                'saleOrder_id' => $s_id,
+                'sales_order_id' => $s_id,
                 'count' => $count,
                 'product_id' => $obj['product_id'],
                 'price' => $obj['price'],
@@ -57,15 +57,15 @@ class SalesOrderDetailService extends BaseService
             $add_price = 0;
             $saleOrder->totalPrice = $total_unTax;
             if($saleOrder->taxType == 1){
-                $saleOrder->taxPrice = $total_unTax*1.05;
-                $saleOrder->totalTaxPrice = $total_unTax*1.05;
-                $saleOrder->unpaidAmount = $total_unTax*1.05;
-                $add_price=$total_unTax*1.05;
+                $saleOrder->taxPrice = $total_unTax * 0.05;
+                $saleOrder->totalTaxPrice = $total_unTax * 1.05;
+                $saleOrder->unpaidAmount = $total_unTax * 1.05;
+                $add_price = $total_unTax * 1.05;
             }else{
-                $saleOrder->taxPrice = $total_unTax;
+                $saleOrder->taxPrice = 0;
                 $saleOrder->totalTaxPrice = $total_unTax;
                 $saleOrder->unpaidAmount = $total_unTax;
-                $add_price=$total_unTax;
+                $add_price = $total_unTax;
             }
             $saleOrder->save();
             $saleOrder->consumer->uncheckedAmount += $add_price;

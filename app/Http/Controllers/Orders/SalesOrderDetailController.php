@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Orders;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\SalesOrderDetailRequest;
 use App\Services\Orders\SalesOrderDetailService;
 
@@ -14,7 +17,7 @@ class SalesOrderDetailController extends Controller
         $this->SalesOrderDetailService = new SalesOrderDetailService();
     }
 
-    public function store(SalesOrderDetailRequest $request)
+    public function store(Request $request)
     {
         $saleOrderDetail = $this->SalesOrderDetailService->add($request);
         return response()->json($saleOrderDetail, 200);
