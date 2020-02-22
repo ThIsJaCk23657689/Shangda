@@ -7,6 +7,7 @@ use App\Category as CategoryEloquent;
 use App\Produce as ProduceEloquent;
 use App\ProductLog as ProductLogEloquent;
 use App\ProductDetail as ProductDetailEloquent;
+use App\Material as MaterialEloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use URL;
 
@@ -21,9 +22,7 @@ class Product extends Model
         'length' ,'width', 'chamfer', 'weight', 'qty_per_pack',
         'unit', 'intro', 'quantity', 'safeQuantity', 'comment',
 
-        'fundamentalPrice', 
-        'materialCoefficient1', 'materialCoefficient2', 'materialCoefficient3',
-        'materialCoefficient4', 'materialCoefficient5', 'retailPrice',
+        'costprice', 'profit', 'retailPrice',
     ];
 
     protected $casts = [
@@ -31,6 +30,11 @@ class Product extends Model
         'isManualNamed' => 'boolean',
         'isCustomize' => 'boolean',
     ];
+
+    // 抓取此商品的所有成分(原物料)
+    public function materials(){
+        return $this->belongsToMany(MaterialEloquent::class, 'product_recipes')->withPivot('ratio', 'subcost');
+    }
 
     public function category(){
         return $this->belongsTo(CategoryEloquent::class);
@@ -75,22 +79,5 @@ class Product extends Model
                 return $this->picture;
             }
         }
-    }
-
-    public function nameDivide(){
-        $array = explode("/",$this->name);
-        $specification_arr = explode("(",$array[0]);
-        $specification = $specification_arr[1];
-        $name = $specification_arr[0];
-
-        $weight_arr =  explode(")",$array[2]);
-        $weight = $weight_arr[0];
-
-        $result = [];
-        $result['name'] = $name;
-        $result['specification'] = $specification;
-        $result['size'] = $array[1];
-        $result['weight'] = $weight;
-        return $result;
     }
 }

@@ -2588,22 +2588,7 @@ var app = new Vue({
     });
     axios.get(getMeterialsName).then(function (response) {
       _this2.materials = response.data;
-    }); // $.fn.serializeObject = function()
-    // {
-    //     var o = {};
-    //     var a = this.serializeArray();
-    //     $.each(a, function() {
-    //         if (o[this.name] !== undefined) {
-    //             if (!o[this.name].push) {
-    //                 o[this.name] = [o[this.name]];
-    //             }
-    //             o[this.name].push(this.value || '');
-    //         } else {
-    //             o[this.name] = this.value || '';
-    //         }
-    //     });
-    //     return o;
-    // };
+    });
   }
 });
 

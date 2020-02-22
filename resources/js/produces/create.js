@@ -7,6 +7,7 @@ const app = new Vue({
         return {
             products: [],
             current_product: [],
+            
             materials: [],
             all_materials: [],
             materials_disabled: [],

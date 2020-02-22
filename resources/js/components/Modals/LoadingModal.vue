@@ -1,5 +1,6 @@
 <template>
-<div class="modal fade" id="LoadingModal" tabindex="-1" role="dialog" aria-labelledby="LoadingModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<!-- data-backdrop="static" -->
+<div class="modal fade" id="LoadingModal" tabindex="-1" role="dialog" aria-labelledby="LoadingModalLabel" aria-hidden="true" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="height:55vh;">
             <div class="modal-body">

@@ -52,14 +52,12 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('safeQuantity')->default(0)->comment('安全庫存');
             $table->text('comment')->nullable()->comment('備註');
 
-            $table->double('fundamentalPrice')->default(0)->comment('基礎價格'); 
-            $table->double('materialCoefficient1')->default(0)->comment('原料1比重');
-            $table->double('materialCoefficient2')->default(0)->comment('原料2比重');
-            $table->double('materialCoefficient3')->default(0)->comment('原料3比重');
-            $table->double('materialCoefficient4')->default(0)->comment('原料4比重');
-            $table->double('materialCoefficient5')->default(0)->comment('原料5比重');
+            $table->double('costprice')->default(0)->comment('成本價格'); 
+            $table->double('profit')->default(0)->comment('利潤'); 
+            
+            // retailPrice = profit + costprice
             $table->double('retailPrice')->default(0)->comment('零售價格');
-            // retailPrice = [(漲幅價差) * materialCoefficient] +  fundamentalPrice
+            
 
             $table->timestamps();
             $table->softDeletes();

@@ -18,12 +18,12 @@ class CreateConsumersTable extends Migration
             $table->bigIncrements('id')->comment('編號');
             // $table->unsignedBigInteger('discount_id')->comment('折扣編號');
 
-            $table->string('name', 100)->comment('名稱');
-            $table->string('shortName', 100)->nullable()->comment('簡稱');
+            $table->string('shownID')->unique()->comment('識別編號');
+            $table->string('name')->comment('名稱');
             $table->string('act', 30)->unique()->comment('帳號');
-            $table->string('pwd')->comment('密碼');
-            $table->string('taxID')->nullable()->unique()->comment('統一編號');
-            $table->string('idNumber')->nullable()->unique()->comment('身分證');
+            $table->string('pwd', 30)->comment('密碼');
+            $table->string('taxID', 8)->nullable()->unique()->comment('統一編號');
+            $table->string('idNumber', 10)->nullable()->unique()->comment('身分證');
             $table->string('tax', 25)->nullable()->comment('傳真');
 
             $table->string('inCharge1', 50)->comment('聯絡人名稱1');                 //主要聯絡人資訊
@@ -44,6 +44,9 @@ class CreateConsumersTable extends Migration
             
             // 預設為0，代表是顧客自己創建(註冊) | 如果為1代表為管理者所創建。
             $table->boolean('account_type')->nullable()->default(0)->comment('帳號類型');
+
+            // 負責業務預設為Admin(就是不指定) 注意負責業務 不等於 創建此客戶資料的員工 特別注意。
+            $table->unsignedBigInteger('user_id')->default(1)->comment('負責業務');
 
             $table->softDeletes(); //黑名單
             $table->rememberToken();

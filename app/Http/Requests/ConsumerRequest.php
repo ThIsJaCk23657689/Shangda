@@ -25,8 +25,8 @@ class ConsumerRequest extends FormRequest
     {
         return [
             // 'discount_id' => 'required',
-            'name' => 'required|max:100|string',
-            'shortName' => 'nullable|max:100|string',
+            'name' => 'required|max:255|string',
+            'shownID' => 'required|max:255|string|unique:consumers',
             'act' => 'required|max:30|unique:consumers|string',
             'pwd' => 'required|string|min:8|confirmed',
             'taxID' => 'nullable|max:8|string',

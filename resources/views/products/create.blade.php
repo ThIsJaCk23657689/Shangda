@@ -16,7 +16,11 @@
 		<li class="breadcrumb-item active">{{ __('Create') }}</li>
 	@endcomponent
 
-    <div class="row justify-content-center">
+    <div id="product" class="row justify-content-center">
+        
+        <span id="getMeterialsName" style="display: none;">{{ route('materials.showName') }}</span>
+		<span id="getMeterialInfo" style="display: none;">{{ route('materials.getInfo') }}</span>
+        
         <div class="col-md-10">
             <form id="product_create_form" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                 @csrf
@@ -350,7 +354,9 @@
                 
                 <hr>
 
-                <div class="row justify-content-center">
+                <product-recipes :materials="materials" v-on:refresh-materials="refreshMaterials"></product-recipes>
+
+                {{-- <div class="row justify-content-center">
                     <div class="col-md-12">
                         
                         <table class="table table-bordered" width="100%" cellspacing="0">
@@ -458,7 +464,7 @@
                         </table>
                 
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">
@@ -473,6 +479,8 @@
 
             </form>
         </div>
+
+        <loading-modal></loading-modal>
     </div>
 	
 @endsection

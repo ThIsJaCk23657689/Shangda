@@ -3,25 +3,10 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Product;
-use App\BasicMaterial as BasicMaterialEloquent;
 use App\Category as CategoryEloquent;
 use Faker\Generator as Faker;
 
 $factory->define(Product::class, function (Faker $faker) {
-    $x1 = BasicMaterialEloquent::find(1)->price;
-    $x2 = BasicMaterialEloquent::find(2)->price;
-    $x3 = BasicMaterialEloquent::find(3)->price;
-    $x4 = BasicMaterialEloquent::find(4)->price;
-    $x5 = BasicMaterialEloquent::find(5)->price;
-
-    $fund_price = $faker->randomFloat(2, 0, 1000);
-    $c1 = $faker->randomFloat(2, 0, 1);
-    $c2 = $faker->randomFloat(2, 0, 1);
-    $c3 = $faker->randomFloat(2, 0, 1);
-    $c4 = $faker->randomFloat(2, 0, 1);
-    $c5 = $faker->randomFloat(2, 0, 1);
-    $retail_price = $x1 * $c1 + $x2 * $c2 + $x3 * $c3 + $x4 * $c4 + $x5 * $c5 + $fund_price;
-
     $specification = $faker->randomElement(['四兩', '六兩', '大六兩', '半斤', '一斤', '兩斤', '三斤', '五斤', '七斤', '十斤', '十五斤', '二十斤']);
     $color = $faker->randomElement(['紅', '橙', '黃', '綠', '藍', '紫', '黑', '白', null]);
     $weight = $faker->randomElement(['5', '6', '7', '8', '10', '10.5', '11', '12', '0']);
@@ -72,12 +57,8 @@ $factory->define(Product::class, function (Faker $faker) {
         'safeQuantity' => $faker->numberBetween($min = 10, $max = 3333),
         'comment' => $faker->realText($maxNbChars = 200, $indexSize = 2),
 
-        'fundamentalPrice' => $fund_price,
-        'materialCoefficient1' => $c1,
-        'materialCoefficient2' => $c2,
-        'materialCoefficient3' => $c3,
-        'materialCoefficient4' => $c4,
-        'materialCoefficient5' => $c5,
-        'retailPrice' => $retail_price,
+        'costprice' => 0,
+        'profit' => 0,
+        'retailPrice' => 0,
     ];
 });

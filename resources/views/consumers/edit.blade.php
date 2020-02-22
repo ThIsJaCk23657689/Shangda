@@ -43,14 +43,14 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label for="shortName" class="col-md-3 col-form-label text-md-right">
-                                簡稱
+                            <label for="shownID" class="col-md-3 col-form-label text-md-right">
+                                編號
                             </label>
         
                             <div class="col-md-6">
-                                <input id="shortName" name="shortName" type="text" class="form-control @error('shortName') is-invalid @enderror" value="{{ old('shortName') ?? $consumer->shortName }}" autocomplete="shortName">
+                                <input id="shownID" name="shownID" type="text" class="form-control @error('shownID') is-invalid @enderror" value="{{ old('shownID') ?? $consumer->shownID }}" autocomplete="shownID">
         
-                                @error('shortName')
+                                @error('shownID')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

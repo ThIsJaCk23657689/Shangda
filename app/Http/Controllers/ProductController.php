@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductRecipesRequest;
+
 use App\Services\ProductService;
 use App\Services\BasicMaterialService;
 use App\Services\CategoryService;
-use App\Services\ProductDetailService;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,6 @@ class ProductController extends Controller
     public $ProductService;
     public $BasicMaterialService;
     public $CategoryService;
-    public $ProductDetailService;
 
     public function __construct()
     {
@@ -23,7 +23,6 @@ class ProductController extends Controller
         $this->ProductService = new ProductService();
         $this->BasicMaterialService = new BasicMaterialService();
         $this->CategoryService = new CategoryService();
-        $this->ProductDetailService = new ProductDetailService();
     }
 
     /**
@@ -59,7 +58,12 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $product = $this->ProductService->add($request);
-        return redirect()->route('products.index');
+        return response()->json([
+            'product_id' => $product->id,
+            'messenge' => '商品編號 ' . $product->shownID . ' 建立成功。',
+            'redirect_url' => route('products.index'),
+            'status' => 'OK'
+        ]);
     }
 
     /**

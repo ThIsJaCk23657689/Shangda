@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'category_id' => "required|exists:categories,id",
-            'shownID' => 'required|string|max:255',
+            'shownID' => 'required|string|max:255|unique:products',
             'isManualID' => 'nullable|boolean',
             'name' => 'required|string|max:255',
             'isManualNamed' => 'nullable|boolean',
@@ -50,13 +50,10 @@ class ProductRequest extends FormRequest
             'safeQuantity' => 'required|integer|min:0',
             'comment' => 'nullable|string',
 
-            'fundamentalPrice' => 'required|numeric|min:0',
-            'materialCoefficient1' => 'required|numeric|min:0',
-            'materialCoefficient2' => 'required|numeric|min:0',
-            'materialCoefficient3' => 'required|numeric|min:0',
-            'materialCoefficient4' => 'required|numeric|min:0',
-            'materialCoefficient5' => 'required|numeric|min:0',
-            // 'retailPrice' => 'required|numeric|min:0',
+            'recipes.*.material_id' => "nullable|exists:materials,id|integer",
+            'recipes.*.ratio' => 'nullable|numeric',
+
+            'profit' => 'required|numeric',
         ];
     }
 }

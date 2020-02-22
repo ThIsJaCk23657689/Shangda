@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(Consumer::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'shortName' => $faker->userName,
+        'shownID' => 'sd' . str_pad($faker->unique()->numberBetween(1, 9999), 4, '0', STR_PAD_LEFT),
         'act' => $faker->unique()->bothify('?????###'),
         'pwd' => $faker->unique()->bothify('?????###'),
         'taxID' => $faker->unique()->bothify('########'),

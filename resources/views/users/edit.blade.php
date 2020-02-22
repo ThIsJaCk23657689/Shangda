@@ -91,7 +91,7 @@
                     </label>
     
                     <div class="col-md-6">
-                        <input id="birthday" type="text" class="form-control @error('jobTitle') is-invalid @enderror" name="birthday" value="{{ old('birthday') ?? $user->showBirthday() }}">
+                        <input id="birthday" type="text" class="form-control @error('jobTitle') is-invalid @enderror" name="birthday" value="{{ old('birthday') ?? $user->showBirthday() }}" autocomplete="off">
                         
                         @error('birthday')
                             <span class="invalid-feedback" role="alert">

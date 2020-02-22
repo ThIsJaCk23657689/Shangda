@@ -28,12 +28,12 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="shortName" class="col-md-3 col-form-label text-md-right">
+                        <label for="shownID" class="col-md-3 col-form-label text-md-right">
                             簡稱
                         </label>
             
                         <div class="col-md-6">
-                            <input id="shortName" name="shortName" type="text" class="form-control" value="{{ $consumer->shortName }}" disabled>
+                            <input id="shownID" name="shownID" type="text" class="form-control" value="{{ $consumer->shownID }}" disabled>
                         </div>
                     </div>
                 </div>

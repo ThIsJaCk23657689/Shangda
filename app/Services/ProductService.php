@@ -2,27 +2,12 @@
 
 namespace App\Services;
 use App\Product as ProductEloquent;
-use App\BasicMaterial as BasicMaterialEloquent;
+use App\Material as MaterialEloquent;
 use App\Category as CategoryEloquent;
 
 class ProductService extends BaseService
 {
     public function add($request){
-        // 計算零售價
-        $x1 = BasicMaterialEloquent::findOrFail(1)->price;
-        $x2 = BasicMaterialEloquent::findOrFail(2)->price;
-        $x3 = BasicMaterialEloquent::findOrFail(3)->price;
-        $x4 = BasicMaterialEloquent::findOrFail(4)->price;
-        $x5 = BasicMaterialEloquent::findOrFail(5)->price;
-
-        $retail_price = 
-            $x1 * $request->materialCoefficient1 +
-            $x2 * $request->materialCoefficient2 + 
-            $x3 * $request->materialCoefficient3 +
-            $x4 * $request->materialCoefficient4 + 
-            $x5 * $request->materialCoefficient5 + 
-            $request->fundamentalPrice;
-
         // 圖片儲存
         $image_path = $this->savePicture($request->picture);
 
@@ -53,14 +38,30 @@ class ProductService extends BaseService
             'safeQuantity' => $request->safeQuantity,
             'picture' => $image_path,
             'intro' => $request->intro,
-            
-            'fundamentalPrice' => $request->fundamentalPrice,
-            'retailPrice' => $retail_price,
-            'materialCoefficient1' => $request->materialCoefficient1,
-            'materialCoefficient2' => $request->materialCoefficient2,
-            'materialCoefficient3' => $request->materialCoefficient3,
-            'materialCoefficient4' => $request->materialCoefficient4,
-            'materialCoefficient5' => $request->materialCoefficient5,
+        ]);
+
+        // 計算成本價格
+        $costprice = 0;
+        foreach($request->recipes as $recipe){
+            $material_id = $recipe['material_id'];
+            $material = MaterialEloquent::find($material_id);
+            $price = $material->unitPrice;
+            $subcost = $price * $recipe['raito'];
+            $costprice += $subcost;
+
+            if($recipe['raito'] != 0){
+                $product->materials()->attach($material_id, [
+                    'ratio' => $recipe['raito'],
+                    'subcost' => $subcost
+                ]);
+            }
+        }
+
+        // 更新商品價格
+        $product->update([
+            'costprice' => $costprice,
+            'profit' => $request->profit,
+            'retailPrice' => ($request->profit + $costprice),
         ]);
 
         return $product;
@@ -89,20 +90,6 @@ class ProductService extends BaseService
 
     public function update($request, $id){
         $product = $this->getOne($id);
-
-        $x1 = BasicMaterialEloquent::findOrFail(1)->price;
-        $x2 = BasicMaterialEloquent::findOrFail(2)->price;
-        $x3 = BasicMaterialEloquent::findOrFail(3)->price;
-        $x4 = BasicMaterialEloquent::findOrFail(4)->price;
-        $x5 = BasicMaterialEloquent::findOrFail(5)->price;
-
-        $retail_price = 
-            $x1 * $request->materialCoefficient1 + 
-            $x2 * $request->materialCoefficient2 + 
-            $x3 * $request->materialCoefficient3 +
-            $x4 * $request->materialCoefficient4 + 
-            $x5 * $request->materialCoefficient5 + 
-            $request->fundamentalPrice;
 
         // 圖片儲存
         $image_path = $this->savePicture($request->picture);
@@ -135,14 +122,6 @@ class ProductService extends BaseService
             'safeQuantity' => $request->safeQuantity,
             'picture' => $image_path,
             'intro' => $request->intro,
-            
-            'fundamentalPrice' => $request->fundamentalPrice,
-            'retailPrice' => $retail_price,
-            'materialCoefficient1' => $request->materialCoefficient1,
-            'materialCoefficient2' => $request->materialCoefficient2,
-            'materialCoefficient3' => $request->materialCoefficient3,
-            'materialCoefficient4' => $request->materialCoefficient4,
-            'materialCoefficient5' => $request->materialCoefficient5,
         ]);
         return $product;
     }
