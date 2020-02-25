@@ -37,15 +37,6 @@ Route::prefix('/backend')->group(function(){
     Route::prefix('materials')->group(function(){
         Route::get('showName','MaterialController@showName')->name('materials.showName');
         Route::post('getInfo','MaterialController@getInfo')->name('materials.getInfo');
-
-        //基礎原物料管理路由
-        Route::prefix('basic')->group(function(){
-            Route::get('getInfo','BasicMaterialController@getList')->name('material.basic.getList');
-        });
-        Route::resource('/basic', 'BasicMaterialController')->only(['index', 'update'])->names([
-            'index' => 'material.basic.index',
-            'update' => 'material.basic.update'
-        ]);
     });
     Route::resource('/materials', 'MaterialController');
 

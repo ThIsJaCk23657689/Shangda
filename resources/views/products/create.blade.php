@@ -101,8 +101,8 @@
                                 商品圖片
                             </label>
                             <div class="custom-file">
-                                <input type="file" id="picture" name="picture" class="custom-file-input" accept="image/jpeg,image/png" aria-describedby="PictureHelp">
-                                <small id="PictureHelp" class="form-text text-muted">僅支援JPG、JPEG與PNG格式圖片，且檔案大小上限為20MB。</small>
+                                <input type="file" id="picture" name="picture" class="custom-file-input" accept="image/jpeg,image/png,image/bmp" aria-describedby="PictureHelp">
+                                <small id="PictureHelp" class="form-text text-muted">僅支援JPG、JPEG、PNG與BMP格式圖片，且檔案大小上限為20MB。</small>
                                 <label class="custom-file-label" for="picture">請選擇檔案</label>
                             </div>
                         </div>
@@ -355,116 +355,6 @@
                 <hr>
 
                 <product-recipes :materials="materials" v-on:refresh-materials="refreshMaterials"></product-recipes>
-
-                {{-- <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        
-                        <table class="table table-bordered" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <label for="fundamentalPrice">
-                                            <span class="text-danger mr-2">*</span>基礎價格
-                                        </label>
-                                    </th>
-                                    @foreach ($basicMaterials as $basicMaterial)
-                                        <th>
-                                            <label for="materialCoefficient{{ $loop->iteration }}">
-                                                <span class="text-danger mr-2">*</span>{{ $basicMaterial->name }}比重<br>
-                                                價格：<span id="material_{{ $loop->iteration }}">{{ $basicMaterial->price }}</span>
-                                            </label>
-                                        </th>
-                                    @endforeach
-                                    <th><label for="retailPrice">零售單價</label></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <input id="fundamentalPrice" name="fundamentalPrice" type="text" class="form-control @error('fundamentalPrice') is-invalid @enderror" value="{{ old('fundamentalPrice') ?? 0 }}" required autocomplete="fundamentalPrice">
-                                                @error('fundamentalPrice')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <input id="materialCoefficient1" name="materialCoefficient1" type="text" class="form-control @error('materialCoefficient1') is-invalid @enderror" value="{{ old('materialCoefficient1') ?? 0 }}" required autocomplete="materialCoefficient1">
-                                                @error('materialCoefficient1')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <input id="materialCoefficient2" name="materialCoefficient2" type="text" class="form-control @error('materialCoefficient2') is-invalid @enderror" value="{{ old('materialCoefficient2') ?? 0 }}" required autocomplete="materialCoefficient2">
-                                                @error('materialCoefficient2')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <input id="materialCoefficient3" name="materialCoefficient3" type="text" class="form-control @error('materialCoefficient3') is-invalid @enderror" value="{{ old('materialCoefficient3') ?? 0 }}" required autocomplete="materialCoefficient3">
-                                                @error('materialCoefficient3')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <input id="materialCoefficient4" name="materialCoefficient4" type="text" class="form-control @error('materialCoefficient4') is-invalid @enderror" value="{{ old('materialCoefficient4') ?? 0 }}" required autocomplete="materialCoefficient4">
-                                                @error('materialCoefficient4')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <input id="materialCoefficient5" name="materialCoefficient5" type="text" class="form-control @error('materialCoefficient5') is-invalid @enderror" value="{{ old('materialCoefficient5') ?? 0 }}" required autocomplete="materialCoefficient5">
-                                                @error('materialCoefficient5')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <input id="retailPrice" name="retailPrice" type="text" class="form-control" value="{{ old('retailPrice') ?? 0 }}" disabled>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                
-                    </div>
-                </div> --}}
 
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">

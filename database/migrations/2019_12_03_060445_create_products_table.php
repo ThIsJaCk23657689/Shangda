@@ -23,7 +23,6 @@ class CreateProductsTable extends Migration
             $table->string('name')->comment('名稱');
             $table->boolean('isManualNamed')->default('0')->comment('是否為手動命名');
             $table->string('internationalNum', 20)->nullable()->comment('國際條碼');
-            $table->string('picture')->nullable()->comment('圖片');
             $table->string('specification')->nullable()->comment('商品規格');
             $table->string('color')->nullable()->comment('商品顏色或花樣');
             $table->boolean('isCustomize')->default('0')->comment('是否為客製化商品');

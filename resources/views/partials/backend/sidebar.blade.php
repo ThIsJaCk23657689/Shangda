@@ -34,7 +34,6 @@
 			<a class="dropdown-item" href="{{ route('products.index') }}">{{ __('Products') }}</a>
 			<a class="dropdown-item" href="{{ route('produces.index') }}">{{ __('Produces') }}</a>
 			<h6 class="dropdown-header">{{ __('Related:') }}</h6>
-			<a class="dropdown-item" href="{{ route('material.basic.index') }}">{{ __('Basic Materials') }}</a>
 			<a class="dropdown-item" href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
 		</div>
 	</li>

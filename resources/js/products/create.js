@@ -270,10 +270,21 @@ const app = new Vue({
             e.preventDefault();
 
             let url = $(this).attr('action');
-            let data = $(this).serialize();
 
+            let data = $(this).serializeObject();
+            let formdata = new FormData();
+            Object.keys(data).forEach(
+                key => formdata.append(key, data[key])
+            );
+            formdata.append('picture', $('#picture')[0].files[0]);
+            console.log(formdata);
+            
             $('#LoadingModal').modal('show');
-            axios.post(url, data).then(response => {
+            axios.post(url, formdata, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(response => {
                 console.log(response);
                 $('#productID').val(response.data.product_id);
                 alert(response.data.messenge);
@@ -289,9 +300,6 @@ const app = new Vue({
                 });
                 $('#LoadingModal').modal('hide');
             });
-            
-            // $('#product_create_form').serializeObject();
-            // $('#ProductRecipesForm').serializeObject();
         });
     }
 });

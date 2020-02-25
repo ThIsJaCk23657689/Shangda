@@ -3,12 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Picture as PictureEloquent;
+use App\Material as MaterialEloquent;
 use App\Category as CategoryEloquent;
 use App\Produce as ProduceEloquent;
 use App\ProductLog as ProductLogEloquent;
-use App\ProductDetail as ProductDetailEloquent;
-use App\Material as MaterialEloquent;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 use URL;
 
 class Product extends Model
@@ -17,7 +19,7 @@ class Product extends Model
 
     protected $fillable = [
         'category_id', 'shownID', 'isManualID', 'name', 'isManualNamed', 
-        'internationalNum', 'picture', 'specification', 'color', 
+        'internationalNum', 'specification', 'color', 
         'isCustomize', 'isPublic', 'showPrice',
         'length' ,'width', 'chamfer', 'weight', 'qty_per_pack',
         'unit', 'intro', 'quantity', 'safeQuantity', 'comment',
@@ -30,6 +32,10 @@ class Product extends Model
         'isManualNamed' => 'boolean',
         'isCustomize' => 'boolean',
     ];
+
+    public function pictures(){
+        return $this->morphMany(PictureEloquent::class, 'pictureable');
+    }
 
     // 抓取此商品的所有成分(原物料)
     public function materials(){
@@ -46,10 +52,6 @@ class Product extends Model
 
     public function productlogs(){
         return $this->hasMany(ProductLogEloquent::class);
-    }
-
-    public function productDetails(){
-        return $this->hasMany(ProductDetailEloquent::class);
     }
 
     public function showUnit(){
@@ -69,14 +71,16 @@ class Product extends Model
         return $result;
     }
 
-    public function showPicture(){
-        if(empty($this->picture)){
+    public function showPicture($index = 1){
+        $picture = $this->pictures()->where('index', '=', $index)->first();
+
+        if(empty($picture->url)){
             return URL::asset('images/products/default.png');
         }else{
-            if(!preg_match("/^[a-zA-Z]+:\/\//", $this->picture)){
-                return URL::asset($this->picture);
+            if(!preg_match("/^[a-zA-Z]+:\/\//", $picture->url)){
+                return URL::asset($picture->url);
             }else{
-                return $this->picture;
+                return $picture->url;
             }
         }
     }

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -95,10 +95,6 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
 //
 //
 //
@@ -355,9 +351,9 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _vm._v(
-                    "\r\n                            " +
+                    "\r\n                        " +
                       _vm._s(recipe.material.name) +
-                      "\r\n                            "
+                      "\r\n                        "
                   ),
                   _c("input", {
                     attrs: {
@@ -525,7 +521,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "profit" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("利潤\r\n                        ")
+      _vm._v("利潤\r\n                    ")
     ])
   }
 ]
@@ -968,9 +964,19 @@ var app = new Vue({
     $('#product_create_form').submit(function (e) {
       e.preventDefault();
       var url = $(this).attr('action');
-      var data = $(this).serialize();
+      var data = $(this).serializeObject();
+      var formdata = new FormData();
+      Object.keys(data).forEach(function (key) {
+        return formdata.append(key, data[key]);
+      });
+      formdata.append('picture', $('#picture')[0].files[0]);
+      console.log(formdata);
       $('#LoadingModal').modal('show');
-      axios.post(url, data).then(function (response) {
+      axios.post(url, formdata, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
         console.log(response);
         $('#productID').val(response.data.product_id);
         alert(response.data.messenge);
@@ -984,15 +990,14 @@ var app = new Vue({
           alert(error.response.data.errors[$key]);
         });
         $('#LoadingModal').modal('hide');
-      }); // $('#product_create_form').serializeObject();
-      // $('#ProductRecipesForm').serializeObject();
+      });
     });
   }
 });
 
 /***/ }),
 
-/***/ 13:
+/***/ 12:
 /*!***********************************************!*\
   !*** multi ./resources/js/products/create.js ***!
   \***********************************************/

@@ -8,9 +8,6 @@ use App\Category as CategoryEloquent;
 class ProductService extends BaseService
 {
     public function add($request){
-        // 圖片儲存
-        $image_path = $this->savePicture($request->picture);
-
         // 新增資料
         $product = ProductEloquent::create([
             'category_id' => $request->category_id,
@@ -19,7 +16,6 @@ class ProductService extends BaseService
             'shownID' => $request->shownID,
             'isManualID' => $request->isManualID ?? '0',
             'internationalNum' => $request->internationalNum,
-
             'specification' => $request->specification,
             'color' => $request->color,
 
@@ -36,9 +32,11 @@ class ProductService extends BaseService
             'unit' => $request->unit,
             'quantity' => $request->quantity,
             'safeQuantity' => $request->safeQuantity,
-            'picture' => $image_path,
             'intro' => $request->intro,
         ]);
+
+        // 圖片儲存
+        $this->savePicture($request->picture, $product);
 
         // 計算成本價格
         $costprice = 0;
@@ -46,7 +44,7 @@ class ProductService extends BaseService
             $material_id = $recipe['material_id'];
             $material = MaterialEloquent::find($material_id);
             $price = $material->unitPrice;
-            $subcost = $price * $recipe['raito'];
+            $subcost = round($price * $recipe['raito'], 4);
             $costprice += $subcost;
 
             if($recipe['raito'] != 0){
@@ -92,7 +90,7 @@ class ProductService extends BaseService
         $product = $this->getOne($id);
 
         // 圖片儲存
-        $image_path = $this->savePicture($request->picture);
+        $this->savePicture($request->picture, $product);
 
         $realName = $request->name."(".$request->specification."/".$request->size."/".$request->weight.")";
 
@@ -120,7 +118,6 @@ class ProductService extends BaseService
             'unit' => $request->unit,
             'quantity' => $request->quantity,
             'safeQuantity' => $request->safeQuantity,
-            'picture' => $image_path,
             'intro' => $request->intro,
         ]);
         return $product;
@@ -152,18 +149,53 @@ class ProductService extends BaseService
         }
     }
 
-    private function savePicture($picture){
+    private function savePicture($picture, $product){
         if(!empty($picture)){
-            $origin_picture = imagecreatefromjpeg($picture);
-            $ext = $picture->getClientOriginalExtension();
-            $picture_name = ProductEloquent::get()->count() + 1;
+            $ext = strtolower($picture->getClientOriginalExtension());
+            switch($ext){
+                case 'jpg':
+                    $origin_picture = imagecreatefromjpeg($picture);
+                    break;
+                case 'png':
+                    $origin_picture = imagecreatefrompng($picture);
+                    break;
+                case 'bmp':
+                    $origin_picture = imagecreatefrombmp($picture);
+                    break;
+                default:
+                    $origin_picture = imagecreatefromjpeg($picture);
+                    break;
+            }
+
+            $index = $product->pictures()->count() + 1;
+            $picture_name = str_pad($product->id, 4, '0', STR_PAD_LEFT) . '-' . str_pad($index, 2, '0', STR_PAD_LEFT);
             $picture_full_name = $picture_name . '.' . $ext;
+
             $save_path = public_path('images/products/');
-            imagejpeg($origin_picture, $save_path . $picture_full_name);
+            switch($ext){
+                case 'jpg':
+                    imagejpeg($origin_picture, $save_path . $picture_full_name);
+                    break;
+                case 'png':
+                    $background = imagecolorallocate($origin_picture, 0, 0, 0);
+                    imagecolortransparent($origin_picture, $background);
+                    imagealphablending($origin_picture, false);
+                    imagesavealpha($origin_picture, true);
+                    imagepng($origin_picture, $save_path . $picture_full_name);
+                    break;
+                case 'bmp':
+                    imagebmp($origin_picture, $save_path . $picture_full_name);
+                    break;
+                default:
+                    imagejpeg($origin_picture, $save_path . $picture_full_name);
+                    break;
+            }
             $image_path = 'images/products/' . $picture_full_name;
-        }else{
-            $image_path = null;
+
+            $product->pictures()->create([
+                'url' => $image_path,
+                'index' => $index,
+            ]);
         }
-        return $image_path;
     }
 }

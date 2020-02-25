@@ -1,91 +1,87 @@
 <template>
 <div class="row justify-content-center">
     <div class="col-md-12">
-        <!-- <form id="ProductRecipesForm" method="POST" action="#"> -->
 
-            <!-- <input type="hidden" id="productID" name="product_id" value=""> -->
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <select id="material_id" class="form-control" @change="getMaterialData">
+                    <option value="0">請選擇...</option>
+                    <option-item v-for="data in materials" :key="data.id" :data="data"></option-item>
+                </select>
+            </div>
 
-            <div class="row">
-                <div class="col-md-6 mb-2">
-                    <select id="material_id" class="form-control" @change="getMaterialData">
-                        <option value="0">請選擇...</option>
-                        <option-item v-for="data in materials" :key="data.id" :data="data"></option-item>
-                    </select>
-                </div>
+            <div class="col-md-6">
+                <button id="addMaterialBtn" type="button" class="btn btn-md btn-success" @click="addRecipe">新增至成分</button>
+            </div>
+        </div>
 
-                <div class="col-md-6">
-                    <button id="addMaterialBtn" type="button" class="btn btn-md btn-success" @click="addRecipe">新增至成分</button>
+        <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>編號</th>
+                    <th>原物料</th>
+                    <th>單價</th>
+                    <th>耗材比</th>
+                    <th>成本價</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(recipe, index) in recipes" :key="index">
+                    <td>{{ index + 1 }}</td>
+                    <td>
+                        {{ recipe.material.name }}
+                        <input type="hidden" :name="'recipes[' + (index + 1) + '][material_id]'" :value="recipe.material.id">
+                    </td>
+                    <td>
+                        <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control mr-2" :value="recipe.material.unitPrice" disabled style="width:60%;display:inline-block;">
+                        <span> 元 / {{ (recipe.material.unit == 1) ? '公斤' : '公噸' }}</span>
+                    </td>
+                    <td>
+                        <input :id="'raito_' + (index + 1)" type="text" class="form-control" :name="'recipes[' + (index + 1)+ '][raito]'" :value="recipe.raito" @change="calculateSubcost(index+1)">
+                    </td>
+                    <td>
+                        <input :id="'subcost_' + (index + 1)" type="text" class="form-control" :value="recipe.subcost" disabled>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-md btn-danger" @click="deleteRecipe(index)">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="totalCost">總成本價</label>
+                    <input id="totalCost" name="totalCost" type="text" class="form-control mb-2" :value="this.total_cost" readonly>
                 </div>
             </div>
 
-            <table class="table table-bordered" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>編號</th>
-                        <th>原物料</th>
-                        <th>單價</th>
-                        <th>耗材比</th>
-                        <th>成本價</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(recipe, index) in recipes" :key="index">
-                        <td>{{ index + 1 }}</td>
-                        <td>
-                            {{ recipe.material.name }}
-                            <input type="hidden" :name="'recipes[' + (index + 1) + '][material_id]'" :value="recipe.material.id">
-                        </td>
-                        <td>
-                            <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control mr-2" :value="recipe.material.unitPrice" disabled style="width:60%;display:inline-block;">
-                            <span> 元 / {{ (recipe.material.unit == 1) ? '公斤' : '公噸' }}</span>
-                        </td>
-                        <td>
-                            <input :id="'raito_' + (index + 1)" type="text" class="form-control" :name="'recipes[' + (index + 1)+ '][raito]'" :value="recipe.raito" @change="calculateSubcost(index+1)">
-                        </td>
-                        <td>
-                            <input :id="'subcost_' + (index + 1)" type="text" class="form-control" :value="recipe.subcost" disabled>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-md btn-danger" @click="deleteRecipe(index)">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="profit">
+                        <span class="text-danger mr-2">*</span>利潤
+                    </label>
 
-            <hr>
-
-            <div class="row">
-
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="totalCost">總成本價</label>
-                        <input id="totalCost" name="totalCost" type="text" class="form-control mb-2" :value="this.total_cost" readonly>
-                    </div>
+                    <input id="profit" name="profit" type="text" class="form-control mb-2" :value="this.profit" required autocomplete="off" @change="calculateRetailPrice">
                 </div>
-
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="profit">
-                            <span class="text-danger mr-2">*</span>利潤
-                        </label>
-
-                        <input id="profit" name="profit" type="text" class="form-control mb-2" :value="this.profit" required autocomplete="off" @change="calculateRetailPrice">
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="retailPrice">零售價</label>
-                        <input id="retailPrice" name="retailPrice" type="text" class="form-control" :value="this.retail_price" readonly>
-                    </div>
-                </div>
-
             </div>
 
-        <!-- </form> -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="retailPrice">零售價</label>
+                    <input id="retailPrice" name="retailPrice" type="text" class="form-control" :value="this.retail_price" readonly>
+                </div>
+            </div>
+
+        </div>
+        
     </div>
 </div>
 </template>

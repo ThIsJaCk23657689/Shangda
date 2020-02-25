@@ -25,6 +25,12 @@
                         <label for="shownID">商品編號</label>
                         <input id="shownID" name="shownID" type="text" class="form-control" value="{{ $product->shownID }}" readonly>
                     </div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="isManualID" id="ManualID" {{ ($product->isManualNamed)?'checked':'' }} disabled>
+                        <label class="custom-control-label" for="ManualID">
+                            <small>手動編號</small>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="col-md-4">
@@ -49,7 +55,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 text-center">
                     {{-- 商品圖片 --}}
                     <div class="form-group row py-2">
                         <div id="preview-upload" class="col-md-12">
@@ -156,84 +162,67 @@
             
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                    
+            
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>
-                                    <label for="fundamentalPrice">基礎價格</label>
-                                </th>
-                                @foreach ($basicMaterials as $basicMaterial)
-                                    <th>
-                                        <label for="materialCoefficient{{ $loop->iteration }}">
-                                            {{ $basicMaterial->name }}比重<br>
-                                            價格：<span id="material_{{ $loop->iteration }}">{{ $basicMaterial->price }}</span>
-                                        </label>
-                                    </th>
-                                @endforeach
-                                <th><label for="retailPrice">零售單價</label></th>
+                                <th>編號</th>
+                                <th>原物料</th>
+                                <th>單價</th>
+                                <th>耗材比</th>
+                                <th>成本價</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input id="fundamentalPrice" name="fundamentalPrice" type="text" class="form-control" value="{{ $product->retailPrice ?? 0 }}" readonly>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input id="materialCoefficient1" name="materialCoefficient1" type="text" class="form-control" value="{{ $product->materialCoefficient1 ?? 0 }}" readonly>
-                                            
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input id="materialCoefficient2" name="materialCoefficient2" type="text" class="form-control" value="{{ $product->materialCoefficient2 ?? 0 }}" readonly>
-                                            
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input id="materialCoefficient3" name="materialCoefficient3" type="text" class="form-control" value="{{ $product->materialCoefficient3 ?? 0 }}" readonly>
-                                            
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input id="materialCoefficient4" name="materialCoefficient4" type="text" class="form-control" value="{{ $product->materialCoefficient4 ?? 0 }}" readonly>
-                                            
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input id="materialCoefficient5" name="materialCoefficient5" type="text" class="form-control" value="{{ $product->materialCoefficient5 ?? 0 }}" readonly>
-                                            
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input id="retailPrice" name="retailPrice" type="text" class="form-control" value="{{ $product->retailPrice ?? 0 }}" readonly>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                            @foreach ($recipes as $recipe)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $recipe->name }}</td>
+                                    <td>
+                                        <input id="unitPrice_{{ $loop->iteration }}" type="text" class="form-control mr-2" value="{{ $recipe->unitPrice }}" disabled style="width:60%;display:inline-block;">
+                                        <span> 元 / {{ ($recipe->unit == 1) ? '公斤' : '公噸' }}</span>
+                                    </td>
+                                    <td>
+                                        <input id="raito_{{ $loop->iteration }}" type="text" class="form-control" value="{{ $recipe->pivot->ratio }}" disabled>
+                                    </td>
+                                    <td>
+                                        <input id="subcost_{{ $loop->iteration }}" type="text" class="form-control" value="{{ $recipe->pivot->subcost }}" disabled>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
             
+                    <hr>
+            
+                    <div class="row">
+            
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="totalCost">總成本價</label>
+                                <input id="totalCost" name="totalCost" type="text" class="form-control mb-2" value="{{ $product->costprice }}" readonly>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="profit">
+                                    <span class="text-danger mr-2">*</span>利潤
+                                </label>
+            
+                                <input id="profit" name="profit" type="text" class="form-control mb-2" value="{{ $product->profit }}" readonly>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="retailPrice">零售價</label>
+                                <input id="retailPrice" name="retailPrice" type="text" class="form-control" value="{{ $product->retailPrice }}" readonly>
+                            </div>
+                        </div>
+            
+                    </div>
+                    
                 </div>
             </div>
             
