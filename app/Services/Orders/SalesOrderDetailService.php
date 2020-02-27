@@ -20,6 +20,7 @@ class SalesOrderDetailService extends BaseService
 
     public function __construct(){
         //act 1.訂單新增 2.訂單修改 3.訂單刪除
+        // 15.退貨單細項新增 16.退貨單細項修改 17.退貨單細項刪除
         $this->ProductLogService = new ProductLogService();
     }
 
@@ -33,6 +34,13 @@ class SalesOrderDetailService extends BaseService
         $total_unTax = 0;
         $count = 0;
 
+        // 判斷是出貨還退貨
+        if($saleOrder->status == 1){
+            $status = 1;
+        }else{
+            $status = 15;
+        }
+
         foreach($data as $obj){
             $count++;
 
@@ -40,7 +48,7 @@ class SalesOrderDetailService extends BaseService
             $quantity = $obj['quantity'];
             $subTotal = round($obj['price'] * $obj['discount'] * $quantity, 4);
             $total_unTax += $subTotal;
-            $this->ProductLogService->add($user_id, $product_id, 1, $quantity);
+            $this->ProductLogService->add($user_id, $product_id, $status, $quantity);
 
             $saleOrderDetail = SalesOrderDetailEloquent::create([
                 'sales_order_id' => $s_id,
@@ -68,9 +76,12 @@ class SalesOrderDetailService extends BaseService
                 $add_price = $total_unTax;
             }
             $saleOrder->save();
-            $saleOrder->consumer->uncheckedAmount += $add_price;
-            $saleOrder->consumer->totalConsumption += $add_price;
-            $saleOrder->consumer->save();
+            if($saleOrder->status == 1){
+                $saleOrder->consumer->uncheckedAmount += $add_price;
+                $saleOrder->consumer->totalConsumption += $add_price;
+                $saleOrder->consumer->save();
+            }
+
 
             $msg = [
                 'messenge' => "銷貨單編號：$s_id 新增成功，共有 $count 筆原物料儲存成功。",
@@ -139,10 +150,17 @@ class SalesOrderDetailService extends BaseService
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
 
-            $saleOrder->consumer->uncheckedAmount += $subTotal_tax - $orig_subtotal_tax;
-            $saleOrder->consumer->save();
+            // 判斷是出貨還退貨
+            if($saleOrder->status == 1){
+                $status = 2;
+                $saleOrder->consumer->uncheckedAmount += $subTotal_tax - $orig_subtotal_tax;
+                $saleOrder->consumer->save();
+            }else{
+                $status = 16;
+            }
 
-            $this->ProductLogService->add($user_id, $product_id, 2, $quantity);
+
+            $this->ProductLogService->add($user_id, $product_id, $status, $quantity);
             $msg = [
                 'messenge' => "更新成功。",
                 'status' => 'OK'
@@ -181,10 +199,18 @@ class SalesOrderDetailService extends BaseService
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
 
-            $saleOrder->consumer->uncheckedAmount -= $subTotal_tax;
-            $saleOrder->consumer->totalConsumption -= $subTotal_tax;
-            $saleOrder->consumer->save();
-            $this->ProductLogService->add($user_id, $product_id, 3, 0);
+
+            // 判斷是出貨還退貨
+            if($saleOrder->status == 1){
+                $status = 3;
+                $saleOrder->consumer->uncheckedAmount -= $subTotal_tax;
+                $saleOrder->consumer->totalConsumption -= $subTotal_tax;
+                $saleOrder->consumer->save();
+            }else{
+                $status = 17;
+            }
+
+            $this->ProductLogService->add($user_id, $product_id, $status, 0);
             $details->delete();
             $msg = [
                 'messenge'=>"刪除成功。",

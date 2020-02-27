@@ -44,6 +44,7 @@ class SalesOrderService extends BaseService
 
             'comment' => $request->comment,
             'taxType' => $request->taxType,
+            'status' => $request->status,
             'invoiceType' => $request->invoiceType,
             'address' => $request->address,
         ]);
@@ -82,6 +83,7 @@ class SalesOrderService extends BaseService
 
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
+                'status' => $request->status,
                 'invoiceType' => $request->invoiceType,
                 'address' => $request->address,
             ]);
@@ -98,6 +100,7 @@ class SalesOrderService extends BaseService
 
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
+                'status' => $request->status,
                 'invoiceType' => $request->invoiceType,
                 'address' => $request->address,
             ]);
@@ -120,6 +123,7 @@ class SalesOrderService extends BaseService
 
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
+                'status' => $request->status,
                 'invoiceType' => $request->invoiceType,
                 'address' => $request->address,
             ]);

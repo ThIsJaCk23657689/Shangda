@@ -25,7 +25,7 @@ class SalesOrderRequest extends FormRequest
     {
         return [
             'consumer_id' => 'required|exists:consumers,id',
-            
+
             'expectPay_at' => 'required|date',
             'paid_at' => 'nullable|date',
             'expectDeliver_at' => 'required|date',
@@ -40,6 +40,7 @@ class SalesOrderRequest extends FormRequest
 
             'comment' => 'nullable|string|max:255',
             'taxType' => 'required|min:1|max:6',
+            'status' => 'required|min:1|max:2',
             'invoiceType' => 'required|min:1|max:5',
             'address' => 'nullable|string|max:255',
         ];
