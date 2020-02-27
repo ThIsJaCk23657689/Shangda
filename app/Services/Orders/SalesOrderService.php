@@ -34,7 +34,7 @@ class SalesOrderService extends BaseService
             // 'paid_at' => $request->paid_at,
             'expectDeliver_at' => $request->expectDeliver_at,
             // 'delivered_at' => $request->delivered_at,
-            // 'makeInvoice_at' => $request->makeInvoice_at,
+            'makeInvoice_at' => $request->makeInvoice_at,
 
             // 'paidAmount' => $request->paidAmount,
             // 'unpaidAmount' => $request->unpaidAmount,
@@ -57,7 +57,7 @@ class SalesOrderService extends BaseService
 
     public function getList()
     {
-        $saleOrders = SalesOrderEloquent::get();
+        $saleOrders = SalesOrderEloquent::where('status', 1)->get();
         return $saleOrders;
     }
 
@@ -144,7 +144,7 @@ class SalesOrderService extends BaseService
 
     public function getlastupdate()
     {
-        $saleOrder = SalesOrderEloquent::orderBy('id', 'DESC')->first();
+        $saleOrder = SalesOrderEloquent::where('status', 1)->orderBy('id', 'DESC')->first();
         if(!empty($saleOrder)){
             return $saleOrder->updated_at;
         }
@@ -247,7 +247,7 @@ class SalesOrderService extends BaseService
         $saleOrder = $this->getOne($saleOrder_id);
 
         if($saleOrder){
-            // 確認付款 unpaidAmount piadAmount
+            // 確認付款 unpaidAmount paidAmount
             $saleOrder->paid_at = NULL;
 
             $totalTaxPrice = $saleOrder->totalTaxPrice;

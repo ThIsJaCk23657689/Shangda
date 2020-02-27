@@ -20,7 +20,7 @@ class SalesOrderDetailService extends BaseService
 
     public function __construct(){
         //act 1.訂單新增 2.訂單修改 3.訂單刪除
-        // 15.退貨單細項新增 16.退貨單細項修改 17.退貨單細項刪除
+        // 13.退貨單細項新增 14.退貨單細項修改 15.退貨單細項刪除
         $this->ProductLogService = new ProductLogService();
     }
 
@@ -38,7 +38,7 @@ class SalesOrderDetailService extends BaseService
         if($saleOrder->status == 1){
             $status = 1;
         }else{
-            $status = 15;
+            $status = 13;
         }
 
         foreach($data as $obj){
@@ -156,7 +156,7 @@ class SalesOrderDetailService extends BaseService
                 $saleOrder->consumer->uncheckedAmount += $subTotal_tax - $orig_subtotal_tax;
                 $saleOrder->consumer->save();
             }else{
-                $status = 16;
+                $status = 14;
             }
 
 
@@ -207,7 +207,7 @@ class SalesOrderDetailService extends BaseService
                 $saleOrder->consumer->totalConsumption -= $subTotal_tax;
                 $saleOrder->consumer->save();
             }else{
-                $status = 17;
+                $status = 15;
             }
 
             $this->ProductLogService->add($user_id, $product_id, $status, 0);

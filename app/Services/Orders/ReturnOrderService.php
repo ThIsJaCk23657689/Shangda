@@ -16,7 +16,7 @@ class ReturnOrderService extends BaseService
 
     public function __construct()
     {
-        //11.確認退貨 12.取消退貨 13.確認退款 14.取消退款
+        //11.確認退貨退款 12.取消退貨退款
         $this->ProductLogService = new ProductLogService();
         $this->NotificationService = new NotificationService();
     }
@@ -31,10 +31,10 @@ class ReturnOrderService extends BaseService
             'user_id' => Auth::id(),
             'last_user_id' => Auth::id(),
             'expectPay_at' => $request->expectPay_at,
-            // 'paid_at' => $request->paid_at,
+            'paid_at' => $request->paid_at,
             'expectDeliver_at' => $request->expectDeliver_at,
-            // 'delivered_at' => $request->delivered_at,
-            // 'makeInvoice_at' => $request->makeInvoice_at,
+            'delivered_at' => $request->delivered_at,
+            'makeInvoice_at' => $request->makeInvoice_at,
 
             // 'paidAmount' => $request->paidAmount,
             // 'unpaidAmount' => $request->unpaidAmount,
@@ -57,7 +57,7 @@ class ReturnOrderService extends BaseService
 
     public function getList()
     {
-        $saleOrders = SalesOrderEloquent::get();
+        $saleOrders = SalesOrderEloquent::where('status', 2)->get();
         return $saleOrders;
     }
 
@@ -144,7 +144,7 @@ class ReturnOrderService extends BaseService
 
     public function getlastupdate()
     {
-        $saleOrder = SalesOrderEloquent::orderBy('id', 'DESC')->first();
+        $saleOrder = SalesOrderEloquent::where('status', 2)->orderBy('id', 'DESC')->first();
         if(!empty($saleOrder)){
             return $saleOrder->updated_at;
         }
@@ -267,6 +267,29 @@ class ReturnOrderService extends BaseService
     //         return 'Sale Order Not Found';
     //     }
     // }
+
+    // 確認退款(totalTaxPrice 月結客戶直接從uncheckedAmount減 totalConsumption也要減)退貨
+    public function returnAndRefund($id){
+        $returnOrder = $this->getOne($id);
+        $returnOrderDetails = $returnOrder->details();
+        foreach($returnOrderDetails as $detail){
+            $product = ProductEloquent::findOrFail($detail->product_id);
+            $product->quantity = $product->quantity + $detail->quantity;
+            $product->save();
+            $this->ProductLogService->add(Auth::id(), $detail->product_id, 11, $detail->quantity);
+        }
+        // 月結客戶
+        if($returnOrder->consumer->monthlyCheckDate != 0){
+            $returnOrder->consumer->uncheckedAmount -= $returnOrder->totalTaxPrice;
+            $returnOrder->consumer->totalConsumption -= $returnOrder->totalConsumption;
+            $returnOrder->consumer->save();
+        }else{
+            // 非月結客戶 直接現場退費
+            $returnOrder->consumer->totalConsumption -= $returnOrder->totalConsumption;
+            $returnOrder->consumer->save();
+        }
+
+    }
 
     public function generateShownID(){
         $today = Carbon::today()->toDateTimeString();   //2019-12-26 00:00:00

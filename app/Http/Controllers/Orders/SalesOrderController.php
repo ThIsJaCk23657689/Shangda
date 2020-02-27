@@ -25,11 +25,18 @@ class SalesOrderController extends Controller
         $this->ReturnOrderService = new ReturnOrderService();
     }
 
-    public function index()
+    public function index($status)
     {
-        $salesOrders = $this->SalesOrderService->getList();
-        $lastUpdate = $this->SalesOrderService->getlastupdate();
-        return view('salesOrders.index', compact('salesOrders', 'lastUpdate'));
+        if($status == 1){
+            $salesOrders = $this->SalesOrderService->getList();
+            $lastUpdate = $this->SalesOrderService->getlastupdate();
+            return view('salesOrders.index', compact('salesOrders', 'lastUpdate'));
+        }else{
+            $returnOrders = $this->ReturnOrderService->getList();
+            $lastUpdate = $this->ReturnOrderService->getlastupdate();
+            return view('returnOrders.index', compact('returnOrders', 'lastUpdate'));
+        }
+
     }
 
     /**
@@ -37,9 +44,16 @@ class SalesOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(){
-        $new_shownID = $this->SalesOrderService->generateShownID();
-        return view('salesOrders.create', compact('new_shownID'));
+    public function create($status){
+
+        if($status == 1){
+            $new_shownID = $this->SalesOrderService->generateShownID();
+            return view('salesOrders.create', compact('new_shownID'));
+        }else{
+            $new_shownID = $this->ReturnOrderService->generateShownID();
+            return view('returnOrders.create', compact('new_shownID'));
+        }
+
     }
 
     /**
@@ -76,10 +90,15 @@ class SalesOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $status)
     {
         $salesOrder = $this->SalesOrderService->getOne($id);
-        return view('salesOrders.show', compact('salesOrder'));
+        if($status == 1){
+            return view('salesOrders.show', compact('salesOrder'));
+        }else{
+            return view('returnOrders.show', compact('salesOrder'));
+        }
+
     }
 
     /**
@@ -88,10 +107,14 @@ class SalesOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $status)
     {
         $salesOrder = $this->SalesOrderService->getOne($id);
-        return view('salesOrders.edit', compact('salesOrder'));
+        if($status == 1){
+            return view('salesOrders.edit', compact('salesOrder'));
+        }else{
+            return view('returnOrders.edit', compact('salesOrder'));
+        }
     }
 
     /**
