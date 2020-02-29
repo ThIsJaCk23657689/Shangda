@@ -25,17 +25,11 @@ class SalesOrderController extends Controller
         $this->ReturnOrderService = new ReturnOrderService();
     }
 
-    public function index($status)
+    public function index()
     {
-        if($status == 1){
-            $salesOrders = $this->SalesOrderService->getList();
+        $salesOrders = $this->SalesOrderService->getList();
             $lastUpdate = $this->SalesOrderService->getlastupdate();
             return view('salesOrders.index', compact('salesOrders', 'lastUpdate'));
-        }else{
-            $returnOrders = $this->ReturnOrderService->getList();
-            $lastUpdate = $this->ReturnOrderService->getlastupdate();
-            return view('returnOrders.index', compact('returnOrders', 'lastUpdate'));
-        }
 
     }
 
@@ -44,15 +38,11 @@ class SalesOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($status){
+    public function create($status)
+    {
 
-        if($status == 1){
-            $new_shownID = $this->SalesOrderService->generateShownID();
-            return view('salesOrders.create', compact('new_shownID'));
-        }else{
-            $new_shownID = $this->ReturnOrderService->generateShownID();
-            return view('returnOrders.create', compact('new_shownID'));
-        }
+        $new_shownID = $this->SalesOrderService->generateShownID();
+        return view('salesOrders.create', compact('new_shownID'));
 
     }
 
@@ -62,26 +52,14 @@ class SalesOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SalesOrderRequest $request){
-        $status = $request->status;
-
-        //出貨單
-        if($status == 1){
-            $salesOrder = $this->SalesOrderService->add($request);
+    public function store(SalesOrderRequest $request)
+    {
+        $salesOrder = $this->SalesOrderService->add($request);
             return response()->json([
                 'salesOrder_id' => $salesOrder->id,
                 'massenge' => '單號' . $salesOrder->shown_id . '建立成功。',
                 'status' => 'OK'
             ]);
-        }else{ //退貨單
-            $returnOrder = $this->ReturnOrderService->add($request);
-            return response()->json([
-                'salesOrder_id' => $returnOrder->id,
-                'massenge' => '單號' . $returnOrder->shown_id . '建立成功。',
-                'status' => 'OK'
-            ]);
-        }
-
     }
 
     /**
@@ -90,15 +68,10 @@ class SalesOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $status)
+    public function show($id)
     {
         $salesOrder = $this->SalesOrderService->getOne($id);
-        if($status == 1){
-            return view('salesOrders.show', compact('salesOrder'));
-        }else{
-            return view('returnOrders.show', compact('salesOrder'));
-        }
-
+        return view('salesOrders.show', compact('salesOrder'));
     }
 
     /**
@@ -107,14 +80,10 @@ class SalesOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, $status)
+    public function edit($id)
     {
         $salesOrder = $this->SalesOrderService->getOne($id);
-        if($status == 1){
-            return view('salesOrders.edit', compact('salesOrder'));
-        }else{
-            return view('returnOrders.edit', compact('salesOrder'));
-        }
+        return view('salesOrders.edit', compact('salesOrder'));
     }
 
     /**
@@ -127,12 +96,7 @@ class SalesOrderController extends Controller
     public function update(SalesOrderRequest $request, $id)
     {
         $status = $request->status;
-        //出貨單
-        if($status == 1){
-            $salesOrder = $this->SalesOrderService->update($request, $id);
-        }else{ //退貨單
-            $returnOrder = $this->ReturnOrderService->update($request, $id);
-        }
+        $salesOrder = $this->SalesOrderService->update($request, $id);
 
         return redirect()->route('salesOrders.show', [$id]);
     }
@@ -143,19 +107,12 @@ class SalesOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $status)
+    public function destroy($id)
     {
-        //出貨單
-        if($status == 1){
-            $this->SalesOrderService->delete($id);
-        }else{ //退貨單
-            $this->ReturnOrderService->delete($id);
-        }
-
+        $this->SalesOrderService->delete($id);
         return redirect()->route('salesOrders.index');
     }
 
-    // 以下出貨單用
     public function delivered(Request $request){
         $msg = $this->SalesOrderService->delivered($request);
         return response()->json($msg, 200);
@@ -172,4 +129,5 @@ class SalesOrderController extends Controller
         $msg = $this->SalesOrderService->paymentCancel($request);
         return response()->json($msg, 200);
     }
+
 }

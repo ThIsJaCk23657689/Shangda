@@ -19,6 +19,7 @@ class CreateNotificationsTable extends Migration
             // 0 => 未分類
             // 1 => (新建銷貨單通知); 2 => (原物料庫存低於安全庫存通知); 3 => (月結日期到結帳通知);
             // 4 => (原物料進貨單逾期未到貨通知)； 5 => (預計出貨未出貨通知)； 6 => (商品庫存低於安全庫存通知)
+            // 7 => (通知月結客戶已確認退款)
             $table->integer('type')->default(0)->comment('通知類型');
             // 0 => 未讀; 1 => 已讀
             $table->integer('status')->default(0)->comment('通知狀態');

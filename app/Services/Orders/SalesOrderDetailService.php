@@ -6,6 +6,7 @@ use App\Services\BaseService;
 use App\Services\Logs\ProductLogService;
 use App\SalesOrderDetail as SalesOrderDetailEloquent;
 use App\SalesOrder as SalesOrderEloquent;
+use App\Product as ProductEloquent;
 use Auth;
 
 class SalesOrderDetailService extends BaseService
@@ -60,6 +61,7 @@ class SalesOrderDetailService extends BaseService
                 'subTotal' => $subTotal,
                 'comment' => $obj['comment'],
             ]);
+
         }
         if($saleOrderDetail){
             $add_price = 0;

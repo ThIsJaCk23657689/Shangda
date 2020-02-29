@@ -104,8 +104,10 @@ Route::prefix('/backend')->group(function(){
         Route::delete('destroy', 'Orders\SalesOrderDetailController@destroy')->name('sales.details.destroy');
     });
 
-    // 退貨單管理路由
+    // 退貨單管理路由 refundConfirm
     Route::resource('/orders/return', 'Orders\ReturnOrderController');
+    // 確認退款
+    Route::patch('/orders/return/refundConfirm', 'Orders\ReturnOrderController@refundConfirm')->name('return.refundConfirm');
     // 退貨單細項資料管理路由
     Route::prefix('/orders/return/details')->group(function(){
 
