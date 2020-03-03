@@ -20,7 +20,7 @@
 		<span id="getConsumersName" style="display: none;">{{ route('consumers.showName') }}</span>
 		<span id="getConsumerInfo" style="display: none;">{{ route('consumers.getInfo') }}</span>
 
-		<span id="getProductssName" style="display: none;">{{ route('products.showName') }}</span>
+		<span id="getProductsName" style="display: none;">{{ route('products.showName') }}</span>
 		<span id="getProductInfo" style="display: none;">{{ route('products.getInfo') }}</span>
 
 		<span id="createConsumer" style="display: none;">{{ route('consumers.store') }}</span>

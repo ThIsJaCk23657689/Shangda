@@ -20,6 +20,7 @@
 			<div class="dropdown-divider"></div>
 			<h6 class="dropdown-header">{{ __('Related:') }}</h6>
 			<a class="dropdown-item" href="{{ route('jobtitles.index') }}">{{ __('Job Titles') }}</a>
+			<a class="dropdown-item" href="{{ route('discounts.index') }}">{{ __('Discounts') }}</a>
 		</div>
 	</li>
 

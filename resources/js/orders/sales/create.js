@@ -30,13 +30,13 @@ const app = new Vue({
     },
     created(){
         let getConsumersName = $('#getConsumersName').html();
-        let getProductssName = $('#getProductssName').html();
+        let getProductsName = $('#getProductsName').html();
 
         axios.get(getConsumersName).then(response => {
             this.consumers = response.data;
         });
 
-        axios.get(getProductssName).then(response => {
+        axios.get(getProductsName).then(response => {
             this.products = response.data;
         });
     }

@@ -4,7 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 use App\SaleOrder as SaleOrderEloquent;
+use App\Product as ProductEloquent;
 
 class Consumer extends Model
 {
@@ -23,5 +25,10 @@ class Consumer extends Model
 
     public function saleOrder(){
         return $this->hasMany(SaleOrderEloquent::class);
+    }
+
+    // 抓取此顧客有優惠的商品
+    public function products(){
+        return $this->belongsToMany(ProductEloquent::class, 'discounts')->withPivot('price');
     }
 }

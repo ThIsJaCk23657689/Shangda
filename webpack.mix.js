@@ -30,6 +30,12 @@ mix.js('resources/js/backend.js', 'public/js')
    .js('resources/js/orders/sales/create.js', 'public/js/orders/sales')
    .js('resources/js/orders/sales/index.js', 'public/js/orders/sales')
    .js('resources/js/consumers/create.js', 'public/js/consumers')
+
+   .js('resources/js/discounts/index.js', 'public/js/discounts')
+   .js('resources/js/discounts/edit-consumer.js', 'public/js/discounts')
+   .js('resources/js/discounts/edit-product.js', 'public/js/discounts')
+
+
    .js('resources/js/products/create.js', 'public/js/products')
    .js('resources/js/produces/create.js', 'public/js/produces')
    

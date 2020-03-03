@@ -37,7 +37,7 @@
 					<thead>
 						<tr>
 							<th>編號</th>
-							<th>姓名</th>
+							<th>名稱</th>
 							<th>統一編號</th>
 							<th>聯絡人名稱</th>
 							<th>聯絡人電話</th>

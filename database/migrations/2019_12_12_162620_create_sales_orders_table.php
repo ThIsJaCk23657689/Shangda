@@ -35,7 +35,7 @@ class CreateSalesOrdersTable extends Migration
 
             $table->text('comment')->nullable()->comment('備註');
             $table->integer('taxType')->default(1)->comment('稅別'); //1~6
-            $table->integer('status ')->default(1)->comment('單別'); //1 => 銷貨單(出貨單), 2 => 退貨單
+            $table->integer('status')->default(1)->comment('單別'); //1 => 銷貨單(出貨單), 2 => 退貨單
             $table->integer('invoiceType')->default(1)->comment('發票類型'); //1~5
             $table->string('address')->nullable()->comment('地址');
             $table->timestamps();

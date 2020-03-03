@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -793,47 +793,6 @@ var app = new Vue({
       }
     }
 
-    $('#fundamentalPrice').change(function () {
-      $.isFloatOrInt($(this));
-      caluatedRetailPrice();
-    });
-    $('#materialCoefficient1').change(function () {
-      $.isFloatOrInt($(this));
-      caluatedRetailPrice();
-    });
-    $('#materialCoefficient2').change(function () {
-      $.isFloatOrInt($(this));
-      caluatedRetailPrice();
-    });
-    $('#materialCoefficient3').change(function () {
-      $.isFloatOrInt($(this));
-      caluatedRetailPrice();
-    });
-    $('#materialCoefficient4').change(function () {
-      $.isFloatOrInt($(this));
-      caluatedRetailPrice();
-    });
-    $('#materialCoefficient5').change(function () {
-      $.isFloatOrInt($(this));
-      caluatedRetailPrice();
-    });
-
-    function caluatedRetailPrice() {
-      var fp = parseFloat($('#fundamentalPrice').val());
-      var mc1 = parseFloat($('#materialCoefficient1').val());
-      var mc2 = parseFloat($('#materialCoefficient2').val());
-      var mc3 = parseFloat($('#materialCoefficient3').val());
-      var mc4 = parseFloat($('#materialCoefficient4').val());
-      var mc5 = parseFloat($('#materialCoefficient5').val());
-      var mp1 = parseFloat($('#material_1').html());
-      var mp2 = parseFloat($('#material_2').html());
-      var mp3 = parseFloat($('#material_3').html());
-      var mp4 = parseFloat($('#material_4').html());
-      var mp5 = parseFloat($('#material_5').html());
-      var rp = fp + mc1 * mp1 + mc2 * mp2 + mc3 * mp3 + mc4 * mp4 + mc5 * mp5;
-      $('#retailPrice').val(rp);
-    }
-
     function genereateProductID() {
       // 取得商品規格 (例如：兩斤、半斤、四兩)
       var specification = $('#specification').val();
@@ -997,7 +956,7 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 12:
+/***/ 15:
 /*!***********************************************!*\
   !*** multi ./resources/js/products/create.js ***!
   \***********************************************/

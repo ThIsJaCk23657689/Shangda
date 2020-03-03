@@ -10,6 +10,7 @@ use App\Material as MaterialEloquent;
 use App\Category as CategoryEloquent;
 use App\Produce as ProduceEloquent;
 use App\ProductLog as ProductLogEloquent;
+use App\Consumer as ConsumerEloquent;
 
 use URL;
 
@@ -33,6 +34,7 @@ class Product extends Model
         'isCustomize' => 'boolean',
     ];
 
+    // 抓取此商品的圖片() 多型一對多關聯 (系統設定一個商品最多就5張圖片)
     public function pictures(){
         return $this->morphMany(PictureEloquent::class, 'pictureable');
     }
@@ -40,6 +42,11 @@ class Product extends Model
     // 抓取此商品的所有成分(原物料)
     public function materials(){
         return $this->belongsToMany(MaterialEloquent::class, 'product_recipes')->withPivot('ratio', 'subcost');
+    }
+
+    // 抓取擁有此商品優貨的顧客們
+    public function consumers(){
+        return $this->belongsToMany(ConsumerEloquent::class, 'discounts')->withPivot('price');
     }
 
     public function category(){

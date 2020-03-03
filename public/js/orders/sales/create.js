@@ -1809,11 +1809,11 @@ var app = new Vue({
     var _this2 = this;
 
     var getConsumersName = $('#getConsumersName').html();
-    var getProductssName = $('#getProductssName').html();
+    var getProductsName = $('#getProductsName').html();
     axios.get(getConsumersName).then(function (response) {
       _this2.consumers = response.data;
     });
-    axios.get(getProductssName).then(function (response) {
+    axios.get(getProductsName).then(function (response) {
       _this2.products = response.data;
     });
   }

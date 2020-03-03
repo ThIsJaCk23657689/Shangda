@@ -20,7 +20,7 @@
     <div class="row mb-3">
         <div class="col-md-12">
             <a href="{{ route('purchase.create') }}" class="btn btn-md btn-primary">
-                <i class="fas fa-plus"></i>
+                <i class="fas fa-plus mr-2"></i>
                 新增進貨單
             </a>
         </div>
