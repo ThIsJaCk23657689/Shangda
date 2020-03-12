@@ -13,152 +13,138 @@
 	@endcomponent
 
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
 
-            <div class="form-group row">
-                <label for="name" class="col-md-4 col-form-label text-md-right">
-                    供應商名稱
-                </label>
-
-                <div class="col-md-6">
-                    <input id="name" type="text" class="form-control" name="name" value="{{ $supplier->name }}" disabled>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">供應商名稱</label>
+                        <input id="name" name="name" type="text" class="form-control mb-2" value="{{ $supplier->name }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="shortName">供應商簡稱</label>
+                        <input id="shortName" name="shortName" type="text" class="form-control mb-2" value="{{ $supplier->shortName }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="taxId">統一編號</label>
+                        <input id="taxId" name="taxId" type="text" class="form-control" value="{{ $supplier->taxId }}" readonly>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label for="shortName" class="col-md-4 col-form-label text-md-right">
-                    供應商簡稱
-                </label>
-
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="tel">電話</label>
+                        <input id="tel" type="text" class="form-control" name="tel" value="{{ $supplier->tel }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="tax">傳真</label>
+                        <input id="tax" type="text" class="form-control" name="tax" value="{{ $supplier->tax }}" readonly>
+                    </div>
+                </div>
                 <div class="col-md-6">
-                    <input id="shortName" type="text" class="form-control" name="shortName" value="{{ $supplier->shortName }}" disabled>
+                    <div class="form-group">
+                        <label>公司地址</label>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <input id="CompanyAddress_county" type="text" class="form-control" name="CompanyAddress_county" value="{{ $supplier->CompanyAddress_county }}" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <input id="CompanyAddress_district" type="text" class="form-control" name="CompanyAddress_district" value="{{ $supplier->CompanyAddress_district }}" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <input id="CompanyAddress_zipcode" type="text" class="form-control" name="CompanyAddress_zipcode" value="{{ $supplier->CompanyAddress_zipcode }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input id="CompanyAddress_others" type="text" class="form-control" name="CompanyAddress_others" value="{{ $supplier->CompanyAddress_others }}" readonly>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label for="taxId" class="col-md-4 col-form-label text-md-right">
-                    統一編號
-                </label>
-
-                <div class="col-md-6">
-                    <input id="taxId" type="text" class="form-control" name="taxId" value="{{ $supplier->taxId }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="tel" class="col-md-4 col-form-label text-md-right">電話</label>
-
-                <div class="col-md-6">
-                    <input id="tel" type="text" class="form-control" name="tel" value="{{ $supplier->tel }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="tax" class="col-md-4 col-form-label text-md-right">傳真</label>
-
-                <div class="col-md-6">
-                    <input id="tax" type="text" class="form-control" name="tax" value="{{ $supplier->tax }}" disabled>
-                </div>
-            </div>
-
+            
             <hr>
-
-            <div class="form-group row">
-                <label for="inCharge1" class="col-md-4 col-form-label text-md-right">
-                    負責人1 - 名稱
-                </label>
-
-                <div class="col-md-6">
-                    <input id="inCharge1" type="text" class="form-control" name="inCharge1" value="{{ $supplier->inCharge1 }}" disabled>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="inCharge1">負責人1 - 名稱</label>
+                        <input id="inCharge1" type="text" class="form-control" name="inCharge1" value="{{ $supplier->inCharge1 }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="tel1">負責人1 - 電話</label>
+                        <input id="tel1" type="text" class="form-control" name="tel1" value="{{ $supplier->tel1 }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="email1">負責人1 - 信箱</label>
+                        <input id="email1" type="email" class="form-control" name="email1" value="{{ $supplier->email1 }}" readonly>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label for="tel1" class="col-md-4 col-form-label text-md-right">
-                    負責人1 - 電話
-                </label>
-
-                <div class="col-md-6">
-                    <input id="tel1" type="text" class="form-control" name="tel1" value="{{ $supplier->tel1 }}" disabled>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="inCharge2">負責人2 - 名稱</label>
+                        <input id="inCharge2" type="text" class="form-control" name="inCharge2" value="{{ $supplier->inCharge2 }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="tel2">負責人2 - 電話</label>
+                        <input id="tel2" type="text" class="form-control" name="tel2" value="{{ $supplier->tel2 }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="email2">負責人2 - 信箱</label>
+                        <input id="email2" type="email" class="form-control" name="email2" value="{{ $supplier->email2 }}" readonly>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label for="email1" class="col-md-4 col-form-label text-md-right">負責人1 - 信箱</label>
-
-                <div class="col-md-6">
-                    <input id="email1" type="email" class="form-control" name="email1" value="{{ $supplier->email1 }}" disabled>
-                </div>
-            </div>
-
+            
             <hr>
-
-            <div class="form-group row">
-                <label for="inCharge2" class="col-md-4 col-form-label text-md-right">負責人2 - 名稱</label>
-
+            
+            <div class="row mb-4">
                 <div class="col-md-6">
-                    <input id="inCharge2" type="text" class="form-control" name="inCharge2" value="{{ $supplier->inCharge2 }}" disabled>
+                    <div class="form-group">
+                        <label for="comment">備註</label>
+                        <textarea id="comment" name="comment" type="text" class="form-control" readonly>{{ $supplier->comment }}</textarea>             
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="updated_at">最新更新時間</label>
+                        <input id="updated_at" type="text" class="form-control" name="updated_at" value="{{ $supplier->updated_at }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="created_at">建檔時間</label>
+                        <input id="created_at" type="text" class="form-control" name="created_at" value="{{ $supplier   ->created_at }}" readonly>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label for="tel2" class="col-md-4 col-form-label text-md-right">負責人2 - 電話</label>
-
-                <div class="col-md-6">
-                    <input id="tel2" type="text" class="form-control" name="tel2" value="{{ $supplier->tel2 }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="email2" class="col-md-4 col-form-label text-md-right">負責人2 - 信箱</label>
-
-                <div class="col-md-6">
-                    <input id="email2" type="email" class="form-control" name="email2" value="{{ $supplier->email2 }}" disabled>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="form-group row">
-                <label for="companyAddress" class="col-md-4 col-form-label text-md-right">
-                    公司地址
-                </label>
-
-                <div class="col-md-6">
-                    <input id="companyAddress" type="text" class="form-control" name="companyAddress" value="{{ $supplier->companyAddress }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="deliveryAddress" class="col-md-4 col-form-label text-md-right">
-                    送貨地址
-                </label>
-
-                <div class="col-md-6">
-                    <input id="deliveryAddress" type="text" class="form-control" name="deliveryAddress" value="{{ $supplier->deliveryAddress }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="invoiceAddress" class="col-md-4 col-form-label text-md-right">
-                    發票地址
-                </label>
-
-                <div class="col-md-6">
-                    <input id="invoiceAddress" type="text" class="form-control" name="invoiceAddress" value="{{ $supplier->invoiceAddress }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="comment" class="col-md-4 col-form-label text-md-right">備註</label>
-
-                <div class="col-md-6">
-                    <input id="comment" type="email" class="form-control" name="comment" value="{{ $supplier->comment }}" disabled>
-                </div>
-            </div>
-
+            
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
+                    <a href="{{ route('suppliers.edit', [$supplier->id]) }}" class="btn btn-block btn-success">
+                        <i class="fas fa-edit mr-1"></i>
+                        編輯資料
+                    </a>
                     <a href="{{ route('suppliers.index') }}" class="btn btn-block btn-danger">
                         返回列表
                     </a>

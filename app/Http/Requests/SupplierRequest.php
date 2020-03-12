@@ -38,9 +38,11 @@ class SupplierRequest extends FormRequest
             'tel2' => 'nullable|max:25|string',
             'email2' => 'nullable|max:100|email',
             
-            'companyAddress' => 'required|max:255|string',
-            'deliveryAddress' => 'required|max:255|string',
-            'invoiceAddress' => 'required|max:255|string',
+            'CompanyAddress_zipcode' => 'required|max:5|string',
+            'CompanyAddress_county' => 'required|max:10|string',
+            'CompanyAddress_district' => 'required|max:10|string',
+            'CompanyAddress_others' => 'required|max:255|string',
+
             'comment' => 'nullable|string',
         ];
     }

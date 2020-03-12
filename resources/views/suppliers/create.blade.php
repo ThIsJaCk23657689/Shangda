@@ -1,6 +1,7 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
+    <script src="{{ asset('vendor/jQuery-TWzipcode-master/jquery.twzipcode.min.js') }}" defer></script>
     <script src="{{ asset('js/suppliers/create.js') }}" defer></script>
 @endpush    
 
@@ -17,250 +18,207 @@
 	@endcomponent
 
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <form method="POST" action="{{ route('suppliers.store') }}">
                 @csrf
 
-                <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">
-                        <span class="text-danger">*</span>
-                        供應商名稱
-                    </label>
+                <div class="row">
 
-                    <div class="col-md-6">
-                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                        @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="name">
+                                <span class="text-danger mr-2">*</span>供應商名稱
+                            </label>
+                            <input id="name" name="name" type="text" class="form-control mb-2 @error('name') is-invalid @enderror" value="{{ old('name') }}" required autocomplete="off" autofocus>
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="shortName">供應商簡稱</label>
+
+                            <input id="shortName" name="shortName" type="text" class="form-control mb-2 @error('shortName') is-invalid @enderror" value="{{ old('shortName') }}" autocomplete="off">
+
+                            @error('shortName')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="taxId">統一編號</label>
+                            <input id="taxId" name="taxId" type="text" class="form-control @error('taxId') is-invalid @enderror" value="{{ old('taxId') }}" autocomplete="taxId">
+                            @error('taxId')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="form-group row">
-                    <label for="shortName" class="col-md-4 col-form-label text-md-right">供應商簡稱</label>
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="tel">電話</label>
+                            <input id="tel" type="text" class="form-control @error('tel') is-invalid @enderror" name="tel" value="{{ old('tel') }}" autocomplete="tel">
+                            @error('tel')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="tax">傳真</label>
+                            <input id="tax" type="text" class="form-control @error('tax') is-invalid @enderror" name="tax" value="{{ old('tax') }}" autocomplete="tax">
+                            @error('tax')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
 
                     <div class="col-md-6">
-                        <input id="shortName" type="text" class="form-control @error('shortName') is-invalid @enderror" name="shortName" value="{{ old('shortName') }}" autocomplete="shortName">
-
-                        @error('shortName')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div id="CompanyAddress_twzipcode" class="form-group">
+                            <label><span class="text-danger mr-2">*</span>公司地址</label>
+                            <div class="row mb-2">
+                                <div class="col-md-4">
+                                    <div data-role="county" data-style="form-control" data-name="CompanyAddress_county" data-value=""></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div data-role="district" data-style="form-control" data-name="CompanyAddress_district" data-value=""></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div data-role="zipcode" data-style="form-control" data-name="CompanyAddress_zipcode" data-value=""></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input id="CompanyAddress_others" type="text" class="form-control @error('CompanyAddress_others') is-invalid @enderror" name="CompanyAddress_others" value="{{ old('CompanyAddress_others') }}" autocomplete="off" required>
+                                    @error('CompanyAddress_others')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group row">
-                    <label for="taxId" class="col-md-4 col-form-label text-md-right">統一編號</label>
-
-                    <div class="col-md-6">
-                        <input id="taxId" type="text" class="form-control @error('taxId') is-invalid @enderror" name="taxId" value="{{ old('taxId') }}" autocomplete="taxId">
-
-                        @error('taxId')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="tel" class="col-md-4 col-form-label text-md-right">電話</label>
-
-                    <div class="col-md-6">
-                        <input id="tel" type="text" class="form-control @error('tel') is-invalid @enderror" name="tel" value="{{ old('tel') }}" autocomplete="tel">
-
-                        @error('tel')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="tax" class="col-md-4 col-form-label text-md-right">傳真</label>
-
-                    <div class="col-md-6">
-                        <input id="tax" type="text" class="form-control @error('tax') is-invalid @enderror" name="tax" value="{{ old('tax') }}" autocomplete="tax">
-
-                        @error('tax')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="form-group row">
-                    <label for="inCharge1" class="col-md-4 col-form-label text-md-right">
-                        <span class="text-danger">*</span>
-                        負責人1 - 名稱
-                    </label>
-
-                    <div class="col-md-6">
-                        <input id="inCharge1" type="text" class="form-control @error('inCharge1') is-invalid @enderror" name="inCharge1" value="{{ old('inCharge1') }}" autocomplete="inCharge1">
-
-                        @error('inCharge1')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="tel1" class="col-md-4 col-form-label text-md-right">
-                        <span class="text-danger">*</span>
-                        負責人1 - 電話
-                    </label>
-
-                    <div class="col-md-6">
-                        <input id="tel1" type="text" class="form-control @error('tel1') is-invalid @enderror" name="tel1" value="{{ old('tel1') }}" autocomplete="tel1">
-
-                        @error('tel1')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="email1" class="col-md-4 col-form-label text-md-right">負責人1 - 信箱</label>
-
-                    <div class="col-md-6">
-                        <input id="email1" type="email" class="form-control @error('email1') is-invalid @enderror" name="email1" value="{{ old('email1') }}" autocomplete="email1">
-
-                        @error('email1')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
                 </div>
 
                 <hr>
 
-                <div class="form-group row">
-                    <label for="inCharge2" class="col-md-4 col-form-label text-md-right">負責人2 - 名稱</label>
+                <div class="row">
 
-                    <div class="col-md-6">
-                        <input id="inCharge2" type="text" class="form-control @error('inCharge2') is-invalid @enderror" name="inCharge2" value="{{ old('inCharge2') }}" autocomplete="inCharge2">
-
-                        @error('inCharge2')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inCharge1"><span class="text-danger mr-2">*</span>負責人1 - 名稱</label>
+                            <input id="inCharge1" type="text" class="form-control @error('inCharge1') is-invalid @enderror" name="inCharge1" value="{{ old('inCharge1') }}" autocomplete="inCharge1" required>
+                            @error('inCharge1')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tel1"><span class="text-danger mr-2">*</span>負責人1 - 電話</label>
+                            <input id="tel1" type="text" class="form-control @error('tel1') is-invalid @enderror" name="tel1" value="{{ old('tel1') }}" autocomplete="tel1" required>
+                            @error('tel1')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="email1">負責人1 - 信箱</label>
+                            <input id="email1" type="email" class="form-control @error('email1') is-invalid @enderror" name="email1" value="{{ old('email1') }}" autocomplete="email1">
+                            @error('email1')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="form-group row">
-                    <label for="tel2" class="col-md-4 col-form-label text-md-right">負責人2 - 電話</label>
+                <div class="row">
 
-                    <div class="col-md-6">
-                        <input id="tel2" type="text" class="form-control @error('tel2') is-invalid @enderror" name="tel2" value="{{ old('tel2') }}" autocomplete="tel2">
-
-                        @error('tel2')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="inCharge2">負責人2 - 名稱</label>
+                            <input id="inCharge2" type="text" class="form-control @error('inCharge2') is-invalid @enderror" name="inCharge2" value="{{ old('inCharge2') }}" autocomplete="inCharge2">
+                            @error('inCharge2')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group row">
-                    <label for="email2" class="col-md-4 col-form-label text-md-right">負責人2 - 信箱</label>
-
-                    <div class="col-md-6">
-                        <input id="email2" type="email" class="form-control @error('email2') is-invalid @enderror" name="email2" value="{{ old('email2') }}" autocomplete="email2">
-
-                        @error('email2')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tel2">負責人2 - 電話</label>
+                            <input id="tel2" type="text" class="form-control @error('tel2') is-invalid @enderror" name="tel2" value="{{ old('tel2') }}" autocomplete="tel2">
+                            @error('tel2')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="email2">負責人2 - 信箱</label>
+                            <input id="email2" type="email" class="form-control @error('email2') is-invalid @enderror" name="email2" value="{{ old('email2') }}" autocomplete="email2">
+                            @error('email2')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
                 </div>
 
                 <hr>
 
-                <div class="form-group row">
-                    <label for="companyAddress" class="col-md-4 col-form-label text-md-right">
-                        <span class="text-danger">*</span>
-                        公司地址
-                    </label>
+                <div class="row mb-4">
 
-                    <div class="col-md-6">
-                        <input id="companyAddress" type="text" class="form-control @error('companyAddress') is-invalid @enderror" name="companyAddress" value="{{ old('companyAddress') }}" autocomplete="companyAddress" required>
-
-                        @error('companyAddress')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="comment">備註</label>
+                            <textarea id="comment" name="comment" type="text" class="form-control @error('comment') is-invalid @enderror">{{ old('comment') }}</textarea>
+                            @error('comment')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror                 
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group row">
-                    <label for="deliveryAddress" class="col-md-4 col-form-label text-md-right">
-                        <span class="text-danger">*</span>
-                        送貨地址
-                    </label>
-
-                    <div class="col-md-6">
-                        <input id="deliveryAddress" type="text" class="form-control @error('deliveryAddress') is-invalid @enderror" name="deliveryAddress" value="{{ old('deliveryAddress') }}" autocomplete="deliveryAddress" required>
-                        
-                        @error('deliveryAddress')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="copycompany1">
-                        <label class="form-check-label" for="copycompany1">同公司地址</label>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="invoiceAddress" class="col-md-4 col-form-label text-md-right">
-                        <span class="text-danger">*</span>
-                        發票地址
-                    </label>
-
-                    <div class="col-md-6">
-                        <input id="invoiceAddress" type="text" class="form-control @error('invoiceAddress') is-invalid @enderror" name="invoiceAddress" value="{{ old('invoiceAddress') }}" required autocomplete="invoiceAddress">
-
-                        @error('invoiceAddress')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="copycompany2">
-                        <label class="form-check-label" for="copycompany2">同公司地址</label>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="comment" class="col-md-4 col-form-label text-md-right">備註</label>
-
-                    <div class="col-md-6">
-                        <input id="comment" type="text" class="form-control @error('comment') is-invalid @enderror" name="comment" value="{{ old('comment') }}" autocomplete="comment">
-
-                        @error('comment')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
                 </div>
 
                 <div class="form-group row justify-content-center">
