@@ -24,9 +24,9 @@ class DiscountRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => 'required',
-            'consumer_id' => 'required',
-            'price' => 'nullable|min:0|numeric',
+            'discounts.*.product_id' => 'required|integer|exists:products,id',
+            'discounts.*.relativePrice' => 'required|numeric',
+            'discounts.*.absolutePirce' => 'nullable|numeric',
         ];
     }
 }

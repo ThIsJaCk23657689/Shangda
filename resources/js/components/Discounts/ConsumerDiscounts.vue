@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <form method="POST" action="">
+        <form id="editDiscountsForm" method="POST" action="#" v-on:submit.prevent="submitEditDisCountsForm">
             <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
@@ -77,13 +77,12 @@
 
 <script>
 export default {
-    props: ['products'],
+    props: ['products', 'discounts'],
     mounted() {
         console.log('ConsumerDiscounts.vue mounted.');
     },
     data(){
         return {
-            discounts: [],
             current_product: [],
         }
     },
@@ -187,7 +186,27 @@ export default {
                 alert('請選擇商品');
             }
         },
-    }
+
+        // 發送編輯折扣表單
+        submitEditDisCountsForm(){
+            if(this.discounts.length == 0){
+                alert('請先新增折扣商品!');
+            }else{
+                let url = $('#editDiscountsForm').attr('action');
+                let data = $('#editDiscountsForm').serialize();
+
+                // $('#LoadingModal').modal('show');
+                axios.post(url, data).then(response => {
+                    console.log(response);
+                    alert(response.data.msg);
+                }).catch((error) => {
+                    console.error('編輯折扣時發生錯誤，錯誤訊息：' + error);
+                    alert('編輯折扣時發生錯誤，錯誤訊息：' + error);
+                    // $('#LoadingModal').modal('hide');
+                });
+            }
+        }
+    },
 }
 </script>
 

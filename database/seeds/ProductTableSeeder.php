@@ -40,9 +40,9 @@ class ProductTableSeeder extends Seeder
                 ]);
             }
             
-            $product->costprice = $costprice;
+            $product->costprice = round($costprice, 4);
             $product->profit = $profit;
-            $product->retailPrice = $costprice + $profit;
+            $product->retailPrice = round($costprice + $profit, 4);
             $product->save();
         });
     }

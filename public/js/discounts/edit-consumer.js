@@ -173,13 +173,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['products'],
+  props: ['products', 'discounts'],
   mounted: function mounted() {
     console.log('ConsumerDiscounts.vue mounted.');
   },
   data: function data() {
     return {
-      discounts: [],
       current_product: []
     };
   },
@@ -279,6 +278,23 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         alert('請選擇商品');
       }
+    },
+    // 發送編輯折扣表單
+    submitEditDisCountsForm: function submitEditDisCountsForm() {
+      if (this.discounts.length == 0) {
+        alert('請先新增折扣商品!');
+      } else {
+        var url = $('#editDiscountsForm').attr('action');
+        var data = $('#editDiscountsForm').serialize(); // $('#LoadingModal').modal('show');
+
+        axios.post(url, data).then(function (response) {
+          console.log(response);
+          alert(response.data.msg);
+        })["catch"](function (error) {
+          console.error('編輯折扣時發生錯誤，錯誤訊息：' + error);
+          alert('編輯折扣時發生錯誤，錯誤訊息：' + error); // $('#LoadingModal').modal('hide');
+        });
+      }
     }
   }
 });
@@ -338,129 +354,141 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("form", { attrs: { method: "POST", action: "" } }, [
-        _c(
-          "table",
-          {
-            staticClass: "table table-bordered",
-            attrs: { width: "100%", cellspacing: "0" }
-          },
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.discounts, function(discount, index) {
-                return _c("tr", { key: index }, [
-                  _c("td", [_vm._v(_vm._s(discount.product.shownID))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      "\r\n                            " +
-                        _vm._s(discount.product.name) +
-                        "\r\n                            "
-                    ),
-                    _c("input", {
-                      attrs: {
-                        type: "hidden",
-                        name: "discounts[" + (index + 1) + "][product_id]"
-                      },
-                      domProps: { value: discount.product.id }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      staticClass: "form-control mr-2",
-                      staticStyle: { width: "50%", display: "inline-block" },
-                      attrs: {
-                        id: "costprice_" + (index + 1),
-                        type: "text",
-                        disabled: ""
-                      },
-                      domProps: { value: discount.product.costprice }
-                    }),
+      _c(
+        "form",
+        {
+          attrs: { id: "editDiscountsForm", method: "POST", action: "#" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.submitEditDisCountsForm($event)
+            }
+          }
+        },
+        [
+          _c(
+            "table",
+            {
+              staticClass: "table table-bordered",
+              attrs: { width: "100%", cellspacing: "0" }
+            },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.discounts, function(discount, index) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v(_vm._s(discount.product.shownID))]),
                     _vm._v(" "),
-                    _c("span", [
-                      _vm._v(" 元 / " + _vm._s(discount.product.showUnit))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      staticClass: "form-control mr-2",
-                      staticStyle: { width: "50%", display: "inline-block" },
-                      attrs: {
-                        id: "retailPrice_" + (index + 1),
-                        type: "text",
-                        disabled: ""
-                      },
-                      domProps: { value: discount.product.retailPrice }
-                    }),
+                    _c("td", [
+                      _vm._v(
+                        "\r\n                            " +
+                          _vm._s(discount.product.name) +
+                          "\r\n                            "
+                      ),
+                      _c("input", {
+                        attrs: {
+                          type: "hidden",
+                          name: "discounts[" + (index + 1) + "][product_id]"
+                        },
+                        domProps: { value: discount.product.id }
+                      })
+                    ]),
                     _vm._v(" "),
-                    _c("span", [
-                      _vm._v(" 元 / " + _vm._s(discount.product.showUnit))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "relativePrice_" + (index + 1),
-                        type: "text",
-                        name: "discounts[" + (index + 1) + "][relativePrice]"
-                      },
-                      domProps: { value: discount.relativePrice },
-                      on: {
-                        change: function($event) {
-                          return _vm.calculateAbsolutePirce(index + 1)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        id: "absolutePirce_" + (index + 1),
-                        type: "text",
-                        name: "discounts[" + (index + 1) + "][absolutePirce]"
-                      },
-                      domProps: { value: discount.absolutePirce },
-                      on: {
-                        change: function($event) {
-                          return _vm.calculateRelativePrice(index + 1)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-md btn-danger",
-                        attrs: { type: "button" },
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control mr-2",
+                        staticStyle: { width: "50%", display: "inline-block" },
+                        attrs: {
+                          id: "costprice_" + (index + 1),
+                          type: "text",
+                          disabled: ""
+                        },
+                        domProps: { value: discount.product.costprice }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(" 元 / " + _vm._s(discount.product.showUnit))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control mr-2",
+                        staticStyle: { width: "50%", display: "inline-block" },
+                        attrs: {
+                          id: "retailPrice_" + (index + 1),
+                          type: "text",
+                          disabled: ""
+                        },
+                        domProps: { value: discount.product.retailPrice }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(" 元 / " + _vm._s(discount.product.showUnit))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "relativePrice_" + (index + 1),
+                          type: "text",
+                          name: "discounts[" + (index + 1) + "][relativePrice]"
+                        },
+                        domProps: { value: discount.relativePrice },
                         on: {
-                          click: function($event) {
-                            return _vm.deleteDiscount(index)
+                          change: function($event) {
+                            return _vm.calculateAbsolutePirce(index + 1)
                           }
                         }
-                      },
-                      [_c("i", { staticClass: "far fa-trash-alt" })]
-                    )
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          id: "absolutePirce_" + (index + 1),
+                          type: "text",
+                          name: "discounts[" + (index + 1) + "][absolutePirce]"
+                        },
+                        domProps: { value: discount.absolutePirce },
+                        on: {
+                          change: function($event) {
+                            return _vm.calculateRelativePrice(index + 1)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-md btn-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteDiscount(index)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "far fa-trash-alt" })]
+                      )
+                    ])
                   ])
-                ])
-              }),
-              0
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _vm._m(1)
-      ])
+                }),
+                0
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _vm._m(1)
+        ]
+      )
     ])
   ])
 }
@@ -715,7 +743,9 @@ var app = new Vue({
     return {
       products: [],
       all_products: [],
-      products_disabled: []
+      products_disabled: [],
+      original_discounts: [],
+      discounts: []
     };
   },
   methods: {
@@ -766,6 +796,33 @@ var app = new Vue({
     axios.get(getProductsName).then(function (response) {
       _this.products = response.data;
       _this.all_products = _this.products;
+    }); // 取得折扣資料
+
+    var getDiscountsList = $('#getDiscountsList').html();
+    axios.get(getDiscountsList).then(function (response) {
+      _this.original_discounts = response.data.discounts; // 將　original_discounts　內的資料加入到　discounts　中
+
+      for (var i = 0; i < _this.original_discounts.length; i++) {
+        _this.refreshProducts({
+          id: _this.original_discounts[i].id - 1,
+          type: 'add'
+        });
+
+        _this.discounts.push({
+          count: _this.discounts.length,
+          product: {
+            id: _this.original_discounts[i].id,
+            shownID: _this.original_discounts[i].shownID,
+            name: _this.original_discounts[i].name,
+            costprice: Math.round(_this.original_discounts[i].costprice * 1000) / 1000,
+            profit: Math.round(_this.original_discounts[i].profit * 1000) / 1000,
+            retailPrice: Math.round(_this.original_discounts[i].retailPrice * 1000) / 1000,
+            showUnit: _this.original_discounts[i].showUnit
+          },
+          relativePrice: _this.original_discounts[i].pivot.price,
+          absolutePirce: Math.round((_this.original_discounts[i].retailPrice - _this.original_discounts[i].pivot.price) * 1000) / 1000
+        });
+      }
     });
   },
   mounted: function mounted() {}

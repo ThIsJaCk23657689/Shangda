@@ -13,7 +13,7 @@
 			<a href="#">{{ __('People Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Discounts') }}</a>
+			<a href="{{ route('discounts.index') }}">{{ __('Discounts') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Edit') }}</li>
     @endcomponent
@@ -21,6 +21,7 @@
     <div id="discounts">
 		<span id="getProductsName" style="display: none;">{{ route('products.showName') }}</span>
         <span id="getProductInfo" style="display: none;">{{ route('products.getInfo') }}</span>
+        <span id="getDiscountsList" style="display: none;">{{ route('consumers.getDiscountsList', [$consumer->id]) }}</span>
 
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -153,7 +154,7 @@
             </div>
         </div>
 
-        <consumer-discounts :products="products" v-on:refresh-products="refreshProducts"></consumer-discounts>
+        <consumer-discounts :products="products" :discounts="discounts" v-on:refresh-products="refreshProducts"></consumer-discounts>
 	</div>
 
 @endsection

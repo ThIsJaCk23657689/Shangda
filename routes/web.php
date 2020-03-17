@@ -69,6 +69,8 @@ Route::prefix('/backend')->group(function(){
         Route::post('getInfo','ConsumerController@getInfo')->name('consumers.getInfo');
 
         Route::get('{id}/discounts','ConsumerController@showDiscountsPage')->name('consumers.showDiscountsPage');
+        Route::post('{id}/discounts','ConsumerController@editDiscounts');
+        Route::get('{id}/discounts/list', 'ConsumerController@getDiscountsList')->name('consumers.getDiscountsList');
     });
     Route::resource('/consumers', 'ConsumerController');
     
