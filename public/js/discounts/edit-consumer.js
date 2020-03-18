@@ -179,7 +179,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      current_product: []
+      current_product: [],
+      discountsIndex: $('#discountsIndex').html()
     };
   },
   methods: {
@@ -486,7 +487,35 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(1)
+          _c("div", { staticClass: "form-group row justify-content-center" }, [
+            _c("div", { staticClass: "col-md-8" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-block btn-primary",
+                  attrs: { type: "submit" }
+                },
+                [
+                  _vm._v(
+                    "\r\n                        確認儲存\r\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-block btn-danger",
+                  attrs: { href: _vm.discountsIndex }
+                },
+                [
+                  _vm._v(
+                    "\r\n                        返回列表\r\n                    "
+                  )
+                ]
+              )
+            ])
+          ])
         ]
       )
     ])
@@ -512,37 +541,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("絕對價格")]),
         _vm._v(" "),
         _c("th", [_vm._v("操作")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-block btn-primary",
-            attrs: { type: "submit" }
-          },
-          [
-            _vm._v(
-              "\r\n                        確認儲存\r\n                    "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          { staticClass: "btn btn-block btn-danger", attrs: { href: "#" } },
-          [
-            _vm._v(
-              "\r\n                        返回列表\r\n                    "
-            )
-          ]
-        )
       ])
     ])
   }

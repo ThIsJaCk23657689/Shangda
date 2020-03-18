@@ -99,8 +99,8 @@
 								<td>{{ $product->retailPrice }}</td>
 								<td>{{ $product->consumers()->count() }}</td>
 								<td>
-									<a href="{{ route('consumers.showDiscountsPage', [$consumer->id]) }}" class="btn btn-md btn-success">
-										<i class="fas fa-edit mr-2"></i>
+									<a href="{{ route('products.showDiscountsPage', [$product->id]) }}" class="btn btn-md btn-success">
+										<i class="fas fa-edit"></i>
 										編輯
 									</a>
 								</td>

@@ -22,6 +22,7 @@
 		<span id="getProductsName" style="display: none;">{{ route('products.showName') }}</span>
         <span id="getProductInfo" style="display: none;">{{ route('products.getInfo') }}</span>
         <span id="getDiscountsList" style="display: none;">{{ route('consumers.getDiscountsList', [$consumer->id]) }}</span>
+        <span id="discountsIndex" style="display: none;">{{ route('discounts.index') }}</span>
 
         <div class="row justify-content-center">
             <div class="col-md-10">

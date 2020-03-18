@@ -93,7 +93,7 @@ class ConsumerController extends Controller
         ]);
 	}
 	
-	// 取得顧客的折扣資料
+	// 取得顧客的折扣資料 回傳JSON格式
 	public function getDiscountsList($id){
 		$comsumer = $this->ConsumerService->getOne($id);
 		$discounts = $comsumer->products()

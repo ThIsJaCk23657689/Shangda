@@ -44,6 +44,10 @@ Route::prefix('/backend')->group(function(){
     Route::prefix('/products')->group(function(){
         Route::get('showName','ProductController@showName')->name('products.showName');
         Route::post('getInfo','ProductController@getInfo')->name('products.getInfo');
+
+        Route::get('{id}/discounts','ProductController@showDiscountsPage')->name('products.showDiscountsPage');
+        Route::post('{id}/discounts','ProductController@editDiscounts');
+        Route::get('{id}/discounts/list', 'ProductController@getDiscountsList')->name('products.getDiscountsList');
     });
     Route::resource('/products', 'ProductController');
 

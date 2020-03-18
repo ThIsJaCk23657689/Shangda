@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\DiscountRequest;
 
 use App\Services\ProductService;
 use App\Services\CategoryService;
@@ -63,6 +64,51 @@ class ProductController extends Controller
     public function destroy($id){
         $this->ProductService->delete($id);
         return redirect()->route('products.index');
+    }
+
+    // 顯示此商品對應的折扣資料(有哪些顧客)
+    public function showDiscountsPage($id){
+        $product = $this->ProductService->getOne($id);
+        return view('discounts.edit.product', compact('product'));
+    }
+
+    // 編輯商品的折扣資訊
+    public function editDiscounts(DiscountRequest $request, $id){
+        $product = $this->ProductService->getOne($id);
+        
+        // 先將先前的所有折扣商品資料全數刪除
+        $product->consumers()->detach();
+
+        // 再新增目前的折扣資料
+        foreach($request->discounts as $discount){
+            $consumer_id = $discount['consumer_id'];
+            $price = $discount['relativePrice'];
+
+            if($price != 0){
+                $product->consumers()->attach($consumer_id, [
+                    'price' => $price,
+                ]);
+            }
+        }
+        return response()->json([
+            'status' => 'OK',
+            'msg' => '成功新增' . count($request->discounts) . '筆折扣資料。'
+        ]);
+    }
+
+    // 取得商品的折扣資料 回傳JSON格式
+    public function getDiscountsList($id){
+        $product = $this->ProductService->getOne($id);
+		$discounts = $product->consumers()
+			->select(['id', 'shownID', 'name', 'taxID', 'inCharge1', 'tel1'])
+			->get();
+
+		return response()->json([
+			'status' => 'OK',
+            'msg' => '成功取得商品編號' . $id . '的折扣資料。',
+            'discounts' => $discounts,
+            'retailPrice' => $product->retailPrice
+		]);
     }
 
     // ========== Response JSON ==========

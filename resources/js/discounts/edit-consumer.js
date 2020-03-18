@@ -58,7 +58,7 @@ const app = new Vue({
         // 取得折扣資料
         let getDiscountsList = $('#getDiscountsList').html();
         axios.get(getDiscountsList).then(response => {
-            this.original_discounts = response.data.discounts
+            this.original_discounts = response.data.discounts;
             
             // 將　original_discounts　內的資料加入到　discounts　中
             for(let i = 0; i < this.original_discounts.length; i++){
