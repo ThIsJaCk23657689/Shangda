@@ -18,7 +18,7 @@ class CreateConsumersTable extends Migration
             $table->bigIncrements('id')->comment('編號');
             // $table->unsignedBigInteger('discount_id')->comment('折扣編號');
 
-            $table->string('shownID')->unique()->comment('識別編號');
+            $table->string('shownID')->nullable()->unique()->comment('識別編號');
             $table->string('name')->comment('名稱');
             $table->string('act', 30)->unique()->comment('帳號');
             $table->string('pwd', 30)->comment('密碼');
@@ -41,7 +41,7 @@ class CreateConsumersTable extends Migration
             $table->string('deliveryAddress')->comment('送貨地址');
             $table->string('invoiceAddress')->comment('發票地址');
             $table->string('comment')->nullable()->comment('備註');
-            
+
             // 預設為0，代表是顧客自己創建(註冊) | 如果為1代表為管理者所創建。
             $table->boolean('account_type')->nullable()->default(0)->comment('帳號類型');
 

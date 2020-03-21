@@ -231,6 +231,9 @@ return [
 
         // Laravel Debugbar
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
+        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
+
     ],
 
 ];
