@@ -22,9 +22,9 @@ Route::post('register', 'ConsumerAuthController@register');//註冊
 
 // JWT 登入後
 Route::group(['middleware' => 'jwt'], function () {
-    //使用者自主重設密碼
+    // 使用者自主重設密碼
     Route::put('resetPassword', 'ConsumerAuthController@resetPassword');
-    //登出
-    Route::post('logout', 'ConsumerAuthController@logout');
 
+    // 登出
+    Route::post('logout', 'ConsumerAuthController@logout');
 });

@@ -19,13 +19,12 @@ class JwtAuthentication
     {
         try{
             JWTAuth::parseToken()->authenticate();
-        }
-        catch(JWTException $exception){
+        }catch(JWTException $exception){
             return response()->json([
                 'error' => '未登入',
-            ],401);
-        }
-
+            ], 403);
+        } 
+        
         return  $next($request);
     }
 

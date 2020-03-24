@@ -6,8 +6,8 @@ use Carbon\Carbon;
 
 class ConsumerAuthService extends BaseService
 {
-    public function register($request)
-    {
+    
+    public function register($request){
         if($request->pwd != $request->conf_pwd){
             return "兩次密碼不一致";
         }else{
@@ -38,7 +38,6 @@ class ConsumerAuthService extends BaseService
         }
 
     }
-
 
     public function login($request){
         $ex_time = Carbon::now()->addHour(5)->timestamp;
@@ -79,24 +78,24 @@ class ConsumerAuthService extends BaseService
         return $msg;
     }
 
-public function resetPassword($request){
-    $re = $request->all();
-    $token = JWTAuth::getToken();
-    $consumer = JWTAuth::toUser($token);
-    if ($re['new_pwd'] != $re['conf_pwd']) {
-        return $msg = "兩次密碼不一致";
-    } else {
-        if (password_verify($re['old_pwd'], $consumer->pwd)) {
-            $consumer->pwd = bcrypt($re['new_pwd']);
-            $consumer->save();
-            if (ConsumerEloquent::count() != 0)
-                return $msg = "重設密碼成功";
-            else
-                return $msg = "重設密碼失敗";
+    public function resetPassword($request){
+        $re = $request->all();
+        $token = JWTAuth::getToken();
+        $consumer = JWTAuth::toUser($token);
+        if ($re['new_pwd'] != $re['conf_pwd']) {
+            return $msg = "兩次密碼不一致";
         } else {
-            return $msg = "原本密碼錯誤";
+            if (password_verify($re['old_pwd'], $consumer->pwd)) {
+                $consumer->pwd = bcrypt($re['new_pwd']);
+                $consumer->save();
+                if (ConsumerEloquent::count() != 0)
+                    return $msg = "重設密碼成功";
+                else
+                    return $msg = "重設密碼失敗";
+            } else {
+                return $msg = "原本密碼錯誤";
+            }
         }
     }
-}
 
 }
