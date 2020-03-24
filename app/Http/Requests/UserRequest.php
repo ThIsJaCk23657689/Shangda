@@ -31,10 +31,10 @@ class UserRequest extends FormRequest
             'gender' => 'required|boolean',
             'birthday' => 'nullable|date',
 
-            'zipcode' => 'nullable|string|size:3',
-            'county' => 'nullable|string|max:10',
-            'district' => 'nullable|string|max:10',
-            'address' => 'nullable|string|max:255',
+            'address_zipcode' => 'nullable|string|size:3',
+            'address_county' => 'nullable|string|max:10',
+            'address_district' => 'nullable|string|max:10',
+            'address_others' => 'nullable|string|max:255',
         ];
     }
 }

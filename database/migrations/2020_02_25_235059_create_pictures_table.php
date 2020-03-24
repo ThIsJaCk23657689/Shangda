@@ -15,8 +15,8 @@ class CreatePicturesTable extends Migration
     {
         Schema::create('pictures', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('url');
-            $table->unsignedInteger('index');
+            $table->string('url')->comment('圖片路徑');
+            $table->unsignedInteger('index')->default(1)->comment('序號');
             $table->unsignedBigInteger('pictureable_id');
             $table->string('pictureable_type');
             $table->timestamps();

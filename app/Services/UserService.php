@@ -15,10 +15,10 @@ class UserService extends BaseService
             'password' => bcrypt($request->password),
             'birthday' => $request->birthday,
 
-            'zipcode' => $request->zipcode,
-            'county' => $request->county,
-            'district' => $request->district,
-            'address' => $request->address,
+            'address_zipcode' => $request->address_zipcode,
+            'address_county' => $request->address_county,
+            'address_district' => $request->address_district,
+            'address_others' => $request->address_others,
         ]);
         if(!empty($request->jobTitle)){
             $user->job_title_id = $request->jobTitle;
@@ -46,10 +46,11 @@ class UserService extends BaseService
             'name' => $request->name,
             'gender' => $request->gender,
             'birthday' => $request->birthday,
-            'zipcode' => $request->zipcode,
-            'county' => $request->county,
-            'district' => $request->district,
-            'address' => $request->address,
+
+            'address_zipcode' => $request->address_zipcode,
+            'address_county' => $request->address_county,
+            'address_district' => $request->address_district,
+            'address_others' => $request->address_others,
         ]);
         if(!empty($request->jobTitle)){
             $user->job_title_id = $request->jobTitle;

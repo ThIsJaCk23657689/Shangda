@@ -83,19 +83,19 @@
                     地址
                 </label>
                 <div class="col-md-2">
-                    <input id="county" type="text" class="form-control" name="county" value="{{ $user->county ?? '無' }}" disabled>
+                    <input id="address_county" type="text" class="form-control" name="address_county" value="{{ $user->address_county ?? '無' }}" disabled>
                 </div>
                 <div class="col-md-2">
-                    <input id="district" type="text" class="form-control" name="district" value="{{ $user->district ?? '無' }}" disabled>
+                    <input id="address_district" type="text" class="form-control" name="address_district" value="{{ $user->address_district ?? '無' }}" disabled>
                 </div>
                 <div class="col-md-2">
-                    <input id="zipcode" type="text" class="form-control" name="zipcode" value="{{ $user->zipcode ?? '無' }}" disabled>
+                    <input id="address_zipcode" type="text" class="form-control" name="address_zipcode" value="{{ $user->address_zipcode ?? '無' }}" disabled>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="offset-md-4 col-md-6">
-                    <input id="address" type="text" class="form-control" name="address" value="{{ $user->address ?? '無' }}" disabled>
+                    <input id="address_others" type="text" class="form-control" name="address_others" value="{{ $user->address_others ?? '無' }}" disabled>
                 </div>
             </div>
 

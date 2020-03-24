@@ -8,8 +8,6 @@ use App\Http\Requests\ConsumerEditRequest;
 use App\Http\Requests\DiscountRequest;
 use App\Services\ConsumerService;
 
-use App\Consumer as ConsumerEloquent;
-
 class ConsumerController extends Controller
 {
     public $ConsumerService;
@@ -109,7 +107,48 @@ class ConsumerController extends Controller
             'msg' => '成功取得顧客編號' . $id . '的折扣資料。',
 			'discounts' => $discounts
 		]);
-	}
+    }
+    
+    public function getDataByTaxID($taxID){
+        
+        $data = [
+            '$format' => 'json',
+            '$filter' => 'Business_Accounting_NO eq ' . $taxID,
+            '$skip' => 0,
+            '$top' => 50
+        ];
+        $url = 'http://data.gcis.nat.gov.tw/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6?' . http_build_query($data);
+
+        // use key 'http' even if you send the request to https://...
+        $options = [
+            'http' => [
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'GET',
+                'content' => null,
+            ]
+        ];
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+
+        // $result 是string 必須先轉成array
+        $result = json_decode($result, true);
+
+        // return var_dump($result);
+
+        if ($result === FALSE){ 
+            return response()->json([
+                'status' => 'failed.',
+                'msg' => '撈取統一編號時發生錯誤。',
+                'result' => $result
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success.',
+            'msg' => '成功！',
+            'result' => $result
+        ]);
+    }
     
     // ========== Response JSON ==========
     public function showName(){

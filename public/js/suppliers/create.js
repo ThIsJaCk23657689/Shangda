@@ -94,7 +94,7 @@
 /***/ (function(module, exports) {
 
 $(function () {
-  $('#CompanyAddress_twzipcode').twzipcode({
+  $('#companyAddress_twzipcode').twzipcode({
     'readonly': true
   });
 });

@@ -22,10 +22,10 @@ class SupplierService extends BaseService
             'tel2' => $request->tel2,
             'email2' => $request->email2,
 
-            'CompanyAddress_zipcode' => $request->CompanyAddress_zipcode,
-            'CompanyAddress_county' => $request->CompanyAddress_county,
-            'CompanyAddress_district' => $request->CompanyAddress_district,
-            'CompanyAddress_others' => $request->CompanyAddress_others,
+            'companyAddress_zipcode' => $request->companyAddress_zipcode,
+            'companyAddress_county' => $request->companyAddress_county,
+            'companyAddress_district' => $request->companyAddress_district,
+            'companyAddress_others' => $request->companyAddress_others,
 
             'comment' => $request->comment,
         ]);
@@ -72,10 +72,10 @@ class SupplierService extends BaseService
             'tel2' => $request->tel2,
             'email2' => $request->email2,
 
-            'CompanyAddress_zipcode' => $request->CompanyAddress_zipcode,
-            'CompanyAddress_county' => $request->CompanyAddress_county,
-            'CompanyAddress_district' => $request->CompanyAddress_district,
-            'CompanyAddress_others' => $request->CompanyAddress_others,
+            'companyAddress_zipcode' => $request->companyAddress_zipcode,
+            'companyAddress_county' => $request->companyAddress_county,
+            'companyAddress_district' => $request->companyAddress_district,
+            'companyAddress_others' => $request->companyAddress_others,
 
             'comment' => $request->comment,
         ]);

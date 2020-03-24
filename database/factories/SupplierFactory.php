@@ -18,10 +18,10 @@ $factory->define(Supplier::class, function (Faker $faker) {
         'tel1' => '09' . $faker->numberBetween($min = 10000000, $max = 99999999),
         'email1' => $faker->safeEmail,
 
-        'CompanyAddress_zipcode' => '404',
-        'CompanyAddress_county' => '臺中市',
-        'CompanyAddress_district' => '北區',
-        'CompanyAddress_others' => '太平路62號5樓之10',
+        'companyAddress_zipcode' => '404',
+        'companyAddress_county' => '臺中市',
+        'companyAddress_district' => '北區',
+        'companyAddress_others' => '太平路62號5樓之10',
         
         'comment' => null,
     ];

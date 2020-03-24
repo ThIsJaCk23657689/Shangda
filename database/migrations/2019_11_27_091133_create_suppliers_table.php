@@ -31,10 +31,10 @@ class CreateSuppliersTable extends Migration
             $table->string('tel2', 25)->nullable()->comment('負責人電話2');
             $table->string('email2', 100)->nullable()->comment('負責人信箱2');
 
-            $table->string('CompanyAddress_zipcode', 5)->nullable()->comment('公司地址 - 郵遞區號');
-            $table->string('CompanyAddress_county', 10)->nullable()->comment('公司地址 - 縣市');
-            $table->string('CompanyAddress_district', 10)->nullable()->comment('公司地址 - 鄉鎮');
-            $table->string('CompanyAddress_others')->nullable()->comment('公司地址 - 其他');
+            $table->string('companyAddress_zipcode', 5)->nullable()->comment('公司地址 - 郵遞區號');
+            $table->string('companyAddress_county', 10)->nullable()->comment('公司地址 - 縣市');
+            $table->string('companyAddress_district', 10)->nullable()->comment('公司地址 - 鄉鎮');
+            $table->string('companyAddress_others')->nullable()->comment('公司地址 - 其他');
 
             $table->text('comment')->nullable()->comment('備註');
             $table->timestamps();

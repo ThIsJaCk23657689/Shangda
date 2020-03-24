@@ -106,21 +106,21 @@
                         地址
                     </label>
                     <div class="col-md-2">
-                        <div data-role="county" data-style="form-control" data-name="county" data-value="{{ $user->county }}"></div>
+                        <div data-role="county" data-style="form-control" data-name="address_county" data-value="{{ $user->address_county }}"></div>
                     </div>
                     <div class="col-md-2">
-                        <div data-role="district" data-style="form-control" data-name="district" data-value="{{ $user->district }}"></div>
+                        <div data-role="district" data-style="form-control" data-name="address_district" data-value="{{ $user->address_district }}"></div>
                     </div>
                     <div class="col-md-2">
-                        <div data-role="zipcode" data-style="form-control" data-name="zipcode" data-value="{{ $user->zipcode }}"></div>
+                        <div data-role="zipcode" data-style="form-control" data-name="address_zipcode" data-value="{{ $user->address_zipcode }}"></div>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="offset-md-4 col-md-6">
-                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') ?? $user->address }}">
+                        <input id="address_others" type="text" class="form-control @error('address_others') is-invalid @enderror" name="address_others" value="{{ old('address_others') ?? $user->address_others }}">
 
-                        @error('address')
+                        @error('address_others')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

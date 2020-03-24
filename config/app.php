@@ -230,6 +230,8 @@ return [
 
         // Laravel Debugbar
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
+        'Twid' => Meditate\IdentityCard\Facades\TaiwanIdentityCard::class,
     ],
 
 ];

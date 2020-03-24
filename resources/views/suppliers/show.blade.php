@@ -54,18 +54,18 @@
                         <label>公司地址</label>
                         <div class="row mb-2">
                             <div class="col-md-4">
-                                <input id="CompanyAddress_county" type="text" class="form-control" name="CompanyAddress_county" value="{{ $supplier->CompanyAddress_county }}" readonly>
+                                <input id="companyAddress_county" type="text" class="form-control" name="companyAddress_county" value="{{ $supplier->companyAddress_county }}" readonly>
                             </div>
                             <div class="col-md-4">
-                                <input id="CompanyAddress_district" type="text" class="form-control" name="CompanyAddress_district" value="{{ $supplier->CompanyAddress_district }}" readonly>
+                                <input id="companyAddress_district" type="text" class="form-control" name="companyAddress_district" value="{{ $supplier->companyAddress_district }}" readonly>
                             </div>
                             <div class="col-md-4">
-                                <input id="CompanyAddress_zipcode" type="text" class="form-control" name="CompanyAddress_zipcode" value="{{ $supplier->CompanyAddress_zipcode }}" readonly>
+                                <input id="companyAddress_zipcode" type="text" class="form-control" name="companyAddress_zipcode" value="{{ $supplier->companyAddress_zipcode }}" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <input id="CompanyAddress_others" type="text" class="form-control" name="CompanyAddress_others" value="{{ $supplier->CompanyAddress_others }}" readonly>
+                                <input id="companyAddress_others" type="text" class="form-control" name="companyAddress_others" value="{{ $supplier->companyAddress_others }}" readonly>
                             </div>
                         </div>
                     </div>

@@ -4,7 +4,7 @@ $(function(){
         'readonly': true
     }); 
 
-    $("#birthday").datepicker({
+    $("#individual_birthday").datepicker({
         dateFormat: 'yy-mm-dd',
         changeYear: true,
         changeMonth: true,

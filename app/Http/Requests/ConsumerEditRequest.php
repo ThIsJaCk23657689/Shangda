@@ -24,7 +24,6 @@ class ConsumerEditRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'discount_id' => 'required',
             'name' => 'required|max:255|string',
             'shownID' => 'required|max:255|string|unique:consumers',
             'taxID' => 'nullable|max:8|string',

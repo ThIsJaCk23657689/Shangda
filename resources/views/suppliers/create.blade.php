@@ -93,23 +93,23 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div id="CompanyAddress_twzipcode" class="form-group">
+                        <div id="companyAddress_twzipcode" class="form-group">
                             <label><span class="text-danger mr-2">*</span>公司地址</label>
                             <div class="row mb-2">
                                 <div class="col-md-4">
-                                    <div data-role="county" data-style="form-control" data-name="CompanyAddress_county" data-value=""></div>
+                                    <div data-role="county" data-style="form-control" data-name="companyAddress_county" data-value=""></div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div data-role="district" data-style="form-control" data-name="CompanyAddress_district" data-value=""></div>
+                                    <div data-role="district" data-style="form-control" data-name="companyAddress_district" data-value=""></div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div data-role="zipcode" data-style="form-control" data-name="CompanyAddress_zipcode" data-value=""></div>
+                                    <div data-role="zipcode" data-style="form-control" data-name="companyAddress_zipcode" data-value=""></div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input id="CompanyAddress_others" type="text" class="form-control @error('CompanyAddress_others') is-invalid @enderror" name="CompanyAddress_others" value="{{ old('CompanyAddress_others') }}" autocomplete="off" required>
-                                    @error('CompanyAddress_others')
+                                    <input id="companyAddress_others" type="text" class="form-control @error('companyAddress_others') is-invalid @enderror" name="companyAddress_others" value="{{ old('companyAddress_others') }}" autocomplete="off" required>
+                                    @error('companyAddress_others')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

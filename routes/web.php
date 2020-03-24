@@ -72,6 +72,8 @@ Route::prefix('/backend')->group(function(){
         Route::get('showName','ConsumerController@showName')->name('consumers.showName');
         Route::post('getInfo','ConsumerController@getInfo')->name('consumers.getInfo');
 
+        Route::get('taxID/{taxID}/getData','ConsumerController@getDataByTaxID')->name('consumers.getData');
+
         Route::get('{id}/discounts','ConsumerController@showDiscountsPage')->name('consumers.showDiscountsPage');
         Route::post('{id}/discounts','ConsumerController@editDiscounts');
         Route::get('{id}/discounts/list', 'ConsumerController@getDiscountsList')->name('consumers.getDiscountsList');
