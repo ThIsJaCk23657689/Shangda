@@ -30,6 +30,7 @@ class SalesOrderDetailRequest extends FormRequest
             'price.*'  => 'nullable|min:0|numeric',
             'quantity.*' => 'required|integer',
             'discount.*'  => 'nullable|min:0|numeric',
+            'subTotal.*'  => 'nullable|min:0|numeric',
             'comment.*' => 'nullable|max:255|string',
         ];
     }

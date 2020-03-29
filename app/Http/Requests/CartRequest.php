@@ -13,7 +13,7 @@ class CartRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class CartRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'consumer_id' => 'required|integer|exists:consumers,id|min:1',
+            'totalPrice' => 'required|min:0|numeric',
+            'comment' => 'nullable|max:255|string',
         ];
     }
 }
