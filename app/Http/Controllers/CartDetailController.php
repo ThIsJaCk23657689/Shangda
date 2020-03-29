@@ -31,19 +31,26 @@ class CartDetailController extends Controller
         return response()->json($details, 200);
     }
 
+    public function getCartDetailsByToken(){
+        $token = JWTAuth::getToken();
+        $consumer = JWTAuth::toUser($token);
+        $details = $this->CartDetailService->getListByConsumerId($consumer->consumer_id);
+        return response()->json($details, 200);
+    }
+
     public function add(CartDetailRequest $request){
         $detail = $this->CartDetailService->add($request);
         return response()->json($detail, 200);
     }
 
     public function update(CartDetailRequest $request){
-        $detail = $this->CartDetailService->update($request, $request->id, $request->count);
+        $detail = $this->CartDetailService->update($request, $request->id);
         return response()->json($detail, 200);
     }
 
-    public function destroy($cart_id, $count)
+    public function destroy($id)
     {
-        $detail = $this->CartDetailService->delete($cart_id, $count);
+        $detail = $this->CartDetailService->delete($id);
         return response()->json($detail, 200);
     }
 
