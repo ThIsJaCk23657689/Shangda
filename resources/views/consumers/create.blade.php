@@ -59,7 +59,7 @@
             {{-- 個人帳戶註冊 --}}
             <form id="individual_form" method="POST" action="{{ route('consumers.store') }}" enctype="multipart/form-data" style="{{ ( old('account_type') == 'individual' )? '' : 'display: none' }}">
                 @csrf
-                <input id="individual_account_type" name="account_type" type="text" value="individual">
+                <input id="individual_account_type" name="account_type" type="hidden" value="individual">
                 
                 {{-- 帳戶資訊(帳號、密碼、密碼確認) --}}
                 <div class="row">
@@ -71,11 +71,11 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="individual_act">
+                            <label for="individual_account">
                                 <span class="text-danger mr-2">*</span>帳號
                             </label>
-                            <input id="individual_act" name="individual_act" type="text" class="form-control mb-2 @error('individual_act') is-invalid @enderror" value="{{ old('individual_act') }}" required autocomplete="off" placeholder="請輸入6~30個英文或數字">
-                            @error('individual_act')
+                            <input id="individual_account" name="individual_account" type="text" class="form-control mb-2 @error('individual_account') is-invalid @enderror" value="{{ old('individual_account') }}" required autocomplete="off" placeholder="請輸入6~30個英文或數字">
+                            @error('individual_account')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -85,11 +85,11 @@
             
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="individual_pwd">
+                            <label for="individual_password">
                                 <span class="text-danger mr-2">*</span>密碼
                             </label>
-                            <input id="individual_pwd" name="individual_pwd" type="password" class="form-control @error('individual_pwd') is-invalid @enderror" value="{{ old('individual_pwd') }}" required autocomplete="off" placeholder="請輸入至少6個英文或數字">
-                            @error('individual_pwd')
+                            <input id="individual_password" name="individual_password" type="password" class="form-control @error('individual_password') is-invalid @enderror" value="" required autocomplete="off" placeholder="請輸入至少6個英文或數字">
+                            @error('individual_password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -99,12 +99,12 @@
             
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="individual_pwd_confirmation">
+                            <label for="individual_password_confirmation">
                                 <span class="text-danger mr-2">*</span>密碼確認
                             </label>
-                            <input id="individual_pwd_confirmation" name="individual_pwd_confirmation" type="password" class="form-control @error('individual_pwd_confirmation') is-invalid @enderror" value="{{ old('individual_pwd_confirmation') }}" required autocomplete="off" placeholder="請再次輸入密碼">
+                            <input id="individual_password_confirmation" name="individual_password_confirmation" type="password" class="form-control @error('individual_password_confirmation') is-invalid @enderror" value="" required autocomplete="off" placeholder="請再次輸入密碼">
                             
-                            @error('individual_pwd_confirmation')
+                            @error('individual_password_confirmation')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -304,7 +304,7 @@
                                 <span class="text-warning mr-2">*</span>手機
                             </label>
                             <input id="individual_phone" name="individual_phone" type="text" class="form-control @error('individual_phone') is-invalid @enderror" value="{{ old('individual_phone') }}" autocomplete="off" placeholder="例：0912345678" required>
-                            <small class="form-text text-muted">手機號碼不需+886</small>
+                            <small class="form-text text-muted">手機號碼不需+886。</small>
                             @error('individual_phone')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -318,8 +318,8 @@
                             <label for="individual_tel">
                                 <span class="text-warning mr-2">*</span>電話
                             </label>
-                            <input id="individual_tel" name="individual_tel" type="text" class="form-control @error('individual_tel') is-invalid @enderror" value="{{ old('individual_tel') }}" autocomplete="off" placeholder="例：04-1234-5678">
-                            <small class="form-text text-muted">電話請包含區碼。</small>
+                            <input id="individual_tel" name="individual_tel" type="text" class="form-control @error('individual_tel') is-invalid @enderror" value="{{ old('individual_tel') }}" autocomplete="off" placeholder="例：0412345678">
+                            <small class="form-text text-muted">電話請包含區碼並省略"-"。</small>
                             @error('individual_tel')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -334,6 +334,7 @@
                                 <span class="text-danger mr-2">*</span>信箱
                             </label>
                             <input id="individual_email" name="individual_email" type="email" class="form-control @error('individual_email') is-invalid @enderror" value="{{ old('individual_email') }}" autocomplete="off" required placeholder="例：test@example.com">
+                            <small class="form-text text-muted">請填寫正確並可使用之信箱。</small>
                             @error('individual_email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -401,7 +402,7 @@
             {{-- 公司帳戶註冊 --}}
             <form id="company_form" method="POST" action="{{ route('consumers.store') }}" enctype="multipart/form-data" style="{{ ( old('account_type') == 'company' )? '' : 'display: none' }}">
                 @csrf
-                <input id="company_account_type" name="account_type" type="text" value="company">
+                <input id="company_account_type" name="account_type" type="hidden" value="company">
 
                 {{-- 帳戶資訊(帳號、密碼、密碼確認) --}}
                 <div class="row">
@@ -413,11 +414,11 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="company_act">
+                            <label for="company_account">
                                 <span class="text-danger mr-2">*</span>帳號
                             </label>
-                            <input id="company_act" name="company_act" type="text" class="form-control mb-2 @error('company_act') is-invalid @enderror" value="{{ old('company_act') }}" required autocomplete="off" placeholder="請輸入6~30個英文或數字">
-                            @error('company_act')
+                            <input id="company_account" name="company_account" type="text" class="form-control mb-2 @error('company_account') is-invalid @enderror" value="{{ old('company_account') }}" required autocomplete="off" placeholder="請輸入6~30個英文或數字">
+                            @error('company_account')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -427,11 +428,11 @@
             
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="company_pwd">
+                            <label for="company_password">
                                 <span class="text-danger mr-2">*</span>密碼
                             </label>
-                            <input id="company_pwd" name="company_pwd" type="password" class="form-control @error('company_pwd') is-invalid @enderror" value="{{ old('company_pwd') }}" required autocomplete="off" placeholder="請輸入至少6個英文或數字">
-                            @error('company_pwd')
+                            <input id="company_password" name="company_password" type="password" class="form-control @error('company_password') is-invalid @enderror" value="" required autocomplete="off" placeholder="請輸入至少6個英文或數字">
+                            @error('company_password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -441,12 +442,12 @@
             
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="company_pwd_confirmation">
+                            <label for="company_password_confirmation">
                                 <span class="text-danger mr-2">*</span>密碼確認
                             </label>
-                            <input id="company_pwd_confirmation" name="company_pwd_confirmation" type="password" class="form-control @error('company_pwd_confirmation') is-invalid @enderror" value="{{ old('company_pwd_confirmation') }}" required autocomplete="off" placeholder="請再次輸入密碼">
+                            <input id="company_password_confirmation" name="company_password_confirmation" type="password" class="form-control @error('company_password_confirmation') is-invalid @enderror" value="" required autocomplete="off" placeholder="請再次輸入密碼">
                             
-                            @error('company_pwd_confirmation')
+                            @error('company_password_confirmation')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -456,10 +457,11 @@
             
                 </div>
 
-                {{-- 基本資訊(大頭貼、公司名稱、簡稱、統一編號、負責人姓名、負責人身分證、月結日、未沖銷帳款、總消費額、備註) --}}
+                {{-- 基本資訊(大頭貼、公司名稱、分店名、簡稱、統一編號、負責人姓名、負責人身分證、月結日、未沖銷帳款、總消費額、備註) --}}
                 <div class="row">
                     <div class="col-md-12 mb-2">
                         <h4>3. 填寫基本資訊</h4>
+                        <small>請先填寫統一編號，可以自動填寫部分欄位</small>
                     </div>
                 </div>
                 <div class="row">
@@ -485,13 +487,50 @@
                     <div class="col-md-6">
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="company_taxID">
+                                        <span class="text-danger mr-2">*</span>統一編號
+                                    </label>
+                                    <input id="company_taxID" name="company_taxID" type="text" class="form-control @error('company_taxID') is-invalid @enderror" value="{{ old('company_taxID') }}" required autocomplete="off" placeholder="例：12345678">
+                                    @error('company_taxID')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="company_taxID_type">
+                                        <span class="text-danger mr-2">*</span>統編類型
+                                    </label>
+                                    <input id="company_taxID_type" name="company_taxID_type" type="text" class="form-control" value="{{ old('company_taxID_type') }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="company_name">
                                         <span class="text-danger mr-2">*</span>公司名稱
                                     </label>
                                     <input id="company_name" name="company_name" type="text" class="form-control mb-2 @error('company_name') is-invalid @enderror" value="{{ old('company_name') }}" required autocomplete="off" placeholder="例：尚達塑膠有限公司">
                                     @error('company_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label id="branch_label" for="company_branch" class="text-muted">
+                                        <span id="branch_required_tag" class="text-danger mr-2" style="display: none;">*</span>分店名
+                                    </label>
+                                    <input id="company_branch" name="company_branch" type="text" class="form-control mb-2 @error('company_branch') is-invalid @enderror" value="{{ old('company_branch') }}" autocomplete="off" placeholder="例：文心店" disabled>
+                                    @error('company_branch')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -514,40 +553,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="company_taxID">
-                                        <span class="text-danger mr-2">*</span>統一編號
-                                    </label>
-                                    <input id="company_taxID" name="company_taxID" type="text" class="form-control @error('company_taxID') is-invalid @enderror" value="{{ old('company_taxID') }}" required autocomplete="off" placeholder="例：12345678">
-                                    @error('company_taxID')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label for="company_principal">
                                         <span class="text-danger mr-2">*</span>負責人姓名
                                     </label>
                                     <input id="company_principal" name="company_principal" type="text" class="form-control mb-2 @error('company_principal') is-invalid @enderror" value="{{ old('company_principal') }}" required autocomplete="off" placeholder="例：王大明">
                                     @error('company_principal')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="company_idNumber">
-                                        <span class="text-danger mr-2">*</span>負責人身分證
-                                    </label>
-                                    <input id="company_idNumber" name="company_idNumber" type="text" class="form-control @error('company_idNumber') is-invalid @enderror" value="{{ old('company_idNumber') }}" required autocomplete="off" placeholder="例：A234567890">
-                                    @error('company_idNumber')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -641,8 +651,8 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="company_tel">公司電話</label>
-                            <input id="company_tel" name="company_tel" type="text" class="form-control @error('company_tel') is-invalid @enderror" value="{{ old('company_tel') }}" autocomplete="off" placeholder="例：04-1234-5678">
-                            <small class="form-text text-muted">電話請包含區碼。</small>
+                            <input id="company_tel" name="company_tel" type="text" class="form-control @error('company_tel') is-invalid @enderror" value="{{ old('company_tel') }}" autocomplete="off" placeholder="例：0412345678">
+                            <small class="form-text text-muted">電話請包含區碼並省略"-"。</small>
                             @error('company_tel')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -653,8 +663,8 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="company_tax">公司傳真</label>
-                            <input id="company_tax" name="company_tax" type="text" class="form-control @error('company_tax') is-invalid @enderror" value="{{ old('company_tax') }}" autocomplete="off" placeholder="例：04-1234-5678">
-                            <small class="form-text text-muted">傳真請包含區碼。</small>
+                            <input id="company_tax" name="company_tax" type="text" class="form-control @error('company_tax') is-invalid @enderror" value="{{ old('company_tax') }}" autocomplete="off" placeholder="例：0412345678">
+                            <small class="form-text text-muted">傳真請包含區碼並省略"-"。</small>
                             @error('company_tax')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -667,8 +677,7 @@
                             <label for="company_email">
                                 <span class="text-danger mr-2">*</span>公司信箱
                             </label>
-                            <input id="company_email" name="company_email" type="email" class="form-control @error('company_email') is-invalid @enderror" value="{{ old('company_email') }}" autocomplete="off" required placeholder="例：test@example.com">
-                            <small class="form-text text-muted">一個信箱只能創辦一隻帳號。</small>
+                            <input id="company_email" name="company_email" type="email" class="form-control @error('company_email') is-invalid @enderror" value="{{ old('company_email') }}" autocomplete="off" placeholder="例：test@example.com">
                             @error('company_email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -695,6 +704,14 @@
                                 <span class="text-danger mr-2">*</span>聯絡人姓名
                             </label>
                             <input id="company_operator_name" name="company_operator_name" type="text" class="form-control mb-2 @error('company_operator_name') is-invalid @enderror" value="{{ old('company_operator_name') }}" required autocomplete="off" placeholder="例：王大明">
+                            
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="isSameAsPrincipal" value="1">
+                                <label class="custom-control-label" for="isSameAsPrincipal">
+                                    <small>與負責人相同</small>
+                                </label>
+                            </div>
+
                             @error('company_operator_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -707,8 +724,16 @@
                             <label for="company_operator_tel">
                                 <span class="text-warning mr-2">*</span>聯絡人電話
                             </label>
-                            <input id="company_operator_tel" name="company_operator_tel" type="text" class="form-control @error('company_operator_tel') is-invalid @enderror" value="{{ old('company_operator_tel') }}" autocomplete="off" placeholder="例：04-1234-5678">
-                            <small class="form-text text-muted">電話請包含區碼。</small>
+                            <input id="company_operator_tel" name="company_operator_tel" type="text" class="form-control @error('company_operator_tel') is-invalid @enderror" value="{{ old('company_operator_tel') }}" autocomplete="off" placeholder="例：0412345678">
+                            <small class="form-text text-muted">電話請包含區碼並省略"-"。</small>
+                            
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="isSameAsComTel" value="1">
+                                <label class="custom-control-label" for="isSameAsComTel">
+                                    <small>與公司電話相同</small>
+                                </label>
+                            </div>
+
                             @error('company_operator_tel')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -735,8 +760,16 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="company_operator_email">聯絡人信箱</label>
-                            <input id="company_operator_email" name="company_operator_email" type="email" class="form-control @error('company_operator_email') is-invalid @enderror" value="{{ old('company_operator_email') }}" autocomplete="off" required placeholder="例：test@example.com">
+                            <input id="company_operator_email" name="company_operator_email" type="email" class="form-control @error('company_operator_email') is-invalid @enderror" value="{{ old('company_operator_email') }}" autocomplete="off" placeholder="例：test@example.com">
                             <small class="form-text text-muted">此信箱不綁定帳號，用於聯絡</small>
+                            
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="isSameAsComEmail" value="1">
+                                <label class="custom-control-label" for="isSameAsComEmail">
+                                    <small>與公司信箱相同</small>
+                                </label>
+                            </div>
+                            
                             @error('company_operator_email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -803,7 +836,7 @@
                                     <div data-role="zipcode" data-style="form-control" data-name="company_deliveryAddress_zipcode" data-value="{{ old('company_deliveryAddress_zipcode') }}" data-required="1"></div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col-md-12">
                                     <input id="company_deliveryAddress_others" type="text" class="form-control @error('company_deliveryAddress_others') is-invalid @enderror" name="company_deliveryAddress_others" value="{{ old('company_deliveryAddress_others') }}" autocomplete="off" required>
                                     @error('company_deliveryAddress_others')
@@ -811,6 +844,16 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" name="isSameAsComAddress" id="isSameAsComAddress" value="1" {{ (old('isSameAsComAddress') == 1)? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="isSameAsComAddress">
+                                            <small>與公司地址相同</small>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

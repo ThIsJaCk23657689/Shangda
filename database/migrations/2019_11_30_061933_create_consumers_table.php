@@ -18,8 +18,8 @@ class CreateConsumersTable extends Migration
 
             // ==================== 通用資料 (個人帳號與法人帳號都通用之資料) ====================
             $table->bigIncrements('id')->comment('編號');
-            $table->string('act', 30)->unique()->comment('帳號');
-            $table->string('pwd')->comment('密碼');
+            $table->string('account', 30)->unique()->comment('帳號');
+            $table->string('password')->comment('密碼');
             $table->string('name')->unique()->comment('姓名 or 公司名稱');
             $table->string('shortName')->nullable()->comment('簡稱');
             $table->boolean('gender')->comment('性別 or 聯絡人性別');
@@ -53,8 +53,9 @@ class CreateConsumersTable extends Migration
 
 
             // ==================== 法人帳號資料 ====================
+            $table->string('branch', 10)->nullable()->comment('分店名');
             $table->string('principal')->nullable()->comment('公司負責人名稱');
-            $table->string('taxID', 8)->nullable()->unique()->comment('統一編號');
+            $table->string('taxID', 8)->nullable()->comment('統一編號');
             $table->string('tel', 10)->nullable()->comment('電話 or 公司電話');
             $table->string('tax', 10)->nullable()->comment('公司傳真');
 

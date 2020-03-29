@@ -21,8 +21,8 @@ $factory->define(Consumer::class, function (Faker $faker) {
             'account_type' => $account_type,
             'who_created' => $faker->numberBetween($min = 0, $max = 1),
 
-            'act' => $faker->unique()->userName, 
-            'pwd' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'account' => $faker->unique()->userName, 
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'name' => $faker->name,
             'gender' => $faker->numberBetween($min = 0, $max = 2),
             'idNumber' => $faker->unique()->bothify('?#########'),
@@ -49,8 +49,8 @@ $factory->define(Consumer::class, function (Faker $faker) {
             'account_type' => $account_type,
             'who_created' => $faker->numberBetween($min = 0, $max = 1),
 
-            'act' => $faker->unique()->userName, 
-            'pwd' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'account' => $faker->unique()->userName, 
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'name' => $faker->name,
             'tax' => $faker->unique()->bothify('########'),
             'principal' => $faker->name,

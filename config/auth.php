@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'consumer' => [
+            'driver' => 'jwt',
+            'provider' => 'consumers',
+        ],
+
         'api' => [
             'driver' => 'jwt',
             'provider' => 'consumers',
@@ -103,6 +108,12 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+
+        'consumers' => [
+            'provider' => 'consumers',
+            'table' => 'password_resets',
+            'expire' => 60,
         ],
     ],
 

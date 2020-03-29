@@ -1,18 +1,59 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Controllers\Auth\Consumer;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Services\ConsumerService;
+use App\Events\ConsumerRegisteredEvent;
+use Illuminate\Http\Request;
+use Validator;
+use Auth;
 
-class ConsumerRequest extends FormRequest
+class RegisterController extends Controller
 {
-    public function authorize(){
-        return true;
+    use RegistersUsers;
+
+    protected $redirectTo = '/';
+    public $ConsumerService;
+
+    public function __construct(){
+        $this->middleware('guest:api');
+        $this->ConsumerService = new ConsumerService();
     }
 
-    public function rules(){   
+    public function showRegistrationForm(){
+        return view('consumers.register');
+    }
 
-        $account_type = $this->request->get('account_type');
+    public function register(Request $request){
+
+        // 驗證資料
+        $validator = Validator::make($request->all(), $this->generateRules($request));
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 200);
+        }
+
+        // 新增顧客資料
+        $consumer = $this->ConsumerService->add($request);
+        
+        // 發送事件
+        event(new ConsumerRegisteredEvent($consumer));
+
+        // 登入
+        $token = $this->guard()->login($consumer);
+        $cookie_token = 'Bearer ' . $token;
+
+        return response()->json([
+            'status' => 1,
+            'msg' => 'Login Successfully',
+            'token' => $token
+        ])->cookie('authorization', $cookie_token, 200);
+    }
+    
+    protected function generateRules(Request $request){
+        $rules = [];
+        $account_type = $request->account_type;
 
         if($account_type == 'individual'){
             $rules = [
@@ -63,7 +104,7 @@ class ConsumerRequest extends FormRequest
 
                 'company_tel' => 'nullable|string|max:10',
                 'company_tax' => 'nullable|string|max:10',
-                'company_email' => 'nullable|string|email|max:255',
+                'company_email' => 'required|string|email|max:255|unique:consumers,email',
                 'company_lineID' => 'nullable|string|max:255',
 
                 'company_operator_name' => 'required|string|min:2|max:255',
@@ -87,38 +128,7 @@ class ConsumerRequest extends FormRequest
         return $rules;
     }
 
-    public function attributes()
-    {
-        return [
-            'account_type' => '帳號類型',
-            'individual_account' => '帳號',
-            'individual_password' => '密碼',
-            'individual_picture' => '大頭貼',
-            'individual_idNumber' => '身分證',
-            'individual_name' => '姓名',
-            'individual_shortName' => '簡稱',
-            'individual_gender' => '性別',
-            'individual_birthday' => '生日',
-            'individual_monthlyCheckDate' => '月結日',
-            'individual_uncheckedAmount' => '未沖帳帳款',
-            'individual_totalConsumption' => '總消費額',
-            'individual_comment' => '備註',
-            'individual_phone' => '手機',
-            'individual_tel' => '電話',
-            'individual_email' => '信箱',
-            'individual_lineID' => 'Line ID',
-            'individual_address_zipcode' => '郵遞區號',
-            'individual_address_county' => '縣市',
-            'individual_address_district' => '鄉鎮市區',
-            'individual_address_others' => '巷弄路段',
-        ];
-    }
-
-    public function messages(){
-        return [
-            'individual_phone.required_without' => '手機與電話必須擇一必填。',
-            'individual_tel.required_without'  => '手機與電話必須擇一必填。',
-            'individual_idNumber.tw_id' => '身分證驗證錯誤。',
-        ];
+    protected function guard(){
+        return Auth::guard('api');
     }
 }

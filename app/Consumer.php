@@ -2,26 +2,28 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Picture as PictureEloquent;
 use App\SaleOrder as SaleOrderEloquent;
 use App\Product as ProductEloquent;
 
-class Consumer extends Model
+class Consumer extends Authenticatable implements JWTSubject
 {
-    use SoftDeletes;
+    use Notifiable, SoftDeletes;
 
     protected $fillable = [
-        'act', 'pwd', 'name', 'shortName', 'gender', 'idNumber', 'email', 'lineID',
+        'account', 'password', 'name', 'shortName', 'gender', 'idNumber', 'email', 'lineID',
         'monthlyCheckDate', 'uncheckedAmount', 'totalConsumption', 
         'address_zipcode', 'address_county', 'address_district', 'address_others',
         'policy_agreement', 'comment',
 
         'birthday', 'phone',
 
-        'principal', 'taxID', 'tel', 'tax', 
+        'branch', 'principal', 'taxID', 'tel', 'tax', 
         'operator_name', 'operator_tel', 'operator_email',
         'deliveryAddress_zipcode', 'deliveryAddress_county', 'deliveryAddress_district', 'deliveryAddress_others',
         
@@ -31,6 +33,26 @@ class Consumer extends Model
     protected $hidden = [
         'pwd', 'remember_token',
     ];
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
     public function saleOrder(){
         return $this->hasMany(SaleOrderEloquent::class);

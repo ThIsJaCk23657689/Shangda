@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Services;
+
 use App\Consumer as ConsumerEloquent;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class ConsumerService extends BaseService
 {
-    public function add($request)
+    public function add(Request $request)
     {
         $data = [];
         if($request->account_type == 'individual'){
@@ -14,8 +16,8 @@ class ConsumerService extends BaseService
                 'account_type' => 0,
                 'who_created' => 1,
 
-                'act' => $request->individual_act,
-                'pwd' => bcrypt($request->individual_pwd),
+                'account' => $request->individual_account,
+                'password' => bcrypt($request->individual_password),
 
                 'idNumber' => strtoupper($request->individual_idNumber),
                 'name' => $request->individual_name,
@@ -42,14 +44,15 @@ class ConsumerService extends BaseService
                 'account_type' => 1,
                 'who_created' => 1,
 
-                'act' => $request->company_act,
-                'pwd' => bcrypt($request->company_pwd),
+                'account' => $request->company_account,
+                'password' => bcrypt($request->company_password),
 
                 'name' => $request->company_name,
+                'branch' => $request->company_branch,
                 'shortName' => $request->company_shortName,
                 'taxID' => $request->company_taxID,
                 'principal' => $request->company_principal,
-                'idNumber' => strtoupper($request->company_idNumber),
+                // 'idNumber' => strtoupper($request->company_idNumber),
                 'monthlyCheckDate' => $request->company_monthlyCheckDate ?? 0,
                 'uncheckedAmount' => $request->company_uncheckedAmount,
                 'totalConsumption' => $request->company_totalConsumption,
@@ -82,7 +85,9 @@ class ConsumerService extends BaseService
         $consumer = ConsumerEloquent::create($data);
 
         // 圖片儲存
-        $this->savePicture($request->company_picture, $consumer);
+        if($request->has('company_picture')){
+            $this->savePicture($request->company_picture, $consumer);
+        }
         
         return $consumer;
     }

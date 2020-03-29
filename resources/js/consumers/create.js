@@ -109,6 +109,18 @@ $(function () {
     });
 
     $('#company_taxID').change(function(e){
+
+        // 分公司欄位設定為非必填，且disabled開啟，必填星號消失。
+        $('#branch_label').addClass('text-muted');
+        $('#company_branch').attr('disabled', true);
+        $('#company_branch').attr('required', false);
+        $('#branch_required_tag').fadeOut();
+
+        // 清空資料
+        $('#company_taxID_type').val('');
+        $('#company_name').val('');
+        $('#company_principal').val('');
+
         $taxID = $(this).val();
         if($taxID != ""){
             re = /^[0-9]{8}$/;
@@ -119,7 +131,51 @@ $(function () {
                     type: 'GET',
                     dataType: 'json',
                     success(response, textStatus){
-                        console.log({response, textStatus});
+
+                        switch (response.status) {
+                            case "4":
+                                // 抓取api資料時出錯。
+                                alert(response.msg);
+                                console.log(response.result);
+
+                                break;
+                            case "3":
+                                // 如果統編是公司類型的話
+
+                                // 自動填上統編類型、公司名稱、負責人名稱
+                                $('#company_taxID_type').val(response.type);
+                                $('#company_name').val(response.result['0'].Company_Name);
+                                $('#company_principal').val(response.result['0'].Responsible_Name);
+
+                                break;
+                            case "2":
+                                // 如果統編是分公司類型的話
+
+                                // 分公司欄位設定為必填，且disabled關閉，必填星號出現。
+                                $('#branch_label').removeClass('text-muted');
+                                $('#company_branch').attr('disabled', false);
+                                $('#company_branch').attr('required', true);
+                                $('#branch_required_tag').fadeIn();
+
+                                // 由於目前無法抓取分公司統編資料，所以不自動填上資料了
+                                $('#company_taxID_type').val(response.type);
+
+                                break;
+                            case "1":
+                                // 如果統編是商業類型的話
+
+                                // 由於目前無法抓取商業統編資料，所以不自動填上資料了
+                                $('#company_taxID_type').val(response.type);
+                                
+                                break;
+                            default:
+                                // 如果統編為無效的話
+                                alert('查無此統編相關資料，無法使用此統編進行註冊。');
+                                $('#company_taxID').val('');
+
+                                break;
+                        }                        
+                        console.log(response);
                     },
                     error(XMLHttpRequest, textStatus, errorThrown){
                         console.log({XMLHttpRequest, textStatus, errorThrown});
@@ -135,19 +191,38 @@ $(function () {
     });
 
 
-    // $('#copycompany1').click(function (e) {
-    //     if ($(this).prop("checked")) {
-    //         $('#deliveryAddress').val($('#companyAddress').val());
-    //     } else {
-    //         $('#deliveryAddress').val('');
-    //     }
-    // });
+    $('#isSameAsPrincipal').click(function (e) {
+        if ($(this).prop("checked")) {
+            $('#company_operator_name').val($('#company_principal').val());
+        } else {
+            $('#company_operator_name').val('');
+        }
+    });
 
-    // $('#copycompany2').click(function (e) {
-    //     if ($(this).prop("checked")) {
-    //         $('#invoiceAddress').val($('#companyAddress').val());
-    //     } else {
-    //         $('#invoiceAddress').val('');
-    //     }
-    // });
+    $('#isSameAsComTel').click(function (e) {
+        if ($(this).prop("checked")) {
+            $('#company_operator_tel').val($('#company_tel').val());
+        } else {
+            $('#company_operator_tel').val('');
+        }
+    });
+
+    $('#isSameAsComEmail').click(function (e) {
+        if ($(this).prop("checked")) {
+            $('#company_operator_email').val($('#company_email').val());
+        } else {
+            $('#company_operator_email').val('');
+        }
+    });
+
+    $('#isSameAsComAddress').click(function (e) {
+        if ($(this).prop("checked")) {
+            $zipcode = $('#company_address_twzipcode').twzipcode('get', 'zipcode');
+            $('#company_deliveryAddress_twzipcode').twzipcode('set', $zipcode[0]);
+            $('#company_deliveryAddress_others').val($('#company_address_others').val());
+        } else {
+            $('#company_deliveryAddress_twzipcode').twzipcode('reset');
+            $('#company_deliveryAddress_others').val('');
+        }
+    });
 });

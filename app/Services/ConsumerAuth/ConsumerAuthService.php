@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\ConsumerAuth;
+
+use App\Services\BaseService;
 use App\Consumer as ConsumerEloquent;
 use Carbon\Carbon;
+use JWTAuth;
 
 class ConsumerAuthService extends BaseService
-{
-    
+{   
     public function register($request){
         if($request->pwd != $request->conf_pwd){
             return "兩次密碼不一致";
@@ -37,45 +39,6 @@ class ConsumerAuthService extends BaseService
             return "註冊成功";
         }
 
-    }
-
-    public function login($request){
-        $ex_time = Carbon::now()->addHour(5)->timestamp;
-        $account = $request->act;
-        $password = $request->pwd;
-        $consumer = ConsumerEloquent::where('act', $account)->first();
-        if ($account == "" && $password == "") {
-            //400
-            $msg[] = '請輸入帳號和密碼';
-            // return response()->json($msg, 400, $headers, JSON_UNESCAPED_UNICODE);
-        } else if ($password == "") {
-            $msg[] = '請輸入密碼';
-        } else if ($account == "") {
-            $msg[] = '請輸入帳號';
-        }
-        if ($consumer) {
-            if (password_verify($password['password'], $consumer->pwd)) {
-                $token = JWTAuth::attempt($consumer, ['exp' => $ex_time]);
-                try {
-                    if (!$token) { // 401
-                        $msg[] = "invalid_credentials";
-                    }
-                } catch (JWTException $e) { // 500
-                    $msg[] = "could_not_create_token";
-                }
-                $cookie_token = 'Bearer ' . $token;
-                // return response()->json($token)->cookie('authorization', $cookie_token, 200);
-                $msg[] = "登入成功";
-                $msg[] = $token;
-                $msg[] = $cookie_token;
-            }else{
-                $msg[] = '密碼錯誤';
-            }
-        }else{
-            $msg[] = '帳號不存在';
-        }
-
-        return $msg;
     }
 
     public function resetPassword($request){
