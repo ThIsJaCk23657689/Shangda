@@ -3,11 +3,17 @@
 namespace App\Services;
 
 use App\Consumer as ConsumerEloquent;
+use App\Services\Orders\CartService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class ConsumerService extends BaseService
 {
+    public $CartService;
+    public function __construct(){
+        $this->CartService = new CartService();
+    }
+
     public function add($request)
     {
         $data = [];
@@ -83,7 +89,8 @@ class ConsumerService extends BaseService
         }
 
         $consumer = ConsumerEloquent::create($data);
-
+        // 建立客戶購物車
+        $this->CartService->add($consumer->id);
         // 圖片儲存
         if($request->has('company_picture')){
             $this->savePicture($request->company_picture, $consumer);
