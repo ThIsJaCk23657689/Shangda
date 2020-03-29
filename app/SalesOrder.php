@@ -13,7 +13,7 @@ class SalesOrder extends Model
     protected $fillable = [
         'consumer_id', 'shown_id', 'user_id', 'last_user_id', 'expectPay_at', 'paid_at', 'expectDeliver_at',
         'delivered_at', 'makeInvoice_at', 'piadAmount', 'unpiadAmount', 'totalPrice',
-        'taxPrice', 'totalTaxPrice', 'comment', 'taxType', 'status', 'invoiceType', 'address',
+        'taxPrice', 'totalTaxPrice', 'comment', 'taxType', 'status', 'invoiceType', 'address','who_created','status',
     ];
 
     protected $casts = [

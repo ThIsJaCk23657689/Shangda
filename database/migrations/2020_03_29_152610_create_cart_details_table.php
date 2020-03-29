@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalesOrderDetailsTable extends Migration
+class CreateCartDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateSalesOrderDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sales_order_details', function (Blueprint $table) {
+        Schema::create('cart_details', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
-            $table->unsignedBigInteger('sales_order_id')->comment('銷貨單編號');
+            $table->unsignedBigInteger('carts_id')->comment('購物車編號');
             $table->unsignedBigInteger('product_id')->comment('商品編號');
 
             $table->integer('count')->comment('銷貨單序號');
@@ -26,7 +26,8 @@ class CreateSalesOrderDetailsTable extends Migration
             $table->string('comment')->nullable()->comment('備註');
 
             $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('sales_order_id')->references('id')->on('sales_orders');
+            $table->foreign('carts_id')->references('id')->on('sales_orders');
+            $table->timestamps();
         });
     }
 
@@ -37,6 +38,6 @@ class CreateSalesOrderDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sales_order_details');
+        Schema::dropIfExists('cart_details');
     }
 }

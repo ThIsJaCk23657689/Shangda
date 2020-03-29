@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class ConsumerService extends BaseService
 {
-    public function add(Request $request)
+    public function add($request)
     {
         $data = [];
         if($request->account_type == 'individual'){
@@ -29,7 +29,7 @@ class ConsumerService extends BaseService
                 'totalConsumption' => $request->individual_totalConsumption,
                 'policy_agreement' => '1',
                 'comment' => $request->individual_comment,
-                
+
                 'phone' => $request->individual_phone,
                 'tel' => $request->individual_tel,
                 'email' => $request->individual_email,
@@ -58,7 +58,7 @@ class ConsumerService extends BaseService
                 'totalConsumption' => $request->company_totalConsumption,
                 'policy_agreement' => '1',
                 'comment' => $request->company_comment,
-                
+
                 'tel' => $request->company_tel,
                 'tax' => $request->company_tax,
                 'email' => $request->company_email,
@@ -69,7 +69,7 @@ class ConsumerService extends BaseService
                 'phone' => $request->company_operator_phone,
                 'operator_email' => $request->company_operator_email,
                 'gender' => $request->company_operator_gender,
-                
+
                 'address_zipcode' => $request->company_address_zipcode,
                 'address_county' => $request->company_address_county,
                 'address_district' => $request->company_address_district,
@@ -88,7 +88,7 @@ class ConsumerService extends BaseService
         if($request->has('company_picture')){
             $this->savePicture($request->company_picture, $consumer);
         }
-        
+
         return $consumer;
     }
 

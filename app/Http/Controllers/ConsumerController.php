@@ -11,7 +11,7 @@ use App\Services\ConsumerService;
 class ConsumerController extends Controller
 {
     public $ConsumerService;
-    
+
 
     public function __construct()
     {
@@ -70,7 +70,7 @@ class ConsumerController extends Controller
     // 編輯客戶的折扣資訊
     public function editDiscounts(DiscountRequest $request, $id){
         $comsumer = $this->ConsumerService->getOne($id);
-        
+
         // 先將先前的所有折扣商品資料全數刪除
         $comsumer->products()->detach();
 
@@ -90,14 +90,14 @@ class ConsumerController extends Controller
             'msg' => '成功新增' . count($request->discounts) . '筆折扣資料。'
         ]);
 	}
-	
+
 	// 取得顧客的折扣資料 回傳JSON格式
 	public function getDiscountsList($id){
 		$comsumer = $this->ConsumerService->getOne($id);
 		$discounts = $comsumer->products()
 			->select(['id', 'shownID', 'name', 'costprice', 'profit', 'retailPrice'])
 			->get();
-		
+
 		foreach($discounts as $discount){
 			$discount['showUnit'] = $discount->showUnit();
 		}
@@ -108,7 +108,7 @@ class ConsumerController extends Controller
 			'discounts' => $discounts
 		]);
     }
-    
+
     public function getDataByTaxID($taxID){
 
         // use key 'http' even if you send the request to https://...
@@ -128,14 +128,14 @@ class ConsumerController extends Controller
             '$top' => 50
         ];
         $url = 'http://data.gcis.nat.gov.tw/od/data/api/673F0FC0-B3A7-429F-9041-E9866836B66D?' . http_build_query($data);
-        
+
         $context  = stream_context_create($options);
         $result = file_get_contents($url, false, $context);
 
         // $result 是string 必須先轉成array
         $result = json_decode($result, true);
 
-        if ($result === FALSE){ 
+        if ($result === FALSE){
             return response()->json([
                 'status' => '4',
                 'msg' => '判斷統一編號時發生錯誤。',
@@ -165,7 +165,7 @@ class ConsumerController extends Controller
                 'type' => $type
             ]);
         }
-    
+
         $data = [
             '$format' => 'json',
             '$filter' => 'Business_Accounting_NO eq ' . $taxID,
@@ -182,7 +182,7 @@ class ConsumerController extends Controller
 
         // return var_dump($result);
 
-        if ($result === FALSE){ 
+        if ($result === FALSE){
             return response()->json([
                 'status' => '4',
                 'msg' => '撈取統一編號時發生錯誤。',
@@ -196,7 +196,7 @@ class ConsumerController extends Controller
             'result' => $result
         ]);
     }
-    
+
     // ========== Response JSON ==========
     public function showName(){
         $comsumer = $this->ConsumerService->getNamesList();

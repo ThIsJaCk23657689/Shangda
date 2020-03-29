@@ -46,7 +46,7 @@ class CreateConsumersTable extends Migration
 
             // ==================== 個人帳號資料 ====================
             $table->date('birthday', 10)->nullable()->comment('生日');
-            $table->string('phone', 10)->nullable()->comment('手機 or 聯絡人手機');    
+            $table->string('phone', 10)->nullable()->comment('手機 or 聯絡人手機');
             // ==================== 個人帳號資料 ====================
 
 
@@ -62,13 +62,13 @@ class CreateConsumersTable extends Migration
             $table->string('operator_name')->nullable()->comment('聯絡人名稱');
             $table->string('operator_tel', 10)->nullable()->comment('聯絡人電話');
             $table->string('operator_email', 100)->nullable()->comment('聯絡人信箱');
- 
+
             $table->string('deliveryAddress_zipcode', 5)->nullable()->comment('送貨地址 - 郵遞區號');
             $table->string('deliveryAddress_county', 10)->nullable()->comment('送貨地址 - 縣市');
             $table->string('deliveryAddress_district', 10)->nullable()->comment('送貨地址 - 鄉鎮');
             $table->string('deliveryAddress_others')->nullable()->comment('送貨地址 - 其他');
             // ==================== 法人帳號資料 ====================
-            
+
 
 
 
@@ -80,7 +80,7 @@ class CreateConsumersTable extends Migration
 
             // 負責業務預設為Admin(就是不指定) 注意負責業務 不等於 創建此客戶資料的員工 特別注意。
             $table->unsignedBigInteger('user_id')->default(1)->comment('負責業務');
-            
+
             $table->softDeletes(); //黑名單
             $table->rememberToken();
             $table->timestamps();

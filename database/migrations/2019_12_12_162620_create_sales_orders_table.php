@@ -38,6 +38,11 @@ class CreateSalesOrdersTable extends Migration
             $table->integer('status')->default(1)->comment('單別'); //1 => 銷貨單(出貨單), 2 => 退貨單
             $table->integer('invoiceType')->default(1)->comment('發票類型'); //1~5
             $table->string('address')->nullable()->comment('地址');
+
+            // 預設為0，代表是管理者創建(訂單) | 如果為1代表為顧客所創建。
+            $table->boolean('who_created')->default(0)->comment('創建類型');
+            // 預設為1，代表是管理者已核准訂單 | 如果為1代表為顧客所創建，未核准狀態。
+            $table->boolean('status')->default(1)->comment('訂單狀態');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
