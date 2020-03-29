@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -95,7 +95,7 @@
 
 $(function () {
   $("#expectReceived_at").datepicker({
-    format: 'yyyy-mm-dd',
+    dateFormat: 'yy-mm-dd',
     changeYear: true,
     changeMonth: true,
     maxDate: new Date()
@@ -107,7 +107,7 @@ $(function () {
 
 /***/ }),
 
-/***/ 3:
+/***/ 8:
 /*!*****************************************************!*\
   !*** multi ./resources/js/orders/purchase/index.js ***!
   \*****************************************************/

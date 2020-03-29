@@ -27,8 +27,10 @@
 	"Products": "商品",
 	"Location": "位置",
 	"Contact": "聯絡我們",
-
 	"Contact Us": "聯絡我們",
+
+	"Terms & Conditions": "條款細項",
+	"Privacy Policy": "隱私政策",
 
 	"Name": "姓名",
 	"Oh no": "不好了",
@@ -106,5 +108,10 @@
 	"Material": "原物料",
 	"Basic Materials" : "基本原物料",
 	"Backend Control": "後臺管理",
-	"Last Updated": "最近修改日期："
+	"Last Updated": "最近修改日期：",
+
+	"System Management": "系統管理",
+	"Web Setting": "網站設定",
+	"Log File": "日誌檔",
+	"Discounts": "折扣管理"
 }

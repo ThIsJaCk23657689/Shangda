@@ -12,6 +12,6 @@ class ConsumerTableSeeder extends Seeder
      */
     public function run()
     {
-        $consumer = factory(ConsumerEloquent::class, 50)->create();
+        $consumer = factory(ConsumerEloquent::class, 20)->create();
     }
 }

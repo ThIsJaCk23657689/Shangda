@@ -25,6 +25,10 @@ class HomeController extends Controller
         return view('index');
     }
 
+    public function old(){
+        return view('old');
+    }
+
     public function backend(){
         return view('backend');
     }

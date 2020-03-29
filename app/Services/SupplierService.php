@@ -3,7 +3,6 @@
 namespace App\Services;
 use App\Supplier as SupplierEloquent;
 
-
 class SupplierService extends BaseService
 {
     public function add($request)
@@ -12,17 +11,22 @@ class SupplierService extends BaseService
             'name' => $request->name,
             'shortName' => $request->shortName,
             'taxId' => $request->taxId,
+
             'tel' => $request->tel,
             'tax' => $request->tax,
+
             'inCharge1' => $request->inCharge1,
             'tel1' => $request->tel1,
             'email1' => $request->email1,
             'inCharge2' => $request->inCharge2,
             'tel2' => $request->tel2,
             'email2' => $request->email2,
-            'companyAddress' => $request->companyAddress,
-            'deliveryAddress' => $request->deliveryAddress,
-            'invoiceAddress' => $request->invoiceAddress,
+
+            'companyAddress_zipcode' => $request->companyAddress_zipcode,
+            'companyAddress_county' => $request->companyAddress_county,
+            'companyAddress_district' => $request->companyAddress_district,
+            'companyAddress_others' => $request->companyAddress_others,
+
             'comment' => $request->comment,
         ]);
         return $supplier;
@@ -44,14 +48,11 @@ class SupplierService extends BaseService
         return $supplier_info;
     }
 
-
     public function getOne($id)
     {
         $supplier = SupplierEloquent::find($id);
         return $supplier;
     }
-
-
 
     public function update($request, $id)
     {
@@ -60,17 +61,22 @@ class SupplierService extends BaseService
             'name' => $request->name,
             'shortName' => $request->shortName,
             'taxId' => $request->taxId,
+
             'tel' => $request->tel,
             'tax' => $request->tax,
+
             'inCharge1' => $request->inCharge1,
             'tel1' => $request->tel1,
             'email1' => $request->email1,
             'inCharge2' => $request->inCharge2,
             'tel2' => $request->tel2,
             'email2' => $request->email2,
-            'companyAddress' => $request->companyAddress,
-            'deliveryAddress' => $request->deliveryAddress,
-            'invoiceAddress' => $request->invoiceAddress,
+
+            'companyAddress_zipcode' => $request->companyAddress_zipcode,
+            'companyAddress_county' => $request->companyAddress_county,
+            'companyAddress_district' => $request->companyAddress_district,
+            'companyAddress_others' => $request->companyAddress_others,
+
             'comment' => $request->comment,
         ]);
         return $supplier;

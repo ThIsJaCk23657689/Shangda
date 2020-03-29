@@ -1,5 +1,10 @@
 @extends('layouts.backend.master')
 
+@push('CustomJS')
+    <script src="{{ asset('vendor/jQuery-TWzipcode-master/jquery.twzipcode.min.js') }}" defer></script>
+    <script src="{{ asset('js/users/create.js') }}" defer></script>
+@endpush   
+
 @section('content')
 				
 	@component('components.breadcrumbs')
@@ -63,7 +68,7 @@
                     <div class="col-md-6">
                         <select id="jobTitle" class="form-control @error('jobTitle') is-invalid @enderror" name="jobTitle">
                             @foreach ($jobTitles as $jobTitle)
-                                @if($jobTitle->id != 1)
+                                @if($jobTitle->id != 4)
                                     <option value="{{ $jobTitle->id }}">{{ $jobTitle->name }}</option>
                                 @endif
                             @endforeach
@@ -80,7 +85,7 @@
                 <div class="form-group row">
                     <label for="email" class="col-md-4 col-form-label text-md-right">
                         <span class="text-danger">*</span>
-                        信箱
+                        信箱（帳號）
                     </label>
 
                     <div class="col-md-6">
@@ -119,6 +124,49 @@
 
                     <div class="col-md-6">
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" value="" autocomplete="new-password">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="birthday" class="col-md-4 col-form-label text-md-right">
+                        生日
+                    </label>
+
+                    <div class="col-md-6">
+                        <input id="birthday" type="text" class="form-control @error('birthday') is-invalid @enderror" name="birthday" value="{{ old('birthday') }}" autocomplete="off">
+
+                        @error('birthday')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div id="twzipcode" class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-right">
+                        地址
+                    </label>
+                    <div class="col-md-2">
+                        <div data-role="county" data-style="form-control" data-name="address_county" data-value=""></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div data-role="district" data-style="form-control" data-name="address_district" data-value=""></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div data-role="zipcode" data-style="form-control" data-name="address_zipcode" data-value=""></div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="offset-md-4 col-md-6">
+                        <input id="address_others" type="text" class="form-control @error('address_others') is-invalid @enderror" name="address_others" value="{{ old('address_others') }}">
+
+                        @error('address_others')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
 

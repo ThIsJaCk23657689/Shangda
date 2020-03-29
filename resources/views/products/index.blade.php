@@ -40,7 +40,6 @@
 					<thead>
 						<tr>
                             <th>編號</th>
-                            <th>圖片</th>
 							<th>名稱</th>
 							<th>類別</th>
 							<th>零售價</th>
@@ -52,10 +51,7 @@
 					<tbody>
 						@foreach ($products as $product)
 							<tr class="{{ $product->trashed()?'bg-warning':'' }}">
-                                <td>{{ $product->id }}</td>
-                                <td style="width:10%">
-                                    <img class="img-fluid rounded" src="{{ $product->showPicture() }}">
-                                </td>
+                                <td>{{ $product->shownID }}</td>
 								<td>{{ $product->name }}</td>
 								<td>
 									<a href="{{ route('categories.show', [$product->category->id]) }}">

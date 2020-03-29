@@ -2,12 +2,13 @@
 
 namespace App\Services;
 use App\Product as ProductEloquent;
-use App\BasicMaterial as BasicMaterialEloquent;
+use App\Material as MaterialEloquent;
 use App\Category as CategoryEloquent;
 
 class ProductService extends BaseService
 {
     public function add($request){
+<<<<<<< HEAD
         // 計算零售價
         $x1 = BasicMaterialEloquent::findOrFail(1)->price;
         $x2 = BasicMaterialEloquent::findOrFail(2)->price;
@@ -30,28 +31,60 @@ class ProductService extends BaseService
         //名字加規格
         $realName = $request->name."(".$request->specification."/".$request->size."".$request->weight."+".")";
 
+=======
+>>>>>>> 620bbdaca20de565755a64f76b2a85660a2ce598
         // 新增資料
         $product = ProductEloquent::create([
             'category_id' => $request->category_id,
-            'name' => $realName,
-            'shortName' => $request->shownID,
+            'name' => $request->name,
+            'isManualNamed' => $request->isManualNamed ?? '0',
+            'shownID' => $request->shownID,
+            'isManualID' => $request->isManualID ?? '0',
             'internationalNum' => $request->internationalNum,
+            'specification' => $request->specification,
+            'color' => $request->color,
 
-            'fundamentalPrice' => $request->fundamentalPrice,
-            'retailPrice' => $retail_price,
-            'materialCoefficient1' => $request->materialCoefficient1,
-            'materialCoefficient2' => $request->materialCoefficient2,
-            'materialCoefficient3' => $request->materialCoefficient3,
-            'materialCoefficient4' => $request->materialCoefficient4,
-            'materialCoefficient5' => $request->materialCoefficient5,
+            'isCustomize' => $request->isCustomize ?? '0',
+            'isPublic' => $request->isPublic ?? '0',
+            'showPrice' => $request->showPrice ?? '0',
 
+            'length' => $request->length,
+            'width' => $request->width,
+            'chamfer' => $request->chamfer,
+            'weight' => $request->weight,
+            'qty_per_pack' => $request->qty_per_pack,
             'comment' => $request->comment,
             'unit' => $request->unit,
             'quantity' => $request->quantity,
             'safeQuantity' => $request->safeQuantity,
-            'picture' => $image_path,
             'intro' => $request->intro,
-            'specification' => $request->specification
+        ]);
+
+        // 圖片儲存
+        $this->savePicture($request->picture, $product);
+
+        // 計算成本價格
+        $costprice = 0;
+        foreach($request->recipes as $recipe){
+            $material_id = $recipe['material_id'];
+            $material = MaterialEloquent::find($material_id);
+            $price = $material->unitPrice;
+            $subcost = round($price * $recipe['raito'], 4);
+            $costprice += $subcost;
+
+            if($recipe['raito'] != 0){
+                $product->materials()->attach($material_id, [
+                    'ratio' => $recipe['raito'],
+                    'subcost' => $subcost
+                ]);
+            }
+        }
+
+        // 更新商品價格
+        $product->update([
+            'costprice' => $costprice,
+            'profit' => $request->profit,
+            'retailPrice' => ($request->profit + $costprice),
         ]);
 
         return $product;
@@ -68,7 +101,7 @@ class ProductService extends BaseService
     }
 
     public function getInfoList($id){
-        $product_info = ProductEloquent::select('quantity','unit')->find($id);
+        $product_info = ProductEloquent::find($id);
         $product_info['showUnit'] = $product_info->showUnit();
         return $product_info;
     }
@@ -81,46 +114,36 @@ class ProductService extends BaseService
     public function update($request, $id){
         $product = $this->getOne($id);
 
-        $x1 = BasicMaterialEloquent::findOrFail(1)->price;
-        $x2 = BasicMaterialEloquent::findOrFail(2)->price;
-        $x3 = BasicMaterialEloquent::findOrFail(3)->price;
-        $x4 = BasicMaterialEloquent::findOrFail(4)->price;
-        $x5 = BasicMaterialEloquent::findOrFail(5)->price;
-
-        $retail_price = 
-            $x1 * $request->materialCoefficient1 + 
-            $x2 * $request->materialCoefficient2 + 
-            $x3 * $request->materialCoefficient3 +
-            $x4 * $request->materialCoefficient4 + 
-            $x5 * $request->materialCoefficient5 + 
-            $request->fundamentalPrice;
-
         // 圖片儲存
-        $image_path = $this->savePicture($request->picture);
+        $this->savePicture($request->picture, $product);
 
         $realName = $request->name."(".$request->specification."+".$request->size."+".$request->weight."+".")";
 
         $product->update([
             'category_id' => $request->category_id,
-            'name' => $request->$realName,
-            'shortName' => $request->shownID,
+            'name' => $request->name,
+            'isManualNamed' => $request->isManualNamed ?? '0',
+            'shownID' => $request->shownID,
+            'isManualID' => $request->isManualID ?? '0',
             'internationalNum' => $request->internationalNum,
 
-            'fundamentalPrice' => $request->fundamentalPrice,
-            'retailPrice' => $retail_price,
-            'materialCoefficient1' => $request->materialCoefficient1,
-            'materialCoefficient2' => $request->materialCoefficient2,
-            'materialCoefficient3' => $request->materialCoefficient3,
-            'materialCoefficient4' => $request->materialCoefficient4,
-            'materialCoefficient5' => $request->materialCoefficient5,
+            'specification' => $request->specification,
+            'color' => $request->color,
 
+            'isCustomize' => $request->isCustomize ?? '0',
+            'isPublic' => $request->isPublic ?? '0',
+            'showPrice' => $request->showPrice ?? '0',
+
+            'length' => $request->length,
+            'width' => $request->width,
+            'chamfer' => $request->chamfer,
+            'weight' => $request->weight,
+            'qty_per_pack' => $request->qty_per_pack,
             'comment' => $request->comment,
             'unit' => $request->unit,
             'quantity' => $request->quantity,
             'safeQuantity' => $request->safeQuantity,
-            'picture' => $image_path,
             'intro' => $request->intro,
-            'specification' => $request->specification,
         ]);
         return $product;
     }
@@ -151,18 +174,53 @@ class ProductService extends BaseService
         }
     }
 
-    private function savePicture($picture){
+    private function savePicture($picture, $product){
         if(!empty($picture)){
-            $origin_picture = imagecreatefromjpeg($picture);
-            $ext = $picture->getClientOriginalExtension();
-            $picture_name = ProductEloquent::get()->count() + 1;
+            $ext = strtolower($picture->getClientOriginalExtension());
+            switch($ext){
+                case 'jpg':
+                    $origin_picture = imagecreatefromjpeg($picture);
+                    break;
+                case 'png':
+                    $origin_picture = imagecreatefrompng($picture);
+                    break;
+                case 'bmp':
+                    $origin_picture = imagecreatefrombmp($picture);
+                    break;
+                default:
+                    $origin_picture = imagecreatefromjpeg($picture);
+                    break;
+            }
+
+            $index = $product->pictures()->count() + 1;
+            $picture_name = str_pad($product->id, 4, '0', STR_PAD_LEFT) . '-' . str_pad($index, 2, '0', STR_PAD_LEFT);
             $picture_full_name = $picture_name . '.' . $ext;
+
             $save_path = public_path('images/products/');
-            imagejpeg($origin_picture, $save_path . $picture_full_name);
+            switch($ext){
+                case 'jpg':
+                    imagejpeg($origin_picture, $save_path . $picture_full_name);
+                    break;
+                case 'png':
+                    $background = imagecolorallocate($origin_picture, 0, 0, 0);
+                    imagecolortransparent($origin_picture, $background);
+                    imagealphablending($origin_picture, false);
+                    imagesavealpha($origin_picture, true);
+                    imagepng($origin_picture, $save_path . $picture_full_name);
+                    break;
+                case 'bmp':
+                    imagebmp($origin_picture, $save_path . $picture_full_name);
+                    break;
+                default:
+                    imagejpeg($origin_picture, $save_path . $picture_full_name);
+                    break;
+            }
             $image_path = 'images/products/' . $picture_full_name;
-        }else{
-            $image_path = null;
+
+            $product->pictures()->create([
+                'url' => $image_path,
+                'index' => $index,
+            ]);
         }
-        return $image_path;
     }
 }

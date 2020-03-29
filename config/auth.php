@@ -41,9 +41,14 @@ return [
             'provider' => 'users',
         ],
 
+        'consumer' => [
+            'driver' => 'jwt',
+            'provider' => 'consumers',
+        ],
+
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            'driver' => 'jwt',
+            'provider' => 'consumers',
             'hash' => false,
         ],
     ],
@@ -69,6 +74,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'consumers' => [
+            'driver' => 'eloquent',
+            'model' => App\Consumer::class,
         ],
 
         // 'users' => [
@@ -98,6 +108,12 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+
+        'consumers' => [
+            'provider' => 'consumers',
+            'table' => 'password_resets',
+            'expire' => 60,
         ],
     ],
 

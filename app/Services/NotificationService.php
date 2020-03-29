@@ -115,4 +115,15 @@ class NotificationService extends BaseService
         broadcast(new SaleOrderExpiredEvent($notice, $sale_order_id))->toOthers();
     }
 
+    // 通知月結客戶已確認退款  => joBTitle >= 2 (暫定)
+    public function refundConfirmedNotice($consumer_id, $returnOrder_id){
+
+        $notice = NotificationEloquent::create([
+            'job_title_id' => 3,
+            'type' => 7,
+            'status' => 0,
+            'comment' => '已確認退款'
+        ]);
+        broadcast(new RefundConfirmedNoticeEvnet($notice, $consumer_id, $returnOrder_id))->toOthers();
+    }
 }

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,25 +94,14 @@
 /***/ (function(module, exports) {
 
 $(function () {
-  $('#copycompany1').click(function (e) {
-    if ($(this).prop("checked")) {
-      $('#deliveryAddress').val($('#companyAddress').val());
-    } else {
-      $('#deliveryAddress').val('');
-    }
-  });
-  $('#copycompany2').click(function (e) {
-    if ($(this).prop("checked")) {
-      $('#invoiceAddress').val($('#companyAddress').val());
-    } else {
-      $('#invoiceAddress').val('');
-    }
+  $('#companyAddress_twzipcode').twzipcode({
+    'readonly': true
   });
 });
 
 /***/ }),
 
-/***/ 6:
+/***/ 5:
 /*!************************************************!*\
   !*** multi ./resources/js/suppliers/create.js ***!
   \************************************************/

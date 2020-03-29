@@ -7,12 +7,18 @@ use App\PurchaseOrder as PurchaseOrderEloquent;
 use App\Material_log as Material_logEloquent;
 use App\ProduceDetail as ProduceDetailEloquent;
 use App\ProductDetail as ProductDetailEloquent;
+use App\Product as ProductEloquent;
 
 class Material extends Model
 {
     protected $fillable = [
         'name', 'shortName', 'comment', 'internationalNum', 'unit', 'unitPrice', 'stock', 'safeQuantity', 'picture',
     ];
+
+    // 抓取此原物料 可以製成的 所有商品
+    public function products(){
+        return $this->belongsToMany(ProductEloquent::class, 'product_recipes')->withPivot('ratio', 'subcost');
+    }
 
     public function purchaseOrders(){
         return $this->belongsToMany(PurchaseOrderEloquent::class)

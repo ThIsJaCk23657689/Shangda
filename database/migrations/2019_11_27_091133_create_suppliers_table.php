@@ -16,10 +16,11 @@ class CreateSuppliersTable extends Migration
         // 供應商
         Schema::create('suppliers', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('編號');
+
             $table->string('name', 100)->comment('名稱');
             $table->string('shortName', 100)->nullable()->comment('簡稱');
-
             $table->string('taxId', 8)->nullable()->unique()->comment('統一編號');
+
             $table->string('tel', 25)->nullable()->comment('電話');
             $table->string('tax', 25)->nullable()->comment('傳真');
 
@@ -30,9 +31,11 @@ class CreateSuppliersTable extends Migration
             $table->string('tel2', 25)->nullable()->comment('負責人電話2');
             $table->string('email2', 100)->nullable()->comment('負責人信箱2');
 
-            $table->string('companyAddress')->comment('公司地址');
-            $table->string('deliveryAddress')->comment('送貨地址');
-            $table->string('invoiceAddress')->comment('發票地址');
+            $table->string('companyAddress_zipcode', 5)->nullable()->comment('公司地址 - 郵遞區號');
+            $table->string('companyAddress_county', 10)->nullable()->comment('公司地址 - 縣市');
+            $table->string('companyAddress_district', 10)->nullable()->comment('公司地址 - 鄉鎮');
+            $table->string('companyAddress_others')->nullable()->comment('公司地址 - 其他');
+
             $table->text('comment')->nullable()->comment('備註');
             $table->timestamps();
         });

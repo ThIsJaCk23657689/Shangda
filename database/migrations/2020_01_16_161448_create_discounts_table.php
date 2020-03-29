@@ -16,7 +16,9 @@ class CreateDiscountsTable extends Migration
         Schema::create('discounts', function (Blueprint $table) {
             $table->unsignedBigInteger('product_id')->comment('商品編號');
             $table->unsignedBigInteger('consumer_id')->comment('顧客編號');
-            $table->double('price')->default(0)->comment('價格增減'); //零售價加上該欄位數值，欲做折扣請輸入負值。
+
+            // 零售價減去該欄位數值，如果該欄位為負值，則會比原本零售價還更貴哦！
+            $table->double('price')->default(0)->comment('折扣價格'); 
         });
     }
 
