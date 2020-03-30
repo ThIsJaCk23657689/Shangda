@@ -47,6 +47,8 @@ class SalesOrderService extends BaseService
             'status' => $request->status,
             'invoiceType' => $request->invoiceType,
             'address' => $request->address,
+            'confirmStatus' => $request->confirmStatus,
+            'who_created' => $request->who_created,
         ]);
 
         // 發送通知
@@ -57,7 +59,19 @@ class SalesOrderService extends BaseService
 
     public function getList()
     {
-        $saleOrders = SalesOrderEloquent::where('status', 1)->get();
+        $saleOrders = SalesOrderEloquent::where('confirmStatus', 1)->get();
+        return $saleOrders;
+    }
+
+    public function getUnconfirmedList()
+    {
+        $saleOrders = SalesOrderEloquent::where('confirmStatus', 0)->get();
+        return $saleOrders;
+    }
+
+    public function getRejectedList()
+    {
+        $saleOrders = SalesOrderEloquent::where('confirmStatus', 2)->get();
         return $saleOrders;
     }
 
@@ -65,6 +79,30 @@ class SalesOrderService extends BaseService
     {
         $saleOrder = SalesOrderEloquent::find($id);
         return $saleOrder;
+    }
+
+    public function confirmOrder($id,$status){
+        
+        $saleOrder = $this->getOne($id);
+        $orginalStatus = $saleOrder->confirmStatus;
+        $saleOrder->confirmStatus = $status;
+        $saleOrder->save();
+        if ($status == 1 and ($orginalStatus == 0 or $orginalStatus == 2)){
+            //沒訂單或尚未確認變成有訂單，應新增金額。
+            $totalTaxPrice = $saleOrder->totalTaxPrice;
+            $saleOrder->consumer->uncheckedAmount += $totalTaxPrice;
+            $saleOrder->consumer->totalConsumption += $totalTaxPrice;
+            $saleOrder->consumer->save();
+            return $saleOrder;
+        }elseif($status == 2 and $orginalStatus == 1){
+            //已確認訂單刪除，應刪除金額。
+            $totalTaxPrice = $saleOrder->totalTaxPrice;
+            $saleOrder->consumer->uncheckedAmount -= $totalTaxPrice;
+            $saleOrder->consumer->totalConsumption -= $totalTaxPrice;
+            $saleOrder->consumer->save();
+            return $saleOrder;
+        }
+        return "error";
     }
 
     public function update($request, $id)

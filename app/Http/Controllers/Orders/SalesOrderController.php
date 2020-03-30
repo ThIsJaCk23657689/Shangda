@@ -28,8 +28,11 @@ class SalesOrderController extends Controller
     public function index()
     {
         $salesOrders = $this->SalesOrderService->getList();
-            $lastUpdate = $this->SalesOrderService->getlastupdate();
-            return view('salesOrders.index', compact('salesOrders', 'lastUpdate'));
+        $lastUpdate = $this->SalesOrderService->getlastupdate();
+        $unconfirmedList = $this->SalesOrderService->getUnconfirmedList();
+        $rejectedList = $this->SalesOrderService->getRejectedList();
+
+        return view('salesOrders.index', compact('salesOrders', 'lastUpdate','unconfirmedList','rejectedList'));
 
     }
 
@@ -40,10 +43,8 @@ class SalesOrderController extends Controller
      */
     public function create($status)
     {
-
         $new_shownID = $this->SalesOrderService->generateShownID();
         return view('salesOrders.create', compact('new_shownID'));
-
     }
 
     /**
@@ -54,6 +55,8 @@ class SalesOrderController extends Controller
      */
     public function store(SalesOrderRequest $request)
     {
+        $request->confirmStatus = 1;
+        $request->who_created = 0;
         $salesOrder = $this->SalesOrderService->add($request);
             return response()->json([
                 'salesOrder_id' => $salesOrder->id,
@@ -61,6 +64,21 @@ class SalesOrderController extends Controller
                 'status' => 'OK'
             ]);
     }
+
+    public function storeFromCart(SalesOrderRequest $request)
+    {
+        //顧客申請狀態
+        $request->confirmStatus = 0;
+        $request->who_created = 1;
+
+        $salesOrder = $this->SalesOrderService->add($request);
+        return response()->json([
+            'salesOrder_id' => $salesOrder->id,
+            'massenge' => '單號' . $salesOrder->shown_id . '建立成功。',
+            'status' => 'OK'
+        ]); 
+    }
+
 
     /**
      * Display the specified resource.
@@ -83,6 +101,12 @@ class SalesOrderController extends Controller
     public function edit($id)
     {
         $salesOrder = $this->SalesOrderService->getOne($id);
+        return view('salesOrders.edit', compact('salesOrder'));
+    }
+
+    public function confirmOrder($id,$status)
+    {
+        $salesOrder = $this->SalesOrderService->confirmOrder($id,$status);
         return view('salesOrders.edit', compact('salesOrder'));
     }
 

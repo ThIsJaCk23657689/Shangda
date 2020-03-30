@@ -41,8 +41,8 @@ class CreateSalesOrdersTable extends Migration
 
             // 預設為0，代表是管理者創建(訂單) | 如果為1代表為顧客所創建。
             $table->boolean('who_created')->default(0)->comment('創建類型');
-            // 預設為1，代表是管理者已核准訂單 | 如果為1代表為顧客所創建，未核准狀態。
-            $table->boolean('status')->default(1)->comment('訂單狀態');
+            // 0為未核准狀態。| 預設為1管理者已核准訂單 | 2為已拒絕
+            $table->boolean('confirmStatus')->default(1)->comment('訂單狀態');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

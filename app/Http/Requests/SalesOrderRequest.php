@@ -43,6 +43,8 @@ class SalesOrderRequest extends FormRequest
             'status' => 'required|min:1|max:2',
             'invoiceType' => 'required|min:1|max:5',
             'address' => 'nullable|string|max:255',
+            'who_created' => 'required|integer|max:1|min:0',
+            'confirmStatus' => 'required|integer|max:2|min:0',
         ];
     }
 }

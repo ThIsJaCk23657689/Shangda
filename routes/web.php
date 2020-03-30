@@ -112,6 +112,8 @@ Route::prefix('/backend')->group(function(){
             Route::patch('/delivered', 'Orders\SalesOrderController@received')->name('sales.delivered');
             Route::patch('/paid', 'Orders\SalesOrderController@paid')->name('sales.paid');
             Route::patch('/paymentCancel', 'Orders\SalesOrderController@paymentCancel')->name('sales.paymentCancel');
+            // // 購物車轉入訂單
+            // Route::post('/storeFromCart', 'Orders\SalesOrderController@storeFromCart')->name('sales.storeFromCart');
 
             // 銷貨單細項資料管理路由
             Route::prefix('/details')->group(function(){
@@ -134,6 +136,13 @@ Route::prefix('/backend')->group(function(){
             // });
         });
         Route::resource('/return', 'Orders\ReturnOrderController');
+
+        //購物車路由
+        Route::prefix('/cart')->group(function(){
+            // index
+            Route::get('/index', 'CartController@index')->name('cart.index');
+            
+        });
     });
 
 });

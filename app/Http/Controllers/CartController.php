@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use App\Http\Requests\CartRequest;
 use JWTAuth;
@@ -24,5 +24,12 @@ class CartController extends Controller
         $lastUpdate = $this->CartService->getlastupdate($consumer->id);
         return view('cart.index', compact('carts', 'lastUpdate'));
 
+    }
+
+    public function clearCartDetails(){
+        $token = JWTAuth::getToken();
+        $consumer = JWTAuth::toUser($token);
+        $this->CartService->clearDetails($consumer->id);
+        return response()->json("success", 200);
     }
 }
