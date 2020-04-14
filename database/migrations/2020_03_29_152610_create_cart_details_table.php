@@ -18,15 +18,15 @@ class CreateCartDetailsTable extends Migration
             $table->unsignedBigInteger('cart_id')->comment('購物車編號');
             $table->unsignedBigInteger('product_id')->comment('商品編號');
 
-            $table->integer('count')->comment('銷貨單序號');
+            // $table->integer('count')->comment('銷貨單序號');
             $table->double('price')->default(0)->comment('單價');
             $table->integer('quantity')->default(0)->comment('數量');
             $table->float('discount')->default(1)->comment('折數');
             $table->double('subTotal')->default(0)->comment('小計');
             $table->string('comment')->nullable()->comment('備註');
 
+            $table->foreign('cart_id')->references('id')->on('carts');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('carts_id')->references('id')->on('sales_orders');
             $table->timestamps();
         });
     }

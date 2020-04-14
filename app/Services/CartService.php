@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Orders;
+namespace App\Services;
 use App\Services\BaseService;
 use App\Cart as CartEloquent;
 use App\Product as ProductEloquent;

@@ -37,10 +37,11 @@
 					<thead>
 						<tr>
 							<th>編號</th>
-							<th>簡稱</th>
+							<th>名稱</th>
 							<th>統一編號</th>
-                            <th>負責人姓名</th>
-                            <th>負責人電話</th>
+                            <th>聯絡窗口</th>
+							<th>電話號碼</th>
+							<th>手機</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -48,10 +49,11 @@
 						@foreach ($suppliers as $supplier)
 							<tr>
 								<td>{{ $supplier->id }}</td>
-								<td>{{ $supplier->shortName }}</td>
+								<td>{{ $supplier->name }}</td>
 								<td>{{ $supplier->taxId }}</td>
-                                <td>{{ $supplier->inCharge1 }}</td>
-                                <td>{{ $supplier->tel1 }}</td>
+                                <td>{{ $supplier->operator_name_1 }}</td>
+								<td>{{ $supplier->tel }}</td>
+								<td>{{ $supplier->operator_phone_1 }}</td>
 								<td>
 									<a href="{{ route('suppliers.show', [$supplier->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>

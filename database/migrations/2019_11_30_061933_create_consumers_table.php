@@ -20,8 +20,8 @@ class CreateConsumersTable extends Migration
             $table->bigIncrements('id')->comment('編號');
             $table->string('account', 30)->unique()->comment('帳號');
             $table->string('password')->comment('密碼');
-            $table->string('name')->unique()->comment('姓名 or 公司名稱');
-            $table->string('shortName')->nullable()->comment('簡稱');
+            $table->string('name', 100)->unique()->comment('姓名 or 公司名稱');
+            $table->string('shortName', 100)->nullable()->comment('簡稱');
             $table->boolean('gender')->comment('性別 or 聯絡人性別');
             $table->string('idNumber', 10)->nullable()->unique()->comment('身分證 or 公司負責人身分證');
             $table->string('email', 100)->comment('信箱 or 公司信箱');
@@ -45,7 +45,7 @@ class CreateConsumersTable extends Migration
 
 
             // ==================== 個人帳號資料 ====================
-            $table->date('birthday', 10)->nullable()->comment('生日');
+            $table->date('birthday')->nullable()->comment('生日');
             $table->string('phone', 10)->nullable()->comment('手機 or 聯絡人手機');
             // ==================== 個人帳號資料 ====================
 
@@ -53,14 +53,14 @@ class CreateConsumersTable extends Migration
 
 
             // ==================== 法人帳號資料 ====================
-            $table->string('branch', 10)->nullable()->comment('分店名');
-            $table->string('principal')->nullable()->comment('公司負責人名稱');
+            $table->string('branch', 50)->nullable()->comment('分店名');
+            $table->string('principal', 100)->nullable()->comment('公司負責人名稱');
             $table->string('taxID', 8)->nullable()->comment('統一編號');
-            $table->string('tel', 10)->nullable()->comment('電話 or 公司電話');
-            $table->string('tax', 10)->nullable()->comment('公司傳真');
+            $table->string('tel', 20)->nullable()->comment('電話 or 公司電話');
+            $table->string('tax', 20)->nullable()->comment('公司傳真');
 
             $table->string('operator_name')->nullable()->comment('聯絡人名稱');
-            $table->string('operator_tel', 10)->nullable()->comment('聯絡人電話');
+            $table->string('operator_tel', 20)->nullable()->comment('聯絡人電話');
             $table->string('operator_email', 100)->nullable()->comment('聯絡人信箱');
 
             $table->string('deliveryAddress_zipcode', 5)->nullable()->comment('送貨地址 - 郵遞區號');

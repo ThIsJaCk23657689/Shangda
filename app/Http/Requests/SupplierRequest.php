@@ -24,26 +24,35 @@ class SupplierRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:100|string',
-            'shortName' => 'nullable|max:100|string',
-            'taxId' => 'nullable|max:8|string',
+            'name' => 'required|string|max:100',
+            'shortName' => 'nullable|string|max:100',
+            'taxId' => 'nullable|string|max:8',
+            'tel' => 'nullable|string|max:20',
+            'tax' => 'nullable|string|max:20',
+            'comment' => 'nullable|string|max:255',
 
-            'tel' => 'nullable|max:25|string',
-            'tax' => 'nullable|max:25|string',
-            
-            'inCharge1' => 'required|max:50|string',
-            'tel1' => 'required|max:25|string',
-            'email1' => 'nullable|max:100|email',
-            'inCharge2' => 'nullable|max:50|string',
-            'tel2' => 'nullable|max:25|string',
-            'email2' => 'nullable|max:100|email',
-            
-            'CompanyAddress_zipcode' => 'required|max:5|string',
-            'CompanyAddress_county' => 'required|max:10|string',
-            'CompanyAddress_district' => 'required|max:10|string',
-            'CompanyAddress_others' => 'required|max:255|string',
+            'operator_name_1' => 'required|string|max:50',
+            'operator_tel_1' => 'required_without:operator_phone_1|string|max:20',
+            'operator_phone_1' => 'required_without:operator_tel_1|string|size:10',
+            'operator_email_1' => 'nullable|email|max:100',
 
-            'comment' => 'nullable|string',
+            'operator_name_2' => 'nullable|string|max:50',
+            'operator_tel_2' => 'nullable|string|max:20',
+            'operator_phone_2' => 'nullable|string|size:10',
+            'operator_email_2' => 'nullable|email|max:100',
+            
+            'companyAddress_zipcode' => 'required|string|max:5',
+            'companyAddress_county' => 'required|string|max:10',
+            'companyAddress_district' => 'required|string|max:10',
+            'companyAddress_others' => 'required|string|max:255',
+
+            'bank_name' => 'nullable|string|max:50',
+            'bank_branch_name' => 'nullable|string|max:50',
+            'bank_code' => 'nullable|string|max:50',
+            'bank_account' => 'nullable|string|max:50',
+            'bank_account_name' => 'nullable|string|max:50',
+            'payment_method' => 'nullable|string|size:1',
+            'monthlyCheckDate' => 'nullable|integer|min:0|max:31',
         ];
     }
 }

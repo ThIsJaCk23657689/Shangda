@@ -39,7 +39,7 @@
 					<thead>
 						<tr>
 							<th>編號</th>
-							<th>名稱</th>
+							<th>客戶/公司 名稱</th>
 							<th>聯絡人名稱</th>
 							<th>聯絡人電話</th>
                             <th>折扣商品數</th>
@@ -51,8 +51,8 @@
 							<tr class="{{ $consumer->trashed()?'bg-warning':'' }}">
 								<td>{{ $consumer->id }}</td>
 								<td>{{ $consumer->name }}</td>
-								<td>{{ $consumer->inCharge1 }}</td>
-								<td>{{ $consumer->tel1 }}</td>
+								<td>{{ $consumer->operator_name ?? '無' }}</td>
+								<td>{{ $consumer->operator_tel ?? $consumer->tel ?? $consumer->phone }}</td>
 								<td>{{ $consumer->products()->count() }}</td>
                                 <td>
 									<a href="{{ route('consumers.showDiscountsPage', [$consumer->id]) }}" class="btn btn-md btn-success">

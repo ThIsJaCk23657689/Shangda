@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Consumer as ConsumerEloquent;
-use App\Services\Orders\CartService;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 

@@ -19,16 +19,6 @@ class ConsumerAuthController extends Controller
         $this->ConsumerAuthService = new ConsumerAuthService();
     }
 
-    public function register(ConsumerRequest $request){
-        $headers = array('Content-Type' => 'application/json; <a href="http://superlevin.ifengyuan.tw/tag/charset/">charset</a>=utf-8');
-        $msg = $this->ConsumerAuthService->register($request);
-        if($msg == "兩次密碼不一致"){
-            return response()->json($msg, 400, $headers, JSON_UNESCAPED_UNICODE);
-        }else{
-            return response()->json($msg, 200, $headers, JSON_UNESCAPED_UNICODE);
-        }
-    }
-
     public function resetPassword(Request $request){
         $headers = array('Content-Type' => 'application/json; <a href="http://superlevin.ifengyuan.tw/tag/charset/">charset</a>=utf-8');
         $msg = $this->ConsumerAuthService->resetPassword($request);

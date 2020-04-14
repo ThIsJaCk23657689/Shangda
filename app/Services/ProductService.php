@@ -8,31 +8,6 @@ use App\Category as CategoryEloquent;
 class ProductService extends BaseService
 {
     public function add($request){
-<<<<<<< HEAD
-        // 計算零售價
-        $x1 = BasicMaterialEloquent::findOrFail(1)->price;
-        $x2 = BasicMaterialEloquent::findOrFail(2)->price;
-        $x3 = BasicMaterialEloquent::findOrFail(3)->price;
-        $x4 = BasicMaterialEloquent::findOrFail(4)->price;
-        $x5 = BasicMaterialEloquent::findOrFail(5)->price;
-
-        $retail_price = 
-            $x1 * $request->materialCoefficient1 +
-            $x2 * $request->materialCoefficient2 + 
-            $x3 * $request->materialCoefficient3 +
-            $x4 * $request->materialCoefficient4 + 
-            $x5 * $request->materialCoefficient5 + 
-            $request->fundamentalPrice;
-
-        // 圖片儲存
-        $image_path = $this->savePicture($request->picture);
-
-
-        //名字加規格
-        $realName = $request->name."(".$request->specification."/".$request->size."".$request->weight."+".")";
-
-=======
->>>>>>> 620bbdaca20de565755a64f76b2a85660a2ce598
         // 新增資料
         $product = ProductEloquent::create([
             'category_id' => $request->category_id,
