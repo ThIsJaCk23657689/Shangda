@@ -31,7 +31,7 @@ class RegisterController extends Controller
         // 驗證資料
         $validator = Validator::make($request->all(), $this->generateRules($request));
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 200);
+            return response()->json($validator->messages(), 422);
         }
 
         // 新增顧客資料
