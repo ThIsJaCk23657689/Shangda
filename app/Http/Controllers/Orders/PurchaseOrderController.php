@@ -105,12 +105,18 @@ class PurchaseOrderController extends Controller
     }
 
     public function received(Request $request){
-        $msg = $this->PurchaseOrderService->received($request);
-        return response()->json($msg, 200);
+        $result = $this->PurchaseOrderService->received($request);
+        return response()->json([
+            'message' => $result['message'],
+            'url' => route('purchase.index')
+        ], $result['status']);
     }
 
     public function paid(Request $request){
-        $msg = $this->PurchaseOrderService->paid($request);
-        return response()->json($msg, 200);
+        $result = $this->PurchaseOrderService->paid($request);
+        return response()->json([
+            'message' => $result['message'],
+            'url' => route('purchase.index')
+        ], $result['status']);
     }
 }

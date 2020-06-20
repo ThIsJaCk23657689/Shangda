@@ -22,6 +22,8 @@ class CreateSuppliersTable extends Migration
             $table->string('taxId', 8)->nullable()->unique()->comment('統一編號');
 
             $table->string('tel', 20)->nullable()->comment('電話');
+            $table->string('phone_day', 20)->nullable()->comment('手機(日)');
+            $table->string('phone_night', 20)->nullable()->comment('手機(夜)');
             $table->string('tax', 20)->nullable()->comment('傳真');
 
             $table->string('comment')->nullable()->comment('備註');
@@ -46,7 +48,7 @@ class CreateSuppliersTable extends Migration
             $table->string('bank_code', 50)->nullable()->comment('銀行通匯代號');
             $table->string('bank_account', 50)->nullable()->comment('帳號');
             $table->string('bank_account_name', 50)->nullable()->comment('戶名');
-            
+
             // 現金、匯款、支票、信用卡
             $table->string('payment_method', 1)->nullable()->comment('付款方式');
             // 0 => 貨到付款、1 ~ 31 => 月結日

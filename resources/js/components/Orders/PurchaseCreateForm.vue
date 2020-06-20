@@ -81,7 +81,7 @@
                         </label>
 
                         <div class="col-md-6">
-                            <input id="showInCharge1" type="text" class="form-control" :value="current_supplier.inCharge1" disabled>
+                            <input id="showInCharge1" type="text" class="form-control" :value="current_supplier.operator_name_1" disabled>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                         </label>
 
                         <div class="col-md-6">
-                            <input id="showTel1" type="text" class="form-control" :value="current_supplier.tel1" disabled>
+                            <input id="showTel1" type="text" class="form-control" :value="current_supplier.operator_tel_1" disabled>
                         </div>
                     </div>
                 </div>
@@ -214,7 +214,7 @@
             </div>
 
             <hr>
- 
+
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
                     <button type="submit" class="btn btn-block btn-primary">
@@ -243,12 +243,12 @@ export default {
         console.log('PurchaseCreareForm.vue mounted.');
 
         $("#expectReceived_at").datepicker({
+            dateFormat: 'yy-mm-dd',
             changeYear: true,
             changeMonth: true,
-            maxDate: new Date,
-            dateFormat: 'yy-mm-dd'
+            yearRange: "-80:+0",
         });
-        
+
         // 訂單細項 表單程式碼
         $('#PurchaseOrderDetailForm').submit(function(e){
             e.preventDefault();
@@ -278,7 +278,7 @@ export default {
         },
 
         changeTax () {
-            this.$refs.purchasedetail.calculateTotalPrice()  // 呼叫子元件裡的toggleFood方法 
+            this.$refs.purchasedetail.calculateTotalPrice()  // 呼叫子元件裡的toggleFood方法
         },
 
         getSupplierData(){

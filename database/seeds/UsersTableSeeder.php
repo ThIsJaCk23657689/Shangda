@@ -20,8 +20,8 @@ class UsersTableSeeder extends Seeder
         ]);
         $user->job_title_id = 4;
         $user->save();
-        
-        
+
+
         $user = UserEloquent::create([
             'name' => 'Jack',
             'gender' => '1',
@@ -30,7 +30,16 @@ class UsersTableSeeder extends Seeder
         ]);
         $user->job_title_id = 4;
         $user->save();
-        
+
+        $user = UserEloquent::create([
+            'name' => 'Jamie',
+            'gender' => '1',
+            'email' => 'jamie870116@gmail.com',
+            'password' => bcrypt('jj12345678'),
+        ]);
+        $user->job_title_id = 4;
+        $user->save();
+
         $users = factory(UserEloquent::class, 8)->create();
     }
 }

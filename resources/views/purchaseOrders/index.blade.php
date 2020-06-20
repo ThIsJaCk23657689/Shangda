@@ -3,10 +3,10 @@
 @push('CustomJS')
 	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
 	<script src="{{ asset('js/orders/purchase/index.js') }}" defer></script>
-@endpush 
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('Orders Management') }}</a>
@@ -25,7 +25,7 @@
             </a>
         </div>
     </div>
-	
+
 	<!-- DataTables Example -->
 	<div class="card mb-3">
 		<div class="card-header">
@@ -56,26 +56,39 @@
 								<td>{{ $purchaseOrder->showReceivedStatus() }}</td>
 								<td>{{ $purchaseOrder->created_at->toDateString() }}</td>
 								<td>
-									<button type="button" class="btn btn-md btn-primary" data-toggle="modal" data-target="#ReceivedModal">
-										<i class="fas fa-truck-loading"></i>
-										到貨
-									</button>
-									@include('partials.backend.modals.received')
+                                    @if($purchaseOrder->received_at == null)
+                                        <button type="button" class="btn btn-md btn-primary received-btn" data-toggle="modal" data-target="#ReceivedModal" data-id="{{ $purchaseOrder->id }}" data-expect-received-at="{{ $purchaseOrder->showExpectReceivedAtDate() }}">
+                                            <i class="fas fa-truck-loading"></i>
+                                            到貨
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-md btn-danger cancle-received-btn">
+                                            <i class="fas fa-undo-alt"></i>
+                                            取消到貨
+                                        </button>
+                                        <form id="cancle-received-form-{{ $purchaseOrder->id }}" class="cancle-received-form" action="{{ route('purchase.received') }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="purchase_id" value="{{ $purchaseOrder->id }}">
+                                        </form>
+                                    @endif
 
-									<a href="#" class="btn btn-md btn-primary" onclick="
-										event.preventDefault();
-										ans = confirm('確認此進貨單已經完成付款？');
-										if(ans){
-											$('#paidform-{{ $purchaseOrder->id }}').submit();
-										}
-									">
-										<i class="fas fa-hand-holding-usd"></i>
-										付款
-									</a>
-									<form id="paidform-{{ $purchaseOrder->id }}" action="{{ route('purchase.paid', [$purchaseOrder->id]) }}" method="POST" style="display: none;">
-										@csrf
-										@method('PATCH')
-									</form>
+                                    @if($purchaseOrder->paid_at == null)
+                                        <button type="button" class="btn btn-md btn-primary paid-btn" data-toggle="modal" data-target="#PaidModal" data-id="{{ $purchaseOrder->id }}">
+                                            <i class="fas fa-hand-holding-usd"></i>
+										    確認付清
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-md btn-danger cancle-paid-btn">
+                                            <i class="fas fa-undo-alt"></i>
+                                            取消付清
+                                        </button>
+                                        <form id="cancle-paid-form-{{ $purchaseOrder->id }}" class="cancle-paid-form" action="{{ route('purchase.paid') }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="purchase_id" value="{{ $purchaseOrder->id }}">
+                                        </form>
+                                    @endif
 
 									<a href="{{ route('purchase.show', [$purchaseOrder->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
@@ -87,10 +100,20 @@
 									</a>
 									<a href="#" class="btn btn-md btn-danger" onclick="
 										event.preventDefault();
-										ans = confirm('確定要刪除此進貨單嗎?');
-										if(ans){
-											$('#deleteform-{{ $purchaseOrder->id }}').submit();
-										}
+										Swal.fire({
+                                            title: '注意！',
+                                            text: '您確定要刪除此進貨單嗎?',
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: '確認',
+                                            cancelButtonText: '取消',
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                $('#deleteform-{{ $purchaseOrder->id }}').submit();
+                                            }
+                                        });
 									">
 										<i class="far fa-trash-alt"></i>
 										刪除
@@ -100,13 +123,16 @@
 										@method('DELETE')
 									</form>
 								</td>
-							</tr>	
+							</tr>
 						@endforeach
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<div class="card-footer small text-muted"> {{ __('Last Updated') }} {{ $lastUpdate??'無' }}</div>
-	</div>
-	
+    </div>
+
+    @include('partials.backend.modals.purchase.received')
+    @include('partials.backend.modals.purchase.paid')
+
 @endsection

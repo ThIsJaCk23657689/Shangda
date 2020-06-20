@@ -89,21 +89,25 @@ class PurchaseOrderService extends BaseService
     }
 
     public function received($request){
-        $purchase_order_id = $request->id;
-        $received_at = $request->received_at;
+        $purchase_order_id = $request->purchase_id;
 
         $purchaseOrder = $this->getOne($purchase_order_id);
         if($purchaseOrder and $purchaseOrder->received_at == NULL){
             // 確認到貨
+            $received_at = $request->received_at;
             $purchaseOrder->received_at = $received_at;
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
+
             $purchaseOrder_details = $purchaseOrder->details();
             if($purchaseOrder_details){
                 foreach($purchaseOrder_details as $detail){
+                    // 加入庫存量
                     $material = MaterialEloquent::findOrFail($detail->material_id);
                     $material->stock = $material->stock + $detail->quantity;
                     $material->save();
+
+                    // 寫入log
                     MaterialLogEloquent::create([
                         'user_id' => Auth::id(),
                         'material_id' => $detail->material_id,
@@ -111,9 +115,16 @@ class PurchaseOrderService extends BaseService
                         'amount' => $detail->quantity,
                     ]);
                 }
-                return "Received Success";
+
+                return [
+                    'message' => '成功到貨！',
+                    'status' => 200
+                ];
             }else{
-                return 'Details Not Found';
+                return [
+                    'message' => '進貨單內無任何原物料！',
+                    'status' => 422
+                ];
             }
         }else if($purchaseOrder and $purchaseOrder->received_at != NULL){
             // 重複按 => 取消到貨
@@ -134,26 +145,37 @@ class PurchaseOrderService extends BaseService
                         'amount' => -$detail->quantity,
                     ]);
                 }
-                return "Received Canceled";
+
+                return [
+                    'message' => '成功取消到貨！',
+                    'status' => 200
+                ];
             }else{
-                return 'Details Not Found';
+                return [
+                    'message' => '進貨單內無任何原物料！',
+                    'status' => 422
+                ];
             }
 
         }else{
-            return 'Purchase Order Not Found';
+            return  [
+                'message' => '查無此進貨單',
+                'status' => 404
+            ];
         }
     }
 
     public function paid($request){
-        $purchase_order_id = $request->id;
+        $purchase_order_id = $request->purchase_id;
         $paid_at = $request->paid_at;
         $purchaseOrder = $this->getOne($purchase_order_id);
 
-        if($purchaseOrder and $purchaseOrder->received_at == NULL){
+        if($purchaseOrder and $purchaseOrder->paid_at == NULL){
             // 確認付款
-            $purchaseOrder->received_at = $paid_at;
+            $purchaseOrder->paid_at = $paid_at;
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
+
             $purchaseOrder_details = $purchaseOrder->details();
             if($purchaseOrder_details){
                 foreach($purchaseOrder_details as $detail){
@@ -164,9 +186,15 @@ class PurchaseOrderService extends BaseService
                         'amount' => 0,
                     ]);
                 }
-                return "Payment Confirmed";
+                return  [
+                    'message' => '成功付清！',
+                    'status' => 200
+                ];
             }else{
-                return 'Details Not Found';
+                return  [
+                    'message' => '進貨單內無任何原物料！',
+                    'status' => 422
+                ];
             }
         }else if($purchaseOrder and $purchaseOrder->paid_at != NULL){
             // 重複按 => 取消付款
@@ -183,13 +211,22 @@ class PurchaseOrderService extends BaseService
                         'amount' => 0,
                     ]);
                 }
-                return "Payment Canceled";
+                return  [
+                    'message' => '成功取消付清！',
+                    'status' => 200
+                ];
             }else{
-                return 'Details Not Found';
+                return  [
+                    'message' => '進貨單內無任何原物料！',
+                    'status' => 422
+                ];
             }
 
         }else{
-            return 'Purchase Order Not Found';
+            return  [
+                'message' => '查無此進貨單',
+                'status' => 404
+            ];
         }
 
     }

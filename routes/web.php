@@ -83,7 +83,7 @@ Route::prefix('/backend')->group(function(){
         Route::get('{id}/discounts/list', 'ConsumerController@getDiscountsList')->name('consumers.getDiscountsList');
     });
     Route::resource('/consumers', 'ConsumerController');
-    
+
     // 優惠管理路由
     Route::get('/discounts', 'DiscountController@index')->name('discounts.index');
 
@@ -109,7 +109,7 @@ Route::prefix('/backend')->group(function(){
         // 銷貨單管理路由
         Route::prefix('/sales')->group(function(){
             // 確認出貨及付款 -> 寫進log(商品)
-            Route::patch('/delivered', 'Orders\SalesOrderController@received')->name('sales.delivered');
+            Route::patch('/delivered', 'Orders\SalesOrderController@delivered')->name('sales.delivered');
             Route::patch('/paid', 'Orders\SalesOrderController@paid')->name('sales.paid');
             Route::patch('/paymentCancel', 'Orders\SalesOrderController@paymentCancel')->name('sales.paymentCancel');
             // // 購物車轉入訂單
@@ -129,7 +129,7 @@ Route::prefix('/backend')->group(function(){
         Route::prefix('/return')->group(function(){
             // 確認退款
             Route::patch('/refundConfirm', 'Orders\ReturnOrderController@refundConfirm')->name('return.refundConfirm');
-            
+
             // 退貨單細項資料管理路由
             // Route::prefix('/details')->group(function(){
 
@@ -141,7 +141,7 @@ Route::prefix('/backend')->group(function(){
         Route::prefix('/cart')->group(function(){
             // index
             Route::get('/index', 'CartController@index')->name('cart.index');
-            
+
         });
     });
 

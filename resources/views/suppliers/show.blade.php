@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('People Management') }}</a>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
@@ -52,28 +52,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>公司地址</label>
-                        <div class="row mb-2">
-                            <div class="col-md-4">
-                                <input id="companyAddress_county" type="text" class="form-control" name="companyAddress_county" value="{{ $supplier->companyAddress_county }}" readonly>
-                            </div>
-                            <div class="col-md-4">
-                                <input id="companyAddress_district" type="text" class="form-control" name="companyAddress_district" value="{{ $supplier->companyAddress_district }}" readonly>
-                            </div>
-                            <div class="col-md-4">
-                                <input id="companyAddress_zipcode" type="text" class="form-control" name="companyAddress_zipcode" value="{{ $supplier->companyAddress_zipcode }}" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input id="companyAddress_others" type="text" class="form-control" name="companyAddress_others" value="{{ $supplier->companyAddress_others }}" readonly>
-                            </div>
-                        </div>
+                        <input id="companyAddress" type="text" class="form-control" name="companyAddress" value="{{ $supplier->showAddress() }}" readonly>
                     </div>
                 </div>
             </div>
-            
+
             <hr>
-            
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -94,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -115,14 +100,14 @@
                     </div>
                 </div>
             </div>
-            
+
             <hr>
-            
+
             <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="comment">備註</label>
-                        <textarea id="comment" name="comment" type="text" class="form-control" readonly>{{ $supplier->comment }}</textarea>             
+                        <textarea id="comment" name="comment" type="text" class="form-control" readonly>{{ $supplier->comment }}</textarea>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -138,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
                     <a href="{{ route('suppliers.edit', [$supplier->id]) }}" class="btn btn-block btn-success">
@@ -153,5 +138,5 @@
 
         </div>
     </div>
-	
+
 @endsection

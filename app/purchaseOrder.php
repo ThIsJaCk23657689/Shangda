@@ -55,6 +55,10 @@ class PurchaseOrder extends Model
         }
     }
 
+    public function showExpectReceivedAtDate(){
+        return is_null($this->expectReceived_at) ? '無' : $this->expectReceived_at->format($this->dateFormat ?: 'Y-m-d');
+    }
+
     //顯示進貨單付款狀態
     public function showPaidStatus(){
         if($this->paid_at){

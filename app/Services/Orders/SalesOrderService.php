@@ -48,7 +48,7 @@ class SalesOrderService extends BaseService
             'invoiceType' => $request->invoiceType,
             'address' => $request->address,
             'confirmStatus' => $request->confirmStatus,
-            'who_created' => $request->who_created,
+            'who_created' => Auth::id(),
         ]);
 
         // 發送通知
@@ -82,7 +82,7 @@ class SalesOrderService extends BaseService
     }
 
     public function confirmOrder($id,$status){
-        
+
         $saleOrder = $this->getOne($id);
         $orginalStatus = $saleOrder->confirmStatus;
         $saleOrder->confirmStatus = $status;
@@ -191,7 +191,7 @@ class SalesOrderService extends BaseService
     }
 
     public function delivered($request){
-        $saleOrder_id = $request->id;
+        $saleOrder_id = $request->sales_id;
         $delivered_at = $request->delivered_at;
 
         $saleOrder = $this->getOne($saleOrder_id);
@@ -200,6 +200,7 @@ class SalesOrderService extends BaseService
             $saleOrder->delivered_at = $delivered_at;
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
+
             $saleOrder_details = $saleOrder->details();
             if($saleOrder_details){
                 foreach($saleOrder_details as $detail){
@@ -212,15 +213,22 @@ class SalesOrderService extends BaseService
                     }
                     $this->ProductLogService->add(Auth::id(), $detail->product_id, 7, $detail->quantity);
                 }
-                return "Delivered Success";
+                return [
+                    'message' => '成功出貨！',
+                    'status' => 200
+                ];
             }else{
-                return 'Details Not Found';
+                return [
+                    'message' => '銷貨單內無任何原物料！',
+                    'status' => 422
+                ];
             }
         }else if($saleOrder and $saleOrder->delivered_at != NULL){
             // 重複按 => 取消出貨
             $saleOrder->delivered_at = NULL;
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
+
             $saleOrder_details = $saleOrder->details();
             if($saleOrder_details){
 
@@ -230,13 +238,22 @@ class SalesOrderService extends BaseService
                     $product->save();
                     $this->ProductLogService->add(Auth::id(), $detail->product_id, 8, $detail->quantity);
                 }
-                return "Delivered Canceled";
+                return [
+                    'message' => '成功取消出貨！',
+                    'status' => 200
+                ];
             }else{
-                return 'Details Not Found';
+                return [
+                    'message' => '銷貨單內無任何原物料！',
+                    'status' => 422
+                ];
             }
 
         }else{
-            return 'Sale Order Not Found';
+            return  [
+                'message' => '查無此銷貨單',
+                'status' => 404
+            ];
         }
     }
 
@@ -248,7 +265,7 @@ class SalesOrderService extends BaseService
     // ('totalTaxPrice')->comment('訂單總價');
     // uncheckedAmount -> consumer 未沖帳金額
     public function paid($request){
-        $saleOrder_id = $request->id;
+        $saleOrder_id = $request->sales_id;
         $paid_at = $request->paid_at;
         // 此次付款金額 可超付或少付
         $paidAmount = $request->paidAmount;
@@ -274,8 +291,15 @@ class SalesOrderService extends BaseService
             $saleOrder->consumer->save();
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
+            return  [
+                'message' => '成功付清',
+                'status' => 200
+            ];
         }else{
-            return 'Sale Order Not Found';
+            return  [
+                'message' => '查無此銷貨單',
+                'status' => 404
+            ];
         }
 
     }

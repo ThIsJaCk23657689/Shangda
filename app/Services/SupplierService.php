@@ -12,6 +12,8 @@ class SupplierService extends BaseService
             'shortName' => $request->shortName,
             'taxId' => $request->taxId,
             'tel' => $request->tel,
+            'phone_day' => $request->phone_day,
+            'phone_night' => $request->phone_night,
             'tax' => $request->tax,
             'comment' => $request->comment,
 
@@ -52,7 +54,8 @@ class SupplierService extends BaseService
     }
 
     public function getInfoList($id){
-        $supplier_info = SupplierEloquent::select('shortName','taxId','tel','tax','inCharge1','tel1','companyAddress')->find($id);
+        $supplier_info = SupplierEloquent::select('shortName','taxId','tel','tax','operator_name_1','operator_tel_1')->find($id);
+        $supplier_info['companyAddress'] = $supplier_info->showAddress();
         return $supplier_info;
     }
 
@@ -72,6 +75,8 @@ class SupplierService extends BaseService
 
             'tel' => $request->tel,
             'tax' => $request->tax,
+            'phone_day' => $request->phone_day,
+            'phone_night' => $request->phone_night,
 
             'inCharge1' => $request->inCharge1,
             'tel1' => $request->tel1,

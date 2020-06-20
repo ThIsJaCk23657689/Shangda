@@ -94,7 +94,13 @@
 /***/ (function(module, exports) {
 
 $(function () {
-  $("#expectReceived_at").datepicker({
+  $("#received_received_at").datepicker({
+    dateFormat: 'yy-mm-dd',
+    changeYear: true,
+    changeMonth: true,
+    maxDate: new Date()
+  });
+  $("#paid_paid_at").datepicker({
     dateFormat: 'yy-mm-dd',
     changeYear: true,
     changeMonth: true,
@@ -102,7 +108,106 @@ $(function () {
   });
   var myDate = new Date();
   var date = myDate.getFullYear() + '-' + ('0' + (myDate.getMonth() + 1)).slice(-2) + '-' + ('0' + myDate.getDate()).slice(-2);
-  $("#expectReceived_at").val(date);
+  $("#received_received_at").val(date);
+  $("#paid_paid_at").val(date);
+  $('.received-btn').click(function () {
+    var purchaseID = $(this).data('id');
+    var expectReceivedAt = $(this).data('expectReceivedAt');
+    $("#received_purchase_id").val(purchaseID);
+    $("#received_expectReceived_at").val(expectReceivedAt);
+  });
+  $('#ReceivedForm').submit(function (e) {
+    e.preventDefault();
+    var $url = $(this).attr('action');
+    var $data = $(this).serializeObject();
+    $.showLoadingModal();
+    axios.post($url, $data).then(function (response) {
+      // console.log(response.data);
+      $.showSuccessModal(response.data.message, response.data.url);
+      $('#ReceivedModal').modal('hide');
+    })["catch"](function (error) {
+      $.showErrorModal(error);
+      console.error('修改進貨單到貨時間時發生錯誤，錯誤訊息：' + error);
+    });
+  });
+  $('.cancle-received-btn').click(function () {
+    var _this = this;
+
+    Swal.fire({
+      title: '注意！',
+      text: '您確定要取消到貨嗎？',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '確認',
+      cancelButtonText: '取消'
+    }).then(function (result) {
+      if (result.value) {
+        $(_this).next().submit();
+      }
+    });
+  });
+  $('.cancle-received-form').submit(function (e) {
+    e.preventDefault();
+    var $url = $(this).attr('action');
+    var $data = $(this).serializeObject();
+    $.showLoadingModal();
+    axios.post($url, $data).then(function (response) {
+      $.showSuccessModal(response.data.message, response.data.url);
+    })["catch"](function (error) {
+      $.showErrorModal(error);
+      console.error('取消進貨單到貨時間時發生錯誤，錯誤訊息：' + error);
+    });
+  });
+  $('.paid-btn').click(function () {
+    var purchaseID = $(this).data('id');
+    $("#paid_purchase_id").val(purchaseID);
+  });
+  $('#PaidForm').submit(function (e) {
+    e.preventDefault();
+    var $url = $(this).attr('action');
+    var $data = $(this).serializeObject();
+    $.showLoadingModal();
+    axios.post($url, $data).then(function (response) {
+      // console.log(response.data);
+      $.showSuccessModal(response.data.message, response.data.url);
+      $('#PaidModal').modal('hide');
+    })["catch"](function (error) {
+      $.showErrorModal(error);
+      console.error('確認進貨單付清時間時發生錯誤，錯誤訊息：' + error);
+    });
+  });
+  $('.cancle-paid-btn').click(function () {
+    var _this2 = this;
+
+    Swal.fire({
+      title: '注意！',
+      text: '您確定要取消此進貨單的付清狀態？',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '確認',
+      cancelButtonText: '取消'
+    }).then(function (result) {
+      if (result.value) {
+        $(_this2).next().submit();
+      }
+    });
+  });
+  $('.cancle-paid-form').submit(function (e) {
+    e.preventDefault();
+    var $url = $(this).attr('action');
+    var $data = $(this).serializeObject();
+    $.showLoadingModal();
+    axios.post($url, $data).then(function (response) {
+      $.showSuccessModal(response.data.message, response.data.url);
+    })["catch"](function (error) {
+      $.showErrorModal(error);
+      console.error('確認或取消進貨單付清時發生錯誤，錯誤訊息：' + error);
+    });
+  });
 });
 
 /***/ }),

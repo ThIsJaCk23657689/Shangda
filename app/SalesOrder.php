@@ -40,4 +40,8 @@ class SalesOrder extends Model
     public function details(){
         return $this->hasMany(SalesOrderDetailEloquent::class);
     }
+
+    public function showExpectDeliverAtDate(){
+        return is_null($this->expectDeliver_at) ? '無' : $this->expectDeliver_at->format($this->dateFormat ?: 'Y-m-d');
+    }
 }

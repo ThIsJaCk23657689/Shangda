@@ -2,9 +2,12 @@
 <div class="row justify-content-center">
     <div class="col-md-11">
         <form id="SalesOrderCreateForm" method="POST" action="#" v-on:submit.prevent="createSalesOrder">
-            
+
+            <input type="hidden" name="status" value="1">
+            <input type="hidden" name="confirmStatus" value="1">
+
             <div class="row">
-                
+
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-8">
@@ -56,7 +59,7 @@
             <div class="row">
 
                 <div class="col-md-6">
-                    
+
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -217,7 +220,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
                     <button type="submit" class="btn btn-block btn-primary">
@@ -269,7 +272,7 @@ export default {
 
         // 顯示此訂單建立者名稱
         $('#creator').val($('#getAuthName').html());
-        
+
         // 訂單細項 表單程式碼
         $('#SalesOrderDetailForm').submit(function(e){
             e.preventDefault();
@@ -299,7 +302,7 @@ export default {
         },
 
         changeTax () {
-            this.$refs.salesdetail.calculateTotalPrice()  // 呼叫子元件裡的toggleFood方法 
+            this.$refs.salesdetail.calculateTotalPrice()  // 呼叫子元件裡的toggleFood方法
         },
 
         getConsumerData(){
@@ -322,7 +325,6 @@ export default {
             let data = $('#SalesOrderCreateForm').serialize();
             $('#LoadingModal').modal('show');
             axios.post(url, data).then(response => {
-                alert('ddddd');
                 console.log(response);
                 $('#salesOrderID').val(response.data.salesOrder_id);
 

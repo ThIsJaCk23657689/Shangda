@@ -41,7 +41,7 @@ class SalesOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($status)
+    public function create()
     {
         $new_shownID = $this->SalesOrderService->generateShownID();
         return view('salesOrders.create', compact('new_shownID'));
@@ -76,7 +76,7 @@ class SalesOrderController extends Controller
             'salesOrder_id' => $salesOrder->id,
             'massenge' => '單號' . $salesOrder->shown_id . '建立成功。',
             'status' => 'OK'
-        ]); 
+        ]);
     }
 
 
@@ -138,14 +138,20 @@ class SalesOrderController extends Controller
     }
 
     public function delivered(Request $request){
-        $msg = $this->SalesOrderService->delivered($request);
-        return response()->json($msg, 200);
+        $result = $this->SalesOrderService->delivered($request);
+        return response()->json([
+            'message' => $result['message'],
+            'url' => route('sales.index')
+        ], $result['status']);
     }
 
     // 傳 id, paid_at, paidAmount
     public function paid(Request $request){
-        $msg = $this->SalesOrderService->paid($request);
-        return response()->json($msg, 200);
+        $result = $this->SalesOrderService->paid($request);
+        return response()->json([
+            'message' => $result['message'],
+            'url' => route('sales.index')
+        ], $result['status']);
     }
 
     // 取消付款 傳id

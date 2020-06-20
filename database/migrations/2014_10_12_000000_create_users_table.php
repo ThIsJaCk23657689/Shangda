@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->comment('信箱');
             $table->timestamp('email_verified_at')->nullable()->comment('信箱驗證');
             $table->string('password')->comment('密碼');
-            $table->boolean('gender')->default(1)->comment('性別');
+            $table->boolean('gender')->nullable()->comment('性別');
             $table->date('birthday')->nullable()->comment('生日');
 
             $table->string('address_zipcode', 5)->nullable()->comment('地址 - 郵遞區號');

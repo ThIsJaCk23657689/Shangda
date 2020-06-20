@@ -3,10 +3,10 @@
 @push('CustomJS')
     <script src="{{ asset('vendor/jQuery-TWzipcode-master/jquery.twzipcode.min.js') }}" defer></script>
     <script src="{{ asset('js/consumers/create.js') }}" defer></script>
-@endpush 
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('People Management') }}</a>
@@ -19,7 +19,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-10">
-            
+
             @if(!$errors->any())
                 <div id="step1" class="row">
                     <div class="col-md-12 mb-2">
@@ -60,7 +60,7 @@
             <form id="individual_form" method="POST" action="{{ route('consumers.store') }}" enctype="multipart/form-data" style="{{ ( old('account_type') == 'individual' )? '' : 'display: none' }}">
                 @csrf
                 <input id="individual_account_type" name="account_type" type="hidden" value="individual">
-                
+
                 {{-- 帳戶資訊(帳號、密碼、密碼確認) --}}
                 <div class="row">
                     <div class="col-md-12 mb-2">
@@ -82,7 +82,7 @@
                             @enderror
                         </div>
                     </div>
-            
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="individual_password">
@@ -96,14 +96,14 @@
                             @enderror
                         </div>
                     </div>
-            
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="individual_password_confirmation">
                                 <span class="text-danger mr-2">*</span>密碼確認
                             </label>
                             <input id="individual_password_confirmation" name="individual_password_confirmation" type="password" class="form-control @error('individual_password_confirmation') is-invalid @enderror" value="" required autocomplete="off" placeholder="請再次輸入密碼">
-                            
+
                             @error('individual_password_confirmation')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -111,7 +111,7 @@
                             @enderror
                         </div>
                     </div>
-            
+
                 </div>
 
                 {{-- 基本資訊(大頭貼、身分證、姓名、簡稱、性別、生日、月結日、未沖銷帳款、總消費額、備註) --}}
@@ -171,7 +171,7 @@
                                     @enderror
                                 </div>
                             </div>
-                    
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="individual_shortName">簡稱</label>
@@ -223,14 +223,14 @@
                                     <label for="individual_monthlyCheckDate">
                                         <span class="text-danger mr-2">*</span>月結日
                                     </label>
-                                    <select id="individual_monthlyCheckDate" name="individual_monthlyCheckDate" class="form-control mb-2 @error('individual_monthlyCheckDate') is-invalid @enderror" disabled>
+                                    <select id="individual_monthlyCheckDate" name="individual_monthlyCheckDate" class="form-control mb-2 @error('individual_monthlyCheckDate') is-invalid @enderror" {{ old('individual_monthlyCheckDate')?'':'disabled' }}>
                                         <option value="0">請選擇...</option>
                                         @for($i = 1; $i <= 31; $i++)
                                             <option value="{{ $i }}" {{ ( old('individual_monthlyCheckDate') == $i )? 'selected' : '' }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" name="individual_monthlyCheck" id="individual_monthlyCheck" value="1" checked>
+                                        <input type="checkbox" class="custom-control-input" name="individual_monthlyCheck" id="individual_monthlyCheck" value="1" {{ old('individual_monthlyCheckDate')?'':'checked' }}>
                                         <label class="custom-control-label" for="individual_monthlyCheck">
                                             <small>日結</small>
                                         </label>
@@ -242,7 +242,7 @@
                                     @enderror
                                 </div>
                             </div>
-                    
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="individual_uncheckedAmount">
@@ -256,7 +256,7 @@
                                     @enderror
                                 </div>
                             </div>
-            
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="individual_totalConsumption">
@@ -270,14 +270,14 @@
                                     @enderror
                                 </div>
                             </div>
-                    
+
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="individual_comment">備註</label>
-                                    <textarea id="individual_comment" name="individual_comment" type="text" class="form-control @error('individual_comment') is-invalid @enderror" value="{{ old('individual_comment') }}"></textarea>
+                                    <textarea id="individual_comment" name="individual_comment" type="text" class="form-control @error('individual_comment') is-invalid @enderror">{{ old('individual_comment') }}</textarea>
                                     @error('individual_comment')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -342,7 +342,7 @@
                             @enderror
                         </div>
                     </div>
-            
+
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="individual_lineID">Line ID</label>
@@ -372,7 +372,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input id="individual_address_others" type="text" class="form-control @error('individual_address_others') is-invalid @enderror" name="individual_address_others" value="{{ old('individual_address_others') }}" autocomplete="off" required>
+                                    <input id="individual_address_others" type="text" class="form-control @error('individual_address_others') is-invalid @enderror" name="individual_address_others" value="{{ old('individual_address_others') }}" required autocomplete="off">
                                     @error('individual_address_others')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -425,7 +425,7 @@
                             @enderror
                         </div>
                     </div>
-            
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="company_password">
@@ -439,14 +439,14 @@
                             @enderror
                         </div>
                     </div>
-            
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="company_password_confirmation">
                                 <span class="text-danger mr-2">*</span>密碼確認
                             </label>
                             <input id="company_password_confirmation" name="company_password_confirmation" type="password" class="form-control @error('company_password_confirmation') is-invalid @enderror" value="" required autocomplete="off" placeholder="請再次輸入密碼">
-                            
+
                             @error('company_password_confirmation')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -454,7 +454,7 @@
                             @enderror
                         </div>
                     </div>
-            
+
                 </div>
 
                 {{-- 基本資訊(大頭貼、公司名稱、分店名、簡稱、統一編號、負責人姓名、負責人身分證、月結日、未沖銷帳款、總消費額、備註) --}}
@@ -573,14 +573,14 @@
                                     <label for="company_monthlyCheckDate">
                                         <span class="text-danger mr-2">*</span>月結日
                                     </label>
-                                    <select id="company_monthlyCheckDate" name="company_monthlyCheckDate" class="form-control mb-2 @error('company_monthlyCheckDate') is-invalid @enderror" disabled>
+                                    <select id="company_monthlyCheckDate" name="company_monthlyCheckDate" class="form-control mb-2 @error('company_monthlyCheckDate') is-invalid @enderror" {{ old('company_monthlyCheckDate')?'':'disabled' }}>
                                         <option value="0">請選擇...</option>
                                         @for($i = 1; $i <= 31; $i++)
                                             <option value="{{ $i }}" {{ ( old('company_monthlyCheckDate') == $i )? 'selected' : '' }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" name="company_monthlyCheck" id="company_monthlyCheck" value="1" checked>
+                                        <input type="checkbox" class="custom-control-input" name="company_monthlyCheck" id="company_monthlyCheck" value="1" {{ old('company_monthlyCheckDate')?'':'ckecked' }}>
                                         <label class="custom-control-label" for="company_monthlyCheck">
                                             <small>日結</small>
                                         </label>
@@ -592,7 +592,7 @@
                                     @enderror
                                 </div>
                             </div>
-                    
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="company_uncheckedAmount">
@@ -606,7 +606,7 @@
                                     @enderror
                                 </div>
                             </div>
-            
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="company_totalConsumption">
@@ -620,14 +620,14 @@
                                     @enderror
                                 </div>
                             </div>
-                    
+
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company_comment">備註</label>
-                                    <textarea id="company_comment" name="company_comment" type="text" class="form-control @error('company_comment') is-invalid @enderror" value="{{ old('company_comment') }}"></textarea>
+                                    <textarea id="company_comment" name="company_comment" type="text" class="form-control @error('company_comment') is-invalid @enderror">{{ old('company_comment') }}</textarea>
                                     @error('company_comment')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -704,7 +704,7 @@
                                 <span class="text-danger mr-2">*</span>聯絡人姓名
                             </label>
                             <input id="company_operator_name" name="company_operator_name" type="text" class="form-control mb-2 @error('company_operator_name') is-invalid @enderror" value="{{ old('company_operator_name') }}" required autocomplete="off" placeholder="例：王大明">
-                            
+
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="isSameAsPrincipal" value="1">
                                 <label class="custom-control-label" for="isSameAsPrincipal">
@@ -726,7 +726,7 @@
                             </label>
                             <input id="company_operator_tel" name="company_operator_tel" type="text" class="form-control @error('company_operator_tel') is-invalid @enderror" value="{{ old('company_operator_tel') }}" autocomplete="off" placeholder="例：0412345678">
                             <small class="form-text text-muted">電話請包含區碼並省略"-"。</small>
-                            
+
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="isSameAsComTel" value="1">
                                 <label class="custom-control-label" for="isSameAsComTel">
@@ -762,14 +762,14 @@
                             <label for="company_operator_email">聯絡人信箱</label>
                             <input id="company_operator_email" name="company_operator_email" type="email" class="form-control @error('company_operator_email') is-invalid @enderror" value="{{ old('company_operator_email') }}" autocomplete="off" placeholder="例：test@example.com">
                             <small class="form-text text-muted">此信箱不綁定帳號，用於聯絡</small>
-                            
+
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="isSameAsComEmail" value="1">
                                 <label class="custom-control-label" for="isSameAsComEmail">
                                     <small>與公司信箱相同</small>
                                 </label>
                             </div>
-                            
+
                             @error('company_operator_email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -876,5 +876,5 @@
 
         </div>
     </div>
-	
+
 @endsection
