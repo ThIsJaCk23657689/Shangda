@@ -55216,8 +55216,8 @@ Vue.component('loading-modal', __webpack_require__(/*! ./components/Modals/Loadi
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
-  el: '#backend',
+var navbar = new Vue({
+  el: '#navbar',
   created: function created() {
     // ==================== Swal 函式操作 ====================
     $.showLoadingModal = function () {

@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-shadow fixed-top">
+<nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark navbar-shadow fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ __(config('app.name')) }}

@@ -31,8 +31,8 @@ Vue.component('loading-modal', require('./components/Modals/LoadingModal.vue').d
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#backend',
+const navbar = new Vue({
+    el: '#navbar',
     created() {
         // ==================== Swal 函式操作 ====================
         $.showLoadingModal = function(message = '資料讀取中') {
