@@ -54,17 +54,40 @@ class ProduceController extends Controller
     }
 
     public function update(Request $request, $id){
-        return redirect()->route('produces.show', [$id]);
+        $msg = $this->ProduceService->update($request, $id);
+        return response()->json($msg, $msg['status']);
     }
 
     public function destroy($id){
-        $produce = $this->ProduceService->getOne($id);
+        $this->ProduceService->delete($id);
         return redirect()->route('produces.index');
     }
 
     // Produce Detail Function
-    public function detailstore(ProduceDetailRequest $request){
+    public function detailstore(Request $request){
         $msg = $this->ProduceDetailService->add($request);
         return response()->json($msg, 200);
     }
+
+    // 原物料細項修改(只能改數量)
+    public function detailMaterialUpdate(Request $request, $id){
+        $msg = $this->ProduceDetailService->materialUpdate($request, $id);
+        return response()->json($msg, 200);
+    }
+    // 商品細項修改(只能改數量)
+    public function detailProductUpdate(Request $request, $id){
+        $msg = $this->ProduceDetailService->productUpdate($request, $id);
+        return response()->json($msg, 200);
+    }
+
+    // 原物料細項刪除
+   public function detailMaterialDelete($id){
+        $this->ProduceDetailService->materialDelete($id);
+        return redirect()->route('produces.index');
+   }
+    //商品細項刪除
+    public function detailProductDelete($id){
+        $this->ProduceDetailService->productDelete($id);
+        return redirect()->route('produces.index');
+   }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Services;
 use App\ProduceDetail as ProduceDetailEloquent;
+use App\ProduceProduct as ProduceProductEloquent;
 use App\Material as MaterialEloquent;
+use App\Product as ProductEloquent;
 use App\MaterialLog as MaterialLogEloquent;
 use App\Services\NotificationService;
 use Auth;
@@ -18,10 +20,12 @@ class ProduceDetailService extends BaseService
     public function add($request)
     {
         $produce_id = $request->produce_id;
-        $data = $request->details;
+        $material_data = $request->material_details;
+        $product_data = $request->product_details;
         $count = 0;
 
-        foreach($data as $obj){
+        // 使用之原物料
+        foreach($material_data as $obj){
             $count++;
             $material_id = $obj['material_id'];
             $quantity = $obj['quantity'];
@@ -32,6 +36,7 @@ class ProduceDetailService extends BaseService
                 'material_id' => $material_id,
                 'quantity' => $quantity
             ]);
+
             if($produce_detail){
                 //更改原料存量
                 if($material->unit == 2){
@@ -57,9 +62,43 @@ class ProduceDetailService extends BaseService
                 throw new Exception('Create Produce Detail Failed');
             }
         }
-        if($produce_detail){
+
+        //生產之商品
+        $p_count = 0;
+        foreach($product_data as $obj){
+            $p_count++;
+            $product_id = $obj['product_id'];
+            $quantity = $obj['quantity'];
+            $product = ProductEloquent::findOrFail($product_id);
+            $produce_product = ProduceProductEloquent::create([
+                'produce_id' => $produce_id,
+                'product_id' => $product_id,
+                'quantity' => $quantity
+            ]);
+
+            if($produce_product){
+                // 更改商品存貨量
+                $product->quantity = $product->quantity + quantity;
+                if($product->quantity < 0){
+                    throw new Exception('Quantity Not Enough.');
+                }
+                $product->save();
+
+                //新增商品存貨Log
+                $ProductLog = ProductLogEloquent::create([
+                    'user_id' => Auth::id(),
+                    'product_id'=> $product_id,
+                    'act' => 4,
+                    'amount' => $quantity
+                ]);
+            }else{
+                throw new Exception('Create Produce Failed');
+            }
+        }
+
+        if($produce_detail && $produce_product){
             $msg = [
-                'massenge' => "總共有" . $count . "筆原料新增成功。",
+                'massenge' => "總共有" . $p_count .'筆商品 / ' . $count . "筆原料新增成功。",
                 'redirect' => route('produces.index'),
                 'status' => 'OK'
             ];
@@ -84,7 +123,7 @@ class ProduceDetailService extends BaseService
         return $produce_detail;
     }
 
-    public function update($request, $id)
+    public function materialUpdate($request, $id)
     {
         $produce_detail = $this->getOne($id);
         $material = MaterialEloquent::find($request->material_id);
@@ -125,7 +164,30 @@ class ProduceDetailService extends BaseService
         return $produce_detail;
     }
 
-    public function delete($id)
+    public function productUpdate($request, $id){
+        $produce_product = ProduceProductEloquent::find($id);
+        $product = ProductEloquent::find($produce_product->product_id);
+        if($product){
+            $orig_quantity = $produce_product->quantity;
+            $produce_product->quantity = $request->quantity;
+            $produce_product->save();
+        }else{
+            return "Product Not Found";
+        }
+        $product->quantity = $product->quantity - $orig_quantity + $request->quantity;
+            $product->save();
+
+         //新增商品存貨Log
+        $ProductLog = ProductLogEloquent::create([
+            'user_id' => Auth::id(),
+            'product_id'=> $request->product_id,
+            'act' => 5,
+            'amount' => $orig_quantity - $request->quantity
+        ]);
+        return $produce_product;
+    }
+
+    public function materialDelete($id)
     {
         $produce_detail = $this->getOne($id);
         if($produce_detail){
@@ -155,6 +217,37 @@ class ProduceDetailService extends BaseService
             }
         }else{
             return 'produceDetail Not Found';
+        }
+    }
+
+    public function productDelete($id){
+        $produce_product = ProduceProductEloquent::find($id);
+
+        if($produce_product){
+            $orig_quantity = $produce_product->quantity;
+            $product = ProductEloquent::find($produce_product->product_id);
+            if($product){
+                // 更改商品存貨量
+                $product->quantity = $product->quantity - $produce_product->quantity;
+                $product->save();
+            }else{
+                return "Product Not Found";
+            }
+        }else{
+            return "Produce Not Found";
+        }
+
+        if($produce_product && $product){
+            //新增商品存貨Log
+            $ProductLog = ProductLogEloquent::create([
+                'user_id' => Auth::id(),
+                'product_id'=> $produce_product->product_id,
+                'act' => 6,
+                'amount' => (-1) * $orig_quantity
+            ]);
+            $produce_product->delete();
+        }else{
+            return "Failed";
         }
     }
 
