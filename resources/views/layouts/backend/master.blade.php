@@ -41,7 +41,7 @@
 
     	<div id="content-wrapper">
 
-			<div id="backend" class="container-fluid">
+			<div class="container-fluid">
             	@yield('content')
 			</div>
 

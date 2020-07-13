@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+<nav id="navbar" class="navbar navbar-expand navbar-dark bg-dark static-top">
     <a class="navbar-brand mr-1" href="{{ route('backend') }}">{{ __('Backend') }}</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
