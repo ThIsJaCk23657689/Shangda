@@ -44,4 +44,29 @@ class SalesOrder extends Model
     public function showExpectDeliverAtDate(){
         return is_null($this->expectDeliver_at) ? '無' : $this->expectDeliver_at->format($this->dateFormat ?: 'Y-m-d');
     }
+
+    public function showBeforePrice(){
+        if($this->taxType == 1){
+            return round($this->totalPrice * 0.95, 4);
+        }else{
+            return $this->totalPrice;
+        }
+    }
+
+    public function showTaxPrice(){
+        if($this->taxType == 1){
+            return round($this->totalPrice * 0.05, 4);
+        }else{
+            return 0;
+        }
+    }
+
+
+    public function showTaxType(){
+        return (config('shangda.tax.' . $this->taxType)) ?? '未知編號：'. $this->taxType;
+    }
+
+    public function showInvoiceType(){
+        return (config('shangda.invoice.' . $this->invoiceType)) ?? '未知編號：'. $this->invoiceType;
+    }
 }

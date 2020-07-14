@@ -17,16 +17,16 @@ class Consumer extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         'account', 'password', 'name', 'shortName', 'gender', 'idNumber', 'email', 'lineID',
-        'monthlyCheckDate', 'uncheckedAmount', 'totalConsumption', 
+        'monthlyCheckDate', 'uncheckedAmount', 'totalConsumption',
         'address_zipcode', 'address_county', 'address_district', 'address_others',
         'policy_agreement', 'comment',
 
         'birthday', 'phone',
 
-        'branch', 'principal', 'taxID', 'tel', 'tax', 
+        'branch', 'principal', 'taxID', 'tel', 'tax',
         'operator_name', 'operator_tel', 'operator_email',
         'deliveryAddress_zipcode', 'deliveryAddress_county', 'deliveryAddress_district', 'deliveryAddress_others',
-        
+
         'account_type', 'who_created', 'user_id'
     ];
 
@@ -67,7 +67,7 @@ class Consumer extends Authenticatable implements JWTSubject
     public function picture(){
         return $this->morphOne(PictureEloquent::class, 'pictureable');
     }
-    
+
     // 顯示顧客頭貼
     public function showPicture(){
         $picture = $this->picture;
@@ -81,5 +81,14 @@ class Consumer extends Authenticatable implements JWTSubject
                 return $picture->url;
             }
         }
+    }
+
+    // 顯示地址
+    public function showAddress(){
+        return ($this->address_zipcode . $this->address_county . $this->address_district . $this->address_others)=="" ? '無' : ($this->address_zipcode . $this->address_county . $this->address_district . $this->address_others);
+    }
+    // 顯示送貨地址
+    public function showDeliveryAddress(){
+        return ($this->deliveryAddress_zipcode . $this->deliveryAddress_county . $this->deliveryAddress_district . $this->deliveryAddress_others)=="" ? '無' : ($this->deliveryAddress_zipcode . $this->deliveryAddress_county . $this->deliveryAddress_district . $this->deliveryAddress_others);
     }
 }
