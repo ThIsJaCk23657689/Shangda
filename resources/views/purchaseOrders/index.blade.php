@@ -92,11 +92,9 @@
 
 									<a href="{{ route('purchase.show', [$purchaseOrder->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
-										查看
 									</a>
 									<a href="{{ route('purchase.edit', [$purchaseOrder->id]) }}" class="btn btn-md btn-success">
 										<i class="fas fa-edit"></i>
-										編輯
 									</a>
 									<a href="#" class="btn btn-md btn-danger" onclick="
 										event.preventDefault();
@@ -116,7 +114,6 @@
                                         });
 									">
 										<i class="far fa-trash-alt"></i>
-										刪除
 									</a>
 									<form id="deleteform-{{ $purchaseOrder->id }}" action="{{ route('purchase.destroy', [$purchaseOrder->id]) }}" method="POST" style="display: none;">
 										@csrf

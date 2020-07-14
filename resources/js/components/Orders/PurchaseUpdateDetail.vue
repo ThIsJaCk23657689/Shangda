@@ -47,7 +47,7 @@
                             <span>{{ (detail.material.unit == 1)?'公斤':'公噸' }}</span>
                         </td>
                         <td style="width: 10%">
-                            <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][price]'" :value="detail.material.unitPrice" @change="calculateSubtotal(index+1)">
+                            <input :id="'price_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][price]'" :value="detail.price" @change="calculateSubtotal(index+1)">
                         </td>
                         <td style="width: 10%">
                             <input :id="'discount_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][discount]'" :value="detail.discount" @change="calculateSubtotal(index+1)">
@@ -74,10 +74,9 @@
 
 <script>
 export default {
-    props: ['materials'],
+    props: ['materials', 'details'],
     data(){
         return {
-            details: [],
             current_material: [],
             total_price: 0
         };
@@ -88,6 +87,7 @@ export default {
             if(this.current_material.length != 0){
                 this.details.push({
                     count: this.details.length,
+                    price: this.current_material.unitPrice,
                     material: {
                         id: this.current_material.id,
                         name: this.current_material.name,
@@ -116,13 +116,13 @@ export default {
 
         calculateSubtotal(id){
             let qty = $('#qty_' + id).val();
-            let unitPrice = $('#unitPrice_' + id).val();
+            let price = $('#price_' + id).val();
             let discount = $('#discount_' + id).val();
-            let subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
+            let subTotal = Math.round(price * qty * discount * 10000) / 10000;
             $('#subtotal_' + id).html(subTotal);
 
             this.details[id - 1].quantity = qty;
-            this.details[id - 1].material.unitPrice = unitPrice;
+            this.details[id - 1].price = price;
             this.details[id - 1].discount = discount;
             this.details[id - 1].subTotal = subTotal;
             this.calculateTotalPrice();
@@ -133,9 +133,9 @@ export default {
             for(let i = 1; i <=  this.details.length; i++){
                 
                 let qty = this.details[i - 1].quantity;
-                let unitPrice = this.details[i - 1].material.unitPrice;
+                let price = this.details[i - 1].price;
                 let discount = this.details[i - 1].discount;
-                let subTotal = Math.round(unitPrice * qty * discount * 10000) / 10000;
+                let subTotal = Math.round(price * qty * discount * 10000) / 10000;
                 this.total_price = this.total_price + subTotal;
             }
 
@@ -147,7 +147,6 @@ export default {
             
             this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
             this.$emit('show-total-price', this.total_price)
-            // console.log(this.total_price);
         },
 
         updateComment(id){
@@ -165,7 +164,6 @@ export default {
                     id: material_id
                 }).then(response => {
                     this.current_material = response.data;
-                    // console.log(response);
                 });
             }else{
                 this.current_material = [];
@@ -176,7 +174,7 @@ export default {
 
     },
     mounted() {
-        
+
     },
 }
 </script>

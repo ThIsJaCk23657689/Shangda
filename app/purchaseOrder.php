@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\Supplier as SupplierEloquent;
 use App\User as UserEloquent;
 use App\PurchaseOrderDetail as PurchaseOrderDetailEloquent;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class PurchaseOrder extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
+
     protected $fillable = [
         'supplier_id', 'user_id', 'paid_at', 'received_at', 'expectReceived_at', 'last_user_id',
         'totalPrice', 'comment', 'taxType', 'invoiceType', 'address', 'shown_id'
@@ -19,10 +20,16 @@ class PurchaseOrder extends Model
 
     protected $dates = ['paid_at', 'received_at', 'expectReceived_at'];
 
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->dataFormat? : 'Y-m-d');
+    }
+
     public function supplier(){
         return $this->belongsTo(SupplierEloquent::class);
     }
 
+    // 顯示創建者
     public function user(){
         return $this->belongsTo(UserEloquent::class);
     }
@@ -56,7 +63,15 @@ class PurchaseOrder extends Model
     }
 
     public function showExpectReceivedAtDate(){
-        return is_null($this->expectReceived_at) ? '無' : $this->expectReceived_at->format($this->dateFormat ?: 'Y-m-d');
+        return is_null($this->expectReceived_at) ? '無' : $this->expectReceived_at->isoformat('Y-MM-DD');
+    }
+
+    public function showReceivedAtDate(){
+        return is_null($this->received_at) ? '無' : $this->received_at->isoformat('Y-MM-DD');
+    }
+
+    public function showPaidAtDate(){
+        return is_null($this->paid_at) ? '無' : $this->paid_at->isoformat('Y-MM-DD');
     }
 
     //顯示進貨單付款狀態
@@ -81,6 +96,15 @@ class PurchaseOrder extends Model
                 return "等待到貨中";
             }
         }
+    }
+
+    // 顯示最後更新者
+    public function showLastUpdater(){
+        $user = UserEloquent::find($this->last_user_id);
+        if($user){
+            return $user->name;
+        }
+        return '無';
     }
 
     // public function materials(){

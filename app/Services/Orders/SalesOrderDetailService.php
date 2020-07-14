@@ -86,12 +86,12 @@ class SalesOrderDetailService extends BaseService
 
 
             $msg = [
-                'messenge' => "銷貨單編號：$s_id 新增成功，共有 $count 筆原物料儲存成功。",
+                'message' => "銷貨單編號：$s_id 新增成功，共有 $count 筆原物料儲存成功。",
                 'status' => 'OK'
             ];
         }else{
             $msg = [
-                'messenge'=> "新增銷貨貨單細項時發生錯誤，無任何細項新增。",
+                'message'=> "新增銷貨貨單細項時發生錯誤，無任何細項新增。",
                 'status' => 'Failed'
             ];
         }
@@ -164,13 +164,13 @@ class SalesOrderDetailService extends BaseService
 
             $this->ProductLogService->add($user_id, $product_id, $status, $quantity);
             $msg = [
-                'messenge' => "更新成功。",
+                'message' => "更新成功。",
                 'status' => 'OK'
             ];
 
         }else{
             $msg = [
-                'messenge' => "更新失敗。",
+                'message' => "更新失敗。",
                 'status' => 'Failed'
             ];
         }
@@ -215,12 +215,12 @@ class SalesOrderDetailService extends BaseService
             $this->ProductLogService->add($user_id, $product_id, $status, 0);
             $details->delete();
             $msg = [
-                'messenge'=>"刪除成功。",
+                'message'=>"刪除成功。",
                 'status'=>'OK'
             ];
         }else{
             $msg = [
-                'messenge'=>"查不到該筆資料。",
+                'message'=>"查不到該筆資料。",
                 'status'=>'Failed'
             ];
         }

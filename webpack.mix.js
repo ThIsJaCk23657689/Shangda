@@ -25,10 +25,14 @@ mix.js('resources/js/backend.js', 'public/js')
    .js('resources/js/users/create.js', 'public/js/users')
    .js('resources/js/suppliers/create.js', 'public/js/suppliers')
    .js('resources/js/materials/create.js', 'public/js/materials')
-   .js('resources/js/orders/purchase/create.js', 'public/js/orders/purchase')
+
    .js('resources/js/orders/purchase/index.js', 'public/js/orders/purchase')
-   .js('resources/js/orders/sales/create.js', 'public/js/orders/sales')
+   .js('resources/js/orders/purchase/create.js', 'public/js/orders/purchase')
+   .js('resources/js/orders/purchase/edit.js', 'public/js/orders/purchase')
+   
    .js('resources/js/orders/sales/index.js', 'public/js/orders/sales')
+   .js('resources/js/orders/sales/create.js', 'public/js/orders/sales')
+   
    .js('resources/js/consumers/create.js', 'public/js/consumers')
 
    .js('resources/js/discounts/index.js', 'public/js/discounts')

@@ -3,14 +3,21 @@
 namespace App\Services\Orders;
 use App\Services\BaseService;
 use App\PurchaseOrder as PurchaseOrderEloquent;
+use App\Services\Orders\PurchaseOrderDetailService;
 use App\MaterialLog as MaterialLogEloquent;
 use App\Material as MaterialEloquent;
-
 use Carbon\Carbon;
 use Auth;
 
 class PurchaseOrderService extends BaseService
 {
+    public $PurchaseOrderDetailService;
+
+    public function __construct()
+    {
+        $this->PurchaseOrderDetailService = new PurchaseOrderDetailService();
+    }
+
     public function add($request)
     {
         $today = Carbon::today()->toDateTimeString();   //2019-12-26 00:00:00
@@ -24,7 +31,6 @@ class PurchaseOrderService extends BaseService
         if($request->totalPrice == NULL){
             $request->totalPrice = 0;
         }
-
 
         $purchaseOrder = PurchaseOrderEloquent::create([
             'supplier_id' => $request->supplier_id,
@@ -40,6 +46,7 @@ class PurchaseOrderService extends BaseService
             'address' => $request->address,
             'shown_id' => $shown_id,
         ]);
+        
         return $purchaseOrder;
     }
 
@@ -61,14 +68,14 @@ class PurchaseOrderService extends BaseService
         $purchaseOrder->update([
             'supplier_id' => $request->supplier_id,
             'last_user_id' => Auth::id(),
-            'paid_at' => $request->paid_at,
-            'received_at' => $request->received_at,
+            // 'paid_at' => $request->paid_at,
+            // 'received_at' => $request->received_at,
             'expectReceived_at' => $request->expectReceived_at,
             'totalPrice' => $request->totalPrice,
             'comment' => $request->comment,
             'taxType' => $request->taxType,
             'invoiceType' => $request->invoiceType,
-            'address' => $request->address,
+            // 'address' => $request->address,
         ]);
         return $purchaseOrder;
     }
@@ -76,7 +83,20 @@ class PurchaseOrderService extends BaseService
     public function delete($id)
     {
         $purchaseOrder = $this->getOne($id);
-        $purchaseOrder->delete();
+        $result = $this->PurchaseOrderDetailService->delete($id);
+        if($result){
+            $purchaseOrder->delete();
+        }else{
+            return [
+                'message'=> '刪除進貨單細項時發生錯誤，請稍後再試。',
+                'status' => 422
+            ];
+        }
+
+        return [
+            'message'=> '進貨單編號：' . $purchaseOrder->shown_id . '已成功刪除！',
+            'status' => 200
+        ];
     }
 
     public function getlastupdate()

@@ -130,7 +130,7 @@
                 
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">
-                        <button type="submit" class="btn btn-block btn-primary">
+                        <button type="submit" class="btn btn-block btn-success">
                             確認修改
                         </button>
                         <a href="{{ route('users.index') }}" class="btn btn-block btn-danger">

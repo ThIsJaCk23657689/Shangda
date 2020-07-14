@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -281,8 +281,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
   mounted: function mounted() {
-    console.log('CreateSupplierModal.vue mounted.');
     $('#copycompany1').click(function (e) {
       if ($(this).prop("checked")) {
         $('#deliveryAddress').val($('#companyAddress').val());
@@ -297,9 +299,6 @@ __webpack_require__.r(__webpack_exports__);
         $('#invoiceAddress').val('');
       }
     });
-  },
-  data: function data() {
-    return {};
   }
 });
 
@@ -551,33 +550,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['suppliers', 'current_supplier', 'materials'],
-  mounted: function mounted() {
-    console.log('PurchaseCreareForm.vue mounted.');
-    $("#expectReceived_at").datepicker({
-      dateFormat: 'yy-mm-dd',
-      changeYear: true,
-      changeMonth: true,
-      yearRange: "-80:+0"
-    }); // 訂單細項 表單程式碼
-
-    $('#PurchaseOrderDetailForm').submit(function (e) {
-      e.preventDefault();
-      var url = $('#createPurchaseOrderDetail').html();
-      var data = $(this).serialize();
-      axios.post(url, data).then(function (response) {
-        console.log(response.data.messenge);
-        alert('新增進貨單成功！');
-        history.go(-1);
-      })["catch"](function (error) {
-        console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
-        alert('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
-        $('#LoadingModal').modal('hide');
-      });
-    });
-  },
   data: function data() {
     return {
       total_price: 0,
@@ -599,25 +573,52 @@ __webpack_require__.r(__webpack_exports__);
           id: supplier_id
         });
       } else {
-        alert('請選擇廠商');
+        showWarningModal('請選擇廠商');
       }
     },
     createPurchaseOrder: function createPurchaseOrder() {
       // 新建進貨單
-      // 1. 先創建 PurchaseOrder
+      // 檢查是否有新增原物料在進貨單內。
+      if (this.$refs.purchasedetail.details.length == 0) {
+        $.showWarningModal('進貨單必須至少要有一項原物料進貨。');
+        return false;
+      } // 1. 先創建 PurchaseOrder
+
+
       var url = $('#createPurchaseOrder').html();
       var data = $('#PurchaseOrderCreateForm').serialize();
-      $('#LoadingModal').modal('show');
+      $.showLoadingModal();
       axios.post(url, data).then(function (response) {
         $('#purchaseOrderID').val(response.data.purchaseOrder_id); // 2. 建立 PurchaseOrderDetail
 
         $('#PurchaseOrderDetailForm').submit();
       })["catch"](function (error) {
         console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
-        alert('新增進貨單時發生錯誤，錯誤訊息：' + error);
-        $('#LoadingModal').modal('hide');
+        $.showErrorModal(error);
       });
     }
+  },
+  created: function created() {},
+  mounted: function mounted() {
+    // console.log('PurchaseCreareForm.vue mounted.');
+    $("#expectReceived_at").datepicker({
+      dateFormat: 'yy-mm-dd',
+      changeYear: true,
+      changeMonth: true,
+      yearRange: "-80:+0"
+    }); // 訂單細項 表單程式碼
+
+    $('#PurchaseOrderDetailForm').submit(function (e) {
+      e.preventDefault();
+      var url = $('#createPurchaseOrderDetail').html();
+      var data = $(this).serialize();
+      axios.post(url, data).then(function (response) {
+        $.showSuccessModal(response.data.message, response.data.url);
+      })["catch"](function (error) {
+        console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+        $.showErrorModal(error);
+      });
+    });
   }
 });
 
@@ -708,9 +709,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['materials'],
-  mounted: function mounted() {
-    console.log('PurchaseDetail.vue mounted.');
-  },
   data: function data() {
     return {
       details: [],
@@ -778,7 +776,7 @@ __webpack_require__.r(__webpack_exports__);
       var tax = taxType == "1" ? Math.round(this.total_price * 0.05 * 10000) / 10000 : 0;
       $('#tax_price').val(tax);
       this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
-      this.$emit('showTotalPrice', this.total_price); // console.log(this.total_price);
+      this.$emit('show-total-price', this.total_price); // console.log(this.total_price);
     },
     updateComment: function updateComment(id) {
       var comment = $('#comment_' + id).val();
@@ -797,10 +795,12 @@ __webpack_require__.r(__webpack_exports__);
           _this.current_material = response.data; // console.log(response);
         });
       } else {
-        alert('請選擇原物料');
+        this.current_material = [];
       }
     }
-  }
+  },
+  created: function created() {},
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -1447,11 +1447,15 @@ var render = function() {
                         _vm._v("請選擇...")
                       ]),
                       _vm._v(" "),
-                      _vm._l(_vm.suppliers, function(data) {
-                        return _c("option-item", {
-                          key: data.id,
-                          attrs: { data: data }
-                        })
+                      _vm._l(_vm.suppliers, function(supplier) {
+                        return _c(
+                          "option",
+                          {
+                            key: supplier.id,
+                            domProps: { value: supplier.id }
+                          },
+                          [_vm._v(_vm._s(supplier.name))]
+                        )
                       })
                     ],
                     2
@@ -1700,7 +1704,7 @@ var render = function() {
           _c("purchase-detail", {
             ref: "purchasedetail",
             attrs: { materials: _vm.materials },
-            on: { showTotalPrice: _vm.showTotalPrice }
+            on: { "show-total-price": _vm.showTotalPrice }
           }),
           _vm._v(" "),
           _c("div", { staticClass: "row mb-2" }, [
@@ -1760,9 +1764,7 @@ var render = function() {
                 ]
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("loading-modal")
+          ])
         ],
         1
       )
@@ -1825,6 +1827,7 @@ var staticRenderFns = [
               attrs: { for: "expectReceived_at" }
             },
             [
+              _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
               _vm._v(
                 "\r\n                            預期到貨時間\r\n                        "
               )
@@ -1863,13 +1866,13 @@ var staticRenderFns = [
           ),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-6" }, [
-            _c("input", {
+            _c("textarea", {
               staticClass: "form-control",
               attrs: {
-                id: "PurchaseComment",
-                type: "text",
                 name: "comment",
-                value: ""
+                id: "PurchaseComment",
+                cols: "30",
+                rows: "2"
               }
             })
           ])
@@ -2022,11 +2025,12 @@ var render = function() {
                     _vm._v("請選擇...")
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.materials, function(data) {
-                    return _c("option-item", {
-                      key: data.id,
-                      attrs: { data: data }
-                    })
+                  _vm._l(_vm.materials, function(material) {
+                    return _c(
+                      "option",
+                      { key: material.id, domProps: { value: material.id } },
+                      [_vm._v(_vm._s(material.name))]
+                    )
                   })
                 ],
                 2
@@ -2583,18 +2587,20 @@ var app = new Vue({
 
     var getSuppliersName = $('#getSuppliersName').html();
     var getMeterialsName = $('#getMeterialsName').html();
+    $.showLoadingModal();
     axios.get(getSuppliersName).then(function (response) {
       _this2.suppliers = response.data;
     });
     axios.get(getMeterialsName).then(function (response) {
       _this2.materials = response.data;
+      $.closeModal();
     });
   }
 });
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /*!******************************************************!*\
   !*** multi ./resources/js/orders/purchase/create.js ***!
   \******************************************************/

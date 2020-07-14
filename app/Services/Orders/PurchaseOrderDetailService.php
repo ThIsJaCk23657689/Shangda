@@ -17,41 +17,24 @@ class PurchaseOrderDetailService extends BaseService
     }
 
     public function add($request){
-        $user_id = Auth::id();
 
-        $p_id = $request->purchaseOrder_id;
-        $data = $request->details;
-        $count = 0;
+        $pid = $request->purchaseOrder_id;
+        $purchaseOrder = PurchaseOrderEloquent::find($pid);
+        $details = $request->details;
 
-        foreach($data as $obj){
-            $count++;
+        // 將原物料加入至進貨單details
+        $result = $this->addDetails($pid, $details);
 
-            $material_id = $obj['material_id'];
-            $quantity = $obj['quantity'];
-            $subTotal = round($obj['price'] * $obj['discount'] * $obj['quantity'], 4);
-            $this->MaterialLogService->add($user_id, $material_id, 1, $quantity);
-
-            $purchaseOrderDetail = PurchaseOrderDetailEloquent::create([
-                'purchaseOrder_id' => $p_id,
-                'count' => $count,
-                'material_id' => $obj['material_id'],
-                'price' => $obj['price'],
-                'quantity' => $obj['quantity'],
-                'discount' => $obj['discount'],
-                'subTotal' => $subTotal,
-                'comment' => $obj['comment'],
-            ]);
-        }
-        if($purchaseOrderDetail){
+        if($result){
             $msg = [
-                'messenge' => "進貨單編號：$p_id 新增成功，共有 $count 筆原物料儲存成功。",
-                'status' => 'OK'
+                'message' => '進貨單編號：' . $purchaseOrder->shown_id . '已新增成功！',
+                'url' => route('purchase.index'),
+                'status' => 200
             ];
         }else{
-            // 這邊是沒有任何進貨單細項新增成功，可能也要連帶把之前新增好的進貨單刪除。
             $msg = [
-                'messenge'=> "新增進貨單細項時發生錯誤，無任何細項新增。",
-                'status' => 'Failed'
+                'message'=> '新增進貨單細項時發生錯誤，請稍後再試。',
+                'status' => 422
             ];
         }
         return $msg;
@@ -73,76 +56,117 @@ class PurchaseOrderDetailService extends BaseService
         return $msg;
     }
 
-    public function update($request, $p_id, $count){
-        $details = PurchaseOrderDetailEloquent::where('purchaseOrder_id',$p_id)
-            ->where('count',$count)->get();
-
-        $orig_quantity = $details->quantity;
-        $subTotal = round($request->price * $request->discount *  $request->quantity, 4);
-        $detail = $details->update([
-            'material_id' => $request->material_id,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-            'discount' => $request->discount,
-            'subTotal' => $subTotal,
-            'comment' => $request->comment,
-        ]);
-
-        if($detail){
-            $user_id = Auth::id();
-            $material_id = $request->material_id;
-            $quantity = $orig_quantity - $request->quantity;
-            $this->MaterialLogService->add($user_id, $material_id, 2, $quantity);
-            $purchaseOrder = PurchaseOrderEloquent::find($p_id);
-            $purchaseOrder->last_user_id = Auth::id();
-            $purchaseOrder->save();
-            $msg = [
-                'messenge' => "更新成功。",
-                'status' => 'OK'
-            ];
-        }else{
-            $msg = [
-                'messenge' => "更新失敗。",
-                'status' => 'Failed'
+    public function update($request){
+        $pid = $request->purchaseOrder_id;
+        $purchaseOrder = PurchaseOrderEloquent::find($pid);
+        $old_details = $purchaseOrder->details;
+        $new_details = $request->details;
+        
+        // 先將所有原物料從細項中刪除。
+        $result = $this->removeDetails($pid, $old_details, true);
+        if(!$result){
+            // 刪除失敗
+            return [
+                'message'=> '更新進貨單細項時發生錯誤，請稍後再試。',
+                'status' => 422
             ];
         }
-        return $msg;
-    }
 
-    public function delete($p_id, $count)
-    {
-        $details = PurchaseOrderDetailEloquent::where('purchaseOrder_id',$p_id)
-            ->where('count',$count)->get();
-
-        if($details){
-            $purchaseOrder = PurchaseOrderEloquent::find($p_id);
-            $purchaseOrder->last_user_id = Auth::id();
-            $purchaseOrder->save();
-            $user_id = Auth::id();
-            $material_id = $details->material_id;
-            $this->MaterialLogService->add($user_id, $material_id, 3, 0);
-
-            $details->delete();
-            $msg = [
-                'messenge'=>"刪除成功。",
-                'status'=>'OK'
-            ];
-        }else{
-            $msg = [
-                'messenge'=>"查不到該筆資料。",
-                'status'=>'Failed'
+        // 再新增修改過後的原物料到細項當中。
+        $result = $this->addDetails($pid, $new_details, true);
+        if(!$result){
+            // 新增失敗
+            return [
+                'message'=> '更新進貨單細項時發生錯誤，請稍後再試。',
+                'status' => 422
             ];
         }
-        return $msg;
+
+        $userID = Auth::id();
+        // for($i = 1; $i <= count($new_details); $i++){
+        //     if($new_details[$i]['material_id'] == $old_details[$i]['material_id']){
+        //         $delta_qty = $new_details[$i]['quantity'] - $old_details[$i]['quantity'];
+        //         $this->MaterialLogService->add($userID, $new_details[$i]['material_id'], 2, $delta_qty);
+        //     }else{                
+        //         $this->MaterialLogService->add($userID, $old_details[$i]['material_id'], 3, $old_details[$i]['quantity']);
+        //         $this->MaterialLogService->add($userID, $new_details[$i]['material_id'], 1, $new_details[$i]['quantity']);
+        //     }
+        // }
+
+        $purchaseOrder->last_user_id = $userID;
+        $purchaseOrder->save();
+
+        return [
+            'message' => '進貨單編號：' . $purchaseOrder->shown_id . '已更新成功！',
+            'status' => 200
+        ];
     }
 
-    public function getlastupdate()
+    public function delete($pid)
     {
+        $purchaseOrder = PurchaseOrderEloquent::find($pid);
+        $details = $purchaseOrder->details;
+        
+        // 先將所有原物料從細項中刪除。
+        $result = $this->removeDetails($pid, $details, true);
+        if(!$result){
+            // 刪除失敗
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getlastupdate(){
         $saleOrder = PurchaseOrderDetailEloquent::orderBy('id', 'DESC')->first();
         if(!empty($saleOrder)){
             return $saleOrder->updated_at;
         }
-
         return null;
+    }
+
+    private function addDetails($pid, $details, $logging = true){
+        $userID = Auth::id();
+        $count = 0;
+        foreach($details as $detail){
+            $count++;
+            $subTotal = round($detail['price'] * $detail['discount'] * $detail['quantity'], 4);
+            if($logging){
+                $this->MaterialLogService->add($userID, $detail['material_id'], 1, $detail['quantity']);
+            }
+
+            PurchaseOrderDetailEloquent::create([
+                'purchaseOrder_id' => $pid,
+                'count' => $count,
+                'material_id' => $detail['material_id'],
+                'price' => $detail['price'],
+                'quantity' => $detail['quantity'],
+                'discount' => $detail['discount'],
+                'subTotal' => $subTotal,
+                'comment' => $detail['comment'],
+            ]);
+        }
+
+        if($count == count($details)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private function removeDetails($pid, $details){
+        $userID = Auth::id();
+        $count = 0;
+        foreach($details as $detail){
+            $count++;
+            $this->MaterialLogService->add($userID, $detail['material_id'], 3, $detail['quantity']);
+            $detail->delete();
+        }
+
+        if($count == count($details)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

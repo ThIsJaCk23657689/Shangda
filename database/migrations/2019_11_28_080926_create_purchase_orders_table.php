@@ -32,7 +32,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->string('comment')->nullable()->comment('備註');
 
             $table->timestamps();
-            $table->softDeletes();
+            // $table->softDeletes();
             
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->foreign('user_id')->references('id')->on('users');

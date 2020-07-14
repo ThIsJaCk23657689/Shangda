@@ -27,7 +27,7 @@ class CreatePurchaseOrderDetailsTable extends Migration
             $table->double('subTotal')->default(0)->comment('小計');
             $table->string('comment')->nullable()->comment('備註');
             
-            $table->softDeletes();
+            // $table->softDeletes();
             $table->foreign('material_id')->references('id')->on('materials');
             $table->foreign('purchaseOrder_id')->references('id')->on('purchase_orders');
         });

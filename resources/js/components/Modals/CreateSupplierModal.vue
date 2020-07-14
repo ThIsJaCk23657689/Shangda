@@ -185,9 +185,12 @@
 
 <script>
 export default {
+    data(){
+        return {
+            
+        }
+    },
     mounted() {
-        console.log('CreateSupplierModal.vue mounted.');
-
         $('#copycompany1').click(function(e){   
             if($(this).prop("checked")) {
                 $('#deliveryAddress').val($('#companyAddress').val());
@@ -203,11 +206,6 @@ export default {
                 $('#invoiceAddress').val('');
             }
         });
-    },
-    data(){
-        return {
-            
-        }
     },
 }
 </script>

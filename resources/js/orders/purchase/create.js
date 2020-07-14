@@ -1,7 +1,6 @@
 
 Vue.component('purchase-create-form', require('./../../components/Orders/PurchaseCreateForm.vue').default);
 Vue.component('purchase-detail', require('./../../components/Orders/PurchaseDetail.vue').default);
-
 Vue.component('create-supplier-modal', require('./../../components/Modals/CreateSupplierModal.vue').default);
 
 const app = new Vue({
@@ -17,7 +16,6 @@ const app = new Vue({
     methods: {
         getSupplierData(id){
             let getSupplierInfo = $('#getSupplierInfo').html();
-
             axios.post(getSupplierInfo, id).then(response => {
                 console.log(response);
                 this.current_supplier = response.data;
@@ -28,12 +26,14 @@ const app = new Vue({
         let getSuppliersName = $('#getSuppliersName').html();
         let getMeterialsName = $('#getMeterialsName').html();
 
+        $.showLoadingModal();
         axios.get(getSuppliersName).then(response => {
             this.suppliers = response.data;
         });
 
         axios.get(getMeterialsName).then(response => {
             this.materials = response.data;
+            $.closeModal();
         });
     }
 });

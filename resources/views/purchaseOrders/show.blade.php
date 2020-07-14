@@ -40,7 +40,7 @@
                             <label for="showShortName" class="col-md-3 col-form-label text-md-right">供應商簡稱</label>
     
                             <div class="col-md-6">
-                                <input id="showShortName" type="text" class="form-control" value="{{ $purchaseOrder->supplier->shortName }}" disabled>
+                                <input id="showShortName" type="text" class="form-control" value="{{ $purchaseOrder->supplier->shortName ?? '無' }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                             <label for="showTaxId" class="col-md-3 col-form-label text-md-right">統一編號</label>
     
                             <div class="col-md-6">
-                                <input id="showTaxId" type="text" class="form-control" value="{{ $purchaseOrder->supplier->taxId }}" disabled>
+                                <input id="showTaxId" type="text" class="form-control" value="{{ $purchaseOrder->supplier->taxId ?? '無' }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                             <label for="showTel" class="col-md-3 col-form-label text-md-right">電話</label>
     
                             <div class="col-md-6">
-                                <input id="showTel" type="text" class="form-control" value="{{ $purchaseOrder->supplier->tel }}" disabled>
+                                <input id="showTel" type="text" class="form-control" value="{{ $purchaseOrder->supplier->tel ?? '無' }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                             <label for="showTax" class="col-md-3 col-form-label text-md-right">傳真</label>
     
                             <div class="col-md-6">
-                                <input id="showTax" type="text" class="form-control" value="{{ $purchaseOrder->supplier->tax }}" disabled>
+                                <input id="showTax" type="text" class="form-control" value="{{ $purchaseOrder->supplier->tax ?? '無' }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                             </label>
     
                             <div class="col-md-6">
-                                <input id="showInCharge1" type="text" class="form-control" value="{{ $purchaseOrder->supplier->inCharge1 }}" disabled>
+                                <input id="showInCharge1" type="text" class="form-control" value="{{ $purchaseOrder->supplier->inCharge1 ?? '無' }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                             </label>
     
                             <div class="col-md-6">
-                                <input id="showTel1" type="text" class="form-control" value="{{ $purchaseOrder->supplier->tel1 }}" disabled>
+                                <input id="showTel1" type="text" class="form-control" value="{{ $purchaseOrder->supplier->tel1 ?? '無' }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -111,59 +111,70 @@
                             </label>
     
                             <div class="col-md-9">
-                                <input id="showCompanyAddress" type="text" class="form-control" value="{{ $purchaseOrder->supplier->companyAddress }}" disabled>
+                                <input id="showCompanyAddress" type="text" class="form-control" value="{{ $purchaseOrder->supplier->companyAddress ?? '無' }}" disabled>
                             </div>
                         </div>
                     </div>
                 </div>
     
                 <hr>
-    
+
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="expectReceived_at" class="col-md-3 col-form-label text-md-right">
-                                預期到貨時間
-                            </label>
-    
-                            <div class="col-md-6">
-                                <input id="expectReceived_at" type="date" class="form-control" value="{{ $purchaseOrder->expectReceived_at }}" disabled>
+                    <div class="col-md-10 offset-md-1">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="expectReceived_at">預期到貨時間</label>
+                                    <input id="expectReceived_at" type="text" class="form-control" value="{{ $purchaseOrder->showExpectReceivedAtDate() }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="received_at">預期到貨時間</label>
+                                    <input id="received_at" type="text" class="form-control" value="{{ $purchaseOrder->showReceivedAtDate() }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="received_status">到貨狀態</label>
+                                    <input id="received_status" type="text" class="form-control" value="{{ $purchaseOrder->showReceivedStatus() }}" disabled>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="PurchaseComment" class="col-md-3 col-form-label text-md-right">
-                                備註
-                            </label>
-    
+                        <div class="row">
                             <div class="col-md-6">
-                                <input id="PurchaseComment" type="text" class="form-control" value="{{ $purchaseOrder->comment }}" disabled>
+                                <div class="form-group">
+                                    <label for="paid_at">付款時間</label>
+                                    <input id="paid_at" type="text" class="form-control" value="{{ $purchaseOrder->showPaidAtDate() }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="received_status">付款狀態</label>
+                                    <input id="received_status" type="text" class="form-control" value="{{ $purchaseOrder->showPaidStatus() }}" disabled>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-    
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="taxType" class="col-md-3 col-form-label text-md-right">
-                                稅別
-                            </label>
-    
+                        <div class="row">
                             <div class="col-md-6">
-                                <input id="taxType" type="text" class="form-control" value="{{ $purchaseOrder->showTaxType() }}" disabled>
+                                <div class="form-group">
+                                    <label for="taxType">稅別</label>
+                                    <input id="taxType" type="text" class="form-control" value="{{ $purchaseOrder->showTaxType() }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="invoiceType">發票類型</label>
+                                    <input id="invoiceType" type="text" class="form-control" value="{{ $purchaseOrder->showInvoiceType() }}" disabled>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="invoiceType" class="col-md-3 col-form-label text-md-right">
-                                發票類型
-                            </label>
-    
-                            <div class="col-md-6">
-                                <input id="invoiceType" type="text" class="form-control" value="{{ $purchaseOrder->showInvoiceType() }}" disabled>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="PurchaseComment">備註</label>
+                                    <textarea id="PurchaseComment" class="form-control" rows="2" disabled>{{ $purchaseOrder->comment ?? '無' }}</textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -251,6 +262,33 @@
                 </div>
 
                 <hr>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="user_id">創建者</label>
+                            <input id="user_id" type="text" class="form-control" value="{{ $purchaseOrder->user->name }}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="last_user_id">最後修改者</label>
+                            <input id="last_user_id" type="text" class="form-control" value="{{ $purchaseOrder->showLastUpdater() }}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="created_at">建立日期</label>
+                            <input id="created_at" type="text" class="form-control" value="{{ $purchaseOrder->created_at }}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="updated_at">最後更新日期</label>
+                            <input id="updated_at" type="text" class="form-control" value="{{ $purchaseOrder->updated_at }}" disabled>
+                        </div>
+                    </div>
+                </div>
     
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">

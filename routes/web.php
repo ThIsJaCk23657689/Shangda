@@ -95,6 +95,8 @@ Route::prefix('/backend')->group(function(){
             // 確認進貨 -> 寫進log並增加原物料存貨量
             Route::patch('/received', 'Orders\PurchaseOrderController@received')->name('purchase.received');
             Route::patch('/paid', 'Orders\PurchaseOrderController@paid')->name('purchase.paid');
+            
+            Route::get('/{id}/json', 'Orders\PurchaseOrderController@getOne')->name('purchase.getOne');
 
             // 進貨單細項資料管理路由
             Route::prefix('/details')->group(function(){

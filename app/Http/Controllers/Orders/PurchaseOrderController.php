@@ -48,11 +48,17 @@ class PurchaseOrderController extends Controller
     public function store(PurchaseOrderRequest $request)
     {
         $purchaseOrder = $this->PurchaseOrderService->add($request);
+
+        if($purchaseOrder){
+            return response()->json([
+                'purchaseOrder_id' => $purchaseOrder->id,
+                'message' => '單號' . $purchaseOrder->shownID . '建立成功。',
+            ], 200);
+        }
+
         return response()->json([
-            'purchaseOrder_id' => $purchaseOrder->id,
-            'messenge' => '單號' . $purchaseOrder->shownID . '建立成功。',
-            'status' => 'OK'
-        ]);
+            'message' => '進貨單新增失敗！請稍後再試。',
+        ], 422);
     }
 
     /**
@@ -75,8 +81,8 @@ class PurchaseOrderController extends Controller
      */
     public function edit($id)
     {
-        $purchaseOrder = $this->PurchaseOrderService->getOne($id);
-        return view('purchaseOrders.edit', compact('purchaseOrder'));
+        $purchaseID = $id;
+        return view('purchaseOrders.edit', compact('purchaseID'));
     }
 
     /**
@@ -88,8 +94,13 @@ class PurchaseOrderController extends Controller
      */
     public function update(PurchaseOrderRequest $request, $id)
     {
-        $purchaseOrder = $this->PurchaseOrderService->update($request, $id);
-        return redirect()->route('purchase.show', [$id]);
+        $PurchaseOrder = $this->PurchaseOrderService->update($request, $id);
+
+        return response()->json([
+            'status' => 'OK',
+            'message' => '進貨單更新成功！',
+            'PurchaseOrderID' => $PurchaseOrder->id
+        ], 200);
     }
 
     /**
@@ -118,5 +129,19 @@ class PurchaseOrderController extends Controller
             'message' => $result['message'],
             'url' => route('purchase.index')
         ], $result['status']);
+    }
+
+    public function getOne($id){
+        $purchase = $this->PurchaseOrderService->getOne($id);
+        $details = $purchase->details;
+
+        foreach($details as $detail){
+            $detail['material'] = $detail->material;
+        }
+
+        return response()->json([
+            'purchase' => $purchase,
+            'details' => $details
+        ], 200);
     }
 }

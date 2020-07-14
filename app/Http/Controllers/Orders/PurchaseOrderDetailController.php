@@ -20,8 +20,8 @@ class PurchaseOrderDetailController extends Controller
 
     public function store(PurchaseOrderDetailRequest $request)
     {
-        $purchaseOrderDetail = $this->PurchaseOrderDetailService->add($request);
-        return response()->json($purchaseOrderDetail, 200);
+        $result = $this->PurchaseOrderDetailService->add($request);
+        return response()->json($result, $result['status']);
     }
 
     public function showDetails($p_id)
@@ -30,10 +30,10 @@ class PurchaseOrderDetailController extends Controller
         return response()->json($purchaseOrderDetail, 200);
     }
 
-    public function update(PurchaseOrderDetailRequest $request, $p_id, $count)
+    public function update(PurchaseOrderDetailRequest $request)
     {
-        $purchaseOrderDetail = $this->PurchaseOrderDetailService->update($request,$p_id, $count);
-        return response()->json($purchaseOrderDetail, 200);
+        $result = $this->PurchaseOrderDetailService->update($request);
+        return response()->json($result, $result['status']);
     }
 
     public function destroy($p_id, $count)
