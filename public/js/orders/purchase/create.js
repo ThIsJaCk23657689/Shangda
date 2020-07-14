@@ -1570,7 +1570,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                            負責人1 - 名稱\r\n                        "
+                      "\n                            負責人1 - 名稱\n                        "
                     )
                   ]
                 ),
@@ -1595,7 +1595,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                            負責人1 - 電話\r\n                        "
+                      "\n                            負責人1 - 電話\n                        "
                     )
                   ]
                 ),
@@ -1622,7 +1622,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                            公司地址\r\n                        "
+                      "\n                            公司地址\n                        "
                     )
                   ]
                 ),
@@ -1657,7 +1657,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                            稅別\r\n                        "
+                      "\n                            稅別\n                        "
                     )
                   ]
                 ),
@@ -1746,7 +1746,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        確認新增\r\n                    "
+                    "\n                        確認新增\n                    "
                   )
                 ]
               ),
@@ -1759,7 +1759,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        返回進貨單首頁\r\n                    "
+                    "\n                        返回進貨單首頁\n                    "
                   )
                 ]
               )
@@ -1784,9 +1784,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-        _vm._v(
-          "\r\n                            供應商\r\n                        "
-        )
+        _vm._v("\n                            供應商\n                        ")
       ]
     )
   },
@@ -1807,7 +1805,7 @@ var staticRenderFns = [
         },
         [
           _vm._v(
-            "\r\n                                新增供應商\r\n                            "
+            "\n                                新增供應商\n                            "
           )
         ]
       )
@@ -1829,7 +1827,7 @@ var staticRenderFns = [
             [
               _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
               _vm._v(
-                "\r\n                            預期到貨時間\r\n                        "
+                "\n                            預期到貨時間\n                        "
               )
             ]
           ),
@@ -1860,7 +1858,7 @@ var staticRenderFns = [
             },
             [
               _vm._v(
-                "\r\n                            備註\r\n                        "
+                "\n                            備註\n                        "
               )
             ]
           ),
@@ -1894,7 +1892,7 @@ var staticRenderFns = [
           },
           [
             _vm._v(
-              "\r\n                            發票類型\r\n                        "
+              "\n                            發票類型\n                        "
             )
           ]
         ),

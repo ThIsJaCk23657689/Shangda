@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\SalesOrder as SalesOrderEloquent;
+use App\Product as ProductEloquent;
 
 class SalesOrderDetail extends Model
 {
@@ -17,4 +18,9 @@ class SalesOrderDetail extends Model
     public function saleOrder(){
         return $this->belongsTo(SalesOrderEloquent::class);
     }
+
+    public function product(){
+        return $this->belongsTo(ProductEloquent::class);
+    }
+
 }
