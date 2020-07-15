@@ -65,6 +65,13 @@ class PurchaseOrderService extends BaseService
     public function update($request, $id)
     {
         $purchaseOrder = $this->getOne($id);
+        if($purchaseOrder->paid_at != null || $purchaseOrder->received_at != null){
+            return [
+                'message'=> '進貨單狀態為已到貨或已付清時不得編輯。',
+                'status' => 422
+            ];
+        }
+
         $purchaseOrder->update([
             'supplier_id' => $request->supplier_id,
             'last_user_id' => Auth::id(),
@@ -77,12 +84,24 @@ class PurchaseOrderService extends BaseService
             'invoiceType' => $request->invoiceType,
             // 'address' => $request->address,
         ]);
-        return $purchaseOrder;
+
+        return [
+            'status' => 200,
+            'message' => '進貨單更新成功！',
+            'PurchaseOrderID' => $purchaseOrder->id
+        ];
     }
 
     public function delete($id)
     {
         $purchaseOrder = $this->getOne($id);
+        if($purchaseOrder->paid_at != null || $purchaseOrder->received_at != null){
+            return [
+                'message'=> '進貨單狀態為已到貨或已付清時不得刪除。',
+                'status' => 422
+            ];
+        }
+
         $result = $this->PurchaseOrderDetailService->delete($id);
         if($result){
             $purchaseOrder->delete();
