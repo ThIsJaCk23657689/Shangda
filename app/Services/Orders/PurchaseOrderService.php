@@ -65,6 +65,13 @@ class PurchaseOrderService extends BaseService
     public function update($request, $id)
     {
         $purchaseOrder = $this->getOne($id);
+        if($purchaseOrder->paid_at != null || $purchaseOrder->received_at != null){
+            return [
+                'message'=> '進貨單狀態為已到貨或已付清時不得編輯。',
+                'status' => 422
+            ];
+        }
+
         $purchaseOrder->update([
             'supplier_id' => $request->supplier_id,
             'last_user_id' => Auth::id(),
@@ -77,12 +84,24 @@ class PurchaseOrderService extends BaseService
             'invoiceType' => $request->invoiceType,
             // 'address' => $request->address,
         ]);
-        return $purchaseOrder;
+
+        return [
+            'status' => 200,
+            'message' => '進貨單更新成功！',
+            'PurchaseOrderID' => $purchaseOrder->id
+        ];
     }
 
     public function delete($id)
     {
         $purchaseOrder = $this->getOne($id);
+        if($purchaseOrder->paid_at != null || $purchaseOrder->received_at != null){
+            return [
+                'message'=> '進貨單狀態為已到貨或已付清時不得刪除。',
+                'status' => 422
+            ];
+        }
+
         $result = $this->PurchaseOrderDetailService->delete($id);
         if($result){
             $purchaseOrder->delete();
@@ -119,7 +138,7 @@ class PurchaseOrderService extends BaseService
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
 
-            $purchaseOrder_details = $purchaseOrder->details();
+            $purchaseOrder_details = $purchaseOrder->details;
             if($purchaseOrder_details){
                 foreach($purchaseOrder_details as $detail){
                     // 加入庫存量
@@ -151,7 +170,7 @@ class PurchaseOrderService extends BaseService
             $purchaseOrder->received_at = NULL;
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
-            $purchaseOrder_details = $purchaseOrder->details();
+            $purchaseOrder_details = $purchaseOrder->details;
             if($purchaseOrder_details){
 
                 foreach($purchaseOrder_details as $detail){
@@ -196,7 +215,7 @@ class PurchaseOrderService extends BaseService
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
 
-            $purchaseOrder_details = $purchaseOrder->details();
+            $purchaseOrder_details = $purchaseOrder->details;
             if($purchaseOrder_details){
                 foreach($purchaseOrder_details as $detail){
                     MaterialLogEloquent::create([
@@ -221,7 +240,7 @@ class PurchaseOrderService extends BaseService
             $purchaseOrder->paid_at = NULL;
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
-            $purchaseOrder_details = $purchaseOrder->details();
+            $purchaseOrder_details = $purchaseOrder->details;
             if($purchaseOrder_details){
                 foreach($purchaseOrder_details as $detail){
                     MaterialLogEloquent::create([

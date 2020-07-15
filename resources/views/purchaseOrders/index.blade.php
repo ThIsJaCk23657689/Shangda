@@ -93,32 +93,36 @@
 									<a href="{{ route('purchase.show', [$purchaseOrder->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
 									</a>
-									<a href="{{ route('purchase.edit', [$purchaseOrder->id]) }}" class="btn btn-md btn-success">
-										<i class="fas fa-edit"></i>
-									</a>
-									<a href="#" class="btn btn-md btn-danger" onclick="
-										event.preventDefault();
-										Swal.fire({
-                                            title: '注意！',
-                                            text: '您確定要刪除此進貨單嗎?',
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: '確認',
-                                            cancelButtonText: '取消',
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                $('#deleteform-{{ $purchaseOrder->id }}').submit();
-                                            }
-                                        });
-									">
-										<i class="far fa-trash-alt"></i>
-									</a>
-									<form id="deleteform-{{ $purchaseOrder->id }}" action="{{ route('purchase.destroy', [$purchaseOrder->id]) }}" method="POST" style="display: none;">
-										@csrf
-										@method('DELETE')
-									</form>
+
+									@if ($purchaseOrder->paid_at == null && $purchaseOrder->received_at == null)
+										<a href="{{ route('purchase.edit', [$purchaseOrder->id]) }}" class="btn btn-md btn-success">
+											<i class="fas fa-edit"></i>
+										</a>
+										<a href="#" class="btn btn-md btn-danger" onclick="
+											event.preventDefault();
+											Swal.fire({
+												title: '注意！',
+												text: '您確定要刪除此進貨單嗎?（此步驟不可復原）。',
+												icon: 'warning',
+												showCancelButton: true,
+												confirmButtonColor: '#3085d6',
+												cancelButtonColor: '#d33',
+												confirmButtonText: '確認',
+												cancelButtonText: '取消',
+											}).then((result) => {
+												if (result.value) {
+													$('#deleteform-{{ $purchaseOrder->id }}').submit();
+												}
+											});
+										">
+											<i class="far fa-trash-alt"></i>
+										</a>
+										<form id="deleteform-{{ $purchaseOrder->id }}" action="{{ route('purchase.destroy', [$purchaseOrder->id]) }}" method="POST" style="display: none;">
+											@csrf
+											@method('DELETE')
+										</form>
+									@endif
+
 								</td>
 							</tr>
 						@endforeach

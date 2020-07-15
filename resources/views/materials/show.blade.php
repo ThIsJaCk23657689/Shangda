@@ -68,6 +68,16 @@
                 </div>
 
                 <div class="form-group row">
+                    <label for="safeQuantity" class="col-md-4 col-form-label text-md-right">
+                        安全存貨量
+                    </label>
+
+                    <div class="col-md-4">
+                        <input id="safeQuantity" type="text" class="form-control" name="safeQuantity" value="{{ $material->safeQuantity }}" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <label for="comment" class="col-md-4 col-form-label text-md-right">備註</label>
 
                     <div class="col-md-6">

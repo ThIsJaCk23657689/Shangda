@@ -94,13 +94,8 @@ class PurchaseOrderController extends Controller
      */
     public function update(PurchaseOrderRequest $request, $id)
     {
-        $PurchaseOrder = $this->PurchaseOrderService->update($request, $id);
-
-        return response()->json([
-            'status' => 'OK',
-            'message' => '進貨單更新成功！',
-            'PurchaseOrderID' => $PurchaseOrder->id
-        ], 200);
+        $result = $this->PurchaseOrderService->update($request, $id);
+        return response()->json($result, $result['status']);
     }
 
     /**
@@ -111,7 +106,7 @@ class PurchaseOrderController extends Controller
      */
     public function destroy($id)
     {
-        $this->PurchaseOrderService->delete($id);
+        $result = $this->PurchaseOrderService->delete($id);
         return redirect()->route('purchase.index');
     }
 

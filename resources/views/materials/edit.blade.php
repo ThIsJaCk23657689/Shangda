@@ -112,6 +112,22 @@
                 </div>
 
                 <div class="form-group row">
+                    <label for="safeQuantity" class="col-md-4 col-form-label text-md-right">
+                        安全存貨量
+                    </label>
+
+                    <div class="col-md-4">
+                        <input id="safeQuantity" type="text" class="form-control @error('safeQuantity') is-invalid @enderror" name="safeQuantity" value="{{ old('safeQuantity') ?? $material->safeQuantity }}" autocomplete="off">
+                        
+                        @error('safeQuantity')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <label for="comment" class="col-md-4 col-form-label text-md-right">備註</label>
 
                     <div class="col-md-6">
