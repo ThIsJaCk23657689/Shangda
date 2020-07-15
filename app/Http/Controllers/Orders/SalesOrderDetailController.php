@@ -29,9 +29,9 @@ class SalesOrderDetailController extends Controller
         return response()->json($saleOrderDetail, 200);
     }
 
-    public function update(SalesOrderDetailRequest $request, $saleOrder_id, $count)
+    public function update(SalesOrderDetailRequest $request)
     {
-        $saleOrderDetail = $this->SalesOrderDetailService->update($request,$saleOrder_id, $count);
+        $saleOrderDetail = $this->SalesOrderDetailService->update($request);
         return response()->json($saleOrderDetail, 200);
     }
 

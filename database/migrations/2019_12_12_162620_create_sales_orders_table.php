@@ -21,7 +21,7 @@ class CreateSalesOrdersTable extends Migration
 
             $table->string('shown_id')->unique()->comment('顯示ID'); // [進貨：S  退貨：R] + 西元年 + 今日第幾個單
             $table->timestamp('expectPay_at')->nullable()->comment('預計付款日');
-            $table->timestamp('paid_at')->nullable()->comment('實際付款日');
+            $table->timestamp('paid_at')->nullable()->comment('實際付款日'); //
             $table->timestamp('expectDeliver_at')->nullable()->comment('預計出貨日');
             $table->timestamp('delivered_at')->nullable()->comment('實際出貨日');
             $table->timestamp('makeInvoice_at')->nullable()->comment('發票列印日');

@@ -95,7 +95,7 @@ Route::prefix('/backend')->group(function(){
             // 確認進貨 -> 寫進log並增加原物料存貨量
             Route::patch('/received', 'Orders\PurchaseOrderController@received')->name('purchase.received');
             Route::patch('/paid', 'Orders\PurchaseOrderController@paid')->name('purchase.paid');
-            
+
             Route::get('/{id}/json', 'Orders\PurchaseOrderController@getOne')->name('purchase.getOne');
 
             // 進貨單細項資料管理路由
@@ -130,7 +130,7 @@ Route::prefix('/backend')->group(function(){
         // 退貨單管理路由
         Route::prefix('/return')->group(function(){
             // 確認退款
-            Route::patch('/refundConfirm', 'Orders\ReturnOrderController@refundConfirm')->name('return.refundConfirm');
+            Route::patch('/refundConfirm/{id}', 'Orders\ReturnOrderController@refundConfirm')->name('return.refundConfirm');
 
             // 退貨單細項資料管理路由
             // Route::prefix('/details')->group(function(){

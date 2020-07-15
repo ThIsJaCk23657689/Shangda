@@ -47,7 +47,7 @@ class ReturnOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SalesOrderRequest $request)
+    public function store(Request $request)
     {
         $returnOrder = $this->ReturnOrderService->add($request);
             return response()->json([
@@ -66,7 +66,7 @@ class ReturnOrderController extends Controller
      */
     public function show($id)
     {
-        $returnOrder = $this->SalesOrderService->getOne($id);
+        $returnOrder = $this->ReturnOrderService->getOne($id);
         return view('returnOrders.show', compact('returnOrder'));
     }
 
@@ -78,8 +78,9 @@ class ReturnOrderController extends Controller
      */
     public function edit($id)
     {
-        $returnOrder = $this->SalesOrderService->getOne($id);
-        return view('returnOrders.edit', compact('returnOrder'));
+        // $returnOrder = $this->ReturnOrderService->getOne($id);
+        $returnID = $id;
+        return view('returnOrders.edit', compact('returnID'));
     }
 
     /**
@@ -89,7 +90,7 @@ class ReturnOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SalesOrderRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $status = $request->status;
         $returnOrder = $this->ReturnOrderService->update($request, $id);
@@ -106,12 +107,12 @@ class ReturnOrderController extends Controller
     public function destroy($id)
     {
         $this->ReturnOrderService->delete($id);
-        return redirect()->route('returnOrders.index');
+        return redirect()->route('return.index');
     }
 
     // 確認退款
     public function refundConfirm($id){
-        $this->ReturnOrderService->refundConfirm($id);
-        return response()->json('已確認退款', 200);
+        $msg = $this->ReturnOrderService->refundConfirm($id);
+        return redirect()->route('return.index');
     }
 }

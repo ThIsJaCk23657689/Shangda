@@ -6,6 +6,7 @@ use App\SalesOrder as SalesOrderEloquent;
 use App\Product as ProductEloquent;
 use App\Services\NotificationService;
 use App\Services\Logs\ProductLogService;
+use App\Services\Orders\SalesOrderDetailService;
 use Auth;
 use Carbon\Carbon;
 
@@ -13,11 +14,13 @@ class ReturnOrderService extends BaseService
 {
     public $NotificationService;
     public $ProductLogService;
+    public $SalesOrderDetailService;
 
     public function __construct()
     {
         //11.確認退貨退款 12.取消退貨退款
         $this->ProductLogService = new ProductLogService();
+        $this->SalesOrderDetailService = new SalesOrderDetailService();
         $this->NotificationService = new NotificationService();
     }
 
@@ -30,11 +33,11 @@ class ReturnOrderService extends BaseService
 
             'user_id' => Auth::id(),
             'last_user_id' => Auth::id(),
-            'expectPay_at' => $request->expectPay_at,
-            'paid_at' => $request->paid_at,
-            'expectDeliver_at' => $request->expectDeliver_at,
-            'delivered_at' => $request->delivered_at,
-            'makeInvoice_at' => $request->makeInvoice_at,
+            // 'expectPay_at' => $request->expectPay_at,
+            // 'paid_at' => $request->paid_at,
+            // 'expectDeliver_at' => $request->expectDeliver_at,
+            // 'delivered_at' => $request->delivered_at,
+            // 'makeInvoice_at' => $request->makeInvoice_at,
 
             // 'paidAmount' => $request->paidAmount,
             // 'unpaidAmount' => $request->unpaidAmount,
@@ -44,9 +47,9 @@ class ReturnOrderService extends BaseService
 
             'comment' => $request->comment,
             'taxType' => $request->taxType,
-            'status' => $request->status,
-            'invoiceType' => $request->invoiceType,
-            'address' => $request->address,
+            'status' => 2,
+            // 'invoiceType' => $request->invoiceType,
+            // 'address' => $request->address,
         ]);
 
         // 發送通知
@@ -75,45 +78,45 @@ class ReturnOrderService extends BaseService
                 'consumers_id' => $request->consumers_id,
                 'last_user_id' => Auth::id(),
 
-                'expectPay_at' => $request->expectPay_at,
-                'paid_at' => $request->paid_at,
-                'expectDeliver_at' => $request->expectDeliver_at,
-                'delivered_at' => $request->delivered_at,
-                'makeInvoice_at' => $request->makeInvoice_at,
+                // 'expectPay_at' => $request->expectPay_at,
+                // 'paid_at' => $request->paid_at,
+                // 'expectDeliver_at' => $request->expectDeliver_at,
+                // 'delivered_at' => $request->delivered_at,
+                // 'makeInvoice_at' => $request->makeInvoice_at,
 
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
                 'status' => $request->status,
-                'invoiceType' => $request->invoiceType,
-                'address' => $request->address,
+                // 'invoiceType' => $request->invoiceType,
+                // 'address' => $request->address,
             ]);
         }else if($saleOrder->taxType != 1 && $request->taxType != 1){
             $saleOrder->update([
                 'consumers_id' => $request->consumers_id,
                 'last_user_id' => Auth::id(),
 
-                'expectPay_at' => $request->expectPay_at,
-                'paid_at' => $request->paid_at,
-                'expectDeliver_at' => $request->expectDeliver_at,
-                'delivered_at' => $request->delivered_at,
-                'makeInvoice_at' => $request->makeInvoice_at,
+                // 'expectPay_at' => $request->expectPay_at,
+                // 'paid_at' => $request->paid_at,
+                // 'expectDeliver_at' => $request->expectDeliver_at,
+                // 'delivered_at' => $request->delivered_at,
+                // 'makeInvoice_at' => $request->makeInvoice_at,
 
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
                 'status' => $request->status,
-                'invoiceType' => $request->invoiceType,
-                'address' => $request->address,
+                // 'invoiceType' => $request->invoiceType,
+                // 'address' => $request->address,
             ]);
         }else if($saleOrder->taxType != 1 && $request->taxType == 1){
             $saleOrder->update([
                 'consumers_id' => $request->consumers_id,
                 'last_user_id' => Auth::id(),
 
-                'expectPay_at' => $request->expectPay_at,
-                'paid_at' => $request->paid_at,
-                'expectDeliver_at' => $request->expectDeliver_at,
-                'delivered_at' => $request->delivered_at,
-                'makeInvoice_at' => $request->makeInvoice_at,
+                // 'expectPay_at' => $request->expectPay_at,
+                // 'paid_at' => $request->paid_at,
+                // 'expectDeliver_at' => $request->expectDeliver_at,
+                // 'delivered_at' => $request->delivered_at,
+                // 'makeInvoice_at' => $request->makeInvoice_at,
 
                 // 'paidAmount' => $request->paidAmount,
                 // 'unpaidAmount' => $request->unpaidAmount,
@@ -124,8 +127,8 @@ class ReturnOrderService extends BaseService
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
                 'status' => $request->status,
-                'invoiceType' => $request->invoiceType,
-                'address' => $request->address,
+                // 'invoiceType' => $request->invoiceType,
+                // 'address' => $request->address,
             ]);
             // $saleOrder->consumer->uncheckedAmount =  $saleOrder->consumer->uncheckedAmount - $request->taxPrice + $request->taxPrice*1.05;
             // $saleOrder->consumer->save();
@@ -137,8 +140,26 @@ class ReturnOrderService extends BaseService
     public function delete($id)
     {
         $saleOrder = $this->getOne($id);
-        // $saleOrder->consumer->uncheckedAmount -= $saleOrder->totalTaxPrice;
-        // $saleOrder->consumer->save();
+        if($saleOrder->paid_at != null){
+            if($saleOrder->consumer->monthlyCheckDate != 0){
+                $saleOrder->consumer->uncheckedAmount += $saleOrder->totalTaxPrice;
+                $saleOrder->consumer->totalConsumption += $saleOrder->totalTaxPrice;
+                $saleOrder->consumer->save();
+
+                // // 發送通知
+                // $this->NotificationService->refundConfirmedNotice($saleOrder->consumer->id, $id);
+
+            }else{
+                // 非月結客戶 直接現場退費
+                $saleOrder->consumer->totalConsumption += $saleOrder->totalTaxPrice;
+                $saleOrder->consumer->save();
+            }
+        }
+        $count = $saleOrder->details()->count();
+        for($i = 1 ; $i <= $count ; $i++){
+            $msg = $this->SalesOrderDetailService->delete($id, $i);
+        }
+
         $saleOrder->delete();
     }
 
@@ -156,29 +177,47 @@ class ReturnOrderService extends BaseService
     // 確認退款(totalTaxPrice 月結客戶直接從uncheckedAmount減 totalConsumption也要減)
     public function refundConfirm($id){
         $returnOrder = $this->getOne($id);
-        $returnOrder->paid_at = Carbon::today()->toDateTimeString();;
-        // $returnOrderDetails = $returnOrder->details();
-        // foreach($returnOrderDetails as $detail){
-        //     $product = ProductEloquent::findOrFail($detail->product_id);
-        //     $product->quantity = $product->quantity + $detail->quantity;
-        //     $product->save();
-        //     $this->ProductLogService->add(Auth::id(), $detail->product_id, 11, $detail->quantity);
-        // }
-        // 月結客戶
-        if($returnOrder->consumer->monthlyCheckDate != 0){
-            $returnOrder->consumer->uncheckedAmount -= $returnOrder->totalTaxPrice;
-            $returnOrder->consumer->totalConsumption -= $returnOrder->totalConsumption;
-            $returnOrder->consumer->save();
+        if($returnOrder->paid_at == null){
+            // 確認退款
+            $returnOrder->paid_at = Carbon::today()->toDateTimeString();
+            $returnOrder->save();
+            // 月結客戶
+            if($returnOrder->consumer->monthlyCheckDate != 0){
+                $returnOrder->consumer->uncheckedAmount -= $returnOrder->totalTaxPrice;
+                $returnOrder->consumer->totalConsumption -= $returnOrder->totalTaxPrice;
+                $returnOrder->consumer->save();
 
-            // 發送通知
-            $this->NotificationService->refundConfirmedNotice($returnOrder->consumer->id, $id);
+                // 發送通知
+                $this->NotificationService->refundConfirmedNotice($returnOrder->consumer->id, $id);
 
+            }else{
+                // 非月結客戶 直接現場退費
+                $returnOrder->consumer->totalConsumption -= $returnOrder->totalTaxPrice;
+                $returnOrder->consumer->save();
+            }
+            return '已確認退款';
         }else{
-            // 非月結客戶 直接現場退費
-            $returnOrder->consumer->totalConsumption -= $returnOrder->totalConsumption;
-            $returnOrder->consumer->save();
+            // 取消退款
+            $returnOrder->paid_at = null;
+            $returnOrder->save();
+            // 月結客戶
+            if($returnOrder->consumer->monthlyCheckDate != 0){
+                $returnOrder->consumer->uncheckedAmount += $returnOrder->totalTaxPrice;
+                $returnOrder->consumer->totalConsumption += $returnOrder->totalTaxPrice;
+                $returnOrder->consumer->save();
+
+                // // 發送通知
+                // $this->NotificationService->refundConfirmedNotice($returnOrder->consumer->id, $id);
+
+            }else{
+                // 非月結客戶 直接現場退費
+                $returnOrder->consumer->totalConsumption += $returnOrder->totalTaxPrice;
+                $returnOrder->consumer->save();
+            }
+            return '已取消退款';
         }
-        return null;
+
+
     }
 
     public function generateShownID(){

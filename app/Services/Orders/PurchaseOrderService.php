@@ -46,7 +46,7 @@ class PurchaseOrderService extends BaseService
             'address' => $request->address,
             'shown_id' => $shown_id,
         ]);
-        
+
         return $purchaseOrder;
     }
 
@@ -119,7 +119,7 @@ class PurchaseOrderService extends BaseService
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
 
-            $purchaseOrder_details = $purchaseOrder->details();
+            $purchaseOrder_details = $purchaseOrder->details;
             if($purchaseOrder_details){
                 foreach($purchaseOrder_details as $detail){
                     // 加入庫存量
@@ -151,7 +151,7 @@ class PurchaseOrderService extends BaseService
             $purchaseOrder->received_at = NULL;
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
-            $purchaseOrder_details = $purchaseOrder->details();
+            $purchaseOrder_details = $purchaseOrder->details;
             if($purchaseOrder_details){
 
                 foreach($purchaseOrder_details as $detail){
@@ -196,7 +196,7 @@ class PurchaseOrderService extends BaseService
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
 
-            $purchaseOrder_details = $purchaseOrder->details();
+            $purchaseOrder_details = $purchaseOrder->details;
             if($purchaseOrder_details){
                 foreach($purchaseOrder_details as $detail){
                     MaterialLogEloquent::create([
@@ -221,7 +221,7 @@ class PurchaseOrderService extends BaseService
             $purchaseOrder->paid_at = NULL;
             $purchaseOrder->last_user_id = Auth::id();
             $purchaseOrder->save();
-            $purchaseOrder_details = $purchaseOrder->details();
+            $purchaseOrder_details = $purchaseOrder->details;
             if($purchaseOrder_details){
                 foreach($purchaseOrder_details as $detail){
                     MaterialLogEloquent::create([

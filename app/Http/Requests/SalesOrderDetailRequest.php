@@ -25,8 +25,8 @@ class SalesOrderDetailRequest extends FormRequest
     {
         return [
             'product_id.*' => 'required|integer',
-            'salesOrder_id.*' => 'required|integer',
-            
+            'salesOrder_id' => 'required|integer',
+
             'price.*'  => 'nullable|min:0|numeric',
             'quantity.*' => 'required|integer',
             'discount.*'  => 'nullable|min:0|numeric',

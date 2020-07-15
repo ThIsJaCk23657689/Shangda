@@ -12,6 +12,7 @@
     "/js/orders/purchase/create.js": "/js/orders/purchase/create.js",
     "/js/orders/purchase/edit.js": "/js/orders/purchase/edit.js",
     "/js/orders/purchase/index.js": "/js/orders/purchase/index.js",
+    "/js/orders/returns/create.js": "/js/orders/returns/create.js",
     "/js/orders/sales/create.js": "/js/orders/sales/create.js",
     "/js/orders/sales/index.js": "/js/orders/sales/index.js",
     "/js/produces/create.js": "/js/produces/create.js",
