@@ -22,17 +22,22 @@ class ProduceService extends BaseService
 
     public function add($request)
     {
-        // $product = ProductEloquent::findOrFail($request->product_id);
         $produce = ProduceEloquent::create([
-            'product_id' => $request->product_id,
-            'quantity' => $request->product_quantity,
             'user_id' => Auth::id(),
             'last_user_id' => Auth::id()
         ]);
+
         if($produce){
-            return $produce;
+            return [
+                'produce_id' => $produce->id,
+                'massenge' => '編號' . $produce->id . '建立成功。',
+                'status' => 200
+            ];
         }else{
-            throw new Exception('Create Produce Failed');
+            return [
+                'massenge' => '商品庫存新增失敗，請稍後再試。',
+                'status' => 422
+            ];
         }
 
         // if($produce){

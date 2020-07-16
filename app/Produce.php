@@ -13,7 +13,6 @@ class Produce extends Model
         'user_id', 'last_user_id'
     ];
 
-
     public function produceDetails(){
         return $this->hasMany(ProduceDetailEloquent::class);
     }
@@ -24,5 +23,14 @@ class Produce extends Model
 
     public function user(){
         return $this->belongsTo(UserEloquent::class);
+    }
+
+    // 顯示最後更新者
+    public function showLastUpdater(){
+        $user = UserEloquent::find($this->last_user_id);
+        if($user){
+            return $user->name;
+        }
+        return '無';
     }
 }
