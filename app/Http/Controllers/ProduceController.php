@@ -34,13 +34,9 @@ class ProduceController extends Controller
         return view('produces.create');
     }
 
-    public function store(ProduceRequest $request){
-        $produce = $this->ProduceService->add($request);
-        return response()->json([
-            'produce_id' => $produce->id,
-            'massenge' => '編號' . $produce->id . '建立成功。',
-            'status' => 'OK'
-        ]);
+    public function store(Request $request){
+        $result = $this->ProduceService->add($request);
+        return response()->json($result, $result['status']);
     }
 
     public function show($id){
@@ -65,8 +61,8 @@ class ProduceController extends Controller
 
     // Produce Detail Function
     public function detailstore(Request $request){
-        $msg = $this->ProduceDetailService->add($request);
-        return response()->json($msg, 200);
+        $result = $this->ProduceDetailService->add($request);
+        return response()->json($result, $result['status']);
     }
 
     // 原物料細項修改(只能改數量)

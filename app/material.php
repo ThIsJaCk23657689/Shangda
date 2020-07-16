@@ -36,6 +36,13 @@ class Material extends Model
         return $this->stock;
     }
 
+    public function showSafeQty(){
+        if($this->unit == 2){
+            return $this->safeQuantity / 1000;
+        }
+        return $this->safeQuantity;
+    }
+
     public function material_log(){
         return $this->hasMany(Material_logEloquent::class);
     }

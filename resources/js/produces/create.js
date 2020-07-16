@@ -1,12 +1,14 @@
 Vue.component('produces-create-form', require('./../components/Produces/ProducesCreateForm.vue').default);
-Vue.component('produces-detail', require('./../components/Produces/ProducesDetail.vue').default);
+Vue.component('produces-materials-detail', require('./../components/Produces/ProducesMaterialsDetail.vue').default);
+Vue.component('produces-products-detail', require('./../components/Produces/ProducesProductsDetail.vue').default);
 
 const app = new Vue({
     el: '#Produces',
     data() {
         return {
             products: [],
-            current_product: [],
+            all_products: [],
+            products_disabled: [],
             
             materials: [],
             all_materials: [],
@@ -47,29 +49,49 @@ const app = new Vue({
                 }
             }
         },
-        
-        // 取得商品資料
-        getProductData(id){
-            let getProductsInfo = $('#getProductsInfo').html();
 
-            axios.post(getProductsInfo, id).then(response => {
-                // console.log(response);
-                this.current_product = response.data;
-                
-                // 觸發事件：當"商品名稱"欄位被更動時
-                // 試算商品庫存：目前庫存 + 增加量 = 最終庫存 (四捨五入到小數點後4位)
-                let currentQty = this.current_product.quantity;
-                let qty = parseFloat($('#product_quantity').val());
-                let afterQty = parseFloat(Math.round((currentQty + qty) * 10000) / 10000);
-                $('#product_afterQty').val(afterQty);
-            });
+        // 更新商品清單
+        refreshProducts(data){
+            this.products = this.all_products;
+
+            if(data.type == 'add'){
+                this.products_disabled.push({
+                    id: this.products[data.id].id,
+                    name: this.products[data.id].name
+                });
+            }else{
+                let index;
+                for(let i = 0; i < this.products_disabled.length; i++){
+                    if(this.products_disabled[i].id == data.id){
+                        index = i;
+                        break;
+                    }
+                }
+                this.products_disabled.splice(index, 1);
+            }
+            
+            this.products = [];
+            for(let i = 0; i < this.all_products.length; i++){
+                let canAdd = true;
+                for(let j = 0; j < this.products_disabled.length; j++){
+                    if(this.all_products[i].id == this.products_disabled[j].id){
+                        canAdd = false;
+                    }
+                }
+                if(canAdd){
+                    this.products.push(this.all_products[i]);
+                }
+            }
         },
     },
     created(){
+        $.showLoadingModal();
+
         // 取得所有商品列表(id與name)
         let getProductsName = $('#getProductsName').html();
         axios.get(getProductsName).then(response => {
             this.products = response.data;
+            this.all_products = this.products;
         });
 
         // 取得所有原物料列表(id與name)
@@ -77,6 +99,10 @@ const app = new Vue({
         axios.get(getMeterialsName).then(response => {
             this.materials = response.data;
             this.all_materials = this.materials;
+            $.closeModal();
         });
-    }
+    },
+    mounted() {
+        
+    },
 });

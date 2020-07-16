@@ -11,7 +11,7 @@
 			<a href="#">{{ __('Stuffs Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Produces') }}</a>
+			<a href="{{ route('produces.index') }}">{{ __('Produces') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Create') }}</li>
     @endcomponent
@@ -29,6 +29,12 @@
 
 		<span id="createProduceDetail" style="display: none;">{{ route('produces.details.store') }}</span>
 		
-		<produces-create-form ref="ProduceCreateForm" :products="products" :current_product="current_product" :materials="materials" v-on:get-product-data="getProductData" v-on:refresh-materials="refreshMaterials"></produces-create-form>
+		<produces-create-form 
+			ref="ProduceCreateForm" 
+			:products="products" 
+			:materials="materials" 
+			v-on:refresh-products="refreshProducts"
+			v-on:refresh-materials="refreshMaterials">
+		</produces-create-form>
 	</div>
 @endsection

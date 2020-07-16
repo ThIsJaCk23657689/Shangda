@@ -39,9 +39,10 @@ class MaterialService extends BaseService
     }
 
     public function getInfoList($id){
-        $meterial_info = MaterialEloquent::select('id', 'name', 'internationalNum', 'unitPrice', 'unit', 'stock')->find($id);
+        $meterial_info = MaterialEloquent::select('id', 'name', 'internationalNum', 'unitPrice', 'unit', 'stock', 'safeQuantity')->find($id);
         $meterial_info['showUnit'] = $meterial_info->showUnit();
         $meterial_info['showStock'] = $meterial_info->showStock();
+        $meterial_info['showSafeQty'] = $meterial_info->showSafeQty();
         return $meterial_info;
     }
 

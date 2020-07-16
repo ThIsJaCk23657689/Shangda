@@ -11,7 +11,7 @@
 			<a href="#">{{ __('Stuffs Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Produces') }}</a>
+			<a href="{{ route('produces.index') }}">{{ __('Produces') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
 	@endcomponent
@@ -37,8 +37,8 @@
 					<thead>
 						<tr>
                             <th>編號</th>
-                            <th>商品</th>
-                            <th>新增庫存量</th>
+                            <th>產出龜頭數</th>
+                            <th>投入原料數</th>
                             <th>時間</th>
 							<th>操作</th>
 						</tr>
@@ -47,8 +47,8 @@
 						@foreach ($produces as $produce)
 							<tr>
                                 <td>{{ $produce->id }}</td>
-                                <td>{{ $produce->product->name }}</td>
-								<td>{{ $produce->quantity }}</td>
+                                <td>{{ $produce->produceProducts()->count() }}</td>
+								<td>{{ $produce->produceDetails()->count() }}</td>
 								<td>{{ $produce->created_at }}</td>
 								<td>
 									<a href="{{ route('produces.show', [$produce->id]) }}" class="btn btn-md btn-info">

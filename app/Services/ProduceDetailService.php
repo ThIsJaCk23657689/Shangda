@@ -6,6 +6,7 @@ use App\ProduceProduct as ProduceProductEloquent;
 use App\Material as MaterialEloquent;
 use App\Product as ProductEloquent;
 use App\MaterialLog as MaterialLogEloquent;
+use App\ProductLog as ProductLogEloquent;
 use App\Services\NotificationService;
 use Auth;
 
@@ -20,15 +21,15 @@ class ProduceDetailService extends BaseService
     public function add($request)
     {
         $produce_id = $request->produce_id;
-        $material_data = $request->material_details;
-        $product_data = $request->product_details;
+        $material_details = $request->material_details;
+        $product_details = $request->product_details;
         $count = 0;
 
         // 使用之原物料
-        foreach($material_data as $obj){
+        foreach($material_details as $material_detail){
             $count++;
-            $material_id = $obj['material_id'];
-            $quantity = $obj['quantity'];
+            $material_id = $material_detail['material']['id'];
+            $quantity = $material_detail['quantity'];
 
             $material = MaterialEloquent::findOrFail($material_id);
             $produce_detail = ProduceDetailEloquent::create([
@@ -59,16 +60,19 @@ class ProduceDetailService extends BaseService
                     'amount' => $quantity,
                 ]);
             }else{
-                throw new Exception('Create Produce Detail Failed');
+                $msg = [
+                    'message' => "發生錯誤！",
+                    'status' => 422
+                ];
             }
         }
 
         //生產之商品
         $p_count = 0;
-        foreach($product_data as $obj){
+        foreach($product_details as $product_detail){
             $p_count++;
-            $product_id = $obj['product_id'];
-            $quantity = $obj['quantity'];
+            $product_id = $product_detail['product']['id'];
+            $quantity = $product_detail['quantity'];
             $product = ProductEloquent::findOrFail($product_id);
             $produce_product = ProduceProductEloquent::create([
                 'produce_id' => $produce_id,
@@ -78,7 +82,7 @@ class ProduceDetailService extends BaseService
 
             if($produce_product){
                 // 更改商品存貨量
-                $product->quantity = $product->quantity + quantity;
+                $product->quantity = $product->quantity + $quantity;
                 if($product->quantity < 0){
                     throw new Exception('Quantity Not Enough.');
                 }
@@ -92,20 +96,23 @@ class ProduceDetailService extends BaseService
                     'amount' => $quantity
                 ]);
             }else{
-                throw new Exception('Create Produce Failed');
+                $msg = [
+                    'message' => "發生錯誤！",
+                    'status' => 422
+                ];
             }
         }
 
         if($produce_detail && $produce_product){
             $msg = [
-                'massenge' => "總共有" . $p_count .'筆商品 / ' . $count . "筆原料新增成功。",
-                'redirect' => route('produces.index'),
-                'status' => 'OK'
+                'message' => "總共有" . $p_count .'筆商品 / ' . $count . "筆原料新增成功。",
+                'url' => route('produces.index'),
+                'status' => 200
             ];
         }else{
             $msg = [
-                'massenge'=>"無資料新增。",
-                'status'=>'Failed'
+                'message' => "發生錯誤！",
+                'status' => 422
             ];
         }
         return $msg;

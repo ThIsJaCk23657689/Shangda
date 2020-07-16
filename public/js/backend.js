@@ -55340,7 +55340,7 @@ $(function () {
     if (_float.test(value)) {
       return true;
     } else {
-      alert("請輸入有效的整數或浮點數。");
+      $.showWarningModal("請輸入有效的整數或浮點數。");
       input.val(0);
       return false;
     }
