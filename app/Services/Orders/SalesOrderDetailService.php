@@ -231,7 +231,7 @@ class SalesOrderDetailService extends BaseService
             $quantity = $obj['quantity'];
             $subTotal = round($obj['price'] * $obj['discount'] * $quantity, 4);
             $total_unTax += $subTotal;
-            $this->ProductLogService->add($userID, $obj['product_id'], $act, $obj['amount']);
+            $this->ProductLogService->add($userID, $obj['product_id'], $act, $obj['quantity']);
 
             $saleOrderDetail = SalesOrderDetailEloquent::create([
                 'sales_order_id' => $s_id,
@@ -282,7 +282,7 @@ class SalesOrderDetailService extends BaseService
         $type == 1 ? $act= 3 : $act=15;
         foreach($details as $detail){
             $count++;
-            $this->ProductLogService->add($userID, $detail['product_id'], $act, $detail['amount']);
+            $this->ProductLogService->add($userID, $detail['product_id'], $act, $detail['quantity']);
             $detail->delete();
         }
 

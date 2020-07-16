@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-	<script src="{{ asset('js/orders/purchase/edit.js') }}" defer></script>
+	<script src="{{ asset('js/orders/returns/edit.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -27,7 +27,6 @@
 
 
 		<span id="getAuthName" style="display: none;">{{ Auth::user()->name }}</span>
-        <span id="getSalesOrderShownID" style="display: none;">{{ $new_shownID }}</span>
 
         <span id="getReturnOrderInfo" style="display: none;">{{ route('return.getOne', [$returnID]) }}</span>
 
@@ -35,12 +34,12 @@
 		<span id="updateReturnOrderDetail" style="display: none;">{{ route('sales.details.update') }}</span>
 
         <return-update-form
-            ref="purchaseform"
-            :suppliers="suppliers"
-            :current_supplier="current_supplier"
-            :materials="materials"
-            :purchase="purchase"
-            v-on:get-supplier-data="getSupplierData"
+            ref="returnOrderform"
+            :consumers="consumers"
+            :current_consumer="current_consumer"
+            :products="products"
+            :return-order="returnOrder"
+            v-on:get-consumer-data="getConsumerData"
             return-url="{{ route('return.index') }}">
         </return-update-form>
 	</div>

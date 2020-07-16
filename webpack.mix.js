@@ -32,7 +32,9 @@ mix.js('resources/js/backend.js', 'public/js')
 
 .js('resources/js/orders/sales/index.js', 'public/js/orders/sales')
     .js('resources/js/orders/sales/create.js', 'public/js/orders/sales')
+    .js('resources/js/orders/sales/edit.js', 'public/js/orders/sales')
     .js('resources/js/orders/returns/create.js', 'public/js/orders/returns')
+    .js('resources/js/orders/returns/edit.js', 'public/js/orders/returns')
 
 .js('resources/js/consumers/create.js', 'public/js/consumers')
 

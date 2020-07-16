@@ -40,7 +40,7 @@ class ReturnOrderController extends Controller
         $new_shownID = $this->ReturnOrderService->generateShownID();
         return view('returnOrders.create', compact('new_shownID'));
     }
-
+    //大便大不停
     /**
      * Store a newly created resource in storage.
      *
@@ -90,12 +90,14 @@ class ReturnOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
         $status = $request->status;
         $returnOrder = $this->ReturnOrderService->update($request, $id);
 
-        return redirect()->route('returnOrders.show', [$id]);
+        // return redirect()->route('return.show', [$id]);
+        return response()->json($returnOrder, 200);
     }
 
     /**
@@ -114,5 +116,20 @@ class ReturnOrderController extends Controller
     public function refundConfirm($id){
         $msg = $this->ReturnOrderService->refundConfirm($id);
         return redirect()->route('return.index');
+    }
+
+    public function getOne($id){
+        $returnOrder = $this->ReturnOrderService->getOne($id);
+        $details = $returnOrder->details;
+        $returnOrder->creator = $returnOrder->user->name;
+        foreach($details as $detail){
+            $detail['pieces'] = $detail->quantity / $detail->product->qty_per_pack;
+            $detail['products'] = $detail->product;
+        }
+
+        return response()->json([
+            'returnOrder' => $returnOrder,
+            'details' => $details
+        ], 200);
     }
 }

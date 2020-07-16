@@ -122,7 +122,8 @@ class SalesOrderController extends Controller
         $status = $request->status;
         $salesOrder = $this->SalesOrderService->update($request, $id);
 
-        return redirect()->route('salesOrders.show', [$id]);
+        // return redirect()->route('sales.show', [$id]);
+        return response()->json($salesOrder, 200);
     }
 
     /**
@@ -158,6 +159,22 @@ class SalesOrderController extends Controller
     public function paymentCancel(Request $request){
         $msg = $this->SalesOrderService->paymentCancel($request);
         return response()->json($msg, 200);
+    }
+
+    public function getOne($id){
+        $salesOrder = $this->SalesOrderService->getOne($id);
+        $details = $salesOrder->details;
+        $salesOrder->creator = $salesOrder->user->name;
+
+        foreach($details as $detail){
+            $detail['pieces'] = $detail->quantity / $detail->product->qty_per_pack;
+            $detail['products'] = $detail->product;
+        }
+
+        return response()->json([
+            'salesOrder' => $salesOrder,
+            'details' => $details
+        ], 200);
     }
 
 }

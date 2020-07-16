@@ -116,7 +116,7 @@ Route::prefix('/backend')->group(function(){
             Route::patch('/paymentCancel', 'Orders\SalesOrderController@paymentCancel')->name('sales.paymentCancel');
             // // 購物車轉入訂單
             // Route::post('/storeFromCart', 'Orders\SalesOrderController@storeFromCart')->name('sales.storeFromCart');
-
+            Route::get('/{id}/json', 'Orders\SalesOrderController@getOne')->name('sales.getOne');
             // 銷貨單細項資料管理路由
             Route::prefix('/details')->group(function(){
                 Route::post('store', 'Orders\SalesOrderDetailController@store')->name('sales.details.store');
@@ -131,7 +131,7 @@ Route::prefix('/backend')->group(function(){
         Route::prefix('/return')->group(function(){
             // 確認退款
             Route::patch('/refundConfirm/{id}', 'Orders\ReturnOrderController@refundConfirm')->name('return.refundConfirm');
-
+            Route::get('/{id}/json', 'Orders\ReturnOrderController@getOne')->name('return.getOne');
             // 退貨單細項資料管理路由
             // Route::prefix('/details')->group(function(){
 
