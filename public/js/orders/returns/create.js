@@ -621,7 +621,7 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8" }, [
+                _c("div", { staticClass: "col-md-12" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _vm._m(0),
                     _vm._v(" "),
@@ -647,17 +647,15 @@ var render = function() {
                       2
                     )
                   ])
-                ]),
-                _vm._v(" "),
-                _vm._m(1)
+                ])
               ])
             ]),
             _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
             _vm._m(2),
             _vm._v(" "),
-            _vm._m(3),
-            _vm._v(" "),
-            _vm._m(4)
+            _vm._m(3)
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
@@ -866,7 +864,7 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "form-group" }, [
-                _vm._m(5),
+                _vm._m(4),
                 _vm._v(" "),
                 _c(
                   "select",
@@ -894,7 +892,7 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(6)
+            _vm._m(5)
           ]),
           _vm._v(" "),
           _c("hr"),
@@ -906,9 +904,9 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("div", { staticClass: "row mb-2" }, [
-            _vm._m(7),
+            _vm._m(6),
             _vm._v(" "),
-            _vm._m(8),
+            _vm._m(7),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "form-group" }, [
@@ -976,38 +974,6 @@ var staticRenderFns = [
     return _c("label", { attrs: { for: "consumer_id" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
       _vm._v("顧客名稱\n                                ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c(
-          "label",
-          { staticStyle: { color: "white" }, attrs: { for: "consumer_id" } },
-          [_vm._v("+")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-block btn-primary",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#CreateConsumerModal"
-            }
-          },
-          [
-            _c("i", { staticClass: "fas fa-user-tie mr-2" }),
-            _vm._v(
-              "\n                                    新增顧客\n                                "
-            )
-          ]
-        )
-      ])
     ])
   },
   function() {

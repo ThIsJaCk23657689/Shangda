@@ -11,7 +11,7 @@
 			<a href="#">{{ __('Orders Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Return Orders') }}</a>
+			<a href="{{ route('return.index') }}">{{ __('Return Orders') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Edit') }}</li>
 	@endcomponent

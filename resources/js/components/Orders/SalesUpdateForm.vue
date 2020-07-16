@@ -12,7 +12,7 @@
 
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="consumer_id">
                                     <span class="text-danger mr-2">*</span>顧客名稱
@@ -23,7 +23,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="consumer_id" style="color: white;">+</label>
                                 <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#CreateConsumerModal">
@@ -31,7 +31,7 @@
                                     新增顧客
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 

@@ -2,16 +2,16 @@
 
 @push('CustomJS')
 	<script src="{{ asset('js/orders/sales/create.js') }}" defer></script>
-@endpush   
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('Orders Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Sales Orders') }}</a>
+			<a href="{{ route('sales.index') }}">{{ __('Sales Orders') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Create') }}</li>
 	@endcomponent
@@ -31,8 +31,8 @@
 
 		<span id="getAuthName" style="display: none;">{{ Auth::user()->name }}</span>
 		<span id="getSalesOrderShownID" style="display: none;">{{ $new_shownID }}</span>
-		
+
 		<sales-create-form :consumers="consumers" :current_comsumer="current_consumer" :products="products" v-on:get-consumer-data="getConsumerData" returnURL="{{ route('sales.index') }}"></sales-create-form>
 	</div>
-	
+
 @endsection
