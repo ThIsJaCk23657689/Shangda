@@ -23,9 +23,9 @@
                     <tr>
                         <th>編號</th>
                         <th>原物料</th>
-                        <th>目前庫存量</th>
-                        <th>消耗庫存量</th>
-                        <th>剩餘庫存量</th>
+                        <th>消耗前存量</th>
+                        <th>消耗量</th>
+                        <th>剩餘量</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -34,7 +34,7 @@
                         <td>{{ index + 1 }}</td>
                         <td>
                             {{ detail.material.name }}<br/>
-                            <span class="badge badge-warning" v-if="detail.material.showSafeQty > detail.currentQty">庫存警告</span>
+                            <span class="badge badge-warning" v-if="detail.material.safeQuantity > (detail.currentQty - detail.quantity)">庫存警告</span>
                             <input type="hidden" :id="'materialID_' + (index + 1)" :name="'details[' + (index + 1) + '][material_id]'" :value="detail.material.id">
                         </td>
                         <td>
@@ -42,7 +42,7 @@
                             <span>{{ detail.material.showUnit }}</span>
                         </td>
                         <td>
-                            <input :id="'quantity_' + (index + 1)" type="text" class="form-control mr-2" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @input="calculateAfterQty(index+1)" style="width:60%;display:inline-block;">
+                            <input :id="'quantity_' + (index + 1)" type="text" class="form-control mr-2" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateAfterQty(index+1)" style="width:60%;display:inline-block;">
                             <span>{{ detail.material.showUnit }}</span>
                         </td>
                         <td>
@@ -157,7 +157,9 @@ export default {
             this.details[id - 1].afterQty = afterQty;
         },
 
-        // 發送細項表單
+        setDetails($details){
+            this.details = $details;
+        }
     },
     created(){
 

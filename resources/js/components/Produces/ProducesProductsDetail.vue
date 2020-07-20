@@ -23,9 +23,9 @@
                     <tr>
                         <th>編號</th>
                         <th>商品</th>
-                        <th>目前庫存量</th>
-                        <th>增加庫存量</th>
-                        <th>剩餘庫存量</th>
+                        <th>產前量</th>
+                        <th>增加量</th>
+                        <th>產後量</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -34,7 +34,7 @@
                         <td>{{ index + 1 }}</td>
                         <td>
                             {{ detail.product.name }}<br/>
-                            <span class="badge badge-warning" v-if="detail.product.safeQuantity > detail.currentQty">庫存警告</span>
+                            <span class="badge badge-warning" v-if="detail.product.safeQuantity > (detail.currentQty + detail.quantity)">庫存警告</span>
                             <input type="hidden" :id="'p_productID_' + (index + 1)" :name="'details[' + (index + 1) + '][product_id]'" :value="detail.product.id">
                         </td>
                         <td>
@@ -148,6 +148,10 @@ export default {
             $('#p_afterQty_' + id).val(afterQty);
             this.details[id - 1].afterQty = afterQty;
         },
+
+        setDetails($details){
+            this.details = $details;
+        }
     },
     created(){
 

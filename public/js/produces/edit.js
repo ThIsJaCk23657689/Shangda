@@ -81,149 +81,10 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 17);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['products', 'materials'],
-  data: function data() {
-    return {
-      getProducesIndex: $('#getProducesIndex').text(),
-      createProduce: $('#createProduce').text()
-    };
-  },
-  methods: {
-    refreshMaterials: function refreshMaterials(data) {
-      this.$emit('refresh-materials', data);
-    },
-    refreshProducts: function refreshProducts(data) {
-      this.$emit('refresh-products', data);
-    },
-    // 遞交Produce Create Form
-    createProduceForm: function createProduceForm(e) {
-      var _this = this;
-
-      if (this.$refs.ProducesMaterialsDetail.details.length == 0) {
-        $.showWarningModal("請新增所消耗原物料!");
-        return false;
-      }
-
-      if (this.$refs.ProducesProductsDetail.details.length == 0) {
-        $.showWarningModal("請新增所產出的商品!");
-        return false;
-      }
-
-      if (!this.checkNoZeroQty(this.$refs.ProducesMaterialsDetail.details) || !this.checkNoZeroQty(this.$refs.ProducesProductsDetail.details)) {
-        $.showWarningModal("不得有0投入的原物料或者0產出商品的存在！");
-        return false;
-      }
-
-      $.showLoadingModal();
-      var url = this.createProduce;
-      var data = $(e.target).serialize();
-      axios.post(url, data).then(function (response) {
-        $('#m_produceID').val(response.data.produce_id);
-        $('#p_produceID').val(response.data.produce_id);
-        var detail_url = $('#createProduceDetail').text();
-        var detail_data = {
-          produce_id: response.data.produce_id,
-          material_details: _this.$refs.ProducesMaterialsDetail.details,
-          product_details: _this.$refs.ProducesProductsDetail.details
-        };
-        axios.post(detail_url, detail_data).then(function (response) {
-          $.showSuccessModal(response.data.message, response.data.url); // location.href = $('#getProducesIndex').html();
-        })["catch"](function (error) {
-          console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
-          $.showErrorModal(error);
-        });
-      })["catch"](function (error) {
-        console.error('新增商品庫存時發生錯誤，錯誤訊息：' + error);
-        $.showErrorModal(error);
-      });
-    },
-    checkNoZeroQty: function checkNoZeroQty($details) {
-      var result = true;
-
-      for (var i = 0; i < $details.length; i++) {
-        if ($details[i].quantity == 0) {
-          result = false;
-          break;
-        }
-      }
-
-      return result;
-    }
-  },
-  created: function created() {},
-  mounted: function mounted() {}
-});
-
-/***/ }),
 
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesMaterialsDetail.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************************!*\
@@ -575,119 +436,142 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=template&id=55ba9d54&":
-/*!******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=template&id=55ba9d54& ***!
-  \******************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row justify-content-center" }, [
-    _c("div", { staticClass: "col-md-10" }, [
-      _c(
-        "form",
-        {
-          attrs: { id: "ProduceCreateForm", method: "POST", action: "#" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.createProduceForm($event)
-            }
-          }
-        },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("produces-materials-detail", {
-            ref: "ProducesMaterialsDetail",
-            attrs: { materials: _vm.materials },
-            on: { "refresh-materials": _vm.refreshMaterials }
-          }),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _c("produces-products-detail", {
-            ref: "ProducesProductsDetail",
-            attrs: { products: _vm.products },
-            on: { "refresh-products": _vm.refreshProducts }
-          }),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row justify-content-center" }, [
-            _c("div", { staticClass: "col-md-8" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-block btn-primary",
-                  attrs: { type: "submit" }
-                },
-                [
-                  _vm._v(
-                    "\r\n                        確認新增\r\n                    "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-block btn-danger",
-                  attrs: { href: _vm.getProducesIndex }
-                },
-                [
-                  _vm._v(
-                    "\r\n                        返回上一頁\r\n                    "
-                  )
-                ]
-              )
-            ])
-          ])
-        ],
-        1
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row", attrs: { id: "step1" } }, [
-      _c("div", { staticClass: "col-md-12 mb-2" }, [
-        _c("h4", [_vm._v("1. 投入原物料")]),
-        _vm._v(" "),
-        _c("small", [_vm._v("請輸入投入原料數量")])
-      ])
-    ])
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['products', 'materials', 'produce'],
+  data: function data() {
+    return {
+      getProducesIndex: $('#getProducesIndex').text(),
+      updateProduce: $('#updateProduce').text()
+    };
   },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row", attrs: { id: "step2" } }, [
-      _c("div", { staticClass: "col-md-12 mb-2" }, [
-        _c("h4", [_vm._v("2. 產出商品")]),
-        _vm._v(" "),
-        _c("small", [_vm._v("請輸入產出商品數量")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
+  methods: {
+    refreshMaterials: function refreshMaterials(data) {
+      this.$emit('refresh-materials', data);
+    },
+    refreshProducts: function refreshProducts(data) {
+      this.$emit('refresh-products', data);
+    },
+    // 遞交Produce Update Form
+    updateProduceForm: function updateProduceForm(e) {
+      var _this = this;
 
+      if (this.$refs.ProducesMaterialsDetail.details.length == 0) {
+        $.showWarningModal("不可沒有所消耗的原物料!");
+        return false;
+      }
 
+      if (this.$refs.ProducesProductsDetail.details.length == 0) {
+        $.showWarningModal("不可沒有所產出的商品!");
+        return false;
+      }
+
+      if (!this.checkNoZeroQty(this.$refs.ProducesMaterialsDetail.details) || !this.checkNoZeroQty(this.$refs.ProducesProductsDetail.details)) {
+        $.showWarningModal("不得有0投入的原物料或者0產出商品的存在！");
+        return false;
+      }
+
+      $.showLoadingModal();
+      var url = this.updateProduce;
+      var data = $(e.target).serialize();
+      axios.patch(url, data).then(function (response) {
+        $('#m_produceID').val(response.data.produce_id);
+        $('#p_produceID').val(response.data.produce_id);
+        var detail_url = $('#updateProduceDetail').text();
+        var detail_data = {
+          produce_id: response.data.produce_id,
+          material_details: _this.$refs.ProducesMaterialsDetail.details,
+          product_details: _this.$refs.ProducesProductsDetail.details
+        };
+        axios.patch(detail_url, detail_data).then(function (response) {
+          $.showSuccessModal(response.data.message, response.data.url); // location.href = $('#getProducesIndex').html();
+        })["catch"](function (error) {
+          console.error('新增庫存細項時發生錯誤，錯誤訊息：' + error);
+          $.showErrorModal(error);
+        });
+      })["catch"](function (error) {
+        console.error('新增商品庫存時發生錯誤，錯誤訊息：' + error);
+        $.showErrorModal(error);
+      });
+    },
+    checkNoZeroQty: function checkNoZeroQty($details) {
+      var result = true;
+
+      for (var i = 0; i < $details.length; i++) {
+        if ($details[i].quantity == 0) {
+          result = false;
+          break;
+        }
+      }
+
+      return result;
+    }
+  },
+  created: function created() {},
+  mounted: function mounted() {}
+});
 
 /***/ }),
 
@@ -1127,6 +1011,122 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=template&id=529b1821&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=template&id=529b1821& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-md-10" }, [
+      _c(
+        "form",
+        {
+          attrs: { id: "ProduceUpdateForm", method: "POST", action: "#" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.updateProduceForm($event)
+            }
+          }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("produces-materials-detail", {
+            ref: "ProducesMaterialsDetail",
+            attrs: { materials: _vm.materials },
+            on: { "refresh-materials": _vm.refreshMaterials }
+          }),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c("produces-products-detail", {
+            ref: "ProducesProductsDetail",
+            attrs: { products: _vm.products },
+            on: { "refresh-products": _vm.refreshProducts }
+          }),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row justify-content-center" }, [
+            _c("div", { staticClass: "col-md-8" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-block btn-success",
+                  attrs: { type: "submit" }
+                },
+                [
+                  _vm._v(
+                    "\r\n                        確認修改\r\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-block btn-danger",
+                  attrs: { href: _vm.getProducesIndex }
+                },
+                [
+                  _vm._v(
+                    "\r\n                        返回上一頁\r\n                    "
+                  )
+                ]
+              )
+            ])
+          ])
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row", attrs: { id: "step1" } }, [
+      _c("div", { staticClass: "col-md-12 mb-2" }, [
+        _c("h4", [_vm._v("1. 投入原物料")]),
+        _vm._v(" "),
+        _c("small", [_vm._v("請輸入投入原料數量")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row", attrs: { id: "step2" } }, [
+      _c("div", { staticClass: "col-md-12 mb-2" }, [
+        _c("h4", [_vm._v("2. 產出商品")]),
+        _vm._v(" "),
+        _c("small", [_vm._v("請輸入產出商品數量")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -1230,75 +1230,6 @@ function normalizeComponent (
     options: options
   }
 }
-
-
-/***/ }),
-
-/***/ "./resources/js/components/Produces/ProducesCreateForm.vue":
-/*!*****************************************************************!*\
-  !*** ./resources/js/components/Produces/ProducesCreateForm.vue ***!
-  \*****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ProducesCreateForm_vue_vue_type_template_id_55ba9d54___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProducesCreateForm.vue?vue&type=template&id=55ba9d54& */ "./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=template&id=55ba9d54&");
-/* harmony import */ var _ProducesCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProducesCreateForm.vue?vue&type=script&lang=js& */ "./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ProducesCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ProducesCreateForm_vue_vue_type_template_id_55ba9d54___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ProducesCreateForm_vue_vue_type_template_id_55ba9d54___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/Produces/ProducesCreateForm.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProducesCreateForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=template&id=55ba9d54&":
-/*!************************************************************************************************!*\
-  !*** ./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=template&id=55ba9d54& ***!
-  \************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesCreateForm_vue_vue_type_template_id_55ba9d54___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProducesCreateForm.vue?vue&type=template&id=55ba9d54& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesCreateForm.vue?vue&type=template&id=55ba9d54&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesCreateForm_vue_vue_type_template_id_55ba9d54___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesCreateForm_vue_vue_type_template_id_55ba9d54___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
 
 
 /***/ }),
@@ -1441,14 +1372,83 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/produces/create.js":
-/*!*****************************************!*\
-  !*** ./resources/js/produces/create.js ***!
-  \*****************************************/
+/***/ "./resources/js/components/Produces/ProducesUpdateForm.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/Produces/ProducesUpdateForm.vue ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProducesUpdateForm_vue_vue_type_template_id_529b1821___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProducesUpdateForm.vue?vue&type=template&id=529b1821& */ "./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=template&id=529b1821&");
+/* harmony import */ var _ProducesUpdateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProducesUpdateForm.vue?vue&type=script&lang=js& */ "./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ProducesUpdateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ProducesUpdateForm_vue_vue_type_template_id_529b1821___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ProducesUpdateForm_vue_vue_type_template_id_529b1821___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Produces/ProducesUpdateForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesUpdateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProducesUpdateForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesUpdateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=template&id=529b1821&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=template&id=529b1821& ***!
+  \************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesUpdateForm_vue_vue_type_template_id_529b1821___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProducesUpdateForm.vue?vue&type=template&id=529b1821& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Produces/ProducesUpdateForm.vue?vue&type=template&id=529b1821&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesUpdateForm_vue_vue_type_template_id_529b1821___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProducesUpdateForm_vue_vue_type_template_id_529b1821___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/produces/edit.js":
+/*!***************************************!*\
+  !*** ./resources/js/produces/edit.js ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-Vue.component('produces-create-form', __webpack_require__(/*! ./../components/Produces/ProducesCreateForm.vue */ "./resources/js/components/Produces/ProducesCreateForm.vue")["default"]);
+Vue.component('produces-update-form', __webpack_require__(/*! ./../components/Produces/ProducesUpdateForm.vue */ "./resources/js/components/Produces/ProducesUpdateForm.vue")["default"]);
 Vue.component('produces-materials-detail', __webpack_require__(/*! ./../components/Produces/ProducesMaterialsDetail.vue */ "./resources/js/components/Produces/ProducesMaterialsDetail.vue")["default"]);
 Vue.component('produces-products-detail', __webpack_require__(/*! ./../components/Produces/ProducesProductsDetail.vue */ "./resources/js/components/Produces/ProducesProductsDetail.vue")["default"]);
 var app = new Vue({
@@ -1460,7 +1460,8 @@ var app = new Vue({
       products_disabled: [],
       materials: [],
       all_materials: [],
-      materials_disabled: []
+      materials_disabled: [],
+      produce: []
     };
   },
   methods: {
@@ -1546,16 +1547,24 @@ var app = new Vue({
 
     $.showLoadingModal(); // 取得所有商品列表(id與name)
 
-    var getProductsName = $('#getProductsName').html();
+    var getProductsName = $('#getProductsName').text();
     axios.get(getProductsName).then(function (response) {
       _this.products = response.data;
       _this.all_products = _this.products;
     }); // 取得所有原物料列表(id與name)
 
-    var getMeterialsName = $('#getMeterialsName').html();
+    var getMeterialsName = $('#getMeterialsName').text();
     axios.get(getMeterialsName).then(function (response) {
       _this.materials = response.data;
       _this.all_materials = _this.materials;
+    }); // 取得欲要修改的produce資料。
+
+    var getProducesData = $('#getProducesData').text();
+    axios.get(getProducesData).then(function (response) {
+      _this.produce = response.data.produce;
+      var update_form = _this.$refs.ProduceUpdateForm;
+      update_form.$refs.ProducesMaterialsDetail.setDetails(_this.produce.produce_details);
+      update_form.$refs.ProducesProductsDetail.setDetails(_this.produce.produce_products);
       $.closeModal();
     });
   },
@@ -1564,14 +1573,14 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 17:
-/*!***********************************************!*\
-  !*** multi ./resources/js/produces/create.js ***!
-  \***********************************************/
+/***/ 18:
+/*!*********************************************!*\
+  !*** multi ./resources/js/produces/edit.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\produces\create.js */"./resources/js/produces/create.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\produces\edit.js */"./resources/js/produces/edit.js");
 
 
 /***/ })

@@ -41,7 +41,9 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $detail->material->name }}
+                                        <a href="{{ route('materials.show', [$detail->material->id]) }}">
+                                            {{ $detail->material->name }}
+                                        </a>
                                     </td>
                                     <td>
                                         {{ $detail->quantity }}
@@ -82,7 +84,9 @@
                                 <tr>
                                     <td style="width: 5%">{{ $loop->iteration }}</td>
                                     <td style="width: 20%">
-                                        {{ $detail->product->name }}
+                                        <a href="{{ route('products.show', [$detail->product->id]) }}">
+                                            {{ $detail->product->name }}
+                                        </a>
                                     </td>
                                     <td style="width: 10%">
                                         {{ $detail->quantity }}

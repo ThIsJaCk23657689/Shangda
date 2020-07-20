@@ -58,10 +58,13 @@ Route::prefix('/backend')->group(function(){
     // 商品庫存細項管理路由
     Route::prefix('/produces/details')->group(function(){
         Route::post('store','ProduceController@detailstore')->name('produces.details.store');
-        // Route::patch('update','ProduceController@update')->name('productDetail.update');
+        Route::patch('update','ProduceController@detailupdate')->name('produces.details.update');
         // Route::delete('destroy','ProduceController@destroy')->name('productDetail.destroy');
     });
     // 商品庫存管理路由
+    Route::prefix('produces')->group(function(){
+        Route::get('{id}/json','ProduceController@getOne')->name('produces.getOne');
+    });
     Route::resource('/produces', 'ProduceController');
 
     // 商品類別管理路由
