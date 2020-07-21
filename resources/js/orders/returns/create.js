@@ -1,11 +1,9 @@
-Vue.component('sales-create-form', require('./../../components/Orders/SalesCreateForm.vue').default);
-Vue.component('sales-detail', require('./../../components/Orders/SalesDetail.vue').default);
-// Vue.component('create-consumer-modal', require('./../../components/Modals/CreateConsumerModal.vue').default);
+Vue.component('return-create-form', require('./../../components/Orders/ReturnCreateForm.vue').default);
+Vue.component('return-detail', require('./../../components/Orders/ReturnDetail.vue').default);
 
-// Vue.component('create-supplier-modal', require('./../../components/Modals/CreateSupplierModal.vue').default);
 
 const app = new Vue({
-    el: '#sales',
+    el: '#returns',
     data() {
         return {
             consumers: [],

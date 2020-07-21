@@ -11,6 +11,7 @@ use App\Events\MaterialUnderSafeEvent;
 use App\Events\MonthlyCheckDateExpiredEvent;
 use App\Events\ProductUnderSafeEvent;
 use App\Events\SaleOrderExpiredEvent;
+use App\Events\RefundConfirmedNoticeEvnet;
 
 
 class NotificationService extends BaseService

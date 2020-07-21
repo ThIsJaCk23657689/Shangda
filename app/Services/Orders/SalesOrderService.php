@@ -59,19 +59,19 @@ class SalesOrderService extends BaseService
 
     public function getList()
     {
-        $saleOrders = SalesOrderEloquent::where('confirmStatus', 1)->get();
+        $saleOrders = SalesOrderEloquent::where('status', 1)->where('confirmStatus', 1)->get();
         return $saleOrders;
     }
 
     public function getUnconfirmedList()
     {
-        $saleOrders = SalesOrderEloquent::where('confirmStatus', 0)->get();
+        $saleOrders = SalesOrderEloquent::where('status', 1)->where('confirmStatus', 0)->get();
         return $saleOrders;
     }
 
     public function getRejectedList()
     {
-        $saleOrders = SalesOrderEloquent::where('confirmStatus', 2)->get();
+        $saleOrders = SalesOrderEloquent::where('status', 1)->where('confirmStatus', 2)->get();
         return $saleOrders;
     }
 

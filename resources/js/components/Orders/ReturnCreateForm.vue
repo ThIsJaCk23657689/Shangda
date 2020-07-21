@@ -1,9 +1,11 @@
 <template>
 <div class="row justify-content-center">
     <div class="col-md-11">
-        <form id="SalesOrderCreateForm" method="POST" action="#" v-on:submit.prevent="createSalesOrder">
+        <form id="ReturnOrderCreateForm" method="POST" action="#" v-on:submit.prevent="createReturnOrder">
 
-            <input type="hidden" name="status" value="1">
+            <!-- 退貨單 -->
+            <input type="hidden" name="status" value="2">
+            <!-- 核准狀態 -->
             <input type="hidden" name="confirmStatus" value="1">
 
             <div class="row">
@@ -35,7 +37,7 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label for="shownID">銷貨單編號</label>
+                        <label for="shownID">退貨單編號</label>
                         <input id="shownID" name="shownID" type="text" class="form-control" readonly>
                     </div>
                 </div>
@@ -138,54 +140,17 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="expectPay_at">
-                                    <span class="text-danger mr-2">*</span>預計付款日
-                                </label>
-                                <input id="expectPay_at" name="expectPay_at" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="expectDeliver_at">
-                                    <span class="text-danger mr-2">*</span>預計出貨日
-                                </label>
-                                <input id="expectDeliver_at" name="expectDeliver_at" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="invoiceType">
-                                    <span class="text-danger mr-2">*</span>發票類型
-                                </label>
-                                <select name="invoiceType" id="invoiceType" class="form-control" required>
-                                    <option value="1">三聯式</option>
-                                    <option value="2">二聯式</option>
-                                    <option value="3">三聯銷退折讓</option>
-                                    <option value="4">二聯銷退折讓</option>
-                                    <option value="5">三聯式收銀機</option>
-                                    <option value="6">免用發票</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="taxType">
-                                    <span class="text-danger mr-2">*</span>稅別
-                                </label>
-                                <select name="taxType" id="taxType" class="form-control" required @change="changeTax">
-                                    <option value="1">應稅</option>
-                                    <option value="2">未稅</option>
-                                    <option value="3">免稅</option>
-                                    <option value="4">零稅 - 經海關</option>
-                                    <option value="5">零稅 - 非經海關</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="taxType">
+                            <span class="text-danger mr-2">*</span>稅別
+                        </label>
+                        <select name="taxType" id="taxType" class="form-control" required @change="changeTax">
+                            <option value="1">應稅</option>
+                            <option value="2">未稅</option>
+                            <option value="3">免稅</option>
+                            <option value="4">零稅 - 經海關</option>
+                            <option value="5">零稅 - 非經海關</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -198,25 +163,25 @@
 
             <hr>
 
-            <sales-detail ref="salesdetail" :products="products" v-on:showTotalPrice="showTotalPrice"></sales-detail>
+            <return-detail ref="returndetail" :products="products" v-on:showTotalPrice="showTotalPrice"></return-detail>
 
             <div class="row mb-2">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="totalPrice">銷售額</label>
-                        <input id="totalPrice" type="text" class="form-control" value="0" required>
+                        <label for="totalPrice">退貨額</label>
+                        <input id="totalPrice" type="text" class="form-control" value="0" required readonly>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="taxPrice">稅額</label>
-                        <input id="taxPrice" type="text" class="form-control" value="0" required>
+                        <input id="taxPrice" type="text" class="form-control" value="0" required readonly>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="totalTaxPrice">總額</label>
-                        <input id="totalTaxPrice" name="totalTaxPrice" type="text" class="form-control" :value="total_price || '0'" required>
+                        <input id="totalTaxPrice" name="totalTaxPrice" type="text" class="form-control" :value="total_price || '0'" required readonly>
                     </div>
                 </div>
             </div>
@@ -227,7 +192,7 @@
                         確認新增
                     </button>
                     <a :href="getSalesOrderIndex" class="btn btn-block btn-danger">
-                        返回進貨單首頁
+                        返回退貨單首頁
                     </a>
                 </div>
             </div>
@@ -245,21 +210,8 @@
 export default {
     props: ['consumers', 'current_comsumer', 'products'],
     mounted() {
-        console.log('SalesCreareForm.vue mounted.');
+        console.log('ReturnCreareForm.vue mounted.');
 
-        $("#expectPay_at").datepicker({
-            changeYear: true,
-            changeMonth: true,
-            minDate: new Date,
-            dateFormat: 'yy-mm-dd'
-        });
-
-        $("#expectDeliver_at").datepicker({
-            changeYear: true,
-            changeMonth: true,
-            minDate: new Date,
-            dateFormat: 'yy-mm-dd'
-        });
 
         // 設定 訂單日期為今天 和 其他欄位 為預設。
         var myDate = new Date();
@@ -281,11 +233,11 @@ export default {
             let data = $(this).serialize();
             axios.post(url, data).then(response => {
                 console.log(response.data.messenge);
-                alert('新增進貨單成功！');
+                alert('新增退貨單成功！');
                 history.go(-1);
             }).catch((error) => {
-                console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
-                alert('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+                console.error('新增退貨單細項時發生錯誤，錯誤訊息：' + error);
+                alert('新增退貨單細項時發生錯誤，錯誤訊息：' + error);
                 $('#LoadingModal').modal('hide');
             });
         });
@@ -316,13 +268,13 @@ export default {
             }
         },
 
-        createSalesOrder(){
+        createReturnOrder(){
             // 新建進貨單
 
             // 1. 先創建 SalesOrder
-            let url = $('#createSalesOrder').html();
+            let url = $('#createSalesOrder').text();
 
-            let data = $('#SalesOrderCreateForm').serialize();
+            let data = $('#ReturnOrderCreateForm').serialize();
             $('#LoadingModal').modal('show');
             axios.post(url, data).then(response => {
                 console.log(response);
@@ -331,8 +283,8 @@ export default {
                 // 2. 建立 SalesOrderDetail
                 $('#SalesOrderDetailForm').submit();
             }).catch((error) => {
-                console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
-                alert('新增進貨單時發生錯誤，錯誤訊息：' + error);
+                console.error('新增退貨單時發生錯誤，錯誤訊息：' + error);
+                alert('新增退貨單時發生錯誤，錯誤訊息：' + error);
                 $('#LoadingModal').modal('hide');
             });
         },

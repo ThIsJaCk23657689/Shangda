@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-	<script src="{{ asset('js/orders/sales/edit.js') }}" defer></script>
+	<script src="{{ asset('js/orders/returns/edit.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -11,12 +11,12 @@
 			<a href="#">{{ __('Orders Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="{{ route('sales.index') }}">{{ __('Sales Orders') }}</a>
+			<a href="{{ route('return.index') }}">{{ __('Return Orders') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Edit') }}</li>
 	@endcomponent
 
-	<div id="sales">
+	<div id="return">
         <span id="getConsumersName" style="display: none;">{{ route('consumers.showName') }}</span>
 		<span id="getConsumerInfo" style="display: none;">{{ route('consumers.getInfo') }}</span>
 
@@ -28,20 +28,20 @@
 
 		<span id="getAuthName" style="display: none;">{{ Auth::user()->name }}</span>
 
-        <span id="getSalesOrderInfo" style="display: none;">{{ route('sales.getOne', [$salesOrder->id]) }}</span>
+        <span id="getReturnOrderInfo" style="display: none;">{{ route('return.getOne', [$returnID]) }}</span>
 
-		<span id="updateSalesOrder" style="display: none;">{{ route('sales.update', [$salesOrder->id]) }}</span>
-		<span id="updateSalesOrderDetail" style="display: none;">{{ route('sales.details.update') }}</span>
+		<span id="updateReturnOrder" style="display: none;">{{ route('return.update', [$returnID]) }}</span>
+		<span id="updateReturnOrderDetail" style="display: none;">{{ route('sales.details.update') }}</span>
 
-        <sales-update-form
-            ref="salesOrderform"
+        <return-update-form
+            ref="returnOrderform"
             :consumers="consumers"
             :current_consumer="current_consumer"
             :products="products"
-            :sales-order="salesOrder"
+            :return-order="returnOrder"
             v-on:get-consumer-data="getConsumerData"
-            return-url="{{ route('sales.index') }}">
-        </sales-update-form>
+            return-url="{{ route('return.index') }}">
+        </return-update-form>
 	</div>
 
 @endsection

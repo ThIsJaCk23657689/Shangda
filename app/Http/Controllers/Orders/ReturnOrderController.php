@@ -40,14 +40,14 @@ class ReturnOrderController extends Controller
         $new_shownID = $this->ReturnOrderService->generateShownID();
         return view('returnOrders.create', compact('new_shownID'));
     }
-
+    //大便大不停
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SalesOrderRequest $request)
+    public function store(Request $request)
     {
         $returnOrder = $this->ReturnOrderService->add($request);
             return response()->json([
@@ -66,7 +66,7 @@ class ReturnOrderController extends Controller
      */
     public function show($id)
     {
-        $returnOrder = $this->SalesOrderService->getOne($id);
+        $returnOrder = $this->ReturnOrderService->getOne($id);
         return view('returnOrders.show', compact('returnOrder'));
     }
 
@@ -78,8 +78,9 @@ class ReturnOrderController extends Controller
      */
     public function edit($id)
     {
-        $returnOrder = $this->SalesOrderService->getOne($id);
-        return view('returnOrders.edit', compact('returnOrder'));
+        // $returnOrder = $this->ReturnOrderService->getOne($id);
+        $returnID = $id;
+        return view('returnOrders.edit', compact('returnID'));
     }
 
     /**
@@ -89,12 +90,14 @@ class ReturnOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SalesOrderRequest $request, $id)
+
+    public function update(Request $request, $id)
     {
         $status = $request->status;
         $returnOrder = $this->ReturnOrderService->update($request, $id);
 
-        return redirect()->route('returnOrders.show', [$id]);
+        // return redirect()->route('return.show', [$id]);
+        return response()->json($returnOrder, 200);
     }
 
     /**
@@ -106,12 +109,27 @@ class ReturnOrderController extends Controller
     public function destroy($id)
     {
         $this->ReturnOrderService->delete($id);
-        return redirect()->route('returnOrders.index');
+        return redirect()->route('return.index');
     }
 
     // 確認退款
     public function refundConfirm($id){
-        $this->ReturnOrderService->refundConfirm($id);
-        return response()->json('已確認退款', 200);
+        $msg = $this->ReturnOrderService->refundConfirm($id);
+        return redirect()->route('return.index');
+    }
+
+    public function getOne($id){
+        $returnOrder = $this->ReturnOrderService->getOne($id);
+        $details = $returnOrder->details;
+        $returnOrder->creator = $returnOrder->user->name;
+        foreach($details as $detail){
+            $detail['pieces'] = $detail->quantity / $detail->product->qty_per_pack;
+            $detail['products'] = $detail->product;
+        }
+
+        return response()->json([
+            'returnOrder' => $returnOrder,
+            'details' => $details
+        ], 200);
     }
 }

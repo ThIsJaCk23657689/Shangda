@@ -48,7 +48,7 @@
 			<h6 class="dropdown-header">{{ __('Basic:') }}</h6>
 			<a class="dropdown-item" href="{{ route('purchase.index') }}">{{ __('Purchase Orders') }}</a>
 			<a class="dropdown-item" href="{{ route('sales.index') }}">{{ __('Sales Orders') }}</a>
-			<a class="dropdown-item" href="#">{{ __('Return Orders') }}</a>
+			<a class="dropdown-item" href="{{ route('return.index') }}">{{ __('Return Orders') }}</a>
 		</div>
 	</li>
 
@@ -64,5 +64,5 @@
 			<a class="dropdown-item" href="#">{{ __('Log File') }}</a>
 		</div>
 	</li>
-	
+
 </ul>

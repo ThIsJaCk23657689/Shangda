@@ -81,55 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/SalesCreateForm.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/SalesCreateForm.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -341,19 +306,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['consumers', 'current_comsumer', 'products'],
   mounted: function mounted() {
-    console.log('SalesCreareForm.vue mounted.');
-    $("#expectPay_at").datepicker({
-      changeYear: true,
-      changeMonth: true,
-      minDate: new Date(),
-      dateFormat: 'yy-mm-dd'
-    });
-    $("#expectDeliver_at").datepicker({
-      changeYear: true,
-      changeMonth: true,
-      minDate: new Date(),
-      dateFormat: 'yy-mm-dd'
-    }); // 設定 訂單日期為今天 和 其他欄位 為預設。
+    console.log('ReturnCreareForm.vue mounted.'); // 設定 訂單日期為今天 和 其他欄位 為預設。
 
     var myDate = new Date();
     var date = myDate.getFullYear() + '-' + ('0' + (myDate.getMonth() + 1)).slice(-2) + '-' + ('0' + myDate.getDate()).slice(-2);
@@ -370,11 +323,11 @@ __webpack_require__.r(__webpack_exports__);
       var data = $(this).serialize();
       axios.post(url, data).then(function (response) {
         console.log(response.data.messenge);
-        alert('新增進貨單成功！');
+        alert('新增退貨單成功！');
         history.go(-1);
       })["catch"](function (error) {
-        console.error('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
-        alert('新增進貨單細項時發生錯誤，錯誤訊息：' + error);
+        console.error('新增退貨單細項時發生錯誤，錯誤訊息：' + error);
+        alert('新增退貨單細項時發生錯誤，錯誤訊息：' + error);
         $('#LoadingModal').modal('hide');
       });
     });
@@ -403,11 +356,11 @@ __webpack_require__.r(__webpack_exports__);
         alert('請先選擇顧客!');
       }
     },
-    createSalesOrder: function createSalesOrder() {
+    createReturnOrder: function createReturnOrder() {
       // 新建進貨單
       // 1. 先創建 SalesOrder
-      var url = $('#createSalesOrder').html();
-      var data = $('#SalesOrderCreateForm').serialize();
+      var url = $('#createSalesOrder').text();
+      var data = $('#ReturnOrderCreateForm').serialize();
       $('#LoadingModal').modal('show');
       axios.post(url, data).then(function (response) {
         console.log(response);
@@ -415,8 +368,8 @@ __webpack_require__.r(__webpack_exports__);
 
         $('#SalesOrderDetailForm').submit();
       })["catch"](function (error) {
-        console.error('新增進貨單時發生錯誤，錯誤訊息：' + error);
-        alert('新增進貨單時發生錯誤，錯誤訊息：' + error);
+        console.error('新增退貨單時發生錯誤，錯誤訊息：' + error);
+        alert('新增退貨單時發生錯誤，錯誤訊息：' + error);
         $('#LoadingModal').modal('hide');
       });
     }
@@ -425,10 +378,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/SalesDetail.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/SalesDetail.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/ReturnDetail.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/ReturnDetail.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -514,7 +467,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['products'],
   mounted: function mounted() {
-    console.log('SalesDetail.vue mounted.');
+    console.log('ReturnDetail.vue mounted.');
   },
   data: function data() {
     return {
@@ -628,10 +581,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/SalesCreateForm.vue?vue&type=template&id=5563eded&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/SalesCreateForm.vue?vue&type=template&id=5563eded& ***!
-  \*************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=template&id=5df0e4c2&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=template&id=5df0e4c2& ***!
+  \**************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -648,17 +601,17 @@ var render = function() {
       _c(
         "form",
         {
-          attrs: { id: "SalesOrderCreateForm", method: "POST", action: "#" },
+          attrs: { id: "ReturnOrderCreateForm", method: "POST", action: "#" },
           on: {
             submit: function($event) {
               $event.preventDefault()
-              return _vm.createSalesOrder($event)
+              return _vm.createReturnOrder($event)
             }
           }
         },
         [
           _c("input", {
-            attrs: { type: "hidden", name: "status", value: "1" }
+            attrs: { type: "hidden", name: "status", value: "2" }
           }),
           _vm._v(" "),
           _c("input", {
@@ -910,64 +863,50 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
-              _vm._m(4),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _vm._m(5),
+              _c("div", { staticClass: "form-group" }, [
+                _vm._m(4),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-6" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _vm._m(6),
+                _c(
+                  "select",
+                  {
+                    staticClass: "form-control",
+                    attrs: { name: "taxType", id: "taxType", required: "" },
+                    on: { change: _vm.changeTax }
+                  },
+                  [
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("應稅")]),
                     _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        staticClass: "form-control",
-                        attrs: { name: "taxType", id: "taxType", required: "" },
-                        on: { change: _vm.changeTax }
-                      },
-                      [
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("應稅")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "2" } }, [
-                          _vm._v("未稅")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "3" } }, [
-                          _vm._v("免稅")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "4" } }, [
-                          _vm._v("零稅 - 經海關")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "5" } }, [
-                          _vm._v("零稅 - 非經海關")
-                        ])
-                      ]
-                    )
-                  ])
-                ])
+                    _c("option", { attrs: { value: "2" } }, [_vm._v("未稅")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "3" } }, [_vm._v("免稅")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "4" } }, [
+                      _vm._v("零稅 - 經海關")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "5" } }, [
+                      _vm._v("零稅 - 非經海關")
+                    ])
+                  ]
+                )
               ])
             ]),
             _vm._v(" "),
-            _vm._m(7)
+            _vm._m(5)
           ]),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
-          _c("sales-detail", {
-            ref: "salesdetail",
+          _c("return-detail", {
+            ref: "returndetail",
             attrs: { products: _vm.products },
             on: { showTotalPrice: _vm.showTotalPrice }
           }),
           _vm._v(" "),
           _c("div", { staticClass: "row mb-2" }, [
-            _vm._m(8),
+            _vm._m(6),
             _vm._v(" "),
-            _vm._m(9),
+            _vm._m(7),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "form-group" }, [
@@ -981,7 +920,8 @@ var render = function() {
                     id: "totalTaxPrice",
                     name: "totalTaxPrice",
                     type: "text",
-                    required: ""
+                    required: "",
+                    readonly: ""
                   },
                   domProps: { value: _vm.total_price || "0" }
                 })
@@ -1012,7 +952,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        返回進貨單首頁\r\n                    "
+                    "\r\n                        返回退貨單首頁\r\n                    "
                   )
                 ]
               )
@@ -1042,7 +982,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-2" }, [
       _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "shownID" } }, [_vm._v("銷貨單編號")]),
+        _c("label", { attrs: { for: "shownID" } }, [_vm._v("退貨單編號")]),
         _vm._v(" "),
         _c("input", {
           staticClass: "form-control",
@@ -1085,87 +1025,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "expectPay_at" } }, [
-            _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("預計付款日\r\n                                ")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              id: "expectPay_at",
-              name: "expectPay_at",
-              type: "text",
-              required: ""
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "expectDeliver_at" } }, [
-            _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("預計出貨日\r\n                                ")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              id: "expectDeliver_at",
-              name: "expectDeliver_at",
-              type: "text",
-              required: ""
-            }
-          })
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "invoiceType" } }, [
-          _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("發票類型\r\n                                ")
-        ]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            staticClass: "form-control",
-            attrs: { name: "invoiceType", id: "invoiceType", required: "" }
-          },
-          [
-            _c("option", { attrs: { value: "1" } }, [_vm._v("三聯式")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "2" } }, [_vm._v("二聯式")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "3" } }, [_vm._v("三聯銷退折讓")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "4" } }, [_vm._v("二聯銷退折讓")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "5" } }, [_vm._v("三聯式收銀機")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "6" } }, [_vm._v("免用發票")])
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "taxType" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("稅別\r\n                                ")
+      _vm._v("稅別\r\n                        ")
     ])
   },
   function() {
@@ -1190,11 +1052,17 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-4" }, [
       _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "totalPrice" } }, [_vm._v("銷售額")]),
+        _c("label", { attrs: { for: "totalPrice" } }, [_vm._v("退貨額")]),
         _vm._v(" "),
         _c("input", {
           staticClass: "form-control",
-          attrs: { id: "totalPrice", type: "text", value: "0", required: "" }
+          attrs: {
+            id: "totalPrice",
+            type: "text",
+            value: "0",
+            required: "",
+            readonly: ""
+          }
         })
       ])
     ])
@@ -1209,7 +1077,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("input", {
           staticClass: "form-control",
-          attrs: { id: "taxPrice", type: "text", value: "0", required: "" }
+          attrs: {
+            id: "taxPrice",
+            type: "text",
+            value: "0",
+            required: "",
+            readonly: ""
+          }
         })
       ])
     ])
@@ -1221,10 +1095,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/SalesDetail.vue?vue&type=template&id=6df3b744&":
-/*!*********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/SalesDetail.vue?vue&type=template&id=6df3b744& ***!
-  \*********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/ReturnDetail.vue?vue&type=template&id=19c16d10&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/ReturnDetail.vue?vue&type=template&id=19c16d10& ***!
+  \**********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1607,17 +1481,17 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ "./resources/js/components/Orders/SalesCreateForm.vue":
-/*!************************************************************!*\
-  !*** ./resources/js/components/Orders/SalesCreateForm.vue ***!
-  \************************************************************/
+/***/ "./resources/js/components/Orders/ReturnCreateForm.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/Orders/ReturnCreateForm.vue ***!
+  \*************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _SalesCreateForm_vue_vue_type_template_id_5563eded___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SalesCreateForm.vue?vue&type=template&id=5563eded& */ "./resources/js/components/Orders/SalesCreateForm.vue?vue&type=template&id=5563eded&");
-/* harmony import */ var _SalesCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SalesCreateForm.vue?vue&type=script&lang=js& */ "./resources/js/components/Orders/SalesCreateForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ReturnCreateForm_vue_vue_type_template_id_5df0e4c2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReturnCreateForm.vue?vue&type=template&id=5df0e4c2& */ "./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=template&id=5df0e4c2&");
+/* harmony import */ var _ReturnCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReturnCreateForm.vue?vue&type=script&lang=js& */ "./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -1627,9 +1501,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _SalesCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _SalesCreateForm_vue_vue_type_template_id_5563eded___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _SalesCreateForm_vue_vue_type_template_id_5563eded___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ReturnCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ReturnCreateForm_vue_vue_type_template_id_5df0e4c2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ReturnCreateForm_vue_vue_type_template_id_5df0e4c2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -1639,54 +1513,54 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/Orders/SalesCreateForm.vue"
+component.options.__file = "resources/js/components/Orders/ReturnCreateForm.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/Orders/SalesCreateForm.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/Orders/SalesCreateForm.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./SalesCreateForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/SalesCreateForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ReturnCreateForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnCreateForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/Orders/SalesCreateForm.vue?vue&type=template&id=5563eded&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/Orders/SalesCreateForm.vue?vue&type=template&id=5563eded& ***!
-  \*******************************************************************************************/
+/***/ "./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=template&id=5df0e4c2&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=template&id=5df0e4c2& ***!
+  \********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesCreateForm_vue_vue_type_template_id_5563eded___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./SalesCreateForm.vue?vue&type=template&id=5563eded& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/SalesCreateForm.vue?vue&type=template&id=5563eded&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesCreateForm_vue_vue_type_template_id_5563eded___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnCreateForm_vue_vue_type_template_id_5df0e4c2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ReturnCreateForm.vue?vue&type=template&id=5df0e4c2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/ReturnCreateForm.vue?vue&type=template&id=5df0e4c2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnCreateForm_vue_vue_type_template_id_5df0e4c2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesCreateForm_vue_vue_type_template_id_5563eded___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnCreateForm_vue_vue_type_template_id_5df0e4c2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
 /***/ }),
 
-/***/ "./resources/js/components/Orders/SalesDetail.vue":
-/*!********************************************************!*\
-  !*** ./resources/js/components/Orders/SalesDetail.vue ***!
-  \********************************************************/
+/***/ "./resources/js/components/Orders/ReturnDetail.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Orders/ReturnDetail.vue ***!
+  \*********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _SalesDetail_vue_vue_type_template_id_6df3b744___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SalesDetail.vue?vue&type=template&id=6df3b744& */ "./resources/js/components/Orders/SalesDetail.vue?vue&type=template&id=6df3b744&");
-/* harmony import */ var _SalesDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SalesDetail.vue?vue&type=script&lang=js& */ "./resources/js/components/Orders/SalesDetail.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ReturnDetail_vue_vue_type_template_id_19c16d10___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReturnDetail.vue?vue&type=template&id=19c16d10& */ "./resources/js/components/Orders/ReturnDetail.vue?vue&type=template&id=19c16d10&");
+/* harmony import */ var _ReturnDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReturnDetail.vue?vue&type=script&lang=js& */ "./resources/js/components/Orders/ReturnDetail.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -1696,9 +1570,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _SalesDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _SalesDetail_vue_vue_type_template_id_6df3b744___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _SalesDetail_vue_vue_type_template_id_6df3b744___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ReturnDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ReturnDetail_vue_vue_type_template_id_19c16d10___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ReturnDetail_vue_vue_type_template_id_19c16d10___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -1708,56 +1582,54 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/Orders/SalesDetail.vue"
+component.options.__file = "resources/js/components/Orders/ReturnDetail.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/Orders/SalesDetail.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************!*\
-  !*** ./resources/js/components/Orders/SalesDetail.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************/
+/***/ "./resources/js/components/Orders/ReturnDetail.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/Orders/ReturnDetail.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./SalesDetail.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/SalesDetail.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ReturnDetail.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/ReturnDetail.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnDetail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/Orders/SalesDetail.vue?vue&type=template&id=6df3b744&":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/Orders/SalesDetail.vue?vue&type=template&id=6df3b744& ***!
-  \***************************************************************************************/
+/***/ "./resources/js/components/Orders/ReturnDetail.vue?vue&type=template&id=19c16d10&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/Orders/ReturnDetail.vue?vue&type=template&id=19c16d10& ***!
+  \****************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesDetail_vue_vue_type_template_id_6df3b744___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./SalesDetail.vue?vue&type=template&id=6df3b744& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/SalesDetail.vue?vue&type=template&id=6df3b744&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesDetail_vue_vue_type_template_id_6df3b744___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnDetail_vue_vue_type_template_id_19c16d10___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ReturnDetail.vue?vue&type=template&id=19c16d10& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/ReturnDetail.vue?vue&type=template&id=19c16d10&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnDetail_vue_vue_type_template_id_19c16d10___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesDetail_vue_vue_type_template_id_6df3b744___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReturnDetail_vue_vue_type_template_id_19c16d10___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
 /***/ }),
 
-/***/ "./resources/js/orders/sales/create.js":
-/*!*********************************************!*\
-  !*** ./resources/js/orders/sales/create.js ***!
-  \*********************************************/
+/***/ "./resources/js/orders/returns/create.js":
+/*!***********************************************!*\
+  !*** ./resources/js/orders/returns/create.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-Vue.component('sales-create-form', __webpack_require__(/*! ./../../components/Orders/SalesCreateForm.vue */ "./resources/js/components/Orders/SalesCreateForm.vue")["default"]);
-Vue.component('sales-detail', __webpack_require__(/*! ./../../components/Orders/SalesDetail.vue */ "./resources/js/components/Orders/SalesDetail.vue")["default"]); // Vue.component('create-consumer-modal', require('./../../components/Modals/CreateConsumerModal.vue').default);
-// Vue.component('create-supplier-modal', require('./../../components/Modals/CreateSupplierModal.vue').default);
-
+Vue.component('return-create-form', __webpack_require__(/*! ./../../components/Orders/ReturnCreateForm.vue */ "./resources/js/components/Orders/ReturnCreateForm.vue")["default"]);
+Vue.component('return-detail', __webpack_require__(/*! ./../../components/Orders/ReturnDetail.vue */ "./resources/js/components/Orders/ReturnDetail.vue")["default"]);
 var app = new Vue({
-  el: '#sales',
+  el: '#returns',
   data: function data() {
     return {
       consumers: [],
@@ -1798,14 +1670,14 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 11:
-/*!***************************************************!*\
-  !*** multi ./resources/js/orders/sales/create.js ***!
-  \***************************************************/
+/***/ 13:
+/*!*****************************************************!*\
+  !*** multi ./resources/js/orders/returns/create.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\orders\sales\create.js */"./resources/js/orders/sales/create.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\orders\returns\create.js */"./resources/js/orders/returns/create.js");
 
 
 /***/ })
