@@ -30,7 +30,7 @@ class ProductRequest extends FormRequest
             'name' => 'required|string|max:255',
             'isManualNamed' => 'nullable|boolean',
             'internationalNum' => 'nullable|string|max:20',
-            'picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'pictures.*' => 'nullable|image|mimes:jpeg,png,jpg,bmp|max:2048',
             'specification' => 'nullable|string|max:255',
             'color' => 'nullable|string|max:255',
             'isCustomize' => 'nullable|boolean',

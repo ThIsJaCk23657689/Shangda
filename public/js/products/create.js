@@ -119,12 +119,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: [],
   data: function data() {
     return {
       pictures_data: [],
-      filelist: []
+      filelist: [],
+      isShowPreview: false,
+      current_image_index: null
     };
   },
   methods: {
@@ -166,6 +179,27 @@ __webpack_require__.r(__webpack_exports__);
         return /^image\/\w+$/.test($file.type);
       } else {
         return /\.(jpg|jpeg|png|gif|bmp)$/.test($file);
+      }
+    },
+    showPreview: function showPreview(e) {
+      $(this.$refs.previewer).addClass('open');
+      var $index = $(e.target).children().text() - 1;
+      this.current_image_index = $index;
+      $(this.$refs.previewImg).attr('src', this.pictures_data[$index].blob_url);
+      this.isShowPreview = true;
+    },
+    closePreview: function closePreview(e) {
+      $(this.$refs.previewer).removeClass('open');
+      this.isShowPreview = false;
+      this.current_image_index = null;
+      $(this.$refs.previewImg).attr('src', '');
+    },
+    removeImage: function removeImage(e) {
+      this.pictures_data.splice(this.current_image_index, 1);
+      this.filelist.splice(this.current_image_index, 1);
+
+      for (var $i = 0; $i < this.pictures_data.length; $i++) {
+        this.pictures_data[$i].index = $i + 1;
       }
     }
   },
@@ -382,7 +416,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.uploader-body{\r\n    background-color: #fafafa;\n}\n.d-flex-row-nowarp{\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-orient: horizontal;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: row;\r\n    flex-wrap: nowrap;\n}\n.uploader-info{\r\n    display: inline-block;\r\n    position: absolute;\r\n    top: 0;\r\n    right: 15px;\n}\n.preview-img-container{\r\n    list-style: none;\r\n    margin: 0;\r\n    padding: 0;\n}\n.preview-img{\r\n    margin-left: 9px;\r\n    margin-bottom: 9px;\r\n    margin-top: 9px;\r\n    width: 80px;\r\n    height: 80px;\r\n    background: no-repeat center center;\r\n    background-size: cover;\r\n    cursor: pointer;\n}\n.image-input-container{\r\n    position: relative;\r\n    margin-left: 9px;\r\n    margin-bottom: 9px;\r\n    margin-top: 9px;\r\n    width: 80px;\r\n    height: 80px;\r\n    border: 1px solid #d9d9d9;\n}\n.image-input-container:before, .image-input-container:after{\r\n    content: '';\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    -webkit-transform: translate(-50%, -50%);\r\n            transform: translate(-50%, -50%);\r\n    background-color: #d9d9d9;\n}\n.image-input-container:before{\r\n    width: 2px;\r\n    height: 39.5px;\n}\n.image-input-container:after{\r\n    width: 39.5px;\r\n    height: 2px;\n}\n.image-input{\r\n    width: 100%;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 1;\r\n    opacity: 0;\n}\n.previewer{\r\n    display: none;\r\n    position: fixed;\r\n    width: 100vw;\r\n    height: 100vh;\r\n    top: 0;\r\n    left: 0;\r\n    overflow: hidden;\r\n    touch-action: none;\r\n    z-index: 1500;\r\n    outline: none;\n}\n.open{\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: column;\r\n    flex-wrap: nowrap;\n}\n.previewer-bg{\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    background: #000;\r\n    opacity: 0;\r\n    -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);\r\n    transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);\n}\n.previewer-bd{\n}\n.previewer-ft{\n}\r\n", ""]);
+exports.push([module.i, "\n.uploader-body{\r\n    background-color: #fafafa;\n}\n.d-flex-row-nowarp{\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-orient: horizontal;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: row;\r\n    flex-wrap: nowrap;\n}\n.uploader-info{\r\n    display: inline-block;\r\n    position: absolute;\r\n    top: 0;\r\n    right: 15px;\n}\n.preview-img-container{\r\n    list-style: none;\r\n    margin: 0;\r\n    padding: 0;\n}\n.preview-img{\r\n    margin-left: 9px;\r\n    margin-bottom: 9px;\r\n    margin-top: 9px;\r\n    width: 80px;\r\n    height: 80px;\r\n    background: no-repeat center center;\r\n    background-size: cover;\r\n    cursor: pointer;\n}\n.image-input-container{\r\n    position: relative;\r\n    margin-left: 9px;\r\n    margin-bottom: 9px;\r\n    margin-top: 9px;\r\n    width: 80px;\r\n    height: 80px;\r\n    border: 1px solid #d9d9d9;\n}\n.image-input-container:before, .image-input-container:after{\r\n    content: '';\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    -webkit-transform: translate(-50%, -50%);\r\n            transform: translate(-50%, -50%);\r\n    background-color: #d9d9d9;\n}\n.image-input-container:before{\r\n    width: 2px;\r\n    height: 39.5px;\n}\n.image-input-container:after{\r\n    width: 39.5px;\r\n    height: 2px;\n}\n.image-input{\r\n    width: 100%;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 1;\r\n    opacity: 0;\n}\n.previewer{\r\n    display: none;\r\n    position: fixed;\r\n    width: 100vw;\r\n    height: 100vh;\r\n    top: 0;\r\n    left: 0;\r\n    overflow: hidden;\r\n    touch-action: none;\r\n    z-index: 1500;\r\n    outline: none;\n}\n.open{\r\n    display: -webkit-box;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n            flex-direction: column;\r\n    flex-wrap: nowrap;\n}\n.previewer-bg{\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    top: 0;\r\n    left: 0;\r\n    background: #000;\r\n    opacity: 1;\r\n    z-index: -1;\n}\n.fade-enter-active, .fade-leave-active {\r\n    -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);\r\n    transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);\n}\n.fade-enter, .fade-leave-to {\r\n    opacity: 0;\n}\n.previewer-bd{\r\n    width: 100%;\r\n    height: calc(100% - 60px);\n}\n.previewer-bd img{\r\n    height: 634px;\r\n    position: absolute;\r\n    top: 48%;\r\n    left: 50%;\r\n    -webkit-transform: translate3d(-50%, -50%, 0);\r\n            transform: translate3d(-50%, -50%, 0);\n}\n.previewer-ft{\r\n    width: 100%;\r\n    height: 60px;\r\n    background-color: #0d0d0d;\r\n    color: #fff;\r\n    line-height: 60px;\r\n    text-align: center;\r\n    z-index: 2;\r\n    cursor: pointer;\r\n    -webkit-transition: background-color 0.3s ease-in-out;\r\n    transition: background-color 0.3s ease-in-out;\n}\n.previewer-ft:hover{\r\n    background-color: #2d2d2d;\n}\r\n", ""]);
 
 // exports
 
@@ -1050,11 +1084,20 @@ var render = function() {
           "ul",
           { staticClass: "preview-img-container d-flex-row-nowarp" },
           _vm._l(_vm.pictures_data, function(picture) {
-            return _c("li", {
-              key: picture.index,
-              staticClass: "preview-img",
-              style: { "background-image": "url(" + picture.blob_url + ")" }
-            })
+            return _c(
+              "li",
+              {
+                key: picture.index,
+                staticClass: "preview-img",
+                style: { "background-image": "url(" + picture.blob_url + ")" },
+                on: { click: _vm.showPreview }
+              },
+              [
+                _c("span", { staticClass: "d-none" }, [
+                  _vm._v(_vm._s(picture.index))
+                ])
+              ]
+            )
           }),
           0
         ),
@@ -1073,32 +1116,42 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm._m(0)
+        _c(
+          "div",
+          {
+            ref: "previewer",
+            staticClass: "previewer",
+            attrs: { tabindex: "-1", role: "dialog", "aria-hidden": "true" },
+            on: { click: _vm.closePreview }
+          },
+          [
+            _c("transition", { attrs: { name: "fade" } }, [
+              _vm.isShowPreview
+                ? _c("div", { staticClass: "previewer-bg" })
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "previewer-bd" }, [
+              _c("img", {
+                ref: "previewImg",
+                staticClass: "previewer-images",
+                attrs: { src: "", alt: "" }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "previewer-ft", on: { click: _vm.removeImage } },
+              [_c("i", { staticClass: "fas fa-trash-alt" })]
+            )
+          ],
+          1
+        )
       ]
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "previewer",
-        attrs: { tabindex: "-1", role: "dialog", "aria-hidden": "true" }
-      },
-      [
-        _c("div", { staticClass: "previewer-bg" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "previewer-bd" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "previewer-ft" })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -1831,10 +1884,23 @@ var app = new Vue({
       var url = $(this).attr('action');
       var data = $(this).serializeObject();
       var formdata = new FormData();
+      console.log(formdata);
       Object.keys(data).forEach(function (key) {
         return formdata.append(key, data[key]);
       });
-      formdata.append('picture', $('#picture')[0].files[0]);
+      console.log(formdata);
+      var pictures = vm.$refs.picturesUpload.filelist;
+      console.log('sss：' + pictures.length);
+      console.log(pictures);
+
+      if (pictures.length > 0) {
+        for (var $i = 0; $i < pictures.length; $i++) {
+          var picture = pictures[$i];
+          formdata.append('pictures[' + $i + ']', picture);
+        }
+      }
+
+      console.log(formdata);
       $.showLoadingModal();
       axios.post(url, formdata, {
         headers: {

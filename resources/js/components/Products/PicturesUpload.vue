@@ -8,16 +8,27 @@
 
     <div class="form-group col-md-12 uploader-body d-flex-row-nowarp">
         <ul class="preview-img-container d-flex-row-nowarp">
-            <li class="preview-img" v-for="picture in pictures_data" :key="picture.index" v-bind:style="{ 'background-image': 'url(' + picture.blob_url + ')' }"></li>
+            <li class="preview-img" v-for="picture in pictures_data" :key="picture.index" v-bind:style="{ 'background-image': 'url(' + picture.blob_url + ')' }" @click="showPreview">
+                <span class="d-none">{{ picture.index }}</span>
+            </li>
         </ul>
         <div class="image-input-container" v-if="pictures_data.length < 5">
             <input class="image-input" type="file" multiple accept="image/jpeg,image/png,image/bmp" @change="addImage">
         </div>
-        <div class="previewer" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="previewer-bg"></div>
-            <div class="previewer-bd"></div>
-            <div class="previewer-ft"></div>
+
+        
+        <div class="previewer" tabindex="-1" role="dialog" aria-hidden="true" ref="previewer" @click="closePreview">
+            <transition name="fade">
+                <div class="previewer-bg" v-if="isShowPreview"></div>
+            </transition>
+            <div class="previewer-bd">
+                <img class="previewer-images" ref="previewImg" src="" alt="">
+            </div>
+            <div class="previewer-ft" @click="removeImage">
+                <i class="fas fa-trash-alt"></i>
+            </div>
         </div>
+
     </div>
 </div>
 </template>
@@ -29,6 +40,9 @@ export default {
         return {
             pictures_data: [],
             filelist: [],
+
+            isShowPreview: false,
+            current_image_index: null,
         }
     },
     methods: {
@@ -71,6 +85,26 @@ export default {
 				return /\.(jpg|jpeg|png|gif|bmp)$/.test($file);
 			}
         },
+        showPreview(e){
+            $(this.$refs.previewer).addClass('open');
+            let $index = $(e.target).children().text() - 1;
+            this.current_image_index = $index;
+            $(this.$refs.previewImg).attr('src', this.pictures_data[$index].blob_url);
+            this.isShowPreview = true;
+        },
+        closePreview(e){
+            $(this.$refs.previewer).removeClass('open');
+            this.isShowPreview = false;
+            this.current_image_index = null;
+            $(this.$refs.previewImg).attr('src', '');
+        },
+        removeImage(e){
+            this.pictures_data.splice(this.current_image_index, 1);
+            this.filelist.splice(this.current_image_index, 1);
+            for(let $i = 0; $i < this.pictures_data.length; $i++){
+                this.pictures_data[$i].index = $i + 1;
+            }
+        }
     },
     created(){
 
@@ -182,15 +216,43 @@ export default {
     top: 0;
     left: 0;
     background: #000;
-    opacity: 0;
+    opacity: 1;
+    z-index: -1;
+}
+
+.fade-enter-active, .fade-leave-active {
     transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
 }
 
 .previewer-bd{
+    width: 100%;
+    height: calc(100% - 60px);
+}
 
+.previewer-bd img{
+    height: 634px;
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
 }
 
 .previewer-ft{
+    width: 100%;
+    height: 60px;
+    background-color: #0d0d0d;
+    color: #fff;
+    line-height: 60px;
+    text-align: center;
+    z-index: 2;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
 
+.previewer-ft:hover{
+    background-color: #2d2d2d;
 }
 </style>

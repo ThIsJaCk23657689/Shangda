@@ -217,10 +217,21 @@ const app = new Vue({
             let url = $(this).attr('action');
             let data = $(this).serializeObject();
             let formdata = new FormData();
+            console.log(formdata);
             Object.keys(data).forEach(
                 key => formdata.append(key, data[key])
             );
-            formdata.append('picture', $('#picture')[0].files[0]);
+            console.log(formdata);
+            let pictures = vm.$refs.picturesUpload.filelist;
+            console.log('sss：' + pictures.length);
+            console.log(pictures);
+            if(pictures.length > 0){
+                for(let $i = 0; $i < pictures.length; $i++){
+                    let picture = pictures[$i];
+                    formdata.append('pictures[' + $i + ']', picture);
+                }
+            }
+            console.log(formdata);
             
             $.showLoadingModal();
             axios.post(url, formdata, {

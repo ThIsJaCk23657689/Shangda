@@ -97,7 +97,6 @@
                 <hr>
 
                 <div class="row">
-                    
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-6">
@@ -128,7 +127,63 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label for="weight">
+                                <span class="text-danger mr-2">*</span>商品重量（單位：兩）
+                            </label>
+                            <input id="weight" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror" value="{{ old('weight') }}" autocomplete="off" required placeholder="塑膠袋一包的重量">
+                            @error('weight')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="category_id">
+                                        <span class="text-danger mr-2">*</span>
+                                        商品類別
+                                    </label>
+                
+                                    <select id="category_id" class="form-control @error('category_id') is-invalid @enderror" name="category_id" required>
+                                        @foreach ($categories as $category)
+                                            @if($category->id != 2)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+        
+                                    @error('category_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-auto my-1">
+                                    <div class="custom-control custom-checkbox mr-sm-2">
+                                        <input type="checkbox" class="custom-control-input mr-2" id="isCustomize" name="isCustomize" value="1">
+                                        <label class="custom-control-label" for="isCustomize">是否為客製化商品</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto my-1">
+                                    <div class="custom-control custom-checkbox mr-sm-2">
+                                        <input type="checkbox" class="custom-control-input mr-2" id="isPublic" name="isPublic" value="1">
+                                        <label class="custom-control-label" for="isPublic">是否公開此商品</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto my-1">
+                                    <div class="custom-control custom-checkbox mr-sm-2">
+                                        <input type="checkbox" class="custom-control-input mr-2" id="showPrice" name="showPrice" value="1">
+                                        <label class="custom-control-label" for="showPrice">是否顯示此商品價格</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -175,19 +230,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="weight">
-                                <span class="text-danger mr-2">*</span>商品重量（單位：兩）
-                            </label>
-                            <input id="weight" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror" value="{{ old('weight') }}" autocomplete="off" required placeholder="塑膠袋一包的重量">
-                            @error('weight')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -226,52 +268,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="category_id">
-                                        <span class="text-danger mr-2">*</span>
-                                        商品類別
-                                    </label>
-                
-                                    <select id="category_id" class="form-control @error('category_id') is-invalid @enderror" name="category_id" required>
-                                        @foreach ($categories as $category)
-                                            @if($category->id != 2)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-        
-                                    @error('category_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="col-auto my-1">
-                                    <div class="custom-control custom-checkbox mr-sm-2">
-                                        <input type="checkbox" class="custom-control-input mr-2" id="isCustomize" name="isCustomize" value="1">
-                                        <label class="custom-control-label" for="isCustomize">是否為客製化商品</label>
-                                    </div>
-                                </div>
-                                <div class="col-auto my-1">
-                                    <div class="custom-control custom-checkbox mr-sm-2">
-                                        <input type="checkbox" class="custom-control-input mr-2" id="isPublic" name="isPublic" value="1">
-                                        <label class="custom-control-label" for="isPublic">是否公開此商品</label>
-                                    </div>
-                                </div>
-                                <div class="col-auto my-1">
-                                    <div class="custom-control custom-checkbox mr-sm-2">
-                                        <input type="checkbox" class="custom-control-input mr-2" id="showPrice" name="showPrice" value="1">
-                                        <label class="custom-control-label" for="showPrice">是否顯示此商品價格</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <label for="intro">
                                 商品簡介

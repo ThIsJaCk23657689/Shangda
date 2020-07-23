@@ -36,7 +36,7 @@ class ProductService extends BaseService
         ]);
 
         // 圖片儲存
-        $this->savePicture($request->picture, $product);
+        $this->savePicture($request->pictures, $product);
 
         // 計算成本價格
         $costprice = 0;
@@ -149,53 +149,55 @@ class ProductService extends BaseService
         }
     }
 
-    private function savePicture($picture, $product){
-        if(!empty($picture)){
-            $ext = strtolower($picture->getClientOriginalExtension());
-            switch($ext){
-                case 'jpg':
-                    $origin_picture = imagecreatefromjpeg($picture);
-                    break;
-                case 'png':
-                    $origin_picture = imagecreatefrompng($picture);
-                    break;
-                case 'bmp':
-                    $origin_picture = imagecreatefrombmp($picture);
-                    break;
-                default:
-                    $origin_picture = imagecreatefromjpeg($picture);
-                    break;
+    private function savePicture($pictures, $product){
+        foreach($pictures as $picture){
+            if(!empty($picture)){
+                $ext = strtolower($picture->getClientOriginalExtension());
+                switch($ext){
+                    case 'jpg':
+                        $origin_picture = imagecreatefromjpeg($picture);
+                        break;
+                    case 'png':
+                        $origin_picture = imagecreatefrompng($picture);
+                        break;
+                    case 'bmp':
+                        $origin_picture = imagecreatefrombmp($picture);
+                        break;
+                    default:
+                        $origin_picture = imagecreatefromjpeg($picture);
+                        break;
+                }
+                $start_index = $product->pictures()->count();
+                $index = $start_index + 1;
+                $picture_name = str_pad($product->id, 4, '0', STR_PAD_LEFT) . '-' . str_pad($index, 2, '0', STR_PAD_LEFT);
+                $picture_full_name = $picture_name . '.' . $ext;
+    
+                $save_path = public_path('images/products/');
+                switch($ext){
+                    case 'jpg':
+                        imagejpeg($origin_picture, $save_path . $picture_full_name);
+                        break;
+                    case 'png':
+                        $background = imagecolorallocate($origin_picture, 0, 0, 0);
+                        imagecolortransparent($origin_picture, $background);
+                        imagealphablending($origin_picture, false);
+                        imagesavealpha($origin_picture, true);
+                        imagepng($origin_picture, $save_path . $picture_full_name);
+                        break;
+                    case 'bmp':
+                        imagebmp($origin_picture, $save_path . $picture_full_name);
+                        break;
+                    default:
+                        imagejpeg($origin_picture, $save_path . $picture_full_name);
+                        break;
+                }
+                $image_path = 'images/products/' . $picture_full_name;
+    
+                $product->pictures()->create([
+                    'url' => $image_path,
+                    'index' => $index,
+                ]);
             }
-
-            $index = $product->pictures()->count() + 1;
-            $picture_name = str_pad($product->id, 4, '0', STR_PAD_LEFT) . '-' . str_pad($index, 2, '0', STR_PAD_LEFT);
-            $picture_full_name = $picture_name . '.' . $ext;
-
-            $save_path = public_path('images/products/');
-            switch($ext){
-                case 'jpg':
-                    imagejpeg($origin_picture, $save_path . $picture_full_name);
-                    break;
-                case 'png':
-                    $background = imagecolorallocate($origin_picture, 0, 0, 0);
-                    imagecolortransparent($origin_picture, $background);
-                    imagealphablending($origin_picture, false);
-                    imagesavealpha($origin_picture, true);
-                    imagepng($origin_picture, $save_path . $picture_full_name);
-                    break;
-                case 'bmp':
-                    imagebmp($origin_picture, $save_path . $picture_full_name);
-                    break;
-                default:
-                    imagejpeg($origin_picture, $save_path . $picture_full_name);
-                    break;
-            }
-            $image_path = 'images/products/' . $picture_full_name;
-
-            $product->pictures()->create([
-                'url' => $image_path,
-                'index' => $index,
-            ]);
         }
     }
 }
