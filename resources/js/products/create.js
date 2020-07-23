@@ -1,4 +1,5 @@
 Vue.component('product-recipes', require('./../components/Products/ProductRecipes.vue').default);
+Vue.component('pictures-upload', require('./../components/Products/PicturesUpload.vue').default);
 
 const app = new Vue({
     el: '#product',
@@ -46,28 +47,16 @@ const app = new Vue({
     },
     created(){
         // 取得所有原物料列表(id與name)
+        $.showLoadingModal();
         let getMeterialsName = $('#getMeterialsName').html();
         axios.get(getMeterialsName).then(response => {
             this.materials = response.data;
             this.all_materials = this.materials;
+            $.closeModal();
         });
     },
     mounted(){
-        $('#picture').change(function(){
-            let input = $(this)[0];
-            readURL(input);
-        });
-    
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                $('#preview-upload').fadeIn();
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#previewImg-upload').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        let vm = this;
     
         function genereateProductID(){
             // 取得商品規格 (例如：兩斤、半斤、四兩)
@@ -220,36 +209,30 @@ const app = new Vue({
         $('#product_create_form').submit(function(e){
             e.preventDefault();
 
-            let url = $(this).attr('action');
+            if(vm.$refs.productRecipes.recipes.length == 0){
+                $.showWarningModal('請輸入商品之原物料。');
+                return false;
+            };
 
+            let url = $(this).attr('action');
             let data = $(this).serializeObject();
             let formdata = new FormData();
             Object.keys(data).forEach(
                 key => formdata.append(key, data[key])
             );
             formdata.append('picture', $('#picture')[0].files[0]);
-            console.log(formdata);
             
-            $('#LoadingModal').modal('show');
+            $.showLoadingModal();
             axios.post(url, formdata, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(response => {
-                console.log(response);
                 $('#productID').val(response.data.product_id);
-                alert(response.data.messenge);
-                location.href = response.data.redirect_url;
-            }).catch((error) => {
+                $.showSuccessModal(response.data.messenge, response.data.redirect_url);
+            }).catch(error => {
                 console.error('新增商品時發生錯誤，錯誤訊息：' + error);
-                alert('新增商品時發生錯誤，錯誤訊息：' + error);
-
-                $key = Object.keys(error.response.data.errors);
-                $key.forEach(function(item, index){
-                    console.log(error.response.data.errors[$key]);
-                    alert(error.response.data.errors[$key]);
-                });
-                $('#LoadingModal').modal('hide');
+                $.showErrorModal(error);
             });
         });
     }

@@ -77,7 +77,7 @@
                             <label for="internationalNum">
                                 國際條碼
                             </label>
-                            <input id="internationalNum" name="internationalNum" type="text" class="form-control @error('internationalNum') is-invalid @enderror" value="{{ old('internationalNum') }}" autocomplete="internationalNum">
+                            <input id="internationalNum" name="internationalNum" type="text" class="form-control @error('internationalNum') is-invalid @enderror" value="{{ old('internationalNum') }}" autocomplete="off">
                             @error('internationalNum')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -89,25 +89,15 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 text-center">
-                        {{-- 商品圖片 --}}
-                        <div class="form-group">
-                            <div id="preview-upload" class="col-md-12">
-                                <img id="previewImg-upload" class="img-fluid rounded" src="{{ asset('images/upload-default.png') }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="picture" class="mb-2">
-                                商品圖片
-                            </label>
-                            <div class="custom-file">
-                                <input type="file" id="picture" name="picture" class="custom-file-input" accept="image/jpeg,image/png,image/bmp" aria-describedby="PictureHelp">
-                                <small id="PictureHelp" class="form-text text-muted">僅支援JPG、JPEG、PNG與BMP格式圖片，且檔案大小上限為20MB。</small>
-                                <label class="custom-file-label" for="picture">請選擇檔案</label>
-                            </div>
-                        </div>
+                    <div class="col-md-12">
+                        <pictures-upload ref="picturesUpload"></pictures-upload>
                     </div>
+                </div>
 
+                <hr>
+
+                <div class="row">
+                    
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-6">
@@ -115,7 +105,7 @@
                                     <label for="specification">
                                         <span class="text-danger mr-2">*</span>商品規格
                                     </label>
-                                    <input id="specification" name="specification" type="text" class="form-control @error('specification') is-invalid @enderror" value="{{ old('specification') }}" autocomplete="specification" required aria-describedby="SpecificationHelp">
+                                    <input id="specification" name="specification" type="text" class="form-control @error('specification') is-invalid @enderror" value="{{ old('specification') }}" autocomplete="off" required aria-describedby="SpecificationHelp">
                                     <small id="SpecificationHelp" class="form-text text-muted">塑膠袋的大小（單位：兩、台斤）</small>
                                     @error('specification')
                                         <span class="invalid-feedback" role="alert">
@@ -129,7 +119,7 @@
                                     <label for="color">
                                         商品顏色或花樣
                                     </label>
-                                    <input id="color" name="color" type="text" class="form-control @error('color') is-invalid @enderror" value="{{ old('color') }}" autocomplete="color">
+                                    <input id="color" name="color" type="text" class="form-control @error('color') is-invalid @enderror" value="{{ old('color') }}" autocomplete="off">
                                     @error('color')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -145,7 +135,7 @@
                                     <label for="length">
                                         <span class="text-danger mr-2">*</span>商品長度（公分）
                                     </label>
-                                    <input id="length" name="length" type="text" class="form-control @error('length') is-invalid @enderror" value="{{ old('length') }}" autocomplete="length" required>
+                                    <input id="length" name="length" type="text" class="form-control @error('length') is-invalid @enderror" value="{{ old('length') }}" autocomplete="off" required>
                                 
                                     @error('length')
                                         <span class="invalid-feedback" role="alert">
@@ -160,7 +150,7 @@
                                     <label for="width">
                                         <span class="text-danger mr-2">*</span>商品寬度（公分）
                                     </label>
-                                    <input id="width" name="width" type="text" class="form-control @error('width') is-invalid @enderror" value="{{ old('width') }}" autocomplete="width" required>
+                                    <input id="width" name="width" type="text" class="form-control @error('width') is-invalid @enderror" value="{{ old('width') }}" autocomplete="off" required>
                                 
                                     @error('width')
                                         <span class="invalid-feedback" role="alert">
@@ -175,7 +165,7 @@
                                     <label for="chamfer">
                                         商品折角（公分）
                                     </label>
-                                    <input id="chamfer" name="chamfer" type="text" class="form-control @error('chamfer') is-invalid @enderror" value="{{ old('chamfer') }}" autocomplete="chamfer">
+                                    <input id="chamfer" name="chamfer" type="text" class="form-control @error('chamfer') is-invalid @enderror" value="{{ old('chamfer') }}" autocomplete="off">
                                 
                                     @error('chamfer')
                                         <span class="invalid-feedback" role="alert">
@@ -190,7 +180,7 @@
                             <label for="weight">
                                 <span class="text-danger mr-2">*</span>商品重量（單位：兩）
                             </label>
-                            <input id="weight" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror" value="{{ old('weight') }}" autocomplete="weight" required placeholder="塑膠袋一包的重量">
+                            <input id="weight" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror" value="{{ old('weight') }}" autocomplete="off" required placeholder="塑膠袋一包的重量">
                             @error('weight')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -206,7 +196,7 @@
                                         每件數量
                                     </label>
                                     
-                                    <input id="qty_per_pack" name="qty_per_pack" type="text" class="form-control @error('qty_per_pack') is-invalid @enderror" value="{{ old('qty_per_pack') }}" required autocomplete="qty_per_pack" placeholder="塑膠袋一包的重量">
+                                    <input id="qty_per_pack" name="qty_per_pack" type="text" class="form-control @error('qty_per_pack') is-invalid @enderror" value="{{ old('qty_per_pack') }}" required autocomplete="off">
         
                                     @error('qty_per_pack')
                                         <span class="invalid-feedback" role="alert">
@@ -354,7 +344,7 @@
                 
                 <hr>
 
-                <product-recipes :materials="materials" v-on:refresh-materials="refreshMaterials"></product-recipes>
+                <product-recipes ref="productRecipes" :materials="materials" v-on:refresh-materials="refreshMaterials"></product-recipes>
 
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">
@@ -369,8 +359,6 @@
 
             </form>
         </div>
-
-        <loading-modal></loading-modal>
     </div>
 	
 @endsection

@@ -6,7 +6,7 @@
             <div class="col-md-6 mb-2">
                 <select id="material_id" class="form-control" @change="getMaterialData">
                     <option value="0">請選擇...</option>
-                    <option-item v-for="data in materials" :key="data.id" :data="data"></option-item>
+                    <option v-for="material in materials" :key="material.id" :value="material.id">{{ material.name }}</option>
                 </select>
             </div>
 
