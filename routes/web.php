@@ -148,6 +148,9 @@ Route::prefix('/backend')->group(function(){
             Route::get('/index', 'CartController@index')->name('cart.index');
 
         });
+
+        // 最新消息路由
+        Route::resource('/announcements', 'AnnouncementController');
     });
 
 });
