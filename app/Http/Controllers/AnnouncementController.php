@@ -27,11 +27,12 @@ class AnnouncementController extends Controller
 
     public function store(AnnouncementRequest $request){
         $announcement_id = $this->AnnouncementService->add($request);
-        return response()->json([
-            'status' => 'OK',
-            'added_id' => $announcement_id,
-            'url' => route('announcements.index')
-        ], 200);
+        return redirect()->route('announcements.index');
+        // return response()->json([
+        //     'status' => 'OK',
+        //     'added_id' => $announcement_id,
+        //     'url' => route('announcements.index')
+        // ], 200);
     }
 
     public function show($id){
@@ -46,11 +47,12 @@ class AnnouncementController extends Controller
 
     public function update(AnnouncementRequest $request, $id){
         $announcement_id = $this->AnnouncementService->update($request, $id);
-        return response()->json([
-            'status' => 'OK',
-            'added_id' => $announcement_id,
-            'url' => route('announcements.show', [$announcement_id])
-        ], 200);
+        return redirect()->route('announcements.show', [$announcement_id]);
+        // return response()->json([
+        //     'status' => 'OK',
+        //     'added_id' => $announcement_id,
+        //     'url' => route('announcements.show', [$announcement_id])
+        // ], 200);
     }
 
     public function destroy($id){

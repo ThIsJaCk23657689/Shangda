@@ -3,7 +3,7 @@
 namespace App\Services;
 use App\Announcement as AnnouncementEloquent;
 use URL;
-
+use Auth;
 class AnnouncementService extends BaseService
 {
     public function add($request)
@@ -24,11 +24,12 @@ class AnnouncementService extends BaseService
         //     $url = URL::asset('images/books/default.png');
         // }
 
-        $user = auth('api')->user();
+        // $user = auth('api')->user();
+
 
         $announcement = AnnouncementEloquent::create([
             // 'cover_image' => $url,
-            'last_update_user_id' => $user->id,
+            'last_update_user_id' => Auth::id(),
             'title' => $request->title,
             'content' => $request->content,
         ]);
@@ -80,7 +81,7 @@ class AnnouncementService extends BaseService
 
         $announcement->update([
             // 'cover_image' => $url,
-            'last_update_user_id' => $user->id,
+            'last_update_user_id' => Auth::id(),
             'title' => $request->title,
             'content' => $request->content,
             ]);

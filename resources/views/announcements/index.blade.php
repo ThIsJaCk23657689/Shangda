@@ -48,11 +48,6 @@
 							<tr>
                                 <td>{{ $announcement->id }}</td>
 								<td>{{ $announcement->title }}</td>
-								<td>
-									<a href="{{ route('categories.show', [$announcement->category->id]) }}">
-										{{ $announcement->category->name }}
-									</a>
-								</td>
 								<td>{{ $announcement->user->name }}</td>
 								<td>{{ $announcement->created_at }}</td>
 								<td>
@@ -62,14 +57,14 @@
 									<a href="{{ route('announcements.edit', [$announcement->id]) }}" class="btn btn-md btn-success">
 										<i class="fas fa-edit"></i>
 									</a>
-									<a href="#" class="btn btn-md btn-light" onclick="
+									<a href="#" class="btn btn-md btn-danger" onclick="
 									    event.preventDefault();
 										ans = confirm('確定要刪除此公告嗎?');
 										if(ans){
 											$('#deleteform-{{ $announcement->id }}').submit();
 										}
 										">
-										<i class="fas fa-arrow-alt-circle-up"></i>
+										<i class="fas fa-trash-alt"></i>
 										刪除
 									</a>
 
