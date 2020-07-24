@@ -141,16 +141,21 @@ Route::prefix('/backend')->group(function(){
             // });
         });
         Route::resource('/return', 'Orders\ReturnOrderController');
+    });
 
-        //購物車路由
-        Route::prefix('/cart')->group(function(){
-            // index
-            Route::get('/index', 'CartController@index')->name('cart.index');
+    //購物車路由
+    Route::prefix('/cart')->group(function(){
+        // index
+        Route::get('/index', 'CartController@index')->name('cart.index');
+    });
 
-        });
+    // 最新消息路由
+    Route::resource('/announcements', 'AnnouncementController');
 
-        // 最新消息路由
-        Route::resource('/announcements', 'AnnouncementController');
+    // 報表路由
+    Route::prefix('/reports')->group(function(){
+        Route::get('/sales/year', 'ReportController@salesReportYearIndex')->name('reports.sales.year');
+        Route::post('/sales/year', 'ReportController@salesReportYear');
     });
 
 });

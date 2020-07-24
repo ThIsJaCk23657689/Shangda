@@ -63,6 +63,25 @@
 			<a class="dropdown-item" href="{{ route('announcements.index') }}">{{ __('News') }}</a>
 			<a class="dropdown-item" href="#">{{ __('Log File') }}</a>
 		</div>
+    </li>
+
+	<li class="nav-item dropdown">
+		<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<i class="fas fa-chart-bar"></i>
+			<span>{{ __('Report') }}</span>
+		</a>
+		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
+			<h6 class="dropdown-header">{{ __('Sales Report') }}</h6>
+			<a class="dropdown-item" href="#">{{ __('Annual Report') }}</a>
+			<a class="dropdown-item" href="#">{{ __('Daily Report') }}</a>
+			<a class="dropdown-item" href="#">{{ __('Gross Profit Report') }}</a>
+			<h6 class="dropdown-header">{{ __('Purchase Report') }}</h6>
+			<a class="dropdown-item" href="#">{{ __('Annual Report') }}</a>
+			<a class="dropdown-item" href="#">{{ __('Daily Report') }}</a>
+			<h6 class="dropdown-header">{{ __('Account Report') }}</h6>
+			<a class="dropdown-item" href="#">{{ __('Accounts Payable Report') }}</a>
+			<a class="dropdown-item" href="#">{{ __('Accounts Receivable Report') }}</a>
+		</div>
 	</li>
 
 </ul>
