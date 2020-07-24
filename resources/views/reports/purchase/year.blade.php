@@ -1,27 +1,27 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-    <script src="{{ asset('js/reports/sales/year.js') }}" defer></script>
+    <script src="{{ asset('js/reports/purchase/year.js') }}" defer></script>
 @endpush
 
 @section('content')
 
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">{{ __('Report') }}</li>
-        <li class="breadcrumb-item">{{ __('Sales Report') }}</li>
+        <li class="breadcrumb-item">{{ __('Purchase Report') }}</li>
         <li class="breadcrumb-item active">{{ __('Annual Report') }}</li>
     @endcomponent
 
     <div id="reports">
 
-        <span id="getSalesYearData" class="d-none">{{ route('reports.sales.year') }}</span>
+        <span id="getPurchaseYearData" class="d-none">{{ route('reports.purchase.year') }}</span>
 
-        <sales-year
+        <purchase-year
             :reports="reports"
             :filters="filters"
             :month_total="month_total"
             v-on:refresh-data="refreshData">
-        </sales-year>
+        </purchase-year>
     </div>
 
 @endsection

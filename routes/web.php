@@ -154,8 +154,26 @@ Route::prefix('/backend')->group(function(){
 
     // 報表路由
     Route::prefix('/reports')->group(function(){
-        Route::get('/sales/year', 'ReportController@salesReportYearIndex')->name('reports.sales.year');
-        Route::post('/sales/year', 'ReportController@salesReportYear');
+        // 銷貨年報表、銷貨日報表、銷貨利潤表
+        Route::prefix('/sales')->group(function(){
+            Route::get('year', 'ReportController@salesReportYearIndex')->name('reports.sales.year');
+            Route::post('year', 'ReportController@salesReportYear');
+
+            Route::get('daily', 'ReportController@salesReportDailyIndex')->name('reports.sales.daily');
+            Route::post('daily', 'ReportController@salesReportDaily');
+
+            Route::get('profit', 'ReportController@salesReportProfitIndex')->name('reports.sales.profit');
+            Route::post('profit', 'ReportController@salesReportProfit');
+        });
+
+        // 進貨年報表、進貨日報表
+        Route::prefix('/purchase')->group(function(){
+            Route::get('year', 'ReportController@purchaseReportYearIndex')->name('reports.purchase.year');
+            Route::post('year', 'ReportController@purchaseReportYear');
+
+            Route::get('daily', 'ReportController@purchaseReportDailyIndex')->name('reports.purchase.daily');
+            Route::post('daily', 'ReportController@purchaseReportDaily');
+        });
     });
 
 });

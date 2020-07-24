@@ -1,4 +1,4 @@
-Vue.component('sales-year', require('../../components/Reports/SalesYear.vue').default);
+Vue.component('purchase-year', require('../../components/Reports/PurchaseYear.vue').default);
 
 const app = new Vue({
     el: '#reports',
@@ -16,10 +16,10 @@ const app = new Vue({
     },
     methods: {
         refreshData(e) {
-            let getSalesYearData = $('#getSalesYearData').text();
+            let getPurchaseYearData = $('#getPurchaseYearData').text();
 
             $.showLoadingModal();
-            axios.post(getSalesYearData, this.filters).then(response => {
+            axios.post(getPurchaseYearData, this.filters).then(response => {
                 this.reports = response.data.result;
                 let month_total = ['合計', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 

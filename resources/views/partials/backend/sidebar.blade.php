@@ -72,12 +72,12 @@
 		</a>
 		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 			<h6 class="dropdown-header">{{ __('Sales Report') }}</h6>
-			<a class="dropdown-item" href="#">{{ __('Annual Report') }}</a>
-			<a class="dropdown-item" href="#">{{ __('Daily Report') }}</a>
-			<a class="dropdown-item" href="#">{{ __('Gross Profit Report') }}</a>
+			<a class="dropdown-item" href="{{ route('reports.sales.year') }}">{{ __('Annual Report') }}</a>
+			<a class="dropdown-item" href="{{ route('reports.sales.daily') }}">{{ __('Daily Report') }}</a>
+			<a class="dropdown-item" href="{{ route('reports.sales.profit') }}">{{ __('Gross Profit Report') }}</a>
 			<h6 class="dropdown-header">{{ __('Purchase Report') }}</h6>
-			<a class="dropdown-item" href="#">{{ __('Annual Report') }}</a>
-			<a class="dropdown-item" href="#">{{ __('Daily Report') }}</a>
+			<a class="dropdown-item" href="{{ route('reports.purchase.year') }}">{{ __('Annual Report') }}</a>
+			<a class="dropdown-item" href="{{ route('reports.purchase.daily') }}">{{ __('Daily Report') }}</a>
 			<h6 class="dropdown-header">{{ __('Account Report') }}</h6>
 			<a class="dropdown-item" href="#">{{ __('Accounts Payable Report') }}</a>
 			<a class="dropdown-item" href="#">{{ __('Accounts Receivable Report') }}</a>
