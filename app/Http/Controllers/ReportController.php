@@ -43,14 +43,23 @@ class ReportController extends Controller
     }
 
     public function salesReportDaily(Request $request){
-
+        $this->validate($request, [
+            'type' => [
+                'nullable',
+                Rule::in([1, 2]), // 1.'依客戶別', 2.'依商品別'
+            ],
+            'start_date'=> 'nullable|date_format:Y-m-d',
+            'end_date'=> 'nullable|date_format:Y-m-d',
+        ]);
+        $res = $this->ReportService->salesReportDaily($request);
+        return response()->json($res, $res['status']);
     }
 
     // 銷售利潤報表
     public function salesReportProfitIndex(){
         return view('reports.sales.profit');
     }
-    
+
     public function salesReportProfit(Request $request){
 
     }
@@ -64,7 +73,7 @@ class ReportController extends Controller
         $this->validate($request, [
             'type' => [
                 'nullable',
-                Rule::in([1, 2]), // 1.'依客戶別', 2.'依商品別'
+                Rule::in([1, 2]), // 1.'依供應商別', 2.'依原物料別'
             ],
             'year'=> 'nullable|digits:4',
             'orderby' => [
@@ -82,6 +91,16 @@ class ReportController extends Controller
     }
 
     public function purchaseReportDaily(Request $request){
-        
+        $this->validate($request, [
+            'type' => [
+                'nullable',
+                Rule::in([1, 2]), // 1.'依供應商別', 2.'依原物料別'
+            ],
+            'start_date'=> 'nullable|date_format:Y-m-d',
+            'end_date'=> 'nullable|date_format:Y-m-d',
+        ]);
+        $res = $this->ReportService->purchaseReportDaily($request);
+        return response()->json($res, $res['status']);
+
     }
 }

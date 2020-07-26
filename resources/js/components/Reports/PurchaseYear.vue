@@ -33,7 +33,7 @@
                 <table id="PurchaseYearTable" class="table table-bordered" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>供應商姓名</th>
+                            <th>{{ tableTitle }}</th>
                             <th v-for="n in 12" :key="n">{{ n + '月' }}</th>
                             <th>小計</th>
                         </tr>
@@ -60,11 +60,16 @@ export default {
     props: ['reports', 'filters', 'month_total'],
     data(){
         return {
-
+            tableTitle: '供應商名稱',
         }
     },
     methods: {
         changeType(e){
+            if(e.target.value == 1){
+                this.tableTitle = '供應商名稱';
+            }else{
+                this.tableTitle = '原物料名稱';
+            }
             this.$emit('refresh-data');
         },
         changeYear(e){

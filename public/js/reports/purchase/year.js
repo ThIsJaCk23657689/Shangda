@@ -155,10 +155,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['reports', 'filters', 'month_total'],
   data: function data() {
-    return {};
+    return {
+      tableTitle: '供應商名稱'
+    };
   },
   methods: {
     changeType: function changeType(e) {
+      if (e.target.value == 1) {
+        this.tableTitle = '供應商名稱';
+      } else {
+        this.tableTitle = '原物料名稱';
+      }
+
       this.$emit('refresh-data');
     },
     changeYear: function changeYear(e) {
@@ -193,7 +201,7 @@ var render = function() {
     _c("div", { staticClass: "card mb-3" }, [
       _c("div", { staticClass: "card-header" }, [
         _c("i", { staticClass: "fas fa-table mr-2" }),
-        _vm._v("進貨年度報表 - " + _vm._s(_vm.filters.year) + "年\r\n        ")
+        _vm._v("進貨年度報表 - " + _vm._s(_vm.filters.year) + "年\n        ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
@@ -349,7 +357,7 @@ var render = function() {
                 _c(
                   "tr",
                   [
-                    _c("th", [_vm._v("供應商姓名")]),
+                    _c("th", [_vm._v(_vm._s(_vm.tableTitle))]),
                     _vm._v(" "),
                     _vm._l(12, function(n) {
                       return _c("th", { key: n }, [_vm._v(_vm._s(n + "月"))])
