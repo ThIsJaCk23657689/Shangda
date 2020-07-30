@@ -357,4 +357,47 @@ class ReportService extends BaseService
 
         }
     }
+
+    public function accountReportPayable(){
+        // SELECT suppliers.*, SUM(purchase_orders.totalPrice) as totalPrice 
+        // FROM `purchase_orders` RIGHT JOIN suppliers ON suppliers.id = purchase_orders.supplier_id 
+        // WHERE purchase_orders.paid_at IS NULL GROUP BY suppliers.id
+
+        $reports = DB::table('purchase_orders')
+            ->select(
+                DB::raw('suppliers.*'),
+                DB::raw('SUM(purchase_orders.totalPrice) as totalPrice')
+            )->rightJoin('suppliers', 'suppliers.id', '=', 'purchase_orders.supplier_id')
+            ->where('purchase_orders.paid_at', '=', NULL)
+            ->groupByRaw('suppliers.id')
+            ->get();
+
+            $reports = collect($reports);
+            foreach($reports as $report){
+                $report->showAddress = $report->companyAddress_county . $report->companyAddress_district . $report->companyAddress_others;
+            }
+
+            return $reports;
+    }
+
+    public function accountReportReceivable(){
+        // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice 
+        // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id 
+        // GROUP BY consumers.id
+
+        $reports = DB::table('sales_orders')
+            ->select(
+                DB::raw('consumers.*'),
+                DB::raw('SUM(sales_orders.unpaidAmount) as totalPrice')
+            )->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
+            ->groupByRaw('consumers.id')
+            ->get();
+
+            $reports = collect($reports);
+            foreach($reports as $report){
+                $report->showAddress = $report->address_county . $report->address_district . $report->address_others;
+            }
+
+            return $reports;
+    }
 }

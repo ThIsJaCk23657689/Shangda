@@ -101,6 +101,15 @@ class ReportController extends Controller
         ]);
         $res = $this->ReportService->purchaseReportDaily($request);
         return response()->json($res, $res['status']);
+    }
 
+    public function accountReportPayable(){
+        $reports = $this->ReportService->accountReportPayable();
+        return view('reports.account.payable', compact('reports'));
+    }
+
+    public function accountReportReceivable(){
+        $reports = $this->ReportService->accountReportReceivable();
+        return view('reports.account.receivable', compact('reports'));
     }
 }

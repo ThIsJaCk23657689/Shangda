@@ -174,6 +174,12 @@ Route::prefix('/backend')->group(function(){
             Route::get('daily', 'ReportController@purchaseReportDailyIndex')->name('reports.purchase.daily');
             Route::post('daily', 'ReportController@purchaseReportDaily');
         });
+
+        // 帳戶應收、應付報表
+        Route::prefix('/account')->group(function(){
+            Route::get('payable', 'ReportController@accountReportPayable')->name('reports.account.payable');
+            Route::get('receivable', 'ReportController@accountReportReceivable')->name('reports.account.receivable');
+        });
     });
 
 });
