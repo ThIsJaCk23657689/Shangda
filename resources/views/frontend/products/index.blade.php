@@ -1,11 +1,11 @@
 @extends('layouts.frontend.master')
 
 @push('CustomJS')
-
+    <script src="{{ asset('js/frontend/products/index.js') }}" defer></script>
 @endpush 
 
 @push('CustomCSS')
-    <link href="{{ asset('css/frontend/index.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/frontend/products/index.css') }}" rel="stylesheet" type="text/css">
 @endpush 
 
 @section('content')
@@ -79,7 +79,7 @@
                                 </div>	  
                             </div>	
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

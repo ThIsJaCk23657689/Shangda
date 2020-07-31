@@ -16,10 +16,12 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/welcome/app.js', 'public/js/welcome')
     .copy('resources/js/welcome/plugins.js', 'public/js/welcome')
     .js('resources/js/welcome/slides.js', 'public/js/welcome')
+    .js('resources/js/frontend/products/index.js', 'public/js/frontend/products')
 
 .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/welcome/slides.scss', 'public/css/welcome')
     .sass('resources/sass/frontend/index.scss', 'public/css/frontend')
+    .sass('resources/sass/frontend/products/index.scss', 'public/css/frontend/products')
     .options({
         processCssUrls: false,
     });
