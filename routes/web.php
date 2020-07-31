@@ -24,6 +24,7 @@ Route::get('/old', 'HomeController@old')->name('old');
 Route::get('/products', 'Frontend\ProductController@index')->name('front.products');
 Route::post('/products', 'Frontend\ProductController@list');
 Route::get('/products/{id}', 'Frontend\ProductController@show')->name('front.products.show');
+Route::get('/products/{id}/pictures', 'Frontend\ProductController@getOnePictures')->name('front.products.getOnePictures');
     // 最新消息
 Route::get('/announcements', 'Frontend\AnnouncementController@index')->name('front.announcements');
 Route::post('/announcements', 'Frontend\AnnouncementController@list');

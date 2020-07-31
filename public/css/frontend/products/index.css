@@ -1,4 +1,4 @@
-div#app {
+div.wrapper {
   margin: 0;
   padding: 0;
 }
@@ -74,7 +74,8 @@ section.product-list {
   margin-left: -167px;
 }
 
-#product-front, #product-back {
+#product-front,
+#product-back {
   width: 335px;
   height: 500px;
   background: #fff;
@@ -91,7 +92,8 @@ section.product-list {
           transform: rotateY(180deg);
 }
 
-#product-card.animate #product-back, #product-card.animate #product-front {
+#product-card.animate #product-back,
+#product-card.animate #product-front {
   top: 0px;
   left: 0px;
   -webkit-transition: all 100ms ease-out;
@@ -322,7 +324,8 @@ div.shadow {
   cursor: pointer;
 }
 
-#cx, #cy {
+#cx,
+#cy {
   background: #d2d5dc;
   position: absolute;
   width: 0px;
@@ -333,13 +336,15 @@ div.shadow {
   transition: all 250ms ease-in-out;
 }
 
-#flip-back:hover #cx, #flip-back:hover #cy {
+#flip-back:hover #cx,
+#flip-back:hover #cy {
   background: #979ca7;
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
 }
 
-#cx.s1, #cy.s1 {
+#cx.s1,
+#cy.s1 {
   right: 0;
   width: 30px;
   -webkit-transition: all 100ms ease-out;
@@ -417,7 +422,8 @@ div.shadow {
           perspective: 335px;
 }
 
-.carouselPrev, .carouselNext {
+.carouselPrev,
+.carouselNext {
   width: 50px;
   height: 55px;
   background: #ccc;
@@ -467,7 +473,8 @@ div.shadow {
   transition: all 200ms ease-out;
 }
 
-#carousel .x, #carousel .y {
+#carousel .x,
+#carousel .y {
   height: 2px;
   width: 15px;
   background: #48cfad;

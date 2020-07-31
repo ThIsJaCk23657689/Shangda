@@ -1,0 +1,92 @@
+div.wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+section.header {
+  width: 100%;
+  height: 440px;
+  position: relative;
+}
+section.header .bg-image {
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-size: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -2;
+}
+section.header .bg-gray {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.3);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+}
+section.header .container {
+  height: 100%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+}
+section.header .container .title {
+  font-weight: bold;
+  letter-spacing: 8px;
+  font-size: 7rem;
+  text-shadow: 0.1em 0.1em 0.2em black;
+}
+
+section.header .bg-image {
+  background-image: url(../../../../public/images/background/product.jpg);
+}
+
+section.product-detail {
+  width: 100%;
+  position: relative;
+  background-color: #efefef;
+}
+section.product-detail .container {
+  max-width: 1300px;
+}
+section.product-detail .product-detail-container {
+  padding: 20px;
+}
+section.product-detail .product-detail-container .product-detail-row {
+  width: 100%;
+  height: 100%;
+}
+section.product-detail .product-detail-container .product-detail-row .product-left {
+  padding-top: 20px;
+}
+section.product-detail .product-detail-container .product-detail-row .product-left .sp-wrap {
+  display: inline-block;
+  max-width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.2) 5px 5px 5px 5px;
+  background-color: white;
+  border: 0;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right {
+  padding: 20px 20px;
+  color: black;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right .product-info {
+  width: 100%;
+  height: 100%;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right .product-info .row {
+  margin: 0;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right .product-info .row p {
+  margin-bottom: 15px;
+}

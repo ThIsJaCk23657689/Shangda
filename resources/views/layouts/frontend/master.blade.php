@@ -21,7 +21,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/welcome/slides.css') }}" rel="stylesheet" type="text/css">
-    
+
     <!-- Custom styles for this template-->
     @stack('CustomCSS')
 </head>
@@ -36,8 +36,9 @@
 	@include('partials.frontend.welcome.sidebar')
 
 	<div id="content-wrapper">
+        <div id="app"></div>
 
-		<div id="app" class="container-fluid">
+		<div class="container-fluid wrapper">
 			@yield('content')
 		</div>
 
