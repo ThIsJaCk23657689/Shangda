@@ -20,6 +20,10 @@ Route::get('/test', function(){
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/old', 'HomeController@old')->name('old');
 
+Route::get('/products', 'Frontend\ProductController@index')->name('front.products');
+Route::post('/products', 'Frontend\ProductController@list');
+Route::get('/products/{id}', 'Frontend\ProductController@show')->name('front.products.show');
+
 // 後臺管理路由
 Route::prefix('/backend')->group(function(){
     Route::get('/', 'HomeController@backend')->name('backend');
