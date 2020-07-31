@@ -18,7 +18,11 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/welcome/slides.js', 'public/js/welcome')
 
 .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/welcome/slides.scss', 'public/css/welcome');
+    .sass('resources/sass/welcome/slides.scss', 'public/css/welcome')
+    .sass('resources/sass/frontend/index.scss', 'public/css/frontend')
+    .options({
+        processCssUrls: false,
+    });
 
 // 後台
 mix.js('resources/js/backend.js', 'public/js')

@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/css/welcome/slides.css": "/css/welcome/slides.css",
+    "/css/frontend/index.css": "/css/frontend/index.css",
     "/css/backend.css": "/css/backend.css",
     "/js/backend.js": "/js/backend.js",
     "/js/consumers/create.js": "/js/consumers/create.js",

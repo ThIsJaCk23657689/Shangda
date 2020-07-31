@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="panel top">
+<nav class="navbar panel top">
     <div class="sections desktop">
 
         <div class="left">

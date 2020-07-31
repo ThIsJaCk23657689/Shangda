@@ -34,12 +34,15 @@
     @include('partials.frontend.welcome.navbar')
 
 	@include('partials.frontend.welcome.sidebar')
-	
-	<div id="app" class="container-fluid" style="margin-top: 70.4px;">
-		@yield('content')
+
+	<div id="content-wrapper">
+
+		<div id="app" class="container-fluid">
+			@yield('content')
+		</div>
+
+		@include('partials.frontend.welcome.footer')
 	</div>
-    
-    @include('partials.frontend.welcome.footer')
-            
+
 </body>
 </html>
