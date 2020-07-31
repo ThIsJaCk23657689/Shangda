@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Announcement as AnnouncementEloquent;
 use URL;
 use Auth;
+
 class AnnouncementService extends BaseService
 {
     public function add($request)
@@ -101,5 +102,17 @@ class AnnouncementService extends BaseService
             return $announcement->updated_at;
         }
         return null;
+    }
+
+    public function getListFrontend($request){
+        $take = 6;
+        $skip = $request->skip ?? 0;
+        $announcements = AnnouncementEloquent::orderBy('created_at', 'desc')->skip($skip)->take($take)->get();
+        foreach ($announcements as $announcement) {
+            $announcement->showTitle = $announcement->showTitle();
+            $announcement->showDate = $announcement->showDate();
+            $announcement->showCoverImage = $announcement->showCoverImage();
+            $announcement->detailURL = route('front.announcements.show', [$announcement->id]);
+        }
     }
 }

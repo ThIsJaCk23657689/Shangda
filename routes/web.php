@@ -19,10 +19,15 @@ Route::get('/test', function(){
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/old', 'HomeController@old')->name('old');
-
+// 前台路由
+    // 商品
 Route::get('/products', 'Frontend\ProductController@index')->name('front.products');
 Route::post('/products', 'Frontend\ProductController@list');
 Route::get('/products/{id}', 'Frontend\ProductController@show')->name('front.products.show');
+    // 最新消息
+Route::get('/announcements', 'Frontend\AnnouncementController@index')->name('front.announcements');
+Route::post('/announcements', 'Frontend\AnnouncementController@list');
+Route::get('/announcements/{id}', 'Frontend\AnnouncementController@show')->name('front.announcements.show');
 
 // 後臺管理路由
 Route::prefix('/backend')->group(function(){

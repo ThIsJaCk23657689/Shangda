@@ -20,7 +20,26 @@ class ProductController extends Controller
     }
 
     public function list(Request $request){
+        $this->validate($request, [
+            'keywords' => 'nullable| string|',
+            'skip' => 'nullable| integer|',
+            'orderby' => [
+                'nullable',
+                Rule::in([1, 2, 0]), //  1.價格(高->低) 2.價格(低->高)
+            ],
+            'type' => [
+                'nullable',
+                Rule::in([1, 2, 3, 0]), //type:(default) 0.全部 1.依商品名稱 2.依商品規格 3.依商品花色
+            ],
+        ]);
 
+        $res = $this->ProductService->getListFrontend($request);
+
+        return response()->json([
+            'status' => 'OK',
+            'DataTotalCount' => $res['count'],
+            'products' => $res['products'],
+        ]);
     }
 
     public function show($id){
