@@ -36,6 +36,8 @@
         <div class="announcement-content">
             <div class="row">
                 <div class="col-md-12">
+                    {{-- <img src="{{ asset($announcement->showCoverImage()) }}" width="100%" alt=""> --}}
+                    <img src="{{ asset('/images/background/product.jpg') }}" width="100%" alt="">
                     {{ $announcement->content }}
                 </div>
             </div>

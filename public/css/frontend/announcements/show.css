@@ -91,9 +91,12 @@ section.announcement-detail .announcement-detail-container .announcement-date {
   margin-bottom: 30px;
 }
 section.announcement-detail .announcement-detail-container .announcement-content {
-  padding: 30px 60px;
+  padding: 50px 60px;
   line-height: 40px;
   font-size: 3rem;
   letter-spacing: 2px;
   background-color: rgba(255, 255, 255, 0.8);
+}
+section.announcement-detail .announcement-detail-container .announcement-content img {
+  margin-bottom: 10px;
 }
