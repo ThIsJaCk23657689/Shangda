@@ -60,13 +60,15 @@ section.product-detail .container {
   max-width: 1300px;
 }
 section.product-detail .product-detail-container {
-  padding: 20px;
+  padding: 35px;
+  height: auto;
 }
 section.product-detail .product-detail-container .product-detail-row {
   width: 100%;
   height: 100%;
 }
 section.product-detail .product-detail-container .product-detail-row .product-left {
+  margin: auto;
   padding-top: 20px;
 }
 section.product-detail .product-detail-container .product-detail-row .product-left .sp-wrap {
@@ -79,6 +81,35 @@ section.product-detail .product-detail-container .product-detail-row .product-le
 section.product-detail .product-detail-container .product-detail-row .product-right {
   padding: 20px 20px;
   color: black;
+  position: relative;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn {
+  position: absolute;
+  right: 0;
+  width: 90px;
+  height: 100px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn a .row {
+  width: 100%;
+  margin: 0;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn a img {
+  width: 60%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn a span {
+  width: 100%;
+  text-align: center;
 }
 section.product-detail .product-detail-container .product-detail-row .product-right .product-info {
   width: 100%;

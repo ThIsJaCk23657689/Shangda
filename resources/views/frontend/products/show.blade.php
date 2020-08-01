@@ -1,7 +1,6 @@
 @extends('layouts.frontend.master')
 
 @push('CustomJS')
-
     {{-- <script src="{{ asset('vendor/smoothproducts/js/smoothproducts.js') }}" defer></script> --}}
     <script src="{{ asset('vendor/smoothproducts/js/smoothproducts.min.js') }}" defer></script>
     <script src="{{ asset('js/frontend/products/show.js') }}" defer></script>
@@ -37,34 +36,47 @@
                     </div>
                 </div>
                 <div class="col-md-6 product-right">
+                    <div class="product-cart-btn text-center">
+                        <a>
+                            <div class="row">
+                                <img src="{{ asset('images/icons/cart_icon.png') }}" alt="">
+                            </div>
+                            <div class="row">
+                                <span class="button-text">加入購物車</span>
+                            </div>
+                        </a>
+                    </div>
                     <div class="product-info">
                         <div class="row">
                             <h2>{{ $product->name }}</h2>
                         </div>
                         <div class="row">
-                            <p>商品編號 : {{ $product->shownID }}</p>
+                            <p>商品編號 : {{ $product->shownID ?? "無"}}</p>
                         </div>
                         <div class="row">
-                            <p>商品規格 : {{ $product->shownID }}</p>
+                            <p>商品規格 : {{ $product->specification ?? "無"}}</p>
                         </div>
                         <div class="row">
-                            <p>商品花樣/顏色 : {{ $product->shownID }}</p>
+                            <p>商品花樣/顏色 : {{ $product->color ?? "無"}}</p>
                         </div>
                         <div class="row">
-                            <p>商品尺寸(寬/高/折角) : {{ $product->shownID }} (單位 : 公分)</p>
+                            <p>商品尺寸(長/寬/折角) : {{ $product->length ?? "無"}} / {{ $product->width ?? "無"}} / {{ $product->chamfer ?? "無"}} (單位 : 公分)</p>
                         </div>
                         <div class="row">
-                            <p>商品重量 : {{ $product->shownID }} (單位 : 公克)</p>
+                            <p>商品重量 : {{ $product->weight }} (單位 : 公克)</p>
                         </div>
                         <div class="row">
-                            <p>每件數量/單位 : {{ $product->shownID }}/ {{ $product->shownID }}</p>
+                            <p>每件數量/單位 : {{ $product->qty_per_pack ?? "無"}}/ {{ $product->showUnit() }}</p>
                         </div>
                         <div class="row">
-                            <p>商品簡介 : {{ $product->shownID }}</p>
+                            <p>商品簡介 : {{ $product->intro ?? "無" }}</p>
                         </div>
-                        <div class="row">
-                            <p>商品價格 : {{ $product->shownID }}</p>
-                        </div>
+                        @if ($product->showPrice)
+                            <div class="row">
+                                <p>商品價格 : {{ $product->retailPrice }}</p>
+                            </div>
+                        @endif
+
                     </div>
 
                 </div>
@@ -72,19 +84,6 @@
         </div>
     </section>
 </div>
-
-
-
-<section class="detail-page-body">
-    {{-- <div class="container">
-        <div class="goback-container text-center">
-            <a href="#" class="goback-text" onclick="history.go(-1); event.preventDefault();">
-                <i class="fas fa-arrow-left"></i>
-                返回上一頁
-            </a>
-        </div>
-    </div> --}}
-</section>
 
 
 @endsection
