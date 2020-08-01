@@ -34,7 +34,7 @@ class AnnouncementController extends Controller
     }
 
     public function show($id){
-        $product = $this->AnnouncementService->getOne($id);
-        return view('frontend.announcements.show', compact('product'));
+        $announcement = $this->AnnouncementService->getOne($id);
+        return view('frontend.announcements.show', compact('announcement'));
     }
 }

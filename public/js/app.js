@@ -52154,6 +52154,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/frontend/announcements/show.scss":
+/*!*********************************************************!*\
+  !*** ./resources/sass/frontend/announcements/show.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/frontend/index.scss":
 /*!********************************************!*\
   !*** ./resources/sass/frontend/index.scss ***!
@@ -52199,9 +52210,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/welcome/slides.scss ./resources/sass/frontend/index.scss ./resources/sass/frontend/products/index.scss ./resources/sass/frontend/products/show.scss ./resources/sass/backend/backend.scss ***!
-  \************************************************************************************************************************************************************************************************************************************************************************/
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/welcome/slides.scss ./resources/sass/frontend/index.scss ./resources/sass/frontend/products/index.scss ./resources/sass/frontend/products/show.scss ./resources/sass/frontend/announcements/show.scss ./resources/sass/backend/backend.scss ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -52211,6 +52222,7 @@ __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\welcome\slides.scs
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\index.scss */"./resources/sass/frontend/index.scss");
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\products\index.scss */"./resources/sass/frontend/products/index.scss");
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\products\show.scss */"./resources/sass/frontend/products/show.scss");
+__webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\announcements\show.scss */"./resources/sass/frontend/announcements/show.scss");
 module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\backend\backend.scss */"./resources/sass/backend/backend.scss");
 
 

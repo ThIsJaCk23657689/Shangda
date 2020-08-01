@@ -24,6 +24,7 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/frontend/index.scss', 'public/css/frontend')
     .sass('resources/sass/frontend/products/index.scss', 'public/css/frontend/products')
     .sass('resources/sass/frontend/products/show.scss', 'public/css/frontend/products')
+    .sass('resources/sass/frontend/announcements/show.scss', 'public/css/frontend/announcements')
     .options({
         processCssUrls: false,
     });

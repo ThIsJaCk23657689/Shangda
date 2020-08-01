@@ -5,6 +5,7 @@
     "/css/frontend/index.css": "/css/frontend/index.css",
     "/css/frontend/products/index.css": "/css/frontend/products/index.css",
     "/css/frontend/products/show.css": "/css/frontend/products/show.css",
+    "/css/frontend/announcements/show.css": "/css/frontend/announcements/show.css",
     "/css/backend.css": "/css/backend.css",
     "/js/backend.js": "/js/backend.js",
     "/js/consumers/create.js": "/js/consumers/create.js",

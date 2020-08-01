@@ -51,39 +51,39 @@ section.header .bg-image {
   background-image: url(../../../../public/images/background/product.jpg);
 }
 
-section.product-detail {
+section.product-detail-section {
   width: 100%;
   position: relative;
   background-color: #efefef;
 }
-section.product-detail .container {
+section.product-detail-section .container {
   max-width: 1300px;
 }
-section.product-detail .product-detail-container {
+section.product-detail-section .product-detail-container {
   padding: 35px;
   height: auto;
 }
-section.product-detail .product-detail-container .product-detail-row {
+section.product-detail-section .product-detail-container .product-detail-row {
   width: 100%;
   height: 100%;
 }
-section.product-detail .product-detail-container .product-detail-row .product-left {
+section.product-detail-section .product-detail-container .product-detail-row .product-left {
   margin: auto;
   padding-top: 20px;
 }
-section.product-detail .product-detail-container .product-detail-row .product-left .sp-wrap {
+section.product-detail-section .product-detail-container .product-detail-row .product-left .sp-wrap {
   display: inline-block;
   max-width: 100%;
   box-shadow: rgba(0, 0, 0, 0.2) 5px 5px 5px 5px;
   background-color: white;
   border: 0;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right {
+section.product-detail-section .product-detail-container .product-detail-row .product-right {
   padding: 20px 20px;
   color: black;
   position: relative;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn {
+section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn {
   position: absolute;
   right: 0;
   width: 90px;
@@ -92,32 +92,32 @@ section.product-detail .product-detail-container .product-detail-row .product-ri
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn a {
+section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a {
   display: block;
   width: 100%;
   height: 100%;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn a .row {
+section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a .row {
   width: 100%;
   margin: 0;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn a img {
+section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a img {
   width: 60%;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right .product-cart-btn a span {
+section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a span {
   width: 100%;
   text-align: center;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right .product-info {
+section.product-detail-section .product-detail-container .product-detail-row .product-right .product-info {
   width: 100%;
   height: 100%;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right .product-info .row {
+section.product-detail-section .product-detail-container .product-detail-row .product-right .product-info .row {
   margin: 0;
 }
-section.product-detail .product-detail-container .product-detail-row .product-right .product-info .row p {
+section.product-detail-section .product-detail-container .product-detail-row .product-right .product-info .row p {
   margin-bottom: 15px;
 }

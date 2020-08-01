@@ -24,7 +24,8 @@
 <div id="product-detail">
     <span id="getOnePictures" style="display: none;">{{ route('front.products.getOnePictures', [$product->id]) }}</span>
 
-    <section class="product-detail" >
+    <section class="product-detail-section" >
+        <span id="getOnePictures" style="display: none;">{{ route('front.products.getOnePictures', [$product->id]) }}</span>
         <div class="container product-detail-container">
             <div class="row product-detail-row">
                 <div class="col-md-6 product-left">
