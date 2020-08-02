@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "sweetalert2": "^9.17.1",
+        "vue-product-zoomer": "^3.0.1",
         "vuejs-datepicker": "^1.6.2"
     }
 }

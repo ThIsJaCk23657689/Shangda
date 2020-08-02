@@ -83,7 +83,42 @@ class ProductService extends BaseService
 
     public function getOne($id){
         $product = ProductEloquent::withTrashed()->find($id);
+        $product_pictures = $product->pictures;
+        if($product_pictures){
+            $product_images = [];
+            $c = 1;
+            foreach($product_pictures as $product_picture){
+                $product_images[] = $product->showPicture($c);
+                $c ++;
+            }
+        }
+
+        $product->imgs = $product_images;
+
+
         return $product;
+    }
+
+    public function getOnePictures($id){
+        $product = ProductEloquent::withTrashed()->find($id);
+        $product_pictures = $product->pictures;
+        if($product_pictures){
+            $product_images = [];
+            $c = 1;
+            foreach($product_pictures as $product_picture){
+                $product_image = [];
+                $product_image['id'] = $c;
+                $product_image['url'] = $product->showPicture($c);
+                $product_images[$c-1] = $product_image;
+                $c ++;
+            }
+
+
+            return ['images' => $product_images, 'status' => 200];
+        }else{
+            return ['message' => 'Something wrong', 'status' => 400];
+        }
+
     }
 
     public function update($request, $id){

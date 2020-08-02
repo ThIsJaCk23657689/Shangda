@@ -1,11 +1,11 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-    <script src="{{ asset('js/products/create.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/products/create.js') }}" defer></script> --}}
 @endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('Stuffs Management') }}</a>
@@ -153,16 +153,16 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="comment">備註</label>
-                        <textarea id="comment" name="comment" type="text" class="form-control" value="{{ $product->comment }}" readonly></textarea>               
+                        <textarea id="comment" name="comment" type="text" class="form-control" value="{{ $product->comment }}" readonly></textarea>
                     </div>
                 </div>
             </div>
-            
+
             <hr>
-            
+
             <div class="row justify-content-center">
                 <div class="col-md-12">
-            
+
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -192,40 +192,40 @@
                             @endforeach
                         </tbody>
                     </table>
-            
+
                     <hr>
-            
+
                     <div class="row">
-            
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="totalCost">總成本價</label>
                                 <input id="totalCost" name="totalCost" type="text" class="form-control mb-2" value="{{ $product->costprice }}" readonly>
                             </div>
                         </div>
-            
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="profit">
                                     <span class="text-danger mr-2">*</span>利潤
                                 </label>
-            
+
                                 <input id="profit" name="profit" type="text" class="form-control mb-2" value="{{ $product->profit }}" readonly>
                             </div>
                         </div>
-            
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="retailPrice">零售價</label>
                                 <input id="retailPrice" name="retailPrice" type="text" class="form-control" value="{{ $product->retailPrice }}" readonly>
                             </div>
                         </div>
-            
+
                     </div>
-                    
+
                 </div>
             </div>
-            
+
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
                     <a href="{{ route('products.index') }}" class="btn btn-block btn-danger">
@@ -235,5 +235,5 @@
             </div>
         </div>
     </div>
-	
+
 @endsection

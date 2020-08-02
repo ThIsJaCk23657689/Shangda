@@ -47,4 +47,14 @@ class ProductController extends Controller
         $product = $this->ProductService->getOne($id);
         return view('frontend.products.show', compact('product'));
     }
+
+    public function getOnePictures($id)
+    {
+        $res = $this->ProductService->getOnePictures($id);
+
+        return response()->json([
+            'status' => $res['status'],
+            'images' => $res['images'],
+        ], $res['status']);
+    }
 }
