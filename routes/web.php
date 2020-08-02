@@ -21,7 +21,7 @@ Route::get('/', 'HomeController@index')->name('index');
 Route::get('/old', 'HomeController@old')->name('old');
 // 前台路由
     // 商品
-Route::get('/products', 'Frontend\ProductController@index')->name('front.products');
+Route::get('/products', 'Frontend\ProductController@index')->name('front.products.index');
 Route::post('/products', 'Frontend\ProductController@list');
 Route::get('/products/{id}', 'Frontend\ProductController@show')->name('front.products.show');
     // 最新消息

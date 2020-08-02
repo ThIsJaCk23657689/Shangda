@@ -1,4 +1,19 @@
-div#app {
+html, body {
+  font-size: 16px !important;
+}
+
+.panel .sections .menu {
+  margin-bottom: 6px;
+}
+
+footer .container {
+  height: auto !important;
+}
+footer .container p {
+  font-size: 16px;
+}
+
+div.wrapper {
   margin: 0;
   padding: 0;
 }
@@ -43,38 +58,257 @@ section.header .container {
 section.header .container .title {
   font-weight: bold;
   letter-spacing: 8px;
-  font-size: 7rem;
+  font-size: 3.5rem;
   text-shadow: 0.1em 0.1em 0.2em black;
+}
+
+.content-paginate-container {
+  position: relative;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  width: 100%;
+  height: 2.3rem;
+  margin-top: 18px;
+  margin-bottom: 30px;
+}
+@media (max-width: 439px) {
+  .content-paginate-container {
+    margin-top: 0px;
+  }
+}
+.content-paginate-container .content-paginate {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.content-paginate-container .content-paginate li {
+  display: block;
+  width: 60px;
+  height: 2rem;
+  color: #003677;
+  float: left;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-transition: color 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
+}
+@media (max-width: 767px) {
+  .content-paginate-container .content-paginate li {
+    width: 40px;
+    font-size: 1rem;
+  }
+}
+@media (max-width: 439px) {
+  .content-paginate-container .content-paginate li {
+    width: 30px;
+    font-size: 0.8rem;
+  }
+}
+@media (max-width: 329px) {
+  .content-paginate-container .content-paginate li {
+    width: 25px;
+  }
+}
+.content-paginate-container .content-paginate li:hover {
+  color: #6bd2f9;
+}
+.content-paginate-container .content-paginate li span {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.content-paginate-container .content-paginate li span.activated {
+  color: #6bd2f9;
+  cursor: default;
+}
+.content-paginate-container .content-paginate li.disabled {
+  cursor: default;
+}
+.content-paginate-container .content-paginate li.disabled:hover {
+  color: #003677;
+}
+
+.filter-row {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.filter-row .filter-dropbox-container {
+  width: 100%;
+}
+.filter-row .filter-dropbox {
+  letter-spacing: 3px;
+  height: 56px;
+  border-radius: 10px;
+  padding: 10px 15px;
+}
+.filter-row .filter-search {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px 0px 5px 15px;
+  position: relative;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  flex-wrap: nowrap;
+  -webkit-box-align: center;
+          align-items: center;
+}
+@media (max-width: 767px) {
+  .filter-row .filter-search {
+    margin-bottom: 10px;
+  }
+}
+.filter-row .filter-search .search-icon {
+  display: inline-block;
+  width: 34px;
+  height: 30px;
+  color: #000;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-align: center;
+          align-items: center;
+}
+.filter-row .filter-search .search-input {
+  display: inline-block;
+  width: calc(100% - 135px);
+  border: none;
+  padding: 0;
+}
+.filter-row .filter-search .search-button {
+  color: black;
+  display: inline-block;
+  width: 75px;
+  text-align: center;
+  border-left: 2px solid #003677;
+  font-weight: bold;
+}
+.filter-row .filter-search .search-button:hover {
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  .filter-row .search-div {
+    -webkit-box-ordinal-group: 4;
+            order: 3;
+  }
 }
 
 section.header .bg-image {
   background-image: url(../../../../public/images/background/product.jpg);
 }
 
-section.product-list {
+section.product-content {
   width: 100%;
   position: relative;
   background-color: #efefef;
 }
-#make-3D-space {
+section.product-content .container .product-list {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-pack: start;
+          justify-content: flex-start;
+  color: black;
+}
+
+.make-3D-space {
+  width: 33.3333333%;
+  height: 500px;
   position: relative;
   -webkit-perspective: 800px;
           perspective: 800px;
-  width: 340px;
-  height: 500px;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
   -webkit-transition: -webkit-transform 5s;
   transition: -webkit-transform 5s;
   transition: transform 5s;
   transition: transform 5s, -webkit-transform 5s;
-  position: absolute;
-  top: 80px;
-  left: 50%;
-  margin-left: -167px;
+  margin-bottom: 30px;
 }
-
-#product-front, #product-back {
+.make-3D-space .product-card {
+  width: 325px;
+  height: 490px;
+  position: absolute;
+  top: 10px;
+  left: calc((100% - 325px) / 2);
+  overflow: hidden;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: 100ms ease-out;
+  transition: 100ms ease-out;
+}
+.make-3D-space .product-card.animate {
+  top: 5px;
+  left: calc((100% - 335px) / 2);
+  width: 335px;
+  height: 500px;
+  box-shadow: 0px 13px 21px -5px rgba(0, 0, 0, 0.3);
+  -webkit-transition: 100ms ease-out;
+  transition: 100ms ease-out;
+}
+.make-3D-space .product-card.animate .stats-container {
+  top: 272px;
+  -webkit-transition: all 200ms ease-out;
+  transition: all 200ms ease-out;
+}
+.make-3D-space .product-card.animate .image_overlay {
+  opacity: 0.7;
+  -webkit-transition: all 200ms ease-out;
+  transition: all 200ms ease-out;
+}
+.make-3D-space .product-card.animate .view_details {
+  opacity: 1;
+  width: 152px;
+  font-size: 15px;
+  margin-left: -75px;
+  top: 115px;
+  -webkit-transition: all 200ms ease-out;
+  transition: all 200ms ease-out;
+}
+.make-3D-space .product-card.animate .product-back, .make-3D-space .product-card.animate .product-front {
+  top: 0px;
+  left: 0px;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+.make-3D-space .product-card.flip-10 {
+  -webkit-transform: rotateY(-10deg);
+  transform: rotateY(-10deg);
+  -webkit-transition: 50ms ease-out;
+  transition: 50ms ease-out;
+}
+.make-3D-space .product-card.flip90 {
+  -webkit-transform: rotateY(90deg);
+  transform: rotateY(90deg);
+  -webkit-transition: 100ms ease-in;
+  transition: 100ms ease-in;
+}
+.make-3D-space .product-card.flip190 {
+  -webkit-transform: rotateY(190deg);
+  transform: rotateY(190deg);
+  -webkit-transition: 100ms ease-out;
+  transition: 100ms ease-out;
+}
+.make-3D-space .product-card.flip180 {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  -webkit-transition: 150ms ease-out;
+  transition: 150ms ease-out;
+}
+.make-3D-space .product-card .product-front, .make-3D-space .product-card .product-back {
   width: 335px;
   height: 500px;
   background: #fff;
@@ -84,106 +318,53 @@ section.product-list {
   -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
-
-#product-back {
+.make-3D-space .product-card .product-back {
   display: none;
   -webkit-transform: rotateY(180deg);
           transform: rotateY(180deg);
 }
-
-#product-card.animate #product-back, #product-card.animate #product-front {
-  top: 0px;
-  left: 0px;
-  -webkit-transition: all 100ms ease-out;
-  transition: all 100ms ease-out;
-}
-
-#product-card {
-  width: 325px;
-  height: 490px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  overflow: hidden;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-  -webkit-transition: 100ms ease-out;
-  transition: 100ms ease-out;
-}
-
-div#product-card.flip-10 {
-  -webkit-transform: rotateY(-10deg);
-  transform: rotateY(-10deg);
-  -webkit-transition: 50ms ease-out;
-  transition: 50ms ease-out;
-}
-
-div#product-card.flip90 {
-  -webkit-transform: rotateY(90deg);
-  transform: rotateY(90deg);
-  -webkit-transition: 100ms ease-in;
-  transition: 100ms ease-in;
-}
-
-div#product-card.flip190 {
-  -webkit-transform: rotateY(190deg);
-  transform: rotateY(190deg);
-  -webkit-transition: 100ms ease-out;
-  transition: 100ms ease-out;
-}
-
-div#product-card.flip180 {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-  -webkit-transition: 150ms ease-out;
-  transition: 150ms ease-out;
-}
-
-#product-card.animate {
-  top: 5px;
-  left: 5px;
-  width: 335px;
-  height: 500px;
-  box-shadow: 0px 13px 21px -5px rgba(0, 0, 0, 0.3);
-  -webkit-transition: 100ms ease-out;
-  transition: 100ms ease-out;
+.make-3D-space .product-card .product-back div.shadow {
+  z-index: 10;
+  opacity: 1;
+  background-color: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+  background-color: -o-linear-gradient(right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+  background-color: -moz-linear-gradient(right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+  background-color: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
 }
 
 .stats-container {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 300px;
+  padding: 15px 24px 35px;
   background: #fff;
   position: absolute;
   top: 386px;
   left: 0;
-  width: 100%;
-  height: 300px;
-  padding: 27px 35px 35px;
   -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
-
-#product-card.animate .stats-container {
-  top: 272px;
-  -webkit-transition: all 200ms ease-out;
-  transition: all 200ms ease-out;
+.stats-container .product_price {
+  color: #48cfad;
+  font-size: 22px;
+  font-weight: 600;
+  padding-bottom: 6px;
 }
-
 .stats-container .product_name {
   font-size: 22px;
   color: #393c45;
+  padding-bottom: 20px;
 }
-
 .stats-container p {
   font-size: 16px;
   color: #b1b1b3;
   padding: 2px 0 20px 0;
   margin: 0;
-}
-
-.stats-container .product_price {
-  float: right;
-  color: #48cfad;
-  font-size: 22px;
-  font-weight: 600;
 }
 
 .image_overlay {
@@ -196,22 +377,14 @@ div#product-card.flip180 {
   opacity: 0;
 }
 
-#product-card.animate .image_overlay {
-  opacity: 0.7;
-  -webkit-transition: all 200ms ease-out;
-  transition: all 200ms ease-out;
-}
-
 .product-options {
   padding: 2px 0 0;
 }
-
 .product-options strong {
   font-weight: 700;
   color: #393c45;
   font-size: 14px;
 }
-
 .product-options span {
   color: #969699;
   font-size: 14px;
@@ -219,7 +392,7 @@ div#product-card.flip180 {
   margin-bottom: 8px;
 }
 
-#view_details {
+.view_details {
   position: absolute;
   top: 112px;
   left: 50%;
@@ -236,21 +409,10 @@ div#product-card.flip180 {
   -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
-
-#view_details:hover {
+.view_details:hover {
   background: #fff;
   color: #48cfad;
   cursor: pointer;
-}
-
-#product-card.animate #view_details {
-  opacity: 1;
-  width: 152px;
-  font-size: 15px;
-  margin-left: -75px;
-  top: 115px;
-  -webkit-transition: all 200ms ease-out;
-  transition: all 200ms ease-out;
 }
 
 div.colors div {
@@ -260,14 +422,12 @@ div.colors div {
   margin-right: 5px;
   float: left;
 }
-
 div.colors div span {
   width: 15px;
   height: 15px;
   display: block;
   border-radius: 50%;
 }
-
 div.colors div span:hover {
   width: 17px;
   height: 17px;
@@ -302,18 +462,13 @@ div.shadow {
   left: 0;
   z-index: 3;
   display: none;
-  background: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.1)), to(rgba(0, 0, 0, 0.2)));
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+  background-color: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+  background-color: -o-linear-gradient(right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+  background-color: -moz-linear-gradient(right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+  background-color: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
 }
 
-#product-back div.shadow {
-  z-index: 10;
-  opacity: 1;
-  background: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.2)), to(rgba(0, 0, 0, 0.1)));
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
-}
-
-#flip-back {
+.flip-back {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -321,8 +476,13 @@ div.shadow {
   height: 30px;
   cursor: pointer;
 }
+.flip-back:hover .cx, .flip-back:hover .cy {
+  background: #979ca7;
+  -webkit-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
 
-#cx, #cy {
+.cx, .cy {
   background: #d2d5dc;
   position: absolute;
   width: 0px;
@@ -332,49 +492,39 @@ div.shadow {
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
 }
-
-#flip-back:hover #cx, #flip-back:hover #cy {
-  background: #979ca7;
-  -webkit-transition: all 250ms ease-in-out;
-  transition: all 250ms ease-in-out;
-}
-
-#cx.s1, #cy.s1 {
+.cx.s1, .cy.s1 {
   right: 0;
   width: 30px;
   -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 
-#cy.s2 {
+.cy.s2 {
   -webkit-transform: rotate(50deg);
   transform: rotate(50deg);
   -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
-
-#cy.s3 {
+.cy.s3 {
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
   -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 
-#cx.s1 {
+.cx.s1 {
   right: 0;
   width: 30px;
   -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
-
-#cx.s2 {
+.cx.s2 {
   -webkit-transform: rotate(140deg);
   transform: rotate(140deg);
   -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
-
-#cx.s3 {
+.cx.s3 {
   -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
   -webkit-transition: all 100ease-out;
@@ -382,27 +532,24 @@ div.shadow {
   transition: all 100ms ease-out;
 }
 
-#carousel {
+.carousel {
   width: 335px;
   height: 500px;
   overflow: hidden;
   position: relative;
 }
-
-#carousel ul {
+.carousel ul {
   position: absolute;
   top: 0;
   left: 0;
 }
-
-#carousel li {
+.carousel ul li {
   width: 335px;
   height: 500px;
   float: left;
   overflow: hidden;
 }
-
-.arrows-perspective {
+.carousel .arrows-perspective {
   width: 335px;
   height: 55px;
   position: absolute;
@@ -416,8 +563,7 @@ div.shadow {
   -webkit-perspective: 335px;
           perspective: 335px;
 }
-
-.carouselPrev, .carouselNext {
+.carousel .arrows-perspective .carouselPrev, .carousel .arrows-perspective .carouselNext {
   width: 50px;
   height: 55px;
   background: #ccc;
@@ -428,46 +574,7 @@ div.shadow {
   opacity: 0.9;
   cursor: pointer;
 }
-
-.carouselNext {
-  top: 0;
-  right: -26px;
-  -webkit-transform: rotateY(-117deg);
-  transform: rotateY(-117deg);
-  -webkit-transition: all 200ms ease-out;
-  transition: all 200ms ease-out;
-}
-
-.carouselNext.visible {
-  right: 0;
-  opacity: 0.8;
-  background: #efefef;
-  -webkit-transform: rotateY(0deg);
-  transform: rotateY(0deg);
-  -webkit-transition: all 200ms ease-out;
-  transition: all 200ms ease-out;
-}
-
-.carouselPrev {
-  left: -26px;
-  top: 0;
-  -webkit-transform: rotateY(117deg);
-  transform: rotateY(117deg);
-  -webkit-transition: all 200ms ease-out;
-  transition: all 200ms ease-out;
-}
-
-.carouselPrev.visible {
-  left: 0;
-  opacity: 0.8;
-  background: #eee;
-  -webkit-transform: rotateY(0deg);
-  transform: rotateY(0deg);
-  -webkit-transition: all 200ms ease-out;
-  transition: all 200ms ease-out;
-}
-
-#carousel .x, #carousel .y {
+.carousel .arrows-perspective .carouselPrev .x, .carousel .arrows-perspective .carouselPrev .y, .carousel .arrows-perspective .carouselNext .x, .carousel .arrows-perspective .carouselNext .y {
   height: 2px;
   width: 15px;
   background: #48cfad;
@@ -477,19 +584,50 @@ div.shadow {
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-
-#carousel .x {
+.carousel .arrows-perspective .carouselPrev .x, .carousel .arrows-perspective .carouselNext .x {
   -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
   top: 21px;
 }
-
-#carousel .carouselNext .x {
+.carousel .arrows-perspective .carouselPrev {
+  left: -26px;
+  top: 0;
+  -webkit-transform: rotateY(117deg);
+  transform: rotateY(117deg);
+  -webkit-transition: all 200ms ease-out;
+  transition: all 200ms ease-out;
+}
+.carousel .arrows-perspective .carouselPrev.visible {
+  left: 0;
+  opacity: 0.8;
+  background: #eee;
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+  -webkit-transition: all 200ms ease-out;
+  transition: all 200ms ease-out;
+}
+.carousel .arrows-perspective .carouselNext {
+  top: 0;
+  right: -26px;
+  -webkit-transform: rotateY(-117deg);
+  transform: rotateY(-117deg);
+  -webkit-transition: all 200ms ease-out;
+  transition: all 200ms ease-out;
+}
+.carousel .arrows-perspective .carouselNext.visible {
+  right: 0;
+  opacity: 0.8;
+  background: #efefef;
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+  -webkit-transition: all 200ms ease-out;
+  transition: all 200ms ease-out;
+}
+.carousel .arrows-perspective .carouselNext .x {
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-
-#carousel .carouselNext .y {
+.carousel .arrows-perspective .carouselNext .y {
   -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
 }

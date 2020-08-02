@@ -55067,7 +55067,7 @@ window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
+var navbar = new Vue({
   el: '#app',
   methods: {
     easyPeasyParallax: function easyPeasyParallax() {

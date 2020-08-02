@@ -1,110 +1,72 @@
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('product-filter', require('../../components/Frontend/Products/ProductFilter.vue').default);
+Vue.component('product-container', require('../../components/Frontend/Products/ProductContainer.vue').default);
+Vue.component('product-card', require('../../components/Frontend/Products/ProductCard.vue').default);
+Vue.component('content-paginate', require('../../components/Frontend/Partials/ContentPaginate.vue').default);
 
 const contnet = new Vue({
-    el: '#app',
-    methods:{
+    el: '#product',
+    data() {
+        return {
+            products: [],
+            filter: {
+                type: 0,
+                keyword: '',
+                order: 0,
+            },
 
+            totalcount: 0,
+            currentPage: 1,
+            totalPage: 0,
+        }
+    },
+    methods:{
+        getProducts(firstPage = 0) {
+            $.showLoadingModal();
+
+            if(firstPage == 1 || this.currentPage == 0){
+                this.currentPage = 1;
+            }
+
+            let url = $('#GetProductsList').text();
+            axios.post(url, {
+                skip: (this.currentPage - 1) * 4,
+                type: this.filter.type,
+                keywords: this.filter.keyword,
+                orderBy: this.filter.order,
+                firstPage: firstPage,
+                status: 1
+            }).then(response => {
+                this.products = response.data.products;
+                this.totalcount = response.data.totalcount;
+                this.totalPage = Math.ceil(this.totalcount / 20);
+                if(this.totalcount == 0){
+                    this.currentPage = 0;
+                }
+                $.closeModal();
+            }).catch(error => {
+                console.log('抓取商品資料時錯誤。');
+                $.showErrorModal(error);
+            });
+        },
+        refreshProduct(firstPage){
+            this.getProducts(firstPage);
+            this.goBackToTop();
+        },
+        goBackToTop(){
+            $('html, body').animate({
+                scrollTop: 440
+            }, 500);
+        },
+        chagePage(value) {
+            this.currentPage = value;
+            this.getProducts();
+            this.goBackToTop();
+        },
     },
     created() {
-        
+        this.getProducts();
     },
     mounted(){
-        // Lift card and show stats on Mouseover
-        $('#product-card').hover(function(){
-            $(this).addClass('animate');
-            $('div.carouselNext, div.carouselPrev').addClass('visible');			
-        }, function(){
-            $(this).removeClass('animate');			
-            $('div.carouselNext, div.carouselPrev').removeClass('visible');
-        });	
-
-        // Flip card to the back side
-        $('#view_details').click(function(){		
-            $('div.carouselNext, div.carouselPrev').removeClass('visible');
-            $('#product-card').addClass('flip-10');
-            setTimeout(function(){
-                $('#product-card').removeClass('flip-10').addClass('flip90').find('div.shadow').show().fadeTo( 80 , 1, function(){
-                    $('#product-front, #product-front div.shadow').hide();			
-                });
-            }, 50);
-            
-            setTimeout(function(){
-                $('#product-card').removeClass('flip90').addClass('flip190');
-                $('#product-back').show().find('div.shadow').show().fadeTo( 90 , 0);
-                setTimeout(function(){				
-                    $('#product-card').removeClass('flip190').addClass('flip180').find('div.shadow').hide();						
-                    setTimeout(function(){
-                        $('#product-card').css('transition', '100ms ease-out');			
-                        $('#cx, #cy').addClass('s1');
-                        setTimeout(function(){$('#cx, #cy').addClass('s2');}, 100);
-                        setTimeout(function(){$('#cx, #cy').addClass('s3');}, 200);				
-                        $('div.carouselNext, div.carouselPrev').addClass('visible');				
-                    }, 100);
-                }, 100);			
-            }, 150);			
-        });			
-
-        // Flip card back to the front side
-        $('#flip-back').click(function(){		
-            
-            $('#product-card').removeClass('flip180').addClass('flip190');
-            setTimeout(function(){
-                $('#product-card').removeClass('flip190').addClass('flip90');
-
-                $('#product-back div.shadow').css('opacity', 0).fadeTo( 100 , 1, function(){
-                    $('#product-back, #product-back div.shadow').hide();
-                    $('#product-front, #product-front div.shadow').show();
-                });
-            }, 50);
-            
-            setTimeout(function(){
-                $('#product-card').removeClass('flip90').addClass('flip-10');
-                $('#product-front div.shadow').show().fadeTo( 100 , 0);
-                setTimeout(function(){						
-                    $('#product-front div.shadow').hide();
-                    $('#product-card').removeClass('flip-10').css('transition', '100ms ease-out');		
-                    $('#cx, #cy').removeClass('s1 s2 s3');			
-                }, 100);			
-            }, 150);			
-            
-        });	
-
-
-        /* ----  Image Gallery Carousel   ---- */
-
-        var carousel = $('#carousel ul');
-        var carouselSlideWidth = 335;
-        var carouselWidth = 0;	
-        var isAnimating = false;
-
-        // building the width of the casousel
-        $('#carousel li').each(function(){
-            carouselWidth += carouselSlideWidth;
-        });
-        $(carousel).css('width', carouselWidth);
-
-        // Load Next Image
-        $('div.carouselNext').on('click', function(){
-            var currentLeft = Math.abs(parseInt($(carousel).css("left")));
-            var newLeft = currentLeft + carouselSlideWidth;
-            if(newLeft == carouselWidth || isAnimating === true){return;}
-            $('#carousel ul').css({'left': "-" + newLeft + "px",
-                                "transition": "300ms ease-out"
-                                });
-            isAnimating = true;
-            setTimeout(function(){isAnimating = false;}, 300);			
-        });
-
-        // Load Previous Image
-        $('div.carouselPrev').on('click', function(){
-            var currentLeft = Math.abs(parseInt($(carousel).css("left")));
-            var newLeft = currentLeft - carouselSlideWidth;
-            if(newLeft < 0  || isAnimating === true){return;}
-            $('#carousel ul').css({'left': "-" + newLeft + "px",
-                                "transition": "300ms ease-out"
-                                });
-            isAnimating = true;
-            setTimeout(function(){isAnimating = false;}, 300);			
-        });
+        
     }
 });

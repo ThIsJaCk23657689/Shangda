@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -37,7 +38,7 @@ class ProductController extends Controller
 
         return response()->json([
             'status' => 'OK',
-            'DataTotalCount' => $res['count'],
+            'totalcount' => $res['count'],
             'products' => $res['products'],
         ]);
     }

@@ -14,7 +14,7 @@
         <div class="center">
             <ul class="menu uppercase">
                 <li><a href="#">{{ __('About') }}</a></li>
-                <li><a href="#">{{ __('Products') }}</a></li>
+                <li><a href="{{ route('front.products.index') }}">{{ __('Products') }}</a></li>
                 <li><a href="#">{{ __('News') }}</a></li>
                 <li><a href="#">{{ __('Location') }}</a></li>
                 <li><a href="#">{{ __('Contact') }}</a></li>

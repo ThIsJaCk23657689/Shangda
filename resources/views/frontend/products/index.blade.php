@@ -17,72 +17,16 @@
         <div class="bg-gray"></div>
     </section>
 
-    <section class="product-list">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-3">
+    <section class="product-content">
+        <div id="product" class="container">
 
-                        <div id="make-3D-space">
-                            <div id="product-card">
-                                <div id="product-front">
-                                    <div class="shadow"></div>
-                                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt.png" alt="" />
-                                    <div class="image_overlay"></div>
-                                    <div id="view_details">View details</div>
-                                    <div class="stats">        	
-                                        <div class="stats-container">
-                                            <span class="product_price">$39</span>
-                                            <span class="product_name">Adidas Originals</span>    
-                                            <p>Men's running shirt</p>                                            
-                                            
-                                            <div class="product-options">
-                                                <strong>SIZES</strong>
-                                                <span>XS, S, M, L, XL, XXL</span>
-                                                <strong>COLORS</strong>
-                                                <div class="colors">
-                                                    <div class="c-blue"><span></span></div>
-                                                    <div class="c-red"><span></span></div>
-                                                    <div class="c-white"><span></span></div>
-                                                    <div class="c-green"><span></span></div>
-                                                </div>
-                                            </div>                       
-                                        </div>                         
-                                    </div>
-                                </div>
-                                <div id="product-back">
-                                    <div class="shadow"></div>
-                                    <div id="carousel">
-                                        <ul>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large.png" alt="" /></li>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large2.png" alt="" /></li>
-                                            <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large3.png" alt="" /></li>
-                                        </ul>
-                                        <div class="arrows-perspective">
-                                            <div class="carouselPrev">
-                                                <div class="y"></div>
-                                                <div class="x"></div>
-                                            </div>
-                                            <div class="carouselNext">
-                                                <div class="y"></div>
-                                                <div class="x"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="flip-back">
-                                        <div id="cy"></div>
-                                        <div id="cx"></div>
-                                    </div>
-                                </div>	  
-                            </div>	
-                        </div>
+            <span id="GetProductsList" class="d-none">{{ route('front.products.index') }}</span>
+            
+            <product-filter :filter="filter" v-on:refresh-product="refreshProduct"></product-filter>
 
-                    </div>
-                </div>
-            </div>
+            <product-container :products="products"></product-container>
+            <content-paginate :current-page="currentPage" :total-page="totalPage" v-on:chage-page="chagePage"></content-paginate>
+
         </div>
     </section>
 

@@ -21,6 +21,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/welcome/slides.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('vendor/fontawesome/css/all.min.css') }}" rel="stylesheet" type='text/css'>
     
     <!-- Custom styles for this template-->
     @stack('CustomCSS')
@@ -36,12 +37,13 @@
 	@include('partials.frontend.welcome.sidebar')
 
 	<div id="content-wrapper">
+        <div id="app"></div>
 
-		<div id="app" class="container-fluid">
+		<div class="container-fluid wrapper">
 			@yield('content')
 		</div>
 
-		@include('partials.frontend.welcome.footer')
+		@include('partials.frontend.footer')
 	</div>
 
 </body>

@@ -29,7 +29,7 @@ window.Swal = Swal;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+const navbar = new Vue({
     el: '#app',
     methods:{
         easyPeasyParallax(){
