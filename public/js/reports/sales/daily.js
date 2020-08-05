@@ -208,7 +208,7 @@ var render = function() {
             _vm._s(_vm.filters.start_date) +
             " ~ " +
             _vm._s(_vm.filters.end_date) +
-            "\r\n        "
+            "\n        "
         )
       ]),
       _vm._v(" "),

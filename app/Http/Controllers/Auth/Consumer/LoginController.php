@@ -5,20 +5,29 @@ namespace App\Http\Controllers\Auth\Consumer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Services\ConsumerService;
 use Auth;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
-
+    public $ConsumerService;
     protected $redirectTo = '/';
 
     public function __construct(){
         $this->middleware('guest:api')->except('logout');
+        $this->ConsumerService = new ConsumerService();
     }
-    
+
+    // 客戶登入頁面
     public function showLoginForm(){
-        return view('consumers.login');
+        return view('frontend.consumers.login');
+    }
+
+    // 客戶個人資料頁面
+    public function showProfile($id){
+        $consumer = $this->ConsumerService->getOne($id);
+        return view('frontend.consumers.profile', compact('consumer'));
     }
 
     public function login(Request $request){
@@ -56,7 +65,7 @@ class LoginController extends Controller
 
     // 發送登入回應
     protected function sendLoginResponse(Request $request, $token){
-        
+
         $this->clearLoginAttempts($request);
 
         $cookie_token = 'Bearer ' . $token;
@@ -82,7 +91,7 @@ class LoginController extends Controller
             'status' => 0,
             'msg' => 'Logout Successfully',
         ]);
-    }  
+    }
 
     // 回傳帳號欄位
     public function username(){

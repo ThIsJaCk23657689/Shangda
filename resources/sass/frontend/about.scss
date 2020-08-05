@@ -1,0 +1,48 @@
+@import 'variables';
+@import 'content';
+section.header {
+    .bg-image {
+        background-image: url(../../../public/images/background/about.jpg)
+    }
+}
+
+section.about-detail {
+    width: 100%;
+    position: relative;
+    background-color: #efefef;
+    .container {
+        max-width: 1300px;
+    }
+    .about-detail-container {
+        color: black;
+        padding: 50px 90px;
+        height: auto;
+        .about-content {
+            padding: 50px 60px;
+            background-color: rgba(255, 255, 255, 0.8);
+            .about-info {
+                padding-left: 30px;
+                h2 {
+                    font-weight: bold;
+                    border-bottom: solid #003677;
+                    padding-bottom: 5px;
+                }
+                .upper_p {
+                    line-height: 45px;
+                    font-size: 1.3rem;
+                    letter-spacing: 2px;
+                }
+                .lower_p {
+                    line-height: 45px;
+                    font-size: 1.5rem;
+                    letter-spacing: 2px;
+                    margin: 0;
+                }
+            }
+            img {
+                box-shadow: rgba(0, 0, 0, 0.5) 8px 8px 8px;
+                border-radius: 10px;
+            }
+        }
+    }
+}

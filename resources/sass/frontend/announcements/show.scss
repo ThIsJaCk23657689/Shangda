@@ -33,17 +33,17 @@ section.announcement-detail {
         .announcement-title {
             height: 70px;
             margin-bottom: 10px;
-            border-bottom: solid #003677;
+            border-bottom: solid $blue;
         }
         .announcement-date {
-            font-size: 3rem;
+            font-size: 1.8rem;
             letter-spacing: 2px;
             margin-bottom: 30px;
         }
         .announcement-content {
             padding: 50px 60px;
             line-height: 40px;
-            font-size: 3rem;
+            font-size: 1.5rem;
             letter-spacing: 2px;
             background-color: rgba(255, 255, 255, 0.8);
             img {

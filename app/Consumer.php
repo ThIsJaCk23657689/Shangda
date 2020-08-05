@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Picture as PictureEloquent;
 use App\SaleOrder as SaleOrderEloquent;
 use App\Product as ProductEloquent;
+use URL;
 
 class Consumer extends Authenticatable implements JWTSubject
 {
@@ -90,5 +91,10 @@ class Consumer extends Authenticatable implements JWTSubject
     // 顯示送貨地址
     public function showDeliveryAddress(){
         return ($this->deliveryAddress_zipcode . $this->deliveryAddress_county . $this->deliveryAddress_district . $this->deliveryAddress_others)=="" ? '無' : ($this->deliveryAddress_zipcode . $this->deliveryAddress_county . $this->deliveryAddress_district . $this->deliveryAddress_others);
+    }
+
+    // 顯示性別
+    public function showGender(){
+        return ($this->gender) ? "男" : "女";
     }
 }

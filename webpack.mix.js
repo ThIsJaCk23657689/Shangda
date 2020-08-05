@@ -22,9 +22,13 @@ mix.js('resources/js/app.js', 'public/js')
 .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/welcome/slides.scss', 'public/css/welcome')
     .sass('resources/sass/frontend/index.scss', 'public/css/frontend')
+    .sass('resources/sass/frontend/about.scss', 'public/css/frontend')
+    .sass('resources/sass/frontend/contact.scss', 'public/css/frontend')
     .sass('resources/sass/frontend/products/index.scss', 'public/css/frontend/products')
     .sass('resources/sass/frontend/products/show.scss', 'public/css/frontend/products')
     .sass('resources/sass/frontend/announcements/show.scss', 'public/css/frontend/announcements')
+    .sass('resources/sass/frontend/consumers/login.scss', 'public/css/frontend/consumers')
+    .sass('resources/sass/frontend/consumers/profile.scss', 'public/css/frontend/consumers')
     .options({
         processCssUrls: false,
     });

@@ -30,6 +30,15 @@ Route::get('/announcements', 'Frontend\AnnouncementController@index')->name('fro
 Route::post('/announcements', 'Frontend\AnnouncementController@list');
 Route::get('/announcements/{id}', 'Frontend\AnnouncementController@show')->name('front.announcements.show');
 
+    // 關於我們
+Route::get('/about', 'HomeController@about')->name('front.about');
+    // 聯絡我們
+Route::get('/contact_us', 'HomeController@contact_us')->name('front.contact_us');
+
+    // 客戶登入相關(含訂單購物車等..)
+Route::get('/consumers/login', 'Auth\Consumer\LoginController@showLoginForm')->name('consumer.showLoginForm');
+Route::get('/consumers/profile/{id}', 'Auth\Consumer\LoginController@showProfile')->name('consumer.profile');
+
 // 後臺管理路由
 Route::prefix('/backend')->group(function(){
     Route::get('/', 'HomeController@backend')->name('backend');

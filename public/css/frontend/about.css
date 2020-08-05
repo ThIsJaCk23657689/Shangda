@@ -135,55 +135,46 @@ section.header .container .title {
 }
 
 section.header .bg-image {
-  background-image: url(../../../../public/images/background/product.jpg);
+  background-image: url(../../../public/images/background/about.jpg);
 }
 
-.full-height {
-  height: 100%;
-}
-
-.flex-center {
-  -webkit-box-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-pack: center;
-          justify-content: center;
-}
-
-.position-ref {
-  position: relative;
-}
-
-section.announcement-detail {
+section.about-detail {
   width: 100%;
   position: relative;
   background-color: #efefef;
 }
-section.announcement-detail .container {
+section.about-detail .container {
   max-width: 1300px;
 }
-section.announcement-detail .announcement-detail-container {
+section.about-detail .about-detail-container {
   color: black;
   padding: 50px 90px;
+  height: auto;
 }
-section.announcement-detail .announcement-detail-container .announcement-title {
-  height: 70px;
-  margin-bottom: 10px;
-  border-bottom: solid #003677;
-}
-section.announcement-detail .announcement-detail-container .announcement-date {
-  font-size: 1.8rem;
-  letter-spacing: 2px;
-  margin-bottom: 30px;
-}
-section.announcement-detail .announcement-detail-container .announcement-content {
+section.about-detail .about-detail-container .about-content {
   padding: 50px 60px;
-  line-height: 40px;
-  font-size: 1.5rem;
-  letter-spacing: 2px;
   background-color: rgba(255, 255, 255, 0.8);
 }
-section.announcement-detail .announcement-detail-container .announcement-content img {
-  margin-bottom: 10px;
+section.about-detail .about-detail-container .about-content .about-info {
+  padding-left: 30px;
+}
+section.about-detail .about-detail-container .about-content .about-info h2 {
+  font-weight: bold;
+  border-bottom: solid #003677;
+  padding-bottom: 5px;
+}
+section.about-detail .about-detail-container .about-content .about-info .upper_p {
+  line-height: 45px;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+section.about-detail .about-detail-container .about-content .about-info .lower_p {
+  line-height: 45px;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin: 0;
+}
+section.about-detail .about-detail-container .about-content img {
+  box-shadow: rgba(0, 0, 0, 0.5) 8px 8px 8px;
+  border-radius: 10px;
 }

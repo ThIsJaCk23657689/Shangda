@@ -1,0 +1,39 @@
+@import 'variables';
+@import 'content';
+section.header {
+    .bg-image {
+        background-image: url(../../../public/images/background/img-95.jpg)
+    }
+}
+
+section.about-detail {
+    width: 100%;
+    position: relative;
+    background-color: #efefef;
+    .container {
+        max-width: 1300px;
+    }
+    .about-detail-container {
+        color: black;
+        padding: 50px 90px;
+        height: auto;
+        .about-content {
+            padding: 50px 60px;
+            background-color: rgba(255, 255, 255, 0.8);
+            .contact-info {
+                h2 {
+                    font-weight: bold;
+                    border-bottom: solid #003677;
+                    padding-bottom: 5px;
+                    margin-bottom: 30px;
+                }
+            }
+            .contact-map {
+                iframe {
+                    box-shadow: rgba(0, 0, 0, 0.5) 8px 8px 8px;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}

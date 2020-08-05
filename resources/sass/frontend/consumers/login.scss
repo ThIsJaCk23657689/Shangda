@@ -1,0 +1,28 @@
+@import '../variables';
+@import '../content';
+section.header {
+    .bg-image {
+        background-image: url(../../../../public/images/background/img-14.jpg)
+    }
+}
+
+section.login-form {
+    width: 100%;
+    position: relative;
+    background-color: #efefef;
+    .container {
+        max-width: 1300px;
+    }
+    .login-container {
+        height: auto;
+        color: black;
+        padding: 50px 90px;
+        .login-content {
+            padding: 50px 60px;
+            line-height: 40px;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+    }
+}

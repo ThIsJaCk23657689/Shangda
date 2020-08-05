@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index');
+        $this->middleware('auth')->except('index', 'about', 'contact_us');
     }
 
     /**
@@ -31,5 +31,15 @@ class HomeController extends Controller
 
     public function backend(){
         return view('backend');
+    }
+
+    // 關於尚達頁面
+    public function about(){
+        return view('frontend.about');
+    }
+
+    // 聯絡我們頁面
+    public function contact_us(){
+        return view('frontend.contact_us');
     }
 }
