@@ -38,6 +38,9 @@ Route::get('/contact_us', 'HomeController@contact_us')->name('front.contact_us')
     // 客戶登入相關(含訂單購物車等..)
 Route::get('/consumers/login', 'Auth\Consumer\LoginController@showLoginForm')->name('consumer.showLoginForm');
 Route::get('/consumers/profile/{id}', 'Auth\Consumer\LoginController@showProfile')->name('consumer.profile');
+Route::get('/consumers/salesOrder/{consumer_id}', 'Auth\Consumer\LoginController@showSaleOrders')->name('consumer.showSaleOrders');
+Route::get('/consumers/salesOrder/{consumer_id}/{sale_orders_id}', 'Auth\Consumer\LoginController@showSaleOrderDetails')->name('consumer.showSaleOrderDetails');
+Route::post('/consumers/getSaleOrdersFrontend', 'Auth\Consumer\LoginController@getSaleOrdersFrontend')->name('consumer.getSaleOrdersFrontend');
 
 // 後臺管理路由
 Route::prefix('/backend')->group(function(){

@@ -18,6 +18,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/welcome/slides.js', 'public/js/welcome')
     .js('resources/js/frontend/products/index.js', 'public/js/frontend/products')
     .js('resources/js/frontend/products/show.js', 'public/js/frontend/products')
+    .js('resources/js/frontend/consumers/sale_orders.js', 'public/js/frontend/consumers')
 
 .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/welcome/slides.scss', 'public/css/welcome')
@@ -29,6 +30,8 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/frontend/announcements/show.scss', 'public/css/frontend/announcements')
     .sass('resources/sass/frontend/consumers/login.scss', 'public/css/frontend/consumers')
     .sass('resources/sass/frontend/consumers/profile.scss', 'public/css/frontend/consumers')
+    .sass('resources/sass/frontend/consumers/sale_orders.scss', 'public/css/frontend/consumers')
+    .sass('resources/sass/frontend/consumers/sale_order_details.scss', 'public/css/frontend/consumers')
     .options({
         processCssUrls: false,
     });

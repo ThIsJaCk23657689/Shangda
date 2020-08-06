@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Picture as PictureEloquent;
-use App\SaleOrder as SaleOrderEloquent;
+use App\SalesOrder as SalesOrderEloquent;
 use App\Product as ProductEloquent;
 use URL;
 
@@ -56,7 +56,7 @@ class Consumer extends Authenticatable implements JWTSubject
     }
 
     public function saleOrder(){
-        return $this->hasMany(SaleOrderEloquent::class);
+        return $this->hasMany(SalesOrderEloquent::class);
     }
 
     // 抓取此顧客有優惠的商品

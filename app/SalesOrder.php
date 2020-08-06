@@ -41,8 +41,35 @@ class SalesOrder extends Model
         return $this->hasMany(SalesOrderDetailEloquent::class);
     }
 
+    public function scopeOfStatus($query, $status){
+        switch($status){
+            // 0.所有訂單 1.未付款未出貨訂單 2.已付款未出貨訂單 3.未付款已出貨訂單 4.已完成訂單
+            case 0:
+                return $query;
+                break;
+            case 1:
+                return $query->whereNull('paid_at')->whereNull('delivered_at');
+                break;
+            case 2:
+                return $query->whereNotNull('paid_at')->whereNull('delivered_at');
+                break;
+            case 3:
+                return $query->whereNull('paid_at')->whereNotNull('delivered_at');
+                break;
+            case 4:
+                return $query->whereNotNull('paid_at')->whereNotNull('delivered_at');
+                break;
+            default:
+                return $query;
+        }
+    }
+
     public function showExpectDeliverAtDate(){
         return is_null($this->expectDeliver_at) ? '無' : $this->expectDeliver_at->format($this->dateFormat ?: 'Y-m-d');
+    }
+
+    public function showCreatedDate(){
+        return is_null($this->created_at) ? '無' : $this->created_at->format($this->dateFormat ?: 'Y-m-d');
     }
 
     public function showBeforePrice(){
@@ -68,5 +95,19 @@ class SalesOrder extends Model
 
     public function showInvoiceType(){
         return (config('shangda.invoice.' . $this->invoiceType)) ?? '未知編號：'. $this->invoiceType;
+    }
+
+    public function showSaleOrderStatus(){
+        if(!is_null($this->paid_at) && !is_null($this->delivered_at)){
+            $result = "訂單已完成";
+        }elseif(!is_null($this->paid_at) && is_null($this->delivered_at)){
+            $result = "訂單已付款，未出貨";
+        }elseif(is_null($this->paid_at) && !is_null($this->delivered_at)){
+            $result = "訂單已付款，未出貨";
+        }else{
+            $result = "訂單未付款，且未出貨";
+        }
+
+        return $result;
     }
 }

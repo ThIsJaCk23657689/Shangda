@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Consumer as ConsumerEloquent;
+use App\SalesOrder as SalesOrderEloquent;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -109,6 +110,42 @@ class ConsumerService extends BaseService
     {
         $consumer = ConsumerEloquent::withTrashed()->findOrFail($id);
         return $consumer;
+    }
+
+    public function getSaleOrdersFrontend($request)
+    {
+        if($request->firstPage == 1){
+            // 強制從第一頁開始。
+            $skip = 0;
+        }else{
+            // 看從第幾頁開始。
+            $skip = $request->skip ?? 0 ;
+        }
+
+        $take = 5;
+        $status = $request->status ?? 0;
+
+        $sale_orders = $this->getOne($request->consumer_id)->saleOrder()->ofStatus($status);
+        $count = $sale_orders->count();
+        $sale_orders = $sale_orders->skip($skip)->take($take)->get();
+
+        foreach($sale_orders as $sale_order){
+            $sale_order->showSaleOrderStatus = $sale_order->showSaleOrderStatus();
+            $sale_order->showCreatedDate = $sale_order->showCreatedDate();
+            $sale_order->showURL = route('consumer.showSaleOrderDetails', ['consumer_id' => $sale_order->consumer_id, 'sale_orders_id' => $sale_order->id]);
+
+        }
+
+        return [
+            'sale_orders' => $sale_orders,
+            'count' => $count
+        ];
+    }
+
+    public function getSaleOrderDetails($sale_orders_id)
+    {
+        $details = SalesOrderEloquent::findOrFail($sale_orders_id)->details;
+        return $details;
     }
 
     public function update($request, $id)

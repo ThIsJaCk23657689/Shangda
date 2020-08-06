@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Services\ConsumerService;
+use Illuminate\Validation\Rule;
 use Auth;
 
 class LoginController extends Controller
@@ -28,6 +29,37 @@ class LoginController extends Controller
     public function showProfile($id){
         $consumer = $this->ConsumerService->getOne($id);
         return view('frontend.consumers.profile', compact('consumer'));
+    }
+
+    // 客戶訂單index
+    public function showSaleOrders($consumer_id){
+        // $sale_orders = $this->ConsumerService->getOne($consumer_id)->saleOrder;
+        return view('frontend.consumers.sale_orders', compact('consumer_id'));
+    }
+
+    public function getSaleOrdersFrontend(Request $request){
+        $this->validate($request, [
+            'skip' => 'nullable| integer|',
+            'status' => [
+                'nullable',
+                Rule::in([1, 2, 3, 4, 0]), //type:(default) 0.所有訂單 1.未付款未出貨訂單 2.已付款未出貨訂單 3.未付款已出貨訂單 4.已完成訂單
+            ],
+            'consumer_id' => 'required'
+        ]);
+
+        $res = $this->ConsumerService->getSaleOrdersFrontend($request);
+
+        return response()->json([
+            'status' => 'OK',
+            'totalcount' => $res['count'],
+            'sale_orders' => $res['sale_orders'],
+        ]);
+    }
+
+    //  客戶訂單details
+    public function showSaleOrderDetails($consumer_id, $sale_orders_id){
+        $details = $this->ConsumerService->getSaleOrderDetails($sale_orders_id);
+        return view('frontend.consumers.sale_order_detail', compact('details'));
     }
 
     public function login(Request $request){
