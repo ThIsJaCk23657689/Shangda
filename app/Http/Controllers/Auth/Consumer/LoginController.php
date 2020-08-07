@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Services\ConsumerService;
+use App\Services\Orders\SalesOrderService;
 use Illuminate\Validation\Rule;
 use Auth;
 
@@ -13,11 +14,13 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
     public $ConsumerService;
+    public $SalesOrderService;
     protected $redirectTo = '/';
 
     public function __construct(){
         $this->middleware('guest:api')->except('logout');
         $this->ConsumerService = new ConsumerService();
+        $this->SalesOrderService = new SalesOrderService();
     }
 
     // 客戶登入頁面
@@ -59,7 +62,13 @@ class LoginController extends Controller
     //  客戶訂單details
     public function showSaleOrderDetails($consumer_id, $sale_orders_id){
         $details = $this->ConsumerService->getSaleOrderDetails($sale_orders_id);
-        return view('frontend.consumers.sale_order_detail', compact('details'));
+        $c = 1;
+        foreach($details as $detail){
+            $detail->index = $c;
+            $c++;
+        }
+        $sale_order = $this->SalesOrderService->getOne($sale_orders_id);
+        return view('frontend.consumers.sale_order_detail', compact('details', 'sale_order'));
     }
 
     public function login(Request $request){

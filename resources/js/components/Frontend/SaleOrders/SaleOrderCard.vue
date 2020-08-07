@@ -2,7 +2,7 @@
 <div class="sale-order-content">
     <div class="card">
         <div class="card-header">
-            <p><i class="fas fa-calendar-alt"></i> {{ saleOrder.showCreatedDate }}</p>
+            <p><i class="fas fa-calendar-alt"></i> {{ saleOrder.created_at }}</p>
         </div>
         <div class="card-body">
             <div class="row">
@@ -14,10 +14,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <p>訂單總額 : {{ saleOrder.totalTaxPrice }} 元</p>
                 </div>
+                <div class="col-md-6">
+                    <p>付款/出貨日期 : {{ saleOrder.showPaidAtDate }} / {{ saleOrder.showDeliverAtDate }}</p>
+                </div>
             </div>
+
             <a :href="saleOrder.showURL" class="btn btn-primary">查看訂單詳細資料</a>
         </div>
     </div>

@@ -252,6 +252,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['saleOrder'],
   data: function data() {
@@ -661,7 +665,7 @@ var render = function() {
       _c("div", { staticClass: "card-header" }, [
         _c("p", [
           _c("i", { staticClass: "fas fa-calendar-alt" }),
-          _vm._v(" " + _vm._s(_vm.saleOrder.showCreatedDate))
+          _vm._v(" " + _vm._s(_vm.saleOrder.created_at))
         ])
       ]),
       _vm._v(" "),
@@ -679,10 +683,21 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "col-md-6" }, [
             _c("p", [
               _vm._v(
                 "訂單總額 : " + _vm._s(_vm.saleOrder.totalTaxPrice) + " 元"
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("p", [
+              _vm._v(
+                "付款/出貨日期 : " +
+                  _vm._s(_vm.saleOrder.showPaidAtDate) +
+                  " / " +
+                  _vm._s(_vm.saleOrder.showDeliverAtDate)
               )
             ])
           ])

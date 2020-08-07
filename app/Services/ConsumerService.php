@@ -131,7 +131,8 @@ class ConsumerService extends BaseService
 
         foreach($sale_orders as $sale_order){
             $sale_order->showSaleOrderStatus = $sale_order->showSaleOrderStatus();
-            $sale_order->showCreatedDate = $sale_order->showCreatedDate();
+            $sale_order->showDeliverAtDate = $sale_order->showDeliverAtDate();
+            $sale_order->showPaidAtDate = $sale_order->showPaidAtDate();
             $sale_order->showURL = route('consumer.showSaleOrderDetails', ['consumer_id' => $sale_order->consumer_id, 'sale_orders_id' => $sale_order->id]);
 
         }

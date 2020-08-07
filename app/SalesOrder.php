@@ -7,6 +7,7 @@ use App\Consumer as ConsumerEloquent;
 use App\User as UserEloquent;
 use App\SalesOrderDetail as SalesOrderDetailEloquent;
 use Illuminate\Database\Eloquent\Model;
+use DateTimeInterface;
 
 class SalesOrder extends Model
 {
@@ -23,6 +24,11 @@ class SalesOrder extends Model
         'delivered_at' => 'datetime',
         'makeInvoice_at' => 'datetime',
     ];
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format($this->dateFormat ?: 'Y-m-d');
+    }
 
     public function user(){
         return $this->belongsTo(UserEloquent::class);
@@ -66,6 +72,14 @@ class SalesOrder extends Model
 
     public function showExpectDeliverAtDate(){
         return is_null($this->expectDeliver_at) ? '無' : $this->expectDeliver_at->format($this->dateFormat ?: 'Y-m-d');
+    }
+
+    public function showDeliverAtDate(){
+        return is_null($this->delivered_at) ? '無' : $this->delivered_at->format($this->dateFormat ?: 'Y-m-d');
+    }
+
+    public function showPaidAtDate(){
+        return is_null($this->paid_at) ? '無' : $this->paid_at->format($this->dateFormat ?: 'Y-m-d');
     }
 
     public function showCreatedDate(){
