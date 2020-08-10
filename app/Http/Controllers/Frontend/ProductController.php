@@ -26,7 +26,7 @@ class ProductController extends Controller
             'skip' => 'nullable| integer|',
             'orderby' => [
                 'nullable',
-                Rule::in([1, 2, 0]), //  1.價格(高->低) 2.價格(低->高)
+                Rule::in([1, 2, 3, 4, 0]), // 1.最新 -> 最舊 2.最舊 -> 最新 3.價格(高->低) 4.價格(低->高)
             ],
             'type' => [
                 'nullable',

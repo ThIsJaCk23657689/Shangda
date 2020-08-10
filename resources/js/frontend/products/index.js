@@ -19,11 +19,11 @@ const contnet = new Vue({
             totalPage: 0,
         }
     },
-    methods:{
+    methods: {
         getProducts(firstPage = 0) {
             $.showLoadingModal();
 
-            if(firstPage == 1 || this.currentPage == 0){
+            if (firstPage == 1 || this.currentPage == 0) {
                 this.currentPage = 1;
             }
 
@@ -39,7 +39,7 @@ const contnet = new Vue({
                 this.products = response.data.products;
                 this.totalcount = response.data.totalcount;
                 this.totalPage = Math.ceil(this.totalcount / 20);
-                if(this.totalcount == 0){
+                if (this.totalcount == 0) {
                     this.currentPage = 0;
                 }
                 $.closeModal();
@@ -48,11 +48,11 @@ const contnet = new Vue({
                 $.showErrorModal(error);
             });
         },
-        refreshProduct(firstPage){
+        refreshProduct(firstPage) {
             this.getProducts(firstPage);
             this.goBackToTop();
         },
-        goBackToTop(){
+        goBackToTop() {
             $('html, body').animate({
                 scrollTop: 440
             }, 500);
@@ -66,7 +66,7 @@ const contnet = new Vue({
     created() {
         this.getProducts();
     },
-    mounted(){
-        
+    mounted() {
+
     }
 });

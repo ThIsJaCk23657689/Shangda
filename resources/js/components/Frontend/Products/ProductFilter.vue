@@ -5,10 +5,9 @@
             <select id="filter-column" name="column" class="form-control filter-dropbox" v-model="filter.type" @change="changeType">
                 <option value="0">依條件</option>
                 <option value="1">商品名稱</option>
-                <option value="2">類別</option>
+                <option value="2">規格</option>
                 <option value="3">顏色</option>
-                <option value="4">規格</option>
-                <option value="5">全部搜尋</option>
+                <option value="0">全部搜尋</option>
             </select>
         </div>
     </div>

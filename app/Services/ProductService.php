@@ -201,7 +201,7 @@ class ProductService extends BaseService
         // 看是什麼條件，預設就是沒有限制條件。
         $type = $request->type ?? 0;
         // 看排序的方法。
-        $orderBy = ($request->orderBy == 0 || $request->orderBy == 1) ? 1 : 2 ;
+        $orderBy = $request->orderBy;
         // 看關鍵字，會切割成陣列。
         $keywords = ($request->keywords != "") ? explode(" ", $request->keywords) : [];
 
@@ -218,11 +218,15 @@ class ProductService extends BaseService
             }
         }
 
-        // 1.價格(高->低) 2.價格(低->高)
-        if($orderBy == 1){
+        // 1.最新 -> 最舊 2.最舊 -> 最新 3.價格(高->低) 4.價格(低->高)
+        if($orderBy == 2){
+            $products = $products->orderBy('created_at', 'asc');
+        }else if($orderBy == 3){
             $products = $products->orderBy('retailPrice', 'desc');
-        }else{
+        }else if($orderBy == 4){
             $products = $products->orderBy('retailPrice', 'asc');
+        }else{
+            $products = $products->orderBy('created_at', 'desc');
         }
 
         $count = $products->count();
@@ -231,13 +235,14 @@ class ProductService extends BaseService
         foreach($products as $product){
             $product->showUnit = $product->showUnit();
             $product->showURL = route('front.products.show', $product->id);
-            $product_pictures = $product->pictures();
+            $product_pictures = $product->pictures;
             $product_images = [];
             $c = 1;
             foreach($product_pictures as $product_picture){
                 $product_images[$c-1] = $product->showPicture($c);
                 $c ++;
             }
+            $product->imgs = $product_images;
         }
 
         return [
@@ -282,7 +287,7 @@ class ProductService extends BaseService
 
     private function savePicture($pictures, $product){
         foreach($pictures as $picture){
-            
+
             // 生成原圖
             if(!empty($picture)){
                 $ext = strtolower($picture->getClientOriginalExtension());
@@ -313,7 +318,7 @@ class ProductService extends BaseService
                 $data = getimagesize($picture);
                 $width = $data[0];
                 $height = $data[1];
-            
+
                 $top = 0;
                 $left = 0;
                 $new_width = 0;
@@ -339,26 +344,28 @@ class ProductService extends BaseService
                 imagecopy(
                     $new_picture, $origin_picture,
                     0, 0,
-                    $left, $top, 
+                    $left, $top,
                     $new_width, $new_height
                 );
+                $final_picture = imagecreatetruecolor(500, 500);
+                imagecopyresampled ($final_picture, $new_picture, 0, 0, 0, 0, 500, 500, $new_width, $new_height);
 
                 switch($ext){
                     case 'jpg':
-                        imagejpeg($new_picture, $save_path . $picture_full_name);
+                        imagejpeg($final_picture, $save_path . $picture_full_name);
                         break;
                     case 'png':
-                        $background = imagecolorallocate($new_picture, 0, 0, 0);
-                        imagecolortransparent($new_picture, $background);
-                        imagealphablending($new_picture, false);
-                        imagesavealpha($new_picture, true);
-                        imagepng($new_picture, $save_path . $picture_full_name);
+                        $background = imagecolorallocate($final_picture, 0, 0, 0);
+                        imagecolortransparent($final_picture, $background);
+                        imagealphablending($final_picture, false);
+                        imagesavealpha($final_picture, true);
+                        imagepng($final_picture, $save_path . $picture_full_name);
                         break;
                     case 'bmp':
-                        imagebmp($origin_picture, $save_path . $picture_full_name);
+                        imagebmp($final_picture, $save_path . $picture_full_name);
                         break;
                     default:
-                        imagejpeg($new_picture, $save_path . $picture_full_name);
+                        imagejpeg($final_picture, $save_path . $picture_full_name);
                         break;
                 }
                 $image_path = 'images/products/' . $picture_full_name;

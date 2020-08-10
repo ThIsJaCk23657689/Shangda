@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -55018,10 +55018,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ "./resources/js/welcome/app.js":
-/*!*************************************!*\
-  !*** ./resources/js/welcome/app.js ***!
-  \*************************************/
+/***/ "./resources/js/frontend.js":
+/*!**********************************!*\
+  !*** ./resources/js/frontend.js ***!
+  \**********************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -55036,7 +55036,7 @@ __webpack_require__.r(__webpack_exports__);
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(/*! ../bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a;
@@ -55180,14 +55180,14 @@ var navbar = new Vue({
 
 /***/ }),
 
-/***/ 2:
-/*!*******************************************!*\
-  !*** multi ./resources/js/welcome/app.js ***!
-  \*******************************************/
+/***/ 1:
+/*!****************************************!*\
+  !*** multi ./resources/js/frontend.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\welcome\app.js */"./resources/js/welcome/app.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\frontend.js */"./resources/js/frontend.js");
 
 
 /***/ })

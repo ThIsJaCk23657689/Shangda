@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -284,20 +284,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  methods: {},
-  created: function created() {},
-  mounted: function mounted() {
-    // 商品卡片的hover事件
-    $('.product-card').hover(function () {
-      $(this).addClass('animate');
-      $(this).find('div.carouselNext, div.carouselPrev').addClass('visible');
-    }, function () {
-      $(this).removeClass('animate');
-      $(this).find('div.carouselNext, div.carouselPrev').removeClass('visible');
-    }); // 讓卡片到背面。
-
-    $('.view_details').click(function () {
-      var $this_product_card = $(this).parents('.product-card');
+  methods: {
+    flipToFront: function flipToFront(e) {
+      var $this_product_card = $(e.target).parents('.product-card');
       $this_product_card.find('div.carouselNext, div.carouselPrev').removeClass('visible');
       $this_product_card.addClass('flip-10');
       setTimeout(function () {
@@ -323,10 +312,9 @@ __webpack_require__.r(__webpack_exports__);
           }, 100);
         }, 100);
       }, 150);
-    }); // 背面翻到正面
-
-    $('.flip-back').click(function () {
-      var $this_product_card = $(this).parents('.product-card');
+    },
+    flipToBack: function flipToBack(e) {
+      var $this_product_card = $(e.target).parents('.product-card');
       $this_product_card.removeClass('flip180').addClass('flip190');
       setTimeout(function () {
         $this_product_card.removeClass('flip190').addClass('flip90');
@@ -344,6 +332,17 @@ __webpack_require__.r(__webpack_exports__);
           $this_product_card.find('.cx, .cy').removeClass('s1 s2 s3');
         }, 100);
       }, 150);
+    }
+  },
+  created: function created() {},
+  mounted: function mounted() {
+    // 商品卡片的hover事件
+    $('.product-card').hover(function () {
+      $(this).addClass('animate');
+      $(this).find('div.carouselNext, div.carouselPrev').addClass('visible');
+    }, function () {
+      $(this).removeClass('animate');
+      $(this).find('div.carouselNext, div.carouselPrev').removeClass('visible');
     });
     /* ----  Image Gallery Carousel   ---- */
 
@@ -443,7 +442,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -753,17 +751,15 @@ var render = function() {
       _c("div", { staticClass: "product-front" }, [
         _c("div", { staticClass: "shadow" }),
         _vm._v(" "),
-        _c("img", {
-          attrs: {
-            src:
-              "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt.png",
-            alt: ""
-          }
-        }),
+        _c("img", { attrs: { src: _vm.product.imgs[0], alt: "" } }),
         _vm._v(" "),
         _c("div", { staticClass: "image_overlay" }),
         _vm._v(" "),
-        _c("div", { staticClass: "view_details" }, [_vm._v("View details")]),
+        _c(
+          "div",
+          { staticClass: "view_details", on: { click: _vm.flipToFront } },
+          [_vm._v("查看圖片")]
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "stats" }, [
           _c("div", { staticClass: "stats-container" }, [
@@ -780,7 +776,29 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(1)
+      _c("div", { staticClass: "product-back" }, [
+        _c("div", { staticClass: "shadow" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "carousel" }, [
+          _c(
+            "ul",
+            _vm._l(_vm.product.imgs, function(image) {
+              return _c("li", { key: image }, [
+                _c("img", { attrs: { src: image, alt: "" } })
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _vm._m(1)
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flip-back", on: { click: _vm.flipToBack } }, [
+          _c("div", { staticClass: "cy" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "cx" })
+        ])
+      ])
     ])
   ])
 }
@@ -792,80 +810,24 @@ var staticRenderFns = [
     return _c("div", { staticClass: "product-options" }, [
       _c("strong", [_vm._v("類別")]),
       _vm._v(" "),
-      _c("span", [_vm._v("耐熱袋")]),
-      _vm._v(" "),
-      _c("strong", [_vm._v("顏色")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "colors" }, [
-        _c("div", { staticClass: "c-blue" }, [_c("span")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "c-red" }, [_c("span")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "c-white" }, [_c("span")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "c-green" }, [_c("span")])
-      ])
+      _c("span", [_vm._v("耐熱袋")])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "product-back" }, [
-      _c("div", { staticClass: "shadow" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "carousel" }, [
-        _c("ul", [
-          _c("li", [
-            _c("img", {
-              attrs: {
-                src:
-                  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large.png",
-                alt: ""
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("img", {
-              attrs: {
-                src:
-                  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large2.png",
-                alt: ""
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("img", {
-              attrs: {
-                src:
-                  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/t-shirt-large3.png",
-                alt: ""
-              }
-            })
-          ])
-        ]),
+    return _c("div", { staticClass: "arrows-perspective" }, [
+      _c("div", { staticClass: "carouselPrev" }, [
+        _c("div", { staticClass: "y" }),
         _vm._v(" "),
-        _c("div", { staticClass: "arrows-perspective" }, [
-          _c("div", { staticClass: "carouselPrev" }, [
-            _c("div", { staticClass: "y" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "x" })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "carouselNext" }, [
-            _c("div", { staticClass: "y" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "x" })
-          ])
-        ])
+        _c("div", { staticClass: "x" })
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "flip-back" }, [
-        _c("div", { staticClass: "cy" }),
+      _c("div", { staticClass: "carouselNext" }, [
+        _c("div", { staticClass: "y" }),
         _vm._v(" "),
-        _c("div", { staticClass: "cx" })
+        _c("div", { staticClass: "x" })
       ])
     ])
   }
@@ -905,7 +867,7 @@ var render = function() {
       _vm.products.length == 0
         ? _c("span", { staticClass: "not-found-message" }, [
             _vm._v(
-              "\r\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\r\n    "
+              "\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\n    "
             )
           ])
         : _vm._e()
@@ -977,13 +939,11 @@ var render = function() {
             _vm._v(" "),
             _c("option", { attrs: { value: "1" } }, [_vm._v("商品名稱")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "2" } }, [_vm._v("類別")]),
+            _c("option", { attrs: { value: "2" } }, [_vm._v("規格")]),
             _vm._v(" "),
             _c("option", { attrs: { value: "3" } }, [_vm._v("顏色")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "4" } }, [_vm._v("規格")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "5" } }, [_vm._v("全部搜尋")])
+            _c("option", { attrs: { value: "0" } }, [_vm._v("全部搜尋")])
           ]
         )
       ])
@@ -1041,7 +1001,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\r\n                搜尋\r\n            ")]
+          [_vm._v("\n                搜尋\n            ")]
         )
       ])
     ]),
@@ -1578,7 +1538,7 @@ var contnet = new Vue({
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!*******************************************************!*\
   !*** multi ./resources/js/frontend/products/index.js ***!
   \*******************************************************/

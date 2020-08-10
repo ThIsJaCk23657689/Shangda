@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -871,7 +871,7 @@ var render = function() {
       _vm.saleOrders.length == 0
         ? _c("div", { staticClass: "not-found-message" }, [
             _vm._v(
-              "\r\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\r\n    "
+              "\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\n    "
             )
           ])
         : _vm._e()
@@ -1351,7 +1351,7 @@ var contnet = new Vue({
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /*!**************************************************************!*\
   !*** multi ./resources/js/frontend/consumers/sale_orders.js ***!
   \**************************************************************/

@@ -2,11 +2,11 @@
 
 @push('CustomJS')
     <script src="{{ asset('js/frontend/products/index.js') }}" defer></script>
-@endpush 
+@endpush
 
 @push('CustomCSS')
     <link href="{{ asset('css/frontend/products/index.css') }}" rel="stylesheet" type="text/css">
-@endpush 
+@endpush
 
 @section('content')
     <section class="header">
@@ -21,7 +21,7 @@
         <div id="product" class="container">
 
             <span id="GetProductsList" class="d-none">{{ route('front.products.index') }}</span>
-            
+
             <product-filter :filter="filter" v-on:refresh-product="refreshProduct"></product-filter>
 
             <product-container :products="products"></product-container>

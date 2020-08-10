@@ -226,7 +226,7 @@ section.product-content .container .product-list {
 
 .make-3D-space {
   width: 33.3333333%;
-  height: 500px;
+  height: 400px;
   position: relative;
   -webkit-perspective: 800px;
           perspective: 800px;
@@ -240,7 +240,7 @@ section.product-content .container .product-list {
 }
 .make-3D-space .product-card {
   width: 325px;
-  height: 490px;
+  height: calc(100% - 10px);
   position: absolute;
   top: 10px;
   left: calc((100% - 325px) / 2);
@@ -251,16 +251,16 @@ section.product-content .container .product-list {
   transition: 100ms ease-out;
 }
 .make-3D-space .product-card.animate {
+  width: 335px;
+  height: 100%;
   top: 5px;
   left: calc((100% - 335px) / 2);
-  width: 335px;
-  height: 500px;
   box-shadow: 0px 13px 21px -5px rgba(0, 0, 0, 0.3);
   -webkit-transition: 100ms ease-out;
   transition: 100ms ease-out;
 }
 .make-3D-space .product-card.animate .stats-container {
-  top: 272px;
+  top: 232px;
   -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
@@ -278,7 +278,8 @@ section.product-content .container .product-list {
   -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
-.make-3D-space .product-card.animate .product-back, .make-3D-space .product-card.animate .product-front {
+.make-3D-space .product-card.animate .product-back,
+.make-3D-space .product-card.animate .product-front {
   top: 0px;
   left: 0px;
   -webkit-transition: all 100ms ease-out;
@@ -308,13 +309,14 @@ section.product-content .container .product-list {
   -webkit-transition: 150ms ease-out;
   transition: 150ms ease-out;
 }
-.make-3D-space .product-card .product-front, .make-3D-space .product-card .product-back {
-  width: 335px;
-  height: 500px;
+.make-3D-space .product-card .product-front,
+.make-3D-space .product-card .product-back {
+  width: 100%;
+  height: 100%;
   background: #fff;
   position: absolute;
-  left: -5px;
-  top: -5px;
+  left: 0px;
+  top: 0px;
   -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
@@ -344,7 +346,7 @@ section.product-content .container .product-list {
   padding: 15px 24px 35px;
   background: #fff;
   position: absolute;
-  top: 386px;
+  top: 283px;
   left: 0;
   -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
@@ -373,7 +375,7 @@ section.product-content .container .product-list {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #48daa1;
+  background: #003677;
   opacity: 0;
 }
 
@@ -454,8 +456,8 @@ div.c-white span {
 }
 
 div.shadow {
-  width: 335px;
-  height: 520px;
+  width: calc(100% + 10px);
+  height: calc(100% + 30px);
   opacity: 0;
   position: absolute;
   top: 0;
@@ -476,13 +478,15 @@ div.shadow {
   height: 30px;
   cursor: pointer;
 }
-.flip-back:hover .cx, .flip-back:hover .cy {
+.flip-back:hover .cx,
+.flip-back:hover .cy {
   background: #979ca7;
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
 }
 
-.cx, .cy {
+.cx,
+.cy {
   background: #d2d5dc;
   position: absolute;
   width: 0px;
@@ -492,7 +496,8 @@ div.shadow {
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
 }
-.cx.s1, .cy.s1 {
+.cx.s1,
+.cy.s1 {
   right: 0;
   width: 30px;
   -webkit-transition: all 100ms ease-out;
@@ -534,18 +539,19 @@ div.shadow {
 
 .carousel {
   width: 335px;
-  height: 500px;
+  height: 100%;
   overflow: hidden;
   position: relative;
 }
 .carousel ul {
+  margin: 0px;
   position: absolute;
-  top: 0;
+  top: calc((100% - 335px) / 2);
   left: 0;
 }
 .carousel ul li {
   width: 335px;
-  height: 500px;
+  height: 100%;
   float: left;
   overflow: hidden;
 }
@@ -563,7 +569,8 @@ div.shadow {
   -webkit-perspective: 335px;
           perspective: 335px;
 }
-.carousel .arrows-perspective .carouselPrev, .carousel .arrows-perspective .carouselNext {
+.carousel .arrows-perspective .carouselPrev,
+.carousel .arrows-perspective .carouselNext {
   width: 50px;
   height: 55px;
   background: #ccc;
@@ -574,7 +581,10 @@ div.shadow {
   opacity: 0.9;
   cursor: pointer;
 }
-.carousel .arrows-perspective .carouselPrev .x, .carousel .arrows-perspective .carouselPrev .y, .carousel .arrows-perspective .carouselNext .x, .carousel .arrows-perspective .carouselNext .y {
+.carousel .arrows-perspective .carouselPrev .x,
+.carousel .arrows-perspective .carouselPrev .y,
+.carousel .arrows-perspective .carouselNext .x,
+.carousel .arrows-perspective .carouselNext .y {
   height: 2px;
   width: 15px;
   background: #48cfad;
@@ -584,7 +594,8 @@ div.shadow {
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.carousel .arrows-perspective .carouselPrev .x, .carousel .arrows-perspective .carouselNext .x {
+.carousel .arrows-perspective .carouselPrev .x,
+.carousel .arrows-perspective .carouselNext .x {
   -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
   top: 21px;

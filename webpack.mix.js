@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 // 前台
 mix.js('resources/js/app.js', 'public/js')
+    .js('resources/js/frontend.js', 'public/js')
     .js('resources/js/welcome/app.js', 'public/js/welcome')
     .copy('resources/js/welcome/plugins.js', 'public/js/welcome')
     .js('resources/js/welcome/slides.js', 'public/js/welcome')

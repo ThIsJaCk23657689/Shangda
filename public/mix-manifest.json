@@ -18,6 +18,7 @@
     "/js/discounts/edit-consumer.js": "/js/discounts/edit-consumer.js",
     "/js/discounts/edit-product.js": "/js/discounts/edit-product.js",
     "/js/discounts/index.js": "/js/discounts/index.js",
+    "/js/frontend.js": "/js/frontend.js",
     "/js/frontend/consumers/sale_orders.js": "/js/frontend/consumers/sale_orders.js",
     "/js/frontend/products/index.js": "/js/frontend/products/index.js",
     "/js/frontend/products/show.js": "/js/frontend/products/show.js",

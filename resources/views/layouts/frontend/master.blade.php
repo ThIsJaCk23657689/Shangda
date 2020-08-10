@@ -12,7 +12,7 @@
     <title>{{ __(config('app.name')) }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/welcome/app.js') }}" defer></script>
+    <script src="{{ asset('js/frontend.js') }}" defer></script>
     <script src="{{ asset('js/welcome/plugins.js') }}" defer></script>
     <script src="{{ asset('js/welcome/slides.js') }}" defer></script>
 
@@ -22,7 +22,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/welcome/slides.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('vendor/fontawesome/css/all.min.css') }}" rel="stylesheet" type='text/css'>
-    
+
     <!-- Custom styles for this template-->
     @stack('CustomCSS')
 </head>
