@@ -871,7 +871,7 @@ var render = function() {
       _vm.saleOrders.length == 0
         ? _c("div", { staticClass: "not-found-message" }, [
             _vm._v(
-              "\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\n    "
+              "\r\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\r\n    "
             )
           ])
         : _vm._e()

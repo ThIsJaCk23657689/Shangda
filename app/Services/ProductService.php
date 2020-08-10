@@ -282,6 +282,8 @@ class ProductService extends BaseService
 
     private function savePicture($pictures, $product){
         foreach($pictures as $picture){
+            
+            // 生成原圖
             if(!empty($picture)){
                 $ext = strtolower($picture->getClientOriginalExtension());
                 switch($ext){
@@ -298,28 +300,65 @@ class ProductService extends BaseService
                         $origin_picture = imagecreatefromjpeg($picture);
                         break;
                 }
-                $start_index = $product->pictures()->count();
-                $index = $start_index + 1;
+
+                // 生成檔名以及儲存路徑設定
+                $index = $product->pictures()->count() + 1;
                 $picture_name = str_pad($product->id, 4, '0', STR_PAD_LEFT) . '-' . str_pad($index, 2, '0', STR_PAD_LEFT);
                 $picture_full_name = $picture_name . '.' . $ext;
-
                 $save_path = public_path('images/products/');
+
+                // 裁切圖片
+
+                // 先取得圖片的長與寬
+                $data = getimagesize($picture);
+                $width = $data[0];
+                $height = $data[1];
+            
+                $top = 0;
+                $left = 0;
+                $new_width = 0;
+                $new_height = 0;
+                if($width > $height){
+                    // 寬比高長，代表是橫長方形
+                    $left = ($width - $height) / 2;
+                    $new_width = $height;
+                    $new_height = $height;
+                }else if($width < $height){
+                    // 寬比高短，代表是直長方形
+                    $top = ($height - $width) / 2;
+                    $new_width = $width;
+                    $new_height = $width;
+                }else{
+                    // 代表是正方形圖，Do Nothing
+                    $new_width = $width;
+                    $new_height = $height;
+                }
+
+                // 裁切圖片
+                $new_picture = imagecreatetruecolor($new_width, $new_height);
+                imagecopy(
+                    $new_picture, $origin_picture,
+                    0, 0,
+                    $left, $top, 
+                    $new_width, $new_height
+                );
+
                 switch($ext){
                     case 'jpg':
-                        imagejpeg($origin_picture, $save_path . $picture_full_name);
+                        imagejpeg($new_picture, $save_path . $picture_full_name);
                         break;
                     case 'png':
-                        $background = imagecolorallocate($origin_picture, 0, 0, 0);
-                        imagecolortransparent($origin_picture, $background);
-                        imagealphablending($origin_picture, false);
-                        imagesavealpha($origin_picture, true);
-                        imagepng($origin_picture, $save_path . $picture_full_name);
+                        $background = imagecolorallocate($new_picture, 0, 0, 0);
+                        imagecolortransparent($new_picture, $background);
+                        imagealphablending($new_picture, false);
+                        imagesavealpha($new_picture, true);
+                        imagepng($new_picture, $save_path . $picture_full_name);
                         break;
                     case 'bmp':
                         imagebmp($origin_picture, $save_path . $picture_full_name);
                         break;
                     default:
-                        imagejpeg($origin_picture, $save_path . $picture_full_name);
+                        imagejpeg($new_picture, $save_path . $picture_full_name);
                         break;
                 }
                 $image_path = 'images/products/' . $picture_full_name;
