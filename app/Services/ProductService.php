@@ -239,7 +239,8 @@ class ProductService extends BaseService
             $product_images = [];
             $c = 1;
             foreach($product_pictures as $product_picture){
-                $product_images[$c-1] = $product->showPicture($c);
+                $product_images[$c-1]['url'] = $product->showPicture($c);
+                $product_images[$c-1]['index'] = $c;
                 $c ++;
             }
             $product->imgs = $product_images;

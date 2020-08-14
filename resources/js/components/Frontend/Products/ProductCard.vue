@@ -3,7 +3,7 @@
     <div class="product-card">
         <div class="product-front">
             <div class="shadow"></div>
-            <img :src="product.imgs[0]" alt="" />
+            <img :src="product.imgs[0].url" alt="" />
             <div class="image_overlay"></div>
             <div class="view_details" @click="flipToFront">查看圖片</div>
             <div class="stats">
@@ -28,8 +28,8 @@
             <div class="shadow"></div>
             <div class="carousel">
                 <ul>
-                    <li v-for="image in product.imgs" :key="image">
-                        <img :src="image" alt="" />
+                    <li v-for="image in product.imgs" :key="image.index">
+                        <img :src="image.url" alt="" />
                     </li>
                 </ul>
                 <div class="arrows-perspective">

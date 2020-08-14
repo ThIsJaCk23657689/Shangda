@@ -751,7 +751,7 @@ var render = function() {
       _c("div", { staticClass: "product-front" }, [
         _c("div", { staticClass: "shadow" }),
         _vm._v(" "),
-        _c("img", { attrs: { src: _vm.product.imgs[0], alt: "" } }),
+        _c("img", { attrs: { src: _vm.product.imgs[0].url, alt: "" } }),
         _vm._v(" "),
         _c("div", { staticClass: "image_overlay" }),
         _vm._v(" "),
@@ -783,8 +783,8 @@ var render = function() {
           _c(
             "ul",
             _vm._l(_vm.product.imgs, function(image) {
-              return _c("li", { key: image }, [
-                _c("img", { attrs: { src: image, alt: "" } })
+              return _c("li", { key: image.index }, [
+                _c("img", { attrs: { src: image.url, alt: "" } })
               ])
             }),
             0
@@ -867,7 +867,7 @@ var render = function() {
       _vm.products.length == 0
         ? _c("span", { staticClass: "not-found-message" }, [
             _vm._v(
-              "\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\n    "
+              "\r\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\r\n    "
             )
           ])
         : _vm._e()
@@ -1001,7 +1001,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n                搜尋\n            ")]
+          [_vm._v("\r\n                搜尋\r\n            ")]
         )
       ])
     ]),
