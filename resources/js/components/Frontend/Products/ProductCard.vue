@@ -3,7 +3,7 @@
     <div class="product-card">
         <div class="product-front">
             <div class="shadow"></div>
-            <img :src="product.imgs[0].url" alt="" />
+            <img :src="product.coverImg" alt="" />
             <div class="image_overlay"></div>
             <div class="view_details" @click="flipToFront">查看圖片</div>
             <div class="stats">
@@ -20,6 +20,11 @@
                             <div class="c-white"><span></span></div>
                             <div class="c-green"><span></span></div>
                         </div> -->
+                    </div>
+                    <div class="readmore-container">
+                        <a :href="product.showURL" class="readmore">
+                            了解更多 >>
+                        </a>
                     </div>
                 </div>
             </div>

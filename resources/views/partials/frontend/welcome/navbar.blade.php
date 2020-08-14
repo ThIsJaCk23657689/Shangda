@@ -16,7 +16,7 @@
                 <li><a href="{{ route('front.about') }}">{{ __('About') }}</a></li>
                 <li><a href="{{ route('front.products.index') }}">{{ __('Products') }}</a></li>
                 <li><a href="#">{{ __('News') }}</a></li>
-                <li><a href="#">{{ __('Location') }}</a></li>
+                {{-- <li><a href="#">{{ __('Location') }}</a></li> --}}
                 <li><a href="{{ route('front.contact_us') }}">{{ __('Contact') }}</a></li>
                 @auth
                     <li><a href="{{ route('backend') }}">{{ __('Backend') }}</a></li>

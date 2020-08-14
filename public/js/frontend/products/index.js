@@ -279,6 +279,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['product'],
   data: function data() {
@@ -751,7 +756,7 @@ var render = function() {
       _c("div", { staticClass: "product-front" }, [
         _c("div", { staticClass: "shadow" }),
         _vm._v(" "),
-        _c("img", { attrs: { src: _vm.product.imgs[0].url, alt: "" } }),
+        _c("img", { attrs: { src: _vm.product.coverImg, alt: "" } }),
         _vm._v(" "),
         _c("div", { staticClass: "image_overlay" }),
         _vm._v(" "),
@@ -771,7 +776,22 @@ var render = function() {
               _vm._v(_vm._s(_vm.product.name))
             ]),
             _vm._v(" "),
-            _vm._m(0)
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "readmore-container" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "readmore",
+                  attrs: { href: _vm.product.showURL }
+                },
+                [
+                  _vm._v(
+                    "\n                            了解更多 >>\n                        "
+                  )
+                ]
+              )
+            ])
           ])
         ])
       ]),
@@ -867,7 +887,7 @@ var render = function() {
       _vm.products.length == 0
         ? _c("span", { staticClass: "not-found-message" }, [
             _vm._v(
-              "\r\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\r\n    "
+              "\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\n    "
             )
           ])
         : _vm._e()
@@ -1001,7 +1021,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\r\n                搜尋\r\n            ")]
+          [_vm._v("\n                搜尋\n            ")]
         )
       ])
     ]),

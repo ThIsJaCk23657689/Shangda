@@ -368,6 +368,30 @@ section.product-content .container .product-list {
   padding: 2px 0 20px 0;
   margin: 0;
 }
+.stats-container .readmore-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.stats-container .readmore-container .readmore {
+  position: absolute;
+  border: solid 2px #000000;
+  padding: 8px 20px;
+  right: 30px;
+  bottom: 148px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  -webkit-transition: all 200ms ease-out;
+  transition: all 200ms ease-out;
+}
+.stats-container .readmore-container .readmore:hover {
+  color: #ffffff;
+  background-color: #003367;
+  border-color: #003367;
+  text-decoration: none;
+}
 
 .image_overlay {
   position: absolute;

@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import Cropper from 'cropperjs';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -6,9 +7,11 @@ import Swal from 'sweetalert2';
  */
 
 require('./bootstrap');
+require('./../../node_modules/jquery-cropper/dist/jquery-cropper')
 
 window.Vue = require('vue');
 window.Swal = Swal;
+window.Cropper = Cropper;
 
 /**
  * The following block of code may be used to automatically register your

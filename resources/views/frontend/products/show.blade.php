@@ -7,8 +7,8 @@
 @endpush
 
 @push('CustomCSS')
-    <link href="{{  asset('css/frontend/products/show.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{  asset('vendor/smoothproducts/css/smoothproducts.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('vendor/smoothproducts/css/smoothproducts.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/frontend/products/show.css') }}" rel="stylesheet" type="text/css">
 @endpush
 
 @section('content')

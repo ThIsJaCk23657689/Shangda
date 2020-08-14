@@ -244,6 +244,7 @@ class ProductService extends BaseService
                 $c ++;
             }
             $product->imgs = $product_images;
+            $product->coverImg = $product->showPicture(1);
         }
 
         return [
