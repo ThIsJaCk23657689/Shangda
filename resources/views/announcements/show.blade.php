@@ -19,9 +19,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-
                 <div class="form-group row">
-                    <label for="title"" class="col-md-2 col-form-label text-md-right">
+                    <label for="title" class="col-md-2 col-form-label text-md-right">
                         標題
                     </label>
 
@@ -31,7 +30,17 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="content"" class="col-md-2 col-form-label text-md-right">
+                    <label for="title" class="col-md-2 col-form-label text-md-right">
+                        封面圖片
+                    </label>
+
+                    <div class="col-md-10">
+                        <img src="{{ $announcement->showCoverImage() }}" alt="" width="250px">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="content" class="col-md-2 col-form-label text-md-right">
                         內容
                     </label>
 
@@ -41,7 +50,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="content"" class="col-md-2 col-form-label text-md-right">
+                    <label for="content" class="col-md-2 col-form-label text-md-right">
                         最後編輯者
                     </label>
                     <div class="col-md-10">
@@ -50,7 +59,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="content"" class="col-md-2 col-form-label text-md-right">
+                    <label for="content" class="col-md-2 col-form-label text-md-right">
                         建立日期
                     </label>
                     <div class="col-md-10">

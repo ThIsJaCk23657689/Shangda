@@ -87,27 +87,27 @@ export default {
 				$('#' + this.prefix + '_preview-image').cropper('replace', this.url);
 			} else {
                 $('#' + this.prefix + '_preview-image').attr('src', this.url);
-				// $('#' + this.prefix + '_preview-image').cropper({
-				// 	aspectRatio: this.aspectRatio,
-				// 	autoCropArea: 0.5,
-				// 	movable: false,
-				// 	zoomable: false,
-                //     dragMode: 'move',
-                //     checkCrossOrigin: false,
-                //     checkOrientation: false,
-				// 	crop: function (e) {
-                //         let json = [
-				// 			'{"x":' + e.detail.x,
-				// 			'"y":' + e.detail.y,
-				// 			'"height":' + e.detail.height,
-				// 			'"width":' + e.detail.width,
-				// 			'"rotate":' + e.detail.rotate + '}'
-				// 		].join();
+				$('#' + this.prefix + '_preview-image').cropper({
+					aspectRatio: this.aspectRatio,
+					autoCropArea: 0.5,
+					movable: false,
+					zoomable: false,
+                    dragMode: 'move',
+                    checkCrossOrigin: false,
+                    checkOrientation: false,
+					crop: function (e) {
+                        let json = [
+							'{"x":' + e.detail.x,
+							'"y":' + e.detail.y,
+							'"height":' + e.detail.height,
+							'"width":' + e.detail.width,
+							'"rotate":' + e.detail.rotate + '}'
+						].join();
 
-                //         // 蒐集裁切的數據
-				// 		_this.cropData = json;
-				// 	}
-				// });
+                        // 蒐集裁切的數據
+						_this.cropData = json;
+					}
+				});
 				this.isCropActived = true;
 			}
         },

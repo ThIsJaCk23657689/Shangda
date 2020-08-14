@@ -16,7 +16,7 @@
 
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <upload-images ref="uploadCoverImages" :title="'上傳封面圖片'" :aspect-ratio="6/5.8"  :prefix="'announcement'" :helptext="'（建議尺寸：600px * 580px）'"></upload-images>
+                        <upload-images ref="uploadCoverImages" :title="'上傳封面圖片'" :aspect-ratio="1"  :prefix="'announcement'" :helptext="'（建議尺寸：500px * 500px）'" :uploadimg="AnnouncementsDefaultImage"></upload-images>
                     </div>
                 </div>
 
@@ -54,6 +54,7 @@ export default {
         return {
             AnnouncementsIndexURL: $('#AnnouncementsIndexURL').text(),
             AnnouncementsStoreURL: $('#AnnouncementsStoreURL').text(),
+            AnnouncementsDefaultImage: $('#AnnouncementsDefaultImage').text(),
         }
     },
     methods: {

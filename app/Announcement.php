@@ -39,7 +39,7 @@ class Announcement extends Model
 
     public function showCoverImage(){
         if(empty($this->cover_image)){
-            return URL::asset('images/announcements/cover_images/default.jpg');
+            return URL::asset('images/announcements/cover_images/default.png');
         }else{
             return URL::asset($this->cover_image);
         }

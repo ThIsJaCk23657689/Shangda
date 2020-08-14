@@ -18,7 +18,8 @@
 
     <div id="announcement">
         <span id="AnnouncementsIndexURL" class="d-none">{{ route('announcements.index') }}</span>
-        <span id="AnnouncementsStoreURL" class="d-none">{{ route('announcements.store') }}</span>
+		<span id="AnnouncementsStoreURL" class="d-none">{{ route('announcements.store') }}</span>
+		<span id="AnnouncementsDefaultImage" class="d-none">{{ asset('images/announcements/cover_images/default.png') }}</span>
 
         <announcement-create-form></announcement-create-form>
     </div>

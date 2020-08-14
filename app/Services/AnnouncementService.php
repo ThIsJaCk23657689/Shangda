@@ -2,39 +2,34 @@
 
 namespace App\Services;
 use App\Announcement as AnnouncementEloquent;
-use URL;
 use Auth;
 
 class AnnouncementService extends BaseService
 {
     public function add($request)
     {
-        // if(!is_null($request->image_data) && !is_null($_FILES['image_file'])){
-        //     // 圖片路徑生成與裁切
-        //     $crop = new CropImageService($request->image_data, $_FILES['image_file'], 'announcements');
-        //     $result = $crop->getResult();
-        //     if($result['status'] == 'ERROR'){
-        //         return [
-        //             'status' => '422',
-        //             'message' => $result['message']
-        //         ];
-        //     }else{
-        //         $url = $result['url'];
-        //     }
-        // }else{
-        //     $url = URL::asset('images/books/default.png');
-        // }
-
-        // $user = auth('api')->user();
-
+        if(!is_null($request->image_data) && !is_null($_FILES['image_file'])){
+            // 圖片路徑生成與裁切
+            $crop = new CropImageService($request->image_data, $_FILES['image_file'], 'announcements');
+            $result = $crop->getResult();
+            if($result['status'] == 'ERROR'){
+                return [
+                    'status' => '422',
+                    'message' => $result['message']
+                ];
+            }else{
+                $url = $result['url'];
+            }
+        }else{
+            $url = null;
+        }
 
         $announcement = AnnouncementEloquent::create([
-            // 'cover_image' => $url,
+            'cover_image' => $url,
             'last_update_user_id' => Auth::id(),
             'title' => $request->title,
             'content' => $request->content,
         ]);
-
 
         return $announcement->id;
     }
@@ -44,7 +39,6 @@ class AnnouncementService extends BaseService
         $announcements = AnnouncementEloquent::get();
         return $announcements;
     }
-
 
     public function count()
     {

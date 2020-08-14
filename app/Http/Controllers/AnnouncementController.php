@@ -27,12 +27,11 @@ class AnnouncementController extends Controller
 
     public function store(AnnouncementRequest $request){
         $announcement_id = $this->AnnouncementService->add($request);
-        return redirect()->route('announcements.index');
-        // return response()->json([
-        //     'status' => 'OK',
-        //     'added_id' => $announcement_id,
-        //     'url' => route('announcements.index')
-        // ], 200);
+        return response()->json([
+            'status' => 'OK',
+            'added_id' => $announcement_id,
+            'url' => route('announcements.index')
+        ], 200);
     }
 
     public function show($id){

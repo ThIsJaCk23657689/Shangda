@@ -149,7 +149,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       AnnouncementsIndexURL: $('#AnnouncementsIndexURL').text(),
-      AnnouncementsStoreURL: $('#AnnouncementsStoreURL').text()
+      AnnouncementsStoreURL: $('#AnnouncementsStoreURL').text(),
+      AnnouncementsDefaultImage: $('#AnnouncementsDefaultImage').text()
     };
   },
   methods: {
@@ -273,27 +274,21 @@ __webpack_require__.r(__webpack_exports__);
         // 如果已經開啟了 crop 取代原本的url即可。
         $('#' + this.prefix + '_preview-image').cropper('replace', this.url);
       } else {
-        $('#' + this.prefix + '_preview-image').attr('src', this.url); // $('#' + this.prefix + '_preview-image').cropper({
-        // 	aspectRatio: this.aspectRatio,
-        // 	autoCropArea: 0.5,
-        // 	movable: false,
-        // 	zoomable: false,
-        //     dragMode: 'move',
-        //     checkCrossOrigin: false,
-        //     checkOrientation: false,
-        // 	crop: function (e) {
-        //         let json = [
-        // 			'{"x":' + e.detail.x,
-        // 			'"y":' + e.detail.y,
-        // 			'"height":' + e.detail.height,
-        // 			'"width":' + e.detail.width,
-        // 			'"rotate":' + e.detail.rotate + '}'
-        // 		].join();
-        //         // 蒐集裁切的數據
-        // 		_this.cropData = json;
-        // 	}
-        // });
+        $('#' + this.prefix + '_preview-image').attr('src', this.url);
+        $('#' + this.prefix + '_preview-image').cropper({
+          aspectRatio: this.aspectRatio,
+          autoCropArea: 0.5,
+          movable: false,
+          zoomable: false,
+          dragMode: 'move',
+          checkCrossOrigin: false,
+          checkOrientation: false,
+          crop: function crop(e) {
+            var json = ['{"x":' + e.detail.x, '"y":' + e.detail.y, '"height":' + e.detail.height, '"width":' + e.detail.width, '"rotate":' + e.detail.rotate + '}'].join(); // 蒐集裁切的數據
 
+            _this.cropData = json;
+          }
+        });
         this.isCropActived = true;
       }
     },
@@ -358,9 +353,10 @@ var render = function() {
                     ref: "uploadCoverImages",
                     attrs: {
                       title: "上傳封面圖片",
-                      "aspect-ratio": 6 / 5.8,
+                      "aspect-ratio": 1,
                       prefix: "announcement",
-                      helptext: "（建議尺寸：600px * 580px）"
+                      helptext: "（建議尺寸：500px * 500px）",
+                      uploadimg: _vm.AnnouncementsDefaultImage
                     }
                   })
                 ],
@@ -383,7 +379,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                            確認新增\n                        "
+                        "\r\n                            確認新增\r\n                        "
                       )
                     ]
                   ),
@@ -396,7 +392,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                            返回列表\n                        "
+                        "\r\n                            返回列表\r\n                        "
                       )
                     ]
                   )
@@ -419,7 +415,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "title" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("標題\n                            ")
+            _vm._v("標題\r\n                            ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -447,7 +443,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "content" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("內容\n                            ")
+            _vm._v("內容\r\n                            ")
           ]),
           _vm._v(" "),
           _c("textarea", {
@@ -507,7 +503,7 @@ var render = function() {
       _c(
         "label",
         { staticClass: "mb-2", attrs: { for: _vm.prefix + "_image_file" } },
-        [_vm._v("\n            " + _vm._s(_vm.title) + "\n        ")]
+        [_vm._v("\r\n            " + _vm._s(_vm.title) + "\r\n        ")]
       ),
       _vm._v(" "),
       _c("div", { staticClass: "custom-file" }, [
