@@ -284,10 +284,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['product'],
   data: function data() {
-    return {};
+    return {
+      carouselSlideWidth: 335,
+      isAnimating: false
+    };
   },
   methods: {
     flipToFront: function flipToFront(e) {
@@ -337,6 +347,44 @@ __webpack_require__.r(__webpack_exports__);
           $this_product_card.find('.cx, .cy').removeClass('s1 s2 s3');
         }, 100);
       }, 150);
+    },
+    LoadPrevImages: function LoadPrevImages(e) {
+      var $carousel = $(e.target).parents('.carousel');
+      var currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
+      var newLeft = currentLeft - this.carouselSlideWidth;
+
+      if (newLeft < 0 || this.isAnimating === true) {
+        return;
+      }
+
+      $carousel.find('ul').css({
+        'left': '-' + newLeft + 'px',
+        'transition': '300ms ease-out'
+      });
+      this.isAnimating = true;
+      setTimeout(function () {
+        vm.isAnimating = false;
+      }, 300);
+    },
+    LoadNextImages: function LoadNextImages(e) {
+      var vm = this;
+      var $carousel = $(e.target).parents('.carousel');
+      var currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
+      var newLeft = currentLeft + this.carouselSlideWidth;
+      var carouselWidth = $carousel.find('ul').width();
+
+      if (newLeft > carouselWidth - this.carouselSlideWidth || this.isAnimating === true) {
+        return;
+      }
+
+      $carousel.find('ul').css({
+        'left': '-' + newLeft + 'px',
+        'transition': '300ms ease-out'
+      });
+      this.isAnimating = true;
+      setTimeout(function () {
+        vm.isAnimating = false;
+      }, 300);
     }
   },
   created: function created() {},
@@ -353,6 +401,7 @@ __webpack_require__.r(__webpack_exports__);
 
     var carouselSlideWidth = 335;
     var isAnimating = false;
+    console.log($('.carousel ul').length);
 
     for (var $i = 0; $i < $('.carousel ul').length; $i++) {
       var carousel = $($('.carousel ul')[$i]);
@@ -362,47 +411,8 @@ __webpack_require__.r(__webpack_exports__);
       }); // building the width of the casousel
 
       $(carousel).css('width', carouselWidth);
-    } // Load Next Image
-
-
-    $('div.carouselNext').on('click', function () {
-      var $carousel = $(this).parents('.carousel');
-      var currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
-      var newLeft = currentLeft + carouselSlideWidth;
-      var carouselWidth = $carousel.find('ul').width();
-
-      if (newLeft == carouselWidth || isAnimating === true) {
-        return;
-      }
-
-      $carousel.find('ul').css({
-        'left': '-' + newLeft + 'px',
-        'transition': '300ms ease-out'
-      });
-      isAnimating = true;
-      setTimeout(function () {
-        isAnimating = false;
-      }, 300);
-    }); // Load Previous Image
-
-    $('div.carouselPrev').on('click', function () {
-      var $carousel = $(this).parents('.carousel');
-      var currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
-      var newLeft = currentLeft - carouselSlideWidth;
-
-      if (newLeft < 0 || isAnimating === true) {
-        return;
-      }
-
-      $carousel.find('ul').css({
-        'left': '-' + newLeft + 'px',
-        'transition': '300ms ease-out'
-      });
-      isAnimating = true;
-      setTimeout(function () {
-        isAnimating = false;
-      }, 300);
-    });
+      console.log('第' + $i + '個物件，長度為：' + carouselWidth);
+    }
   }
 });
 
@@ -756,7 +766,7 @@ var render = function() {
       _c("div", { staticClass: "product-front" }, [
         _c("div", { staticClass: "shadow" }),
         _vm._v(" "),
-        _c("img", { attrs: { src: _vm.product.coverImg, alt: "" } }),
+        _c("img", { attrs: { src: _vm.product.coverImage, alt: "" } }),
         _vm._v(" "),
         _c("div", { staticClass: "image_overlay" }),
         _vm._v(" "),
@@ -768,15 +778,33 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "stats" }, [
           _c("div", { staticClass: "stats-container" }, [
-            _c("span", { staticClass: "product_price" }, [
-              _vm._v(_vm._s("$" + _vm.product.retailPrice))
-            ]),
+            _vm.product.showPrice == 1
+              ? _c("span", { staticClass: "product_price" }, [
+                  _vm._v(_vm._s("$" + _vm.product.retailPrice))
+                ])
+              : _c(
+                  "button",
+                  {
+                    staticClass: "product_ask_price",
+                    attrs: { type: "button" }
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-comments-dollar mr-1" }),
+                    _vm._v(
+                      "\r\n                        詢問價錢\r\n                    "
+                    )
+                  ]
+                ),
             _vm._v(" "),
             _c("span", { staticClass: "product_name" }, [
               _vm._v(_vm._s(_vm.product.name))
             ]),
             _vm._v(" "),
-            _vm._m(0),
+            _c("div", { staticClass: "product-options" }, [
+              _c("strong", [_vm._v("類別")]),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(_vm.product.category.name))])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "readmore-container" }, [
               _c(
@@ -802,15 +830,51 @@ var render = function() {
         _c("div", { staticClass: "carousel" }, [
           _c(
             "ul",
-            _vm._l(_vm.product.imgs, function(image) {
-              return _c("li", { key: image.index }, [
-                _c("img", { attrs: { src: image.url, alt: "" } })
-              ])
-            }),
-            0
+            [
+              _vm._l(_vm.product.pictures, function(picture) {
+                return _c("li", { key: picture.index }, [
+                  _c("img", { attrs: { src: picture.url, alt: "" } })
+                ])
+              }),
+              _vm._v(" "),
+              _vm.product.pictures.length == 0
+                ? _c("li", [
+                    _c("img", {
+                      attrs: { src: _vm.product.coverImage, alt: "" }
+                    })
+                  ])
+                : _vm._e()
+            ],
+            2
           ),
           _vm._v(" "),
-          _vm._m(1)
+          _c("div", { staticClass: "arrows-perspective" }, [
+            _c(
+              "div",
+              {
+                staticClass: "carouselPrev",
+                on: { click: _vm.LoadPrevImages }
+              },
+              [
+                _c("div", { staticClass: "y" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "x" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "carouselNext",
+                on: { click: _vm.LoadNextImages }
+              },
+              [
+                _c("div", { staticClass: "y" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "x" })
+              ]
+            )
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "flip-back", on: { click: _vm.flipToBack } }, [
@@ -822,36 +886,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "product-options" }, [
-      _c("strong", [_vm._v("類別")]),
-      _vm._v(" "),
-      _c("span", [_vm._v("耐熱袋")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "arrows-perspective" }, [
-      _c("div", { staticClass: "carouselPrev" }, [
-        _c("div", { staticClass: "y" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "x" })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "carouselNext" }, [
-        _c("div", { staticClass: "y" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "x" })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

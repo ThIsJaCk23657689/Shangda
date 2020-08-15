@@ -14,7 +14,7 @@ class ProductTableSeeder extends Seeder
      */
     public function run()
     {
-        $products = factory(ProductEloquent::class, 10)->create()->each(function($product){
+        $products = factory(ProductEloquent::class, 68)->create()->each(function($product){
             $picture_count = rand(0, 5);
             $recipe_count = rand(1, 5);
             

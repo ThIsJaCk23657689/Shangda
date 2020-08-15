@@ -60,5 +60,8 @@ $factory->define(Product::class, function (Faker $faker) {
         'costprice' => 0,
         'profit' => 0,
         'retailPrice' => 0,
+
+        'isPublic' => $faker->randomElement([0, 1]),
+        'showPrice' => $faker->randomElement([0, 1]),
     ];
 });

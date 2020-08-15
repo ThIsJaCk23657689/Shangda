@@ -55072,7 +55072,6 @@ var navbar = new Vue({
         targetOpacity = 0;
       }
 
-      console.log(scrollPos);
       scrollPos < end_point && scrollPos > start_point ? targetOpacity = (scrollPos - 220) / 220 : targetOpacity;
       $('nav.navbar').css({
         'background-color': 'rgba(0, 53, 119, ' + targetOpacity + ')'

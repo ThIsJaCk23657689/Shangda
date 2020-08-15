@@ -229,22 +229,20 @@ class ProductService extends BaseService
             $products = $products->orderBy('created_at', 'desc');
         }
 
+        // 1. 在前台中顯示 2.在前台不顯示
+        $products = $products->where('isPublic', 1);
+
         $count = $products->count();
-        $products = $products->skip($skip)->take($take)->get();
+        $products = $products->skip($skip)->take($take)->get([
+            'id', 'category_id', 'name', 'specification', 'color', 'isPublic', 'showPrice', 'quantity', 'retailPrice', 'created_at'
+        ]);
 
         foreach($products as $product){
             $product->showUnit = $product->showUnit();
             $product->showURL = route('front.products.show', $product->id);
-            $product_pictures = $product->pictures;
-            $product_images = [];
-            $c = 1;
-            foreach($product_pictures as $product_picture){
-                $product_images[$c-1]['url'] = $product->showPicture($c);
-                $product_images[$c-1]['index'] = $c;
-                $c ++;
-            }
-            $product->imgs = $product_images;
-            $product->coverImg = $product->showPicture(1);
+            $product->pictures = $product->pictures;
+            $product->category = $product->category;
+            $product->coverImage = $product->showPicture(1);
         }
 
         return [

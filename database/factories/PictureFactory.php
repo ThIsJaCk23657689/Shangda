@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Picture::class, function (Faker $faker) {
     return [
-        'url' => 'https://fakeimg.pl/250x250/' . substr($faker->hexcolor, 1) . '/' . substr($faker->hexcolor, 1) . '/',
+        'url' => 'https://fakeimg.pl/500x500/' . substr($faker->hexcolor, 1) . '/' . substr($faker->hexcolor, 1) . '/',
         'index' => 0
     ];
 });

@@ -12,7 +12,6 @@ section.product-content {
     position: relative;
     background-color: #efefef;
     .container {
-        .filter {}
         .product-list {
             display: flex;
             flex-direction: row;
@@ -53,7 +52,7 @@ section.product-content {
             -o-transition: 100ms ease-out;
             transition: 100ms ease-out;
             .stats-container {
-                top: 232px;
+                top: 230px;
                 -webkit-transition: all 200ms ease-out;
                 -moz-transition: all 200ms ease-out;
                 -o-transition: all 200ms ease-out;
@@ -152,7 +151,7 @@ section.product-content {
     padding: 15px 24px 35px;
     background: #fff;
     position: absolute;
-    top: 283px;
+    top: 284px;
     left: 0;
     -webkit-transition: all 200ms ease-out;
     -moz-transition: all 200ms ease-out;
@@ -162,12 +161,31 @@ section.product-content {
         color: #48cfad;
         font-size: 22px;
         font-weight: 600;
-        padding-bottom: 6px;
+        padding-bottom: 12px;
+    }
+    .product_ask_price{
+        border: solid 2px #000000;
+        padding: 4px;
+        margin-bottom: 9px;
+        font-size: 1rem;
+        font-weight: bold;
+        background-color: white;
+        z-index: 2;
+        transition: all 200ms ease-out;
+        &:hover {
+            color: #ffffff;
+            background-color: #003367;
+            border-color: #003367;
+            text-decoration: none;
+        }
     }
     .product_name {
         font-size: 22px;
         color: #393c45;
-        padding-bottom: 20px;
+        padding-bottom: 13px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     p {
         font-size: 16px;
@@ -186,7 +204,7 @@ section.product-content {
             border: solid 2px #000000;
             padding: 8px 20px;
             right: 30px;
-            bottom: 148px;
+            bottom: 145px;
             font-size: 0.8rem;
             font-weight: bold;
             transition: all 200ms ease-out;
