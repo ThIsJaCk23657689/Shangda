@@ -58,11 +58,22 @@
 										<i class="fas fa-edit"></i>
 									</a>
 									<a href="#" class="btn btn-md btn-danger" onclick="
-									    event.preventDefault();
-										ans = confirm('確定要刪除此公告嗎?');
-										if(ans){
-											$('#deleteform-{{ $announcement->id }}').submit();
-										}
+										event.preventDefault();
+
+										Swal.fire({
+											title: '注意！',
+											text: '您確定要刪除此消息嗎？',
+											icon: 'warning',
+											showCancelButton: true,
+											confirmButtonColor: '#3085d6',
+											cancelButtonColor: '#d33',
+											confirmButtonText: '確認',
+											cancelButtonText: '取消',
+										}).then((result) => {
+											if (result.value) {
+												$('#deleteform-{{ $announcement->id }}').submit();
+											}
+										});
 										">
 										<i class="fas fa-trash-alt"></i>
 										刪除

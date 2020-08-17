@@ -31,7 +31,11 @@ class AnnouncementService extends BaseService
             'content' => $request->content,
         ]);
 
-        return $announcement->id;
+        return [
+            'status' => 200,
+            'id' => $announcement->id,
+            'url' => route('announcements.show', [$announcement->id])
+        ];
     }
 
     public function getList()
@@ -56,37 +60,46 @@ class AnnouncementService extends BaseService
     {
         $announcement = $this->getOne($id);
 
-        // if(!is_null($request->image_data) && !is_null($_FILES['image_file'])){
-        //     // 圖片路徑生成與裁切
-        //     $crop = new CropImageService($request->image_data, $_FILES['image_file'], 'announcements');
-        //     $result = $crop->getResult();
-        //     if($result['status'] == 'ERROR'){
-        //         return [
-        //             'status' => '422',
-        //             'message' => $result['message']
-        //         ];
-        //     }else{
-        //         $url = $result['url'];
-        //     }
-        // }else{
-        //     $url = $announcement->cover_image;
-        // }
-
-        $user = auth('api')->user();
+        if(!is_null($request->image_data) && !is_null($_FILES['image_file'])){
+            // 圖片路徑生成與裁切
+            $crop = new CropImageService($request->image_data, $_FILES['image_file'], 'announcements');
+            $result = $crop->getResult();
+            if($result['status'] == 'ERROR'){
+                return [
+                    'status' => '422',
+                    'message' => $result['message']
+                ];
+            }else{
+                $url = $result['url'];
+                // 刪除舊圖
+                if(file_exists(public_path($announcement->cover_image))){
+                    unlink(public_path($announcement->cover_image));   
+                }
+            }
+        }else{
+            $url = $announcement->cover_image;
+        }
 
         $announcement->update([
-            // 'cover_image' => $url,
+            'cover_image' => $url,
             'last_update_user_id' => Auth::id(),
             'title' => $request->title,
             'content' => $request->content,
-            ]);
+        ]);
 
-        return $announcement->id;
+        return [
+            'status' => 200,
+            'id' => $announcement->id,
+            'url' => route('announcements.show', [$announcement->id])
+        ];
     }
 
     public function delete($id)
     {
         $announcement = $this->getOne($id);
+        if(file_exists(public_path($announcement->cover_image))){
+            unlink(public_path($announcement->cover_image));   
+        }
         $announcement->delete();
     }
 

@@ -21,10 +21,14 @@
 						<p class="ae-3 mb-4">
 							<span class="opacity-8">全苗栗最值得信賴的塑膠工廠</span>
 						</p>
-						@guest
-							<a href="{{ route('register') }}" class="button blue gradient crop ae-3" style="text-decoration:none;">加入會員</a>
-							<a href="{{ route('login') }}" class="button indigo gradient crop ae-3" style="text-decoration:none;">立刻登入</a>
+						@guest('consumer')
+							@guest
+								{{-- 客戶沒有登入且管理者也沒登入 --}}
+								<a href="{{ route('register') }}" class="button blue gradient crop ae-3" style="text-decoration:none;">加入會員</a>
+								<a href="{{ route('consumers.login') }}" class="button indigo gradient crop ae-3" style="text-decoration:none;">立刻登入</a>
+							@endguest
 						@else
+							{{-- 客戶有登入 --}}
 							<a href="#" class="button cyan gradient crop ae-3">{{ __('Profile') }}</a>
 						@endguest
 					</div>

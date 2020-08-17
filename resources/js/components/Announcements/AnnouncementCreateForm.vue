@@ -1,49 +1,47 @@
 <template>
-<div>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <form method="POST" id="announcement_create_form" action="" @submit.prevent="announcementCreateForm">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="title">
-                                <span class="text-danger mr-2">*</span>標題
-                            </label>
-                            <input id="title" name="title" type="text" class="form-control mb-2" value="" required autocomplete="off" autofocus>
-                        </div>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form method="POST" id="announcement_create_form" action="" @submit.prevent="announcementCreateForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="title">
+                            <span class="text-danger mr-2">*</span>標題
+                        </label>
+                        <input id="title" name="title" type="text" class="form-control mb-2" value="" required autocomplete="off" autofocus>
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <upload-images ref="uploadCoverImages" :title="'上傳封面圖片'" :aspect-ratio="1"  :prefix="'announcement'" :helptext="'（建議尺寸：500px * 500px）'" :uploadimg="AnnouncementsDefaultImage"></upload-images>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <upload-images ref="uploadCoverImages" :title="'上傳封面圖片'" :aspect-ratio="1"  :prefix="'announcement'" :helptext="'（建議尺寸：500px * 500px）'" :uploadimg="AnnouncementsDefaultImage"></upload-images>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="content">
+                            <span class="text-danger mr-2">*</span>內容
+                        </label>
+                        <textarea name="content" id="content" class="form-control" cols="30" rows="5" required></textarea>
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="content">
-                                <span class="text-danger mr-2">*</span>內容
-                            </label>
-                            <textarea name="content" id="content" class="form-control" cols="30" rows="5" required></textarea>
-                        </div>
-                    </div>
+            <div class="form-group row justify-content-center">
+                <div class="col-md-8">
+                    <button type="submit" class="btn btn-block btn-primary">
+                        確認新增
+                    </button>
+                    <a :href="AnnouncementsIndexURL" class="btn btn-block btn-danger">
+                        返回列表
+                    </a>
                 </div>
+            </div>
 
-                <div class="form-group row justify-content-center">
-                    <div class="col-md-8">
-                        <button type="submit" class="btn btn-block btn-primary">
-                            確認新增
-                        </button>
-                        <a :href="AnnouncementsIndexURL" class="btn btn-block btn-danger">
-                            返回列表
-                        </a>
-                    </div>
-                </div>
-
-            </form>
-        </div>
+        </form>
     </div>
 </div>
 </template>

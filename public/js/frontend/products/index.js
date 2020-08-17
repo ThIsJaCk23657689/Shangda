@@ -296,7 +296,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       carouselSlideWidth: 335,
-      isAnimating: false
+      isAnimating: false,
+      carouselWidth: 0
     };
   },
   methods: {
@@ -348,7 +349,7 @@ __webpack_require__.r(__webpack_exports__);
         }, 100);
       }, 150);
     },
-    LoadPrevImages: function LoadPrevImages(e) {
+    loadPrevImages: function loadPrevImages(e) {
       var $carousel = $(e.target).parents('.carousel');
       var currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
       var newLeft = currentLeft - this.carouselSlideWidth;
@@ -366,7 +367,7 @@ __webpack_require__.r(__webpack_exports__);
         vm.isAnimating = false;
       }, 300);
     },
-    LoadNextImages: function LoadNextImages(e) {
+    loadNextImages: function loadNextImages(e) {
       var vm = this;
       var $carousel = $(e.target).parents('.carousel');
       var currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
@@ -385,34 +386,25 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         vm.isAnimating = false;
       }, 300);
+    },
+    zoomIn: function zoomIn(e) {
+      $(e.target).addClass('animate');
+      $(e.target).find('div.carouselNext, div.carouselPrev').addClass('visible');
+    },
+    zoomOut: function zoomOut(e) {
+      $(e.target).removeClass('animate');
+      $(e.target).find('div.carouselNext, div.carouselPrev').removeClass('visible');
     }
   },
   created: function created() {},
   mounted: function mounted() {
-    // 商品卡片的hover事件
-    $('.product-card').hover(function () {
-      $(this).addClass('animate');
-      $(this).find('div.carouselNext, div.carouselPrev').addClass('visible');
-    }, function () {
-      $(this).removeClass('animate');
-      $(this).find('div.carouselNext, div.carouselPrev').removeClass('visible');
-    });
     /* ----  Image Gallery Carousel   ---- */
-
-    var carouselSlideWidth = 335;
-    var isAnimating = false;
-    console.log($('.carousel ul').length);
-
-    for (var $i = 0; $i < $('.carousel ul').length; $i++) {
-      var carousel = $($('.carousel ul')[$i]);
-      var carouselWidth = 0;
-      $($('.carousel ul')[$i]).children('li').each(function () {
-        carouselWidth += carouselSlideWidth;
-      }); // building the width of the casousel
-
-      $(carousel).css('width', carouselWidth);
-      console.log('第' + $i + '個物件，長度為：' + carouselWidth);
-    }
+    var vm = this;
+    var carousel = $($(this.$el).find('.carousel ul'));
+    carousel.children('li').each(function () {
+      vm.carouselWidth += vm.carouselSlideWidth;
+    });
+    carousel.css('width', this.carouselWidth);
   }
 });
 
@@ -762,128 +754,139 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "make-3D-space" }, [
-    _c("div", { staticClass: "product-card" }, [
-      _c("div", { staticClass: "product-front" }, [
-        _c("div", { staticClass: "shadow" }),
-        _vm._v(" "),
-        _c("img", { attrs: { src: _vm.product.coverImage, alt: "" } }),
-        _vm._v(" "),
-        _c("div", { staticClass: "image_overlay" }),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "view_details", on: { click: _vm.flipToFront } },
-          [_vm._v("查看圖片")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "stats" }, [
-          _c("div", { staticClass: "stats-container" }, [
-            _vm.product.showPrice == 1
-              ? _c("span", { staticClass: "product_price" }, [
-                  _vm._v(_vm._s("$" + _vm.product.retailPrice))
-                ])
-              : _c(
-                  "button",
-                  {
-                    staticClass: "product_ask_price",
-                    attrs: { type: "button" }
-                  },
-                  [
-                    _c("i", { staticClass: "fas fa-comments-dollar mr-1" }),
-                    _vm._v(
-                      "\r\n                        詢問價錢\r\n                    "
-                    )
-                  ]
-                ),
-            _vm._v(" "),
-            _c("span", { staticClass: "product_name" }, [
-              _vm._v(_vm._s(_vm.product.name))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "product-options" }, [
-              _c("strong", [_vm._v("類別")]),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(_vm.product.category.name))])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "readmore-container" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "readmore",
-                  attrs: { href: _vm.product.showURL }
-                },
-                [
-                  _vm._v(
-                    "\r\n                            了解更多 >>\r\n                        "
-                  )
-                ]
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "product-back" }, [
-        _c("div", { staticClass: "shadow" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "carousel" }, [
+    _c(
+      "div",
+      {
+        staticClass: "product-card",
+        on: { mouseenter: _vm.zoomIn, mouseleave: _vm.zoomOut }
+      },
+      [
+        _c("div", { staticClass: "product-front" }, [
+          _c("div", { staticClass: "shadow" }),
+          _vm._v(" "),
+          _c("img", { attrs: { src: _vm.product.coverImage, alt: "" } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "image_overlay" }),
+          _vm._v(" "),
           _c(
-            "ul",
-            [
-              _vm._l(_vm.product.pictures, function(picture) {
-                return _c("li", { key: picture.index }, [
-                  _c("img", { attrs: { src: picture.url, alt: "" } })
-                ])
-              }),
-              _vm._v(" "),
-              _vm.product.pictures.length == 0
-                ? _c("li", [
-                    _c("img", {
-                      attrs: { src: _vm.product.coverImage, alt: "" }
-                    })
-                  ])
-                : _vm._e()
-            ],
-            2
+            "div",
+            { staticClass: "view_details", on: { click: _vm.flipToFront } },
+            [_vm._v("查看圖片")]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "arrows-perspective" }, [
-            _c(
-              "div",
-              {
-                staticClass: "carouselPrev",
-                on: { click: _vm.LoadPrevImages }
-              },
-              [
-                _c("div", { staticClass: "y" }),
+          _c("div", { staticClass: "stats" }, [
+            _c("div", { staticClass: "stats-container" }, [
+              _vm.product.showPrice == 1
+                ? _c("span", { staticClass: "product_price" }, [
+                    _vm._v(_vm._s("$" + _vm.product.retailPrice))
+                  ])
+                : _c(
+                    "button",
+                    {
+                      staticClass: "product_ask_price",
+                      attrs: { type: "button" }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-comments-dollar mr-1" }),
+                      _vm._v(
+                        "\r\n                        詢問價錢\r\n                    "
+                      )
+                    ]
+                  ),
+              _vm._v(" "),
+              _c("span", { staticClass: "product_name" }, [
+                _vm._v(_vm._s(_vm.product.name))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "product-options" }, [
+                _c("strong", [_vm._v("類別")]),
                 _vm._v(" "),
-                _c("div", { staticClass: "x" })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "carouselNext",
-                on: { click: _vm.LoadNextImages }
-              },
-              [
-                _c("div", { staticClass: "y" }),
-                _vm._v(" "),
-                _c("div", { staticClass: "x" })
-              ]
-            )
+                _c("span", [_vm._v(_vm._s(_vm.product.category.name))])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "readmore-container" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "readmore",
+                    attrs: { href: _vm.product.showURL }
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                            了解更多 >>\r\n                        "
+                    )
+                  ]
+                )
+              ])
+            ])
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "flip-back", on: { click: _vm.flipToBack } }, [
-          _c("div", { staticClass: "cy" }),
+        _c("div", { staticClass: "product-back" }, [
+          _c("div", { staticClass: "shadow" }),
           _vm._v(" "),
-          _c("div", { staticClass: "cx" })
+          _c("div", { staticClass: "carousel" }, [
+            _c(
+              "ul",
+              [
+                _vm._l(_vm.product.pictures, function(picture) {
+                  return _c("li", { key: picture.index }, [
+                    _c("img", { attrs: { src: picture.url, alt: "" } })
+                  ])
+                }),
+                _vm._v(" "),
+                _vm.product.pictures.length == 0
+                  ? _c("li", [
+                      _c("img", {
+                        attrs: { src: _vm.product.coverImage, alt: "" }
+                      })
+                    ])
+                  : _vm._e()
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "arrows-perspective" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "carouselPrev",
+                  on: { click: _vm.loadPrevImages }
+                },
+                [
+                  _c("div", { staticClass: "y" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "x" })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "carouselNext",
+                  on: { click: _vm.loadNextImages }
+                },
+                [
+                  _c("div", { staticClass: "y" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "x" })
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flip-back", on: { click: _vm.flipToBack } },
+            [
+              _c("div", { staticClass: "cy" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "cx" })
+            ]
+          )
         ])
-      ])
-    ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []

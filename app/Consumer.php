@@ -2,19 +2,20 @@
 
 namespace App;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
+// use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 use App\Picture as PictureEloquent;
 use App\SalesOrder as SalesOrderEloquent;
 use App\Product as ProductEloquent;
 use URL;
 
-class Consumer extends Authenticatable implements JWTSubject
+class Consumer extends Authenticatable
 {
     use Notifiable, SoftDeletes;
+
+    protected $guard = 'consumer';
 
     protected $fillable = [
         'account', 'password', 'name', 'shortName', 'gender', 'idNumber', 'email', 'lineID',
@@ -32,28 +33,8 @@ class Consumer extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
-        'pwd', 'remember_token',
+        'password', 'remember_token',
     ];
-
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 
     public function saleOrder(){
         return $this->hasMany(SalesOrderEloquent::class);

@@ -11,36 +11,52 @@
 |
 */
 
+// 管理者登入路由
 Auth::routes();
 
-Route::get('/test', function(){
-    return view('test');
-});
-
+// 前台路由
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/old', 'HomeController@old')->name('old');
-// 前台路由
-    // 商品
-Route::get('/products', 'Frontend\ProductController@index')->name('front.products.index');
-Route::post('/products', 'Frontend\ProductController@list');
-Route::get('/products/{id}', 'Frontend\ProductController@show')->name('front.products.show');
-Route::get('/products/{id}/pictures', 'Frontend\ProductController@getOnePictures')->name('front.products.getOnePictures');
-    // 最新消息
-Route::get('/announcements', 'Frontend\AnnouncementController@index')->name('front.announcements');
-Route::post('/announcements', 'Frontend\AnnouncementController@list');
-Route::get('/announcements/{id}', 'Frontend\AnnouncementController@show')->name('front.announcements.show');
-
-    // 關於我們
 Route::get('/about', 'HomeController@about')->name('front.about');
-    // 聯絡我們
-Route::get('/contact_us', 'HomeController@contact_us')->name('front.contact_us');
+Route::get('/contact', 'HomeController@contact')->name('front.contact');
 
-    // 客戶登入相關(含訂單購物車等..)
-Route::get('/consumers/login', 'Auth\Consumer\LoginController@showLoginForm')->name('consumer.showLoginForm');
-Route::get('/consumers/profile/{id}', 'Auth\Consumer\LoginController@showProfile')->name('consumer.profile');
-Route::get('/consumers/salesOrder/{consumer_id}', 'Auth\Consumer\LoginController@showSaleOrders')->name('consumer.showSaleOrders');
-Route::get('/consumers/salesOrder/{consumer_id}/{sale_orders_id}', 'Auth\Consumer\LoginController@showSaleOrderDetails')->name('consumer.showSaleOrderDetails');
-Route::post('/consumers/getSaleOrdersFrontend', 'Auth\Consumer\LoginController@getSaleOrdersFrontend')->name('consumer.getSaleOrdersFrontend');
+// 前台商品
+Route::prefix('products')->group(function(){
+    Route::get('/', 'Frontend\ProductController@index')->name('front.products.index');
+    Route::post('/', 'Frontend\ProductController@list');
+    Route::get('/{id}', 'Frontend\ProductController@show')->name('front.products.show');
+    Route::get('/{id}/pictures', 'Frontend\ProductController@getOnePictures')->name('front.products.getOnePictures');
+});
+
+// 前台最新消息
+Route::prefix('announcements')->group(function(){
+    Route::get('/', 'Frontend\AnnouncementController@index')->name('front.announcements');
+    Route::post('/', 'Frontend\AnnouncementController@list');
+    Route::get('/{id}', 'Frontend\AnnouncementController@show')->name('front.announcements.show');
+});
+
+// 客戶登入相關(含訂單購物車等..)
+Route::prefix('consumers')->group(function(){
+    Route::get('/login', 'Auth\Consumer\LoginController@showLoginForm')->name('consumers.login');
+    Route::post('/login', 'Auth\Consumer\LoginController@login');
+    Route::post('/logout', 'Auth\Consumer\LoginController@logout')->name('consumers.logout');
+
+    // Route::get('/register', 'Auth\Consumer\RegisterController@showRegistrationForm')->name('consumers.register');
+    // Route::post('/register', 'Auth\Consumer\RegisterController@register');
+
+    Route::prefix('password')->group(function(){
+        Route::get('/reset', 'Auth\Consumer\ForgotPasswordController@showLinkRequestForm')->name('consumers.password.request');
+        Route::post('/email', 'Auth\Consumer\ForgotPasswordController@sendResetLinkEmail')->name('consumers.password.email');
+        Route::get('/reset/{token}', 'Auth\Consumer\ResetPasswordController@showResetForm')->name('consumers.password.reset');
+        Route::post('/reset', 'Auth\Consumer\ResetPasswordController@reset')->name('consumers.password.update');
+    });
+
+
+    // Route::get('/profile/{id}', 'Auth\Consumer\LoginController@showProfile')->name('consumer.profile');
+    // Route::get('/salesOrder/{consumer_id}', 'Auth\Consumer\LoginController@showSaleOrders')->name('consumer.showSaleOrders');
+    // Route::get('/salesOrder/{consumer_id}/{sale_orders_id}', 'Auth\Consumer\LoginController@showSaleOrderDetails')->name('consumer.showSaleOrderDetails');
+    // Route::post('/getSaleOrdersFrontend', 'Auth\Consumer\LoginController@getSaleOrdersFrontend')->name('consumer.getSaleOrdersFrontend');
+});
 
 // 後臺管理路由
 Route::prefix('/backend')->group(function(){
@@ -172,6 +188,7 @@ Route::prefix('/backend')->group(function(){
     });
 
     // 最新消息路由
+    Route::get('/{id}/json', 'AnnouncementController@getOne')->name('announcements.getOne');
     Route::resource('/announcements', 'AnnouncementController');
 
     // 報表路由

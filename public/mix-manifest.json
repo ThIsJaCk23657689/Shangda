@@ -1,5 +1,6 @@
 {
     "/js/announcements/create.js": "/js/announcements/create.js",
+    "/js/announcements/edit.js": "/js/announcements/edit.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/css/welcome/slides.css": "/css/welcome/slides.css",
@@ -20,6 +21,7 @@
     "/js/discounts/edit-product.js": "/js/discounts/edit-product.js",
     "/js/discounts/index.js": "/js/discounts/index.js",
     "/js/frontend.js": "/js/frontend.js",
+    "/js/frontend/consumers/login.js": "/js/frontend/consumers/login.js",
     "/js/frontend/consumers/sale_orders.js": "/js/frontend/consumers/sale_orders.js",
     "/js/frontend/products/index.js": "/js/frontend/products/index.js",
     "/js/frontend/products/show.js": "/js/frontend/products/show.js",

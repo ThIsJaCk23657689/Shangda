@@ -26,12 +26,8 @@ class AnnouncementController extends Controller
     }
 
     public function store(AnnouncementRequest $request){
-        $announcement_id = $this->AnnouncementService->add($request);
-        return response()->json([
-            'status' => 'OK',
-            'added_id' => $announcement_id,
-            'url' => route('announcements.index')
-        ], 200);
+        $result = $this->AnnouncementService->add($request);
+        return response()->json($result, $result['status']);
     }
 
     public function show($id){
@@ -45,19 +41,13 @@ class AnnouncementController extends Controller
     }
 
     public function update(AnnouncementRequest $request, $id){
-        $announcement_id = $this->AnnouncementService->update($request, $id);
-        return redirect()->route('announcements.show', [$announcement_id]);
-        // return response()->json([
-        //     'status' => 'OK',
-        //     'added_id' => $announcement_id,
-        //     'url' => route('announcements.show', [$announcement_id])
-        // ], 200);
+        $result = $this->AnnouncementService->update($request, $id);
+        return response()->json($result, $result['status']);
     }
 
     public function destroy($id){
 
         $this->AnnouncementService->delete($id);
-        // return response()->json(['status'=>'OK','url'=>route('announcements.index')],200);
         return redirect()->route('announcements.index');
     }
 
@@ -72,6 +62,7 @@ class AnnouncementController extends Controller
 
     public function getOne($id){
         $announcement = $this->AnnouncementService->getOne($id);
+        $announcement->showCoverImage = $announcement->showCoverImage();
         return response()->json([
             'status' => 'OK',
             'announcement' => $announcement

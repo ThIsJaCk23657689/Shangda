@@ -17,8 +17,9 @@
                 <li><a href="{{ route('front.products.index') }}">{{ __('Products') }}</a></li>
                 <li><a href="#">{{ __('News') }}</a></li>
                 {{-- <li><a href="#">{{ __('Location') }}</a></li> --}}
-                <li><a href="{{ route('front.contact_us') }}">{{ __('Contact') }}</a></li>
+                <li><a href="{{ route('front.contact') }}">{{ __('Contact') }}</a></li>
                 @auth
+                    {{-- 管理者登入 --}}
                     <li><a href="{{ route('backend') }}">{{ __('Backend') }}</a></li>
                     <li>
                         <a href="{{ route('logout') }}"
@@ -30,7 +31,21 @@
                             @csrf
                         </form>
                     </li>
-                @endguest
+                @endauth
+                @auth('consumer')
+                    {{-- 客戶登入 --}}
+                    <li><a href="#">{{ __('Cart') }}</a></li>
+                    <li>
+                        <a href="#" onclick="
+                            event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('consumers.logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                @endauth
             </ul>
         </div>
 

@@ -19,6 +19,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/welcome/slides.js', 'public/js/welcome')
     .js('resources/js/frontend/products/index.js', 'public/js/frontend/products')
     .js('resources/js/frontend/products/show.js', 'public/js/frontend/products')
+    .js('resources/js/frontend/consumers/login.js', 'public/js/frontend/consumers')
     .js('resources/js/frontend/consumers/sale_orders.js', 'public/js/frontend/consumers')
 
 .sass('resources/sass/app.scss', 'public/css')
@@ -66,6 +67,7 @@ mix.js('resources/js/backend.js', 'public/js')
     .js('resources/js/produces/edit.js', 'public/js/produces')
 
 .js('resources/js/announcements/create.js', 'public/js/announcements')
+.js('resources/js/announcements/edit.js', 'public/js/announcements')
 
 .js('resources/js/reports/sales/year.js', 'public/js/reports/sales')
     .js('resources/js/reports/sales/daily.js', 'public/js/reports/sales')

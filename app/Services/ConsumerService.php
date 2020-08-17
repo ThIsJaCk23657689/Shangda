@@ -92,6 +92,7 @@ class ConsumerService extends BaseService
         $consumer = ConsumerEloquent::create($data);
         // 建立客戶購物車
         $this->CartService->add($consumer->id);
+
         // 圖片儲存
         if($request->has('company_picture')){
             $this->savePicture($request->company_picture, $consumer);
@@ -134,7 +135,6 @@ class ConsumerService extends BaseService
             $sale_order->showDeliverAtDate = $sale_order->showDeliverAtDate();
             $sale_order->showPaidAtDate = $sale_order->showPaidAtDate();
             $sale_order->showURL = route('consumer.showSaleOrderDetails', ['consumer_id' => $sale_order->consumer_id, 'sale_orders_id' => $sale_order->id]);
-
         }
 
         return [

@@ -42,7 +42,7 @@ return [
         ],
 
         'consumer' => [
-            'driver' => 'jwt',
+            'driver' => 'session',
             'provider' => 'consumers',
         ],
 

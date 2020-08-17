@@ -1,6 +1,6 @@
 <template>
 <div class="make-3D-space">
-    <div class="product-card">
+    <div class="product-card" @mouseenter="zoomIn" @mouseleave="zoomOut">
         <div class="product-front">
             <div class="shadow"></div>
             <img :src="product.coverImage" alt="" />
@@ -45,11 +45,11 @@
                     </li>
                 </ul>
                 <div class="arrows-perspective">
-                    <div class="carouselPrev" @click="LoadPrevImages">
+                    <div class="carouselPrev" @click="loadPrevImages">
                         <div class="y"></div>
                         <div class="x"></div>
                     </div>
-                    <div class="carouselNext" @click="LoadNextImages">
+                    <div class="carouselNext" @click="loadNextImages">
                         <div class="y"></div>
                         <div class="x"></div>
                     </div>
@@ -71,6 +71,7 @@ export default {
         return {
             carouselSlideWidth: 335,
             isAnimating: false,
+            carouselWidth: 0,
         }
     },
     methods: {
@@ -122,7 +123,7 @@ export default {
                 }, 100);
             }, 150);
         },
-        LoadPrevImages(e){
+        loadPrevImages(e){
             let $carousel = $(e.target).parents('.carousel');
             let currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
             let newLeft = currentLeft - this.carouselSlideWidth;
@@ -136,7 +137,7 @@ export default {
                 vm.isAnimating = false;
             }, 300);
         },
-        LoadNextImages(e){
+        loadNextImages(e){
             let vm = this;
             let $carousel = $(e.target).parents('.carousel');
             let currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
@@ -152,37 +153,28 @@ export default {
                 vm.isAnimating = false;
             }, 300);
         },
+        zoomIn(e){
+            $(e.target).addClass('animate');
+            $(e.target).find('div.carouselNext, div.carouselPrev').addClass('visible');
+        },
+        zoomOut(e){
+            $(e.target).removeClass('animate');
+            $(e.target).find('div.carouselNext, div.carouselPrev').removeClass('visible');
+        }
     },
     created(){
 
     },
     mounted(){
-        // 商品卡片的hover事件
-        $('.product-card').hover(function(){
-            $(this).addClass('animate');
-            $(this).find('div.carouselNext, div.carouselPrev').addClass('visible');
-        }, function(){
-            $(this).removeClass('animate');
-            $(this).find('div.carouselNext, div.carouselPrev').removeClass('visible');
+        /* ----  Image Gallery Carousel   ---- */
+        let vm = this;
+        let carousel = $($(this.$el).find('.carousel ul'));
+
+        carousel.children('li').each(function(){
+            vm.carouselWidth += vm.carouselSlideWidth;
         });
 
-        /* ----  Image Gallery Carousel   ---- */
-        let carouselSlideWidth = 335;
-        let isAnimating = false;
-        console.log($('.carousel ul').length);
-        for(let $i = 0; $i < $('.carousel ul').length; $i++){
-            let carousel = $($('.carousel ul')[$i]);
-            let carouselWidth = 0;
-
-            $($('.carousel ul')[$i]).children('li').each(function(){
-                carouselWidth += carouselSlideWidth;
-            });
-
-            // building the width of the casousel
-            $(carousel).css('width', carouselWidth);
-
-            console.log('第' + $i + '個物件，長度為：' + carouselWidth);
-        }
+        carousel.css('width', this.carouselWidth);
     }
 }
 </script>

@@ -39,7 +39,7 @@ class HomeController extends Controller
     }
 
     // 聯絡我們頁面
-    public function contact_us(){
-        return view('frontend.contact_us');
+    public function contact(){
+        return view('frontend.contact');
     }
 }
