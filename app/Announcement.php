@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\User as UserEloquent;
 use URL;
 use DateTimeInterface;
-
+use Carbon\Carbon;
 
 class Announcement extends Model
 {
@@ -43,5 +43,18 @@ class Announcement extends Model
         }else{
             return URL::asset($this->cover_image);
         }
+    }
+
+    public function showDay(){
+        return $this->created_at->isoFormat('DD');
+    }
+
+    public function showYear(){
+        return $this->created_at->isoFormat('YYYY');
+    }
+
+    public function showMonth(){
+        $date = Carbon::parse($this->created_at)->format('F');
+        return strtoupper($date);
     }
 }

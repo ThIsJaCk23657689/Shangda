@@ -15,7 +15,7 @@
             <ul class="menu uppercase">
                 <li><a href="{{ route('front.about') }}">{{ __('About') }}</a></li>
                 <li><a href="{{ route('front.products.index') }}">{{ __('Products') }}</a></li>
-                <li><a href="#">{{ __('News') }}</a></li>
+                <li><a href="{{ route('front.announcements.index') }}">{{ __('News') }}</a></li>
                 {{-- <li><a href="#">{{ __('Location') }}</a></li> --}}
                 <li><a href="{{ route('front.contact') }}">{{ __('Contact') }}</a></li>
                 @auth

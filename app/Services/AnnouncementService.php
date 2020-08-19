@@ -117,9 +117,16 @@ class AnnouncementService extends BaseService
         $announcements = AnnouncementEloquent::orderBy('created_at', 'desc')->skip($skip)->take($take)->get();
         foreach ($announcements as $announcement) {
             $announcement->showTitle = $announcement->showTitle();
-            $announcement->showDate = $announcement->showDate();
             $announcement->showCoverImage = $announcement->showCoverImage();
+            $announcement->showDay = $announcement->showDay();
+            $announcement->showYear = $announcement->showYear();
+            $announcement->showMonth = $announcement->showMonth();
             $announcement->detailURL = route('front.announcements.show', [$announcement->id]);
         }
+
+        return [
+            'announcements' => $announcements,
+            'count' => count($announcements)
+        ];
     }
 }

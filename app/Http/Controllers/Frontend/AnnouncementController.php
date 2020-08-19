@@ -28,7 +28,7 @@ class AnnouncementController extends Controller
 
         return response()->json([
             'status' => 'OK',
-            'DataTotalCount' => $res['count'],
+            'totalcount' => $res['count'],
             'announcements' => $res['announcements'],
         ]);
     }

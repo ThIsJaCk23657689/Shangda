@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/reports/sales/profit.js":
-/*!**********************************************!*\
-  !*** ./resources/js/reports/sales/profit.js ***!
-  \**********************************************/
+/***/ "./resources/js/frontend/announcements/show.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/frontend/announcements/show.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -97,14 +97,14 @@
 
 /***/ }),
 
-/***/ 34:
-/*!****************************************************!*\
-  !*** multi ./resources/js/reports/sales/profit.js ***!
-  \****************************************************/
+/***/ 7:
+/*!***********************************************************!*\
+  !*** multi ./resources/js/frontend/announcements/show.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\reports\sales\profit.js */"./resources/js/reports/sales/profit.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\frontend\announcements\show.js */"./resources/js/frontend/announcements/show.js");
 
 
 /***/ })

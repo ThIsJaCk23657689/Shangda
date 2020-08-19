@@ -30,7 +30,7 @@ Route::prefix('products')->group(function(){
 
 // 前台最新消息
 Route::prefix('announcements')->group(function(){
-    Route::get('/', 'Frontend\AnnouncementController@index')->name('front.announcements');
+    Route::get('/', 'Frontend\AnnouncementController@index')->name('front.announcements.index');
     Route::post('/', 'Frontend\AnnouncementController@list');
     Route::get('/{id}', 'Frontend\AnnouncementController@show')->name('front.announcements.show');
 });

@@ -1,0 +1,61 @@
+@import '../variables';
+@import '../content';
+@import '../filter';
+
+section.header {
+    .bg-image {
+        background-image: url(../../../../public/images/background/img-09.jpg);
+    }
+}
+
+section.announcement-content {
+    width: 100%;
+    position: relative;
+    background-color: #efefef;
+    .container {
+        .announcement-list {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            color: black;
+        }
+    }
+}
+
+.announcement-card{
+    width: calc(33.333333% - 56px);
+    background-color: white;
+    margin: 25px 28px;
+    color: #000000;
+    transition: all 200ms ease-out;
+    &:hover{
+        box-shadow: 0 0 15px 6px #00000096;
+    }
+    .card-link{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        .announcement-card-image{
+            overflow: hidden;
+            position: relative;
+            img{
+                // height: 100%;
+                // position: absolute;
+                // top: calc(50% + 0px);
+                // left: 0;
+                // transform: translateY(-50%);
+                transition: all 0.8s ease-in-out;
+            }
+            .image-gray{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba($blue, 0.3);
+                transition: background-color 0.1s ease-in-out;
+            }
+        }
+    }
+    
+}
