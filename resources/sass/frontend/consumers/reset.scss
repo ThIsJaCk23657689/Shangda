@@ -1,0 +1,97 @@
+@import '../variables';
+@import '../content';
+
+section.header {
+    height: calc(100vh - 122px);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    .bg-image {
+        background-image: url(../../../../public/images/background/img-14.jpg);
+    }
+}
+
+.white-panel{
+    background-color: rgba(250, 250, 250, 1);
+    // height: 350px;
+    width: 40%;
+    z-index:0;
+    box-shadow: 0 0 15px 9px #00000096;
+    .login-show{
+        z-index: 1;
+        display: none;
+        opacity: 0;
+        transition: 0.3s ease-in-out;
+        color: #242424;
+        text-align: left;
+        padding: 50px;
+        .input-container{
+            margin: 20px 0;
+            small{
+                display: none;
+                color: #ff2828;
+                font-size: 0.9rem;
+                font-weight: bold;
+            }
+            &.error{
+                input[type="email"]{
+                    border: 1px solid #ff2828;
+                }
+                small{
+                    display: inline-block;
+                }
+            }
+        }
+        input[type="email"], input[type="password"]{
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+            padding: 15px;
+            border: 1px solid #b5b5b5;
+            outline: none;
+        }
+        .button-container{
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        .submit-button {
+            max-width: 150px;
+            width: 100%;
+            background: #444444;
+            color: #f9f9f9;
+            border: none;
+            padding: 10px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            // float: right;
+            cursor:pointer;
+            transition: 200ms ease-out;
+            &:hover{
+                background: #666666;
+            }
+            &.disabled{
+                cursor: not-allowed;
+                background: #bbbbbb;
+                &:hover{
+                    background: #bbbbbb;
+                }
+            }
+        }
+        a{
+            display: inline-block;
+            padding: 10px 0;
+            text-decoration: none;
+        }
+    }
+}
+
+.show-log-panel{
+    display: block !important;
+}
+
+#counter{
+    transition: 200ms ease-out;
+    opacity: 0;
+}

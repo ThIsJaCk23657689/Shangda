@@ -18,9 +18,9 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if($guard == 'api'){
+            if($guard == 'api' || $request->expectsJson()){
                 return response()->json([
-                    'msg' => '您無權進入此頁面，因為您已經登入了。'
+                    'message' => '您無權進入此頁面，因為您已經登入了。'
                 ], 403);
             }else{
                 return redirect('/');

@@ -52188,6 +52188,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/frontend/consumers/reset.scss":
+/*!******************************************************!*\
+  !*** ./resources/sass/frontend/consumers/reset.scss ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/frontend/consumers/sale_order_details.scss":
 /*!*******************************************************************!*\
   !*** ./resources/sass/frontend/consumers/sale_order_details.scss ***!
@@ -52266,9 +52277,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/welcome/slides.scss ./resources/sass/frontend/index.scss ./resources/sass/frontend/about.scss ./resources/sass/frontend/contact.scss ./resources/sass/frontend/products/index.scss ./resources/sass/frontend/products/show.scss ./resources/sass/frontend/announcements/show.scss ./resources/sass/frontend/consumers/login.scss ./resources/sass/frontend/consumers/profile.scss ./resources/sass/frontend/consumers/sale_orders.scss ./resources/sass/frontend/consumers/sale_order_details.scss ./resources/sass/backend/backend.scss ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/welcome/slides.scss ./resources/sass/frontend/index.scss ./resources/sass/frontend/about.scss ./resources/sass/frontend/contact.scss ./resources/sass/frontend/products/index.scss ./resources/sass/frontend/products/show.scss ./resources/sass/frontend/announcements/show.scss ./resources/sass/frontend/consumers/login.scss ./resources/sass/frontend/consumers/reset.scss ./resources/sass/frontend/consumers/profile.scss ./resources/sass/frontend/consumers/sale_orders.scss ./resources/sass/frontend/consumers/sale_order_details.scss ./resources/sass/backend/backend.scss ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -52282,6 +52293,7 @@ __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\products\
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\products\show.scss */"./resources/sass/frontend/products/show.scss");
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\announcements\show.scss */"./resources/sass/frontend/announcements/show.scss");
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\consumers\login.scss */"./resources/sass/frontend/consumers/login.scss");
+__webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\consumers\reset.scss */"./resources/sass/frontend/consumers/reset.scss");
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\consumers\profile.scss */"./resources/sass/frontend/consumers/profile.scss");
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\consumers\sale_orders.scss */"./resources/sass/frontend/consumers/sale_orders.scss");
 __webpack_require__(/*! C:\AppServ\www\Shangda\resources\sass\frontend\consumers\sale_order_details.scss */"./resources/sass/frontend/consumers/sale_order_details.scss");

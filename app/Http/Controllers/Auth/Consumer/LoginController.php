@@ -16,11 +16,12 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest:consumer')->except('logout');
+        $this->middleware('guest');
     }
 
     // 客戶登入頁面
     public function showLoginForm(){
-        return view('frontend.consumers.login');
+        return view('frontend.consumers.auth.login');
     }
 
     protected function authenticated(Request $request, $user)

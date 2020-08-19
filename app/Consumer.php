@@ -6,9 +6,12 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Notifications\Messages\MailMessage;
 use App\Picture as PictureEloquent;
 use App\SalesOrder as SalesOrderEloquent;
 use App\Product as ProductEloquent;
+use Lang;
 use URL;
 
 class Consumer extends Authenticatable
@@ -77,5 +80,21 @@ class Consumer extends Authenticatable
     // 顯示性別
     public function showGender(){
         return ($this->gender) ? "男" : "女";
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $notification = new ResetPassword($token);
+        $notification::toMailUsing(function(Consumer $notifiable, string $token){
+            
+            return (new MailMessage())
+                ->subject(Lang::get('Reset Password Notification'))
+                ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
+                ->action(Lang::get('Reset Password'), url(route('consumers.password.reset', ['token' => $token, 'email' => $notifiable->getEmailForPasswordReset()], false)))
+                ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.consumers.expire')]))
+                ->line(Lang::get('If you did not request a password reset, no further action is required.'));
+        });
+
+        $this->notify($notification);
     }
 }
