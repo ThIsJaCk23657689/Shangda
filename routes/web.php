@@ -41,8 +41,8 @@ Route::prefix('consumers')->group(function(){
     Route::post('/login', 'Auth\Consumer\LoginController@login');
     Route::post('/logout', 'Auth\Consumer\LoginController@logout')->name('consumers.logout');
 
-    // Route::get('/register', 'Auth\Consumer\RegisterController@showRegistrationForm')->name('consumers.register');
-    // Route::post('/register', 'Auth\Consumer\RegisterController@register');
+    Route::get('/register', 'Auth\Consumer\RegisterController@showRegistrationForm')->name('consumers.register');
+    Route::post('/register', 'Auth\Consumer\RegisterController@register')->name('consumers.register.api');
 
     Route::prefix('password')->group(function(){
         Route::get('/reset', 'Auth\Consumer\ForgotPasswordController@showLinkRequestForm')->name('consumers.password.request');

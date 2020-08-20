@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 24);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/consumers/create.js":
-/*!******************************************!*\
-  !*** ./resources/js/consumers/create.js ***!
-  \******************************************/
+/***/ "./resources/js/frontend/consumers/register.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/frontend/consumers/register.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -306,14 +306,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 24:
-/*!************************************************!*\
-  !*** multi ./resources/js/consumers/create.js ***!
-  \************************************************/
+/***/ 11:
+/*!***********************************************************!*\
+  !*** multi ./resources/js/frontend/consumers/register.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\consumers\create.js */"./resources/js/consumers/create.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\frontend\consumers\register.js */"./resources/js/frontend/consumers/register.js");
 
 
 /***/ })

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 37);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -201,7 +201,7 @@ var render = function() {
     _c("div", { staticClass: "card mb-3" }, [
       _c("div", { staticClass: "card-header" }, [
         _c("i", { staticClass: "fas fa-table mr-2" }),
-        _vm._v("進貨年度報表 - " + _vm._s(_vm.filters.year) + "年\r\n        ")
+        _vm._v("進貨年度報表 - " + _vm._s(_vm.filters.year) + "年\n        ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
@@ -645,7 +645,7 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 36:
+/***/ 37:
 /*!*****************************************************!*\
   !*** multi ./resources/js/reports/purchase/year.js ***!
   \*****************************************************/
