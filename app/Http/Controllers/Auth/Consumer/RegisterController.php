@@ -43,10 +43,11 @@ class RegisterController extends Controller
         // 登入
         $this->guard()->login($consumer);
 
-        return response()->json([
-            'msg' => 'Login Successfully',
-            'redirect_url' => redirect()->intended($this->redirectPath())->getTargetUrl()
-        ]);
+        // return response()->json([
+        //     'msg' => 'Login Successfully',
+        //     'redirect_url' => redirect()->intended($this->redirectPath())->getTargetUrl()
+        // ]);
+        return redirect()->route('index');
     }
 
     protected function generateRules(Request $request){
