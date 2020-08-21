@@ -964,7 +964,7 @@ var render = function() {
       _vm.products.length == 0
         ? _c("span", { staticClass: "not-found-message" }, [
             _vm._v(
-              "\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\n    "
+              "\r\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\r\n    "
             )
           ])
         : _vm._e()
@@ -1098,7 +1098,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n                搜尋\n            ")]
+          [_vm._v("\r\n                搜尋\r\n            ")]
         )
       ])
     ]),
@@ -1591,7 +1591,7 @@ var contnet = new Vue({
 
       var url = $('#GetProductsList').text();
       axios.post(url, {
-        skip: (this.currentPage - 1) * 20,
+        skip: (this.currentPage - 1) * 21,
         type: this.filter.type,
         keywords: this.filter.keyword,
         orderBy: this.filter.order,
@@ -1600,7 +1600,7 @@ var contnet = new Vue({
       }).then(function (response) {
         _this.products = response.data.products;
         _this.totalcount = response.data.totalcount;
-        _this.totalPage = Math.ceil(_this.totalcount / 20);
+        _this.totalPage = Math.ceil(_this.totalcount / 21);
 
         if (_this.totalcount == 0) {
           _this.currentPage = 0;

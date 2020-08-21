@@ -52,9 +52,9 @@ Route::prefix('consumers')->group(function(){
     });
 
     Route::get('/{id}/profile', 'Frontend\ConsumerController@showProfile')->name('front.consumers.profile');
-    // Route::get('/salesOrder/{consumer_id}', 'Auth\Consumer\LoginController@showSaleOrders')->name('consumer.showSaleOrders');
-    // Route::get('/salesOrder/{consumer_id}/{sale_orders_id}', 'Auth\Consumer\LoginController@showSaleOrderDetails')->name('consumer.showSaleOrderDetails');
-    // Route::post('/getSaleOrdersFrontend', 'Auth\Consumer\LoginController@getSaleOrdersFrontend')->name('consumer.getSaleOrdersFrontend');
+    Route::get('/salesOrder/{consumer_id}', 'Frontend\ConsumerController@showSaleOrders')->name('consumer.showSaleOrders');
+    Route::get('/salesOrder/{consumer_id}/{sale_orders_id}', 'Frontend\ConsumerController@showSaleOrderDetails')->name('consumer.showSaleOrderDetails');
+    Route::post('/getSaleOrdersFrontend', 'Frontend\ConsumerController@getSaleOrdersFrontend')->name('consumer.getSaleOrdersFrontend');
 
     // 購物車資訊
     Route::get('/{id}/cart', 'Frontend\ConsumerController@showCart')->name('front.consumers.cart');

@@ -27,12 +27,16 @@ section.announcement-detail {
         color: black;
         padding: 50px 90px;
         .announcement-title {
-            height: 70px;
+            // height: 70px;
             margin-bottom: 10px;
             border-bottom: solid $blue;
+            h1 {
+                letter-spacing: 1px;
+                font-size: 35px;
+            }
         }
         .announcement-date {
-            font-size: 1.8rem;
+            font-size: 22px;
             letter-spacing: 2px;
             margin-bottom: 15px;
         }
@@ -45,8 +49,20 @@ section.announcement-detail {
             img {
                 // margin-bottom: 10px;
             }
-            a{
+            a {
                 text-decoration: none;
+            }
+            .content-row {
+                height: 90%;
+                overflow-y: scroll;
+                padding: 0px 15px;
+            }
+            .return-row {
+                height: 10%;
+                padding-top: 20px;
+                .return-text {
+                    border-top: 2px solid $blue;
+                }
             }
         }
     }
