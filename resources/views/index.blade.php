@@ -2,11 +2,11 @@
 
 @push('CustomJS')
 
-@endpush 
+@endpush
 
 @push('CustomCSS')
 
-@endpush 
+@endpush
 
 @section('content')
     <!-- Welcome 歡迎區塊 -->
@@ -24,7 +24,7 @@
 						@guest('consumer')
 							@guest
 								{{-- 客戶沒有登入且管理者也沒登入 --}}
-								<a href="{{ route('register') }}" class="button blue gradient crop ae-3" style="text-decoration:none;">加入會員</a>
+								<a href="{{ route('consumers.register') }}" class="button blue gradient crop ae-3" style="text-decoration:none;">加入會員</a>
 								<a href="{{ route('consumers.login') }}" class="button indigo gradient crop ae-3" style="text-decoration:none;">立刻登入</a>
 							@endguest
 						@else
@@ -37,13 +37,13 @@
 		</div>
 		<div class="background" style="background-image:url(http://localhost/Shangda/public/images/background/welcome.jpg)"></div>
     </section>
-    
+
     <!-- About 關於尚達 -->
     <section class="slide fade-6 kenBurns fromLeft">
 		<div class="content">
 			<div class="container">
 				<div class="wrap">
-				
+
 					<div class="fix-12-12">
 						<div class="fix-7-12 left toRight">
 							<h1 class="ae-1">關於尚達</h1>
@@ -55,19 +55,19 @@
 							<a class="button blue gradient crop ae-3">了解更多</a>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
 		<div class="background" style="background-image:url(http://localhost/Shangda/public/images/background/about.jpg)"></div>
     </section>
-	
+
 	<!-- Product 商品 -->
     <section class="slide fade-6 kenBurns">
 		<div class="content">
 			<div class="container">
 				<div class="wrap">
-				
+
 					<div class="fix-7-12">
 						<h1 class="ae-1">商品瀏覽</h1>
 						<ul class="grid grid-85 equal ae-2 fromCenter" data-equal-collapse-width="767">
@@ -112,20 +112,20 @@
 								</div>
 							</li>
 						</ul>
-					</div> 
-				
+					</div>
+
 				</div>
 			</div>
 		</div>
 		<div class="background" style="background-image:url(http://localhost/Shangda/public/images/background/product.jpg)"></div>
 	</section>
-	
+
 	<!-- News 最新消息 -->
     <section class="slide fade-6 kenBurns fromRight">
 		<div class="content">
 			<div class="container">
 				<div class="wrap">
-				
+
 					<div class="fix-12-12">
 						<div class="fix-6-12 left toLeft">
 							<h1 class="ae-1">Designers are meant to be loved, not to be understood.</h1>
@@ -133,19 +133,19 @@
 							<a class="button blue gradient crop ae-3">Get Started</a>
 						</div>
 					</div>
-						
-				</div>  
+
+				</div>
 			</div>
 		</div>
 		<div class="background" style="background-image:url(http://localhost/Shangda/public/images/background/img-14.jpg)"></div>
     </section>
-    
+
     <!-- Location 位置 -->
     <section class="slide fade-6 kenBurns">
 		<div class="content">
 			<div class="container">
 				<div class="wrap">
-			
+
 					<div class="fix-12-12">
 						<ul class="flex left">
 							<li class="col-6-12 fromBottomLeft">
@@ -182,13 +182,13 @@
 							</li>
 						</ul>
 					</div>
-			
+
 				</div>
 			</div>
 		</div>
 		<div class="background" style="background-image:url(http://localhost/Shangda/public/images/background/img-89.jpg)"></div>
     </section>
-    
+
     <!-- Popup Video -->
     <div class="popup autoplay" data-popup-id="89-3">
 		<div class="close"><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use></svg></div>
@@ -204,7 +204,7 @@
 			</div>
 		</div>
     </div>
-    
+
     <!-- Contact 聯絡我們 -->
     <section class="slide fade-6 kenBurns">
 		<div class="content">
@@ -217,7 +217,7 @@
 							<span class="opacity-8">傳真：(03) XXX XXXX</span><br>
 							<span class="opacity-8">信箱：XXXX@gmail.com</span><br>
 						</p>
-					</div>	
+					</div>
 				</div>
 			</div>
 		</div>

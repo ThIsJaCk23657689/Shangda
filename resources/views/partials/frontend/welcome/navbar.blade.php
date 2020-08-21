@@ -35,6 +35,7 @@
                 @auth('consumer')
                     {{-- 客戶登入 --}}
                     <li><a href="{{ route('front.consumers.cart', ['id' => Auth::guard('consumer')->id()]) }}">{{ __('Cart') }}</a></li>
+                    <li><a href="{{ route('consumer.showSaleOrders', ['consumer_id' => Auth::guard('consumer')->id()]) }}">{{ __('Consumer Sale Order') }}</a></li>
                     <li>
                         <a href="#" onclick="
                             event.preventDefault();
@@ -69,7 +70,7 @@
                         <li><a href="{{ route('consumers.login') }}">{{ __('Login') }}</a></li>
                     @endguest
                 @endauth
-                
+
                 {{-- <li>
                     <a href="http://facebook.com/designmodo" target="_blank">
                         <svg>
