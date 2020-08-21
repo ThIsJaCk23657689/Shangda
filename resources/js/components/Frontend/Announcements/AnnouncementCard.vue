@@ -1,5 +1,5 @@
 <template>
-<div class="announcement-card">
+<div class="announcement-card" @mouseenter="zoomIn" @mouseleave="zoomOut">
     <a :href="announcement.detailURL" class="card-link">
         
         <div class="announcement-card-image">
@@ -29,7 +29,12 @@ export default {
         }
     },
     methods: {
-
+        zoomIn(e){
+            $(e.target).addClass('animate');
+        },
+        zoomOut(e){
+            $(e.target).removeClass('animate');
+        },
     },
     created(){
 

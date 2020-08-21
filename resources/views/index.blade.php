@@ -29,7 +29,7 @@
 							@endguest
 						@else
 							{{-- 客戶有登入 --}}
-							<a href="#" class="button cyan gradient crop ae-3">{{ __('Profile') }}</a>
+							<a href="{{ route('front.consumers.profile', ['id' => Auth::guard('consumer')->id()]) }}" class="button cyan gradient crop ae-3">{{ __('Profile') }}</a>
 						@endguest
 					</div>
 				</div>

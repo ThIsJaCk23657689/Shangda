@@ -29,7 +29,7 @@ const contnet = new Vue({
 
             let url = $('#GetAnnouncementsList').text();
             axios.post(url, {
-                skip: (this.currentPage - 1) * 4,
+                skip: (this.currentPage - 1) * 6,
                 type: this.filter.type,
                 keywords: this.filter.keyword,
                 orderBy: this.filter.order,
@@ -38,7 +38,7 @@ const contnet = new Vue({
             }).then(response => {
                 this.announcements = response.data.announcements;
                 this.totalcount = response.data.totalcount;
-                this.totalPage = Math.ceil(this.totalcount / 20);
+                this.totalPage = Math.ceil(this.totalcount / 6);
                 if (this.totalcount == 0) {
                     this.currentPage = 0;
                 }
@@ -59,7 +59,7 @@ const contnet = new Vue({
         },
         chagePage(value) {
             this.currentPage = value;
-            this.getProducts();
+            this.getAnnouncements();
             this.goBackToTop();
         },
     },

@@ -38,13 +38,15 @@
                 </div>
                 <div class="col-md-6 product-right">
                     <div class="product-cart-btn text-center">
-                        <a>
+                        <a href="#" id="add-to-cart">
                             <div class="row">
                                 <img src="{{ asset('images/icons/cart_icon.png') }}" alt="">
                             </div>
                             <div class="row">
                                 <span class="button-text">加入購物車</span>
                             </div>
+                            <span id="AddProductToCartURL" class="d-none">{{ route('front.cart.add') }}</span>
+                            <span id="ProductID" class="d-none">{{ $product->id }}</span>
                         </a>
                     </div>
                     <div class="product-info">

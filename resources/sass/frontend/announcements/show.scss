@@ -16,10 +16,6 @@ section.header {
     justify-content: center;
 }
 
-.position-ref {
-    position: relative;
-}
-
 section.announcement-detail {
     width: 100%;
     position: relative;
@@ -38,16 +34,19 @@ section.announcement-detail {
         .announcement-date {
             font-size: 1.8rem;
             letter-spacing: 2px;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
         .announcement-content {
-            padding: 50px 60px;
+            padding: 25px 30px;
             line-height: 40px;
             font-size: 1.5rem;
             letter-spacing: 2px;
             background-color: rgba(255, 255, 255, 0.8);
             img {
-                margin-bottom: 10px;
+                // margin-bottom: 10px;
+            }
+            a{
+                text-decoration: none;
             }
         }
     }

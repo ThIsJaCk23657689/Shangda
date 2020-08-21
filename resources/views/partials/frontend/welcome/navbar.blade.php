@@ -18,7 +18,7 @@
                 <li><a href="{{ route('front.announcements.index') }}">{{ __('News') }}</a></li>
                 {{-- <li><a href="#">{{ __('Location') }}</a></li> --}}
                 <li><a href="{{ route('front.contact') }}">{{ __('Contact') }}</a></li>
-                @auth
+                @auth('web')
                     {{-- 管理者登入 --}}
                     <li><a href="{{ route('backend') }}">{{ __('Backend') }}</a></li>
                     <li>
@@ -34,7 +34,7 @@
                 @endauth
                 @auth('consumer')
                     {{-- 客戶登入 --}}
-                    <li><a href="#">{{ __('Cart') }}</a></li>
+                    <li><a href="{{ route('front.consumers.cart', ['id' => Auth::guard('consumer')->id()]) }}">{{ __('Cart') }}</a></li>
                     <li>
                         <a href="#" onclick="
                             event.preventDefault();
@@ -51,14 +51,29 @@
 
         <div class="right">
             <ul class="menu trim">
-                <li>
+                @auth('web')
+                    <li>
+                        <a href="#">
+                            嗨，{{ Auth::user()->name . ' (' . Auth::user()->jobTitle->name . ')' }}
+                        </a>
+                    </li>
+                @endauth
+                @auth('consumer')
+                    <li>
+                        <a href="{{ route('front.consumers.profile', ['id' => Auth::guard('consumer')->id()]) }}">
+                            嗨，{{ Auth::guard('consumer')->user()->name }}
+                        </a>
+                    </li>
+                @endauth
+                
+                {{-- <li>
                     <a href="http://facebook.com/designmodo" target="_blank">
                         <svg>
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#facebook"></use>
                         </svg>
                     </a>
-                </li>
-                <li>
+                </li> --}}
+                {{-- <li>
                     <a href="http://twitter.com/designmodo" target="_blank">
                         <svg>
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#twitter"></use>
@@ -71,7 +86,7 @@
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#instagram"></use>
                         </svg>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
 

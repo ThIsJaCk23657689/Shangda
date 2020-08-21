@@ -18,8 +18,8 @@ class Cart extends Model
     }
 
     public function products(){
-        return $this->belongsToMany(ProductEloquent::class)
-        ->withPivot('price', 'quantity', 'subTotal', 'comment', 'discount');
+        return $this->belongsToMany(ProductEloquent::class, 'cart_details')
+            ->withPivot('price', 'quantity', 'subTotal', 'comment', 'discount');
     }
 
     public function details(){

@@ -151,10 +151,6 @@ section.header .bg-image {
           justify-content: center;
 }
 
-.position-ref {
-  position: relative;
-}
-
 section.announcement-detail {
   width: 100%;
   position: relative;
@@ -175,15 +171,15 @@ section.announcement-detail .announcement-detail-container .announcement-title {
 section.announcement-detail .announcement-detail-container .announcement-date {
   font-size: 1.8rem;
   letter-spacing: 2px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 section.announcement-detail .announcement-detail-container .announcement-content {
-  padding: 50px 60px;
+  padding: 25px 30px;
   line-height: 40px;
   font-size: 1.5rem;
   letter-spacing: 2px;
   background-color: rgba(255, 255, 255, 0.8);
 }
-section.announcement-detail .announcement-detail-container .announcement-content img {
-  margin-bottom: 10px;
+section.announcement-detail .announcement-detail-container .announcement-content a {
+  text-decoration: none;
 }

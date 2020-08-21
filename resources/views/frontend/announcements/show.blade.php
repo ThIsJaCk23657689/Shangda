@@ -35,10 +35,16 @@
         </div>
         <div class="announcement-content">
             <div class="row">
-                <div class="col-md-12">
-                    {{-- <img src="{{ asset($announcement->showCoverImage()) }}" width="100%" alt=""> --}}
-                    <img src="{{ asset('/images/background/product.jpg') }}" width="100%" alt="">
+                <div class="col-md-6">
+                    <img src="{{ asset($announcement->showCoverImage()) }}" width="100%" alt="">
+                </div>
+                <div class="col-md-6">
                     {{ $announcement->content }}
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a href="{{ route('front.announcements.index') }}" class="small">返回列表</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

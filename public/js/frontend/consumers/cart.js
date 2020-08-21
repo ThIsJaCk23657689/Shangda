@@ -81,61 +81,39 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/frontend/products/show.js":
-/*!************************************************!*\
-  !*** ./resources/js/frontend/products/show.js ***!
-  \************************************************/
+/***/ "./resources/js/frontend/consumers/cart.js":
+/*!*************************************************!*\
+  !*** ./resources/js/frontend/consumers/cart.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var contnet = new Vue({
-  el: '#product-detail',
+// Vue.component('login-form', require('./../../components/Auth/Comsumers/LoginForm.vue').default);
+var app = new Vue({
+  el: '#cart',
   data: function data() {
     return {};
   },
   methods: {},
-  created: function created() {// let getOnePictures = $('#getOnePictures').text();
-    // axios.get(getOnePictures).then(response => {
-    //     // this.images = response.data.images;
-    //     this.test = response.data.images;
-    //     console.log(this.test);
-    //     console.log(this.images);
-    // });
-  },
-  mounted: function mounted() {
-    $('.sp-wrap').smoothproducts();
-    $('#add-to-cart').click(function (e) {
-      e.preventDefault();
-      $.showLoadingModal();
-      var AddProductToCartURL = $('#AddProductToCartURL').text();
-      axios.post(AddProductToCartURL, {
-        product_id: $('#ProductID').text(),
-        amount: 1
-      }).then(function (response) {
-        $.showSuccessModal(response.data.message);
-      })["catch"](function (error) {
-        console.log('把商品加入購物車時發生錯誤！原因為：' + error);
-        $.showErrorModal(error);
-      });
-    });
-  }
+  created: function created() {},
+  mounted: function mounted() {}
 });
 
 /***/ }),
 
-/***/ 5:
-/*!******************************************************!*\
-  !*** multi ./resources/js/frontend/products/show.js ***!
-  \******************************************************/
+/***/ 10:
+/*!*******************************************************!*\
+  !*** multi ./resources/js/frontend/consumers/cart.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\frontend\products\show.js */"./resources/js/frontend/products/show.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\frontend\consumers\cart.js */"./resources/js/frontend/consumers/cart.js");
 
 
 /***/ })

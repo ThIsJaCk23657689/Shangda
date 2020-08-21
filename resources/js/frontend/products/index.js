@@ -29,7 +29,7 @@ const contnet = new Vue({
 
             let url = $('#GetProductsList').text();
             axios.post(url, {
-                skip: (this.currentPage - 1) * 4,
+                skip: (this.currentPage - 1) * 20,
                 type: this.filter.type,
                 keywords: this.filter.keyword,
                 orderBy: this.filter.order,

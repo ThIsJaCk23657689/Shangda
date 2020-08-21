@@ -122,7 +122,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  methods: {},
+  methods: {
+    zoomIn: function zoomIn(e) {
+      $(e.target).addClass('animate');
+    },
+    zoomOut: function zoomOut(e) {
+      $(e.target).removeClass('animate');
+    }
+  },
   created: function created() {},
   mounted: function mounted() {}
 });
@@ -168,9 +175,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -371,44 +375,54 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "announcement-card" }, [
-    _c(
-      "a",
-      { staticClass: "card-link", attrs: { href: _vm.announcement.detailURL } },
-      [
-        _c("div", { staticClass: "announcement-card-image" }, [
-          _c("img", {
-            attrs: {
-              src: _vm.announcement.showCoverImage,
-              alt: "最新消息封面圖"
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "image-gray" })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "announcement-card-info" }, [
-          _c("div", { staticClass: "announcement-card-date" }, [
-            _c("h3", [_vm._v(_vm._s(_vm.announcement.showDay))]),
+  return _c(
+    "div",
+    {
+      staticClass: "announcement-card",
+      on: { mouseenter: _vm.zoomIn, mouseleave: _vm.zoomOut }
+    },
+    [
+      _c(
+        "a",
+        {
+          staticClass: "card-link",
+          attrs: { href: _vm.announcement.detailURL }
+        },
+        [
+          _c("div", { staticClass: "announcement-card-image" }, [
+            _c("img", {
+              attrs: {
+                src: _vm.announcement.showCoverImage,
+                alt: "最新消息封面圖"
+              }
+            }),
             _vm._v(" "),
-            _c("span", [
-              _vm._v(_vm._s(_vm.announcement.showMonth)),
-              _c("br"),
-              _vm._v(_vm._s(_vm.announcement.showYear))
-            ])
+            _c("div", { staticClass: "image-gray" })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "announcement-card-title" }, [
-            _vm._v(
-              "\r\n                " +
-                _vm._s(_vm.announcement.title) +
-                "\r\n            "
-            )
+          _c("div", { staticClass: "announcement-card-info" }, [
+            _c("div", { staticClass: "announcement-card-date" }, [
+              _c("h3", [_vm._v(_vm._s(_vm.announcement.showDay))]),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(_vm._s(_vm.announcement.showMonth)),
+                _c("br"),
+                _vm._v(_vm._s(_vm.announcement.showYear))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "announcement-card-title" }, [
+              _vm._v(
+                "\r\n                " +
+                  _vm._s(_vm.announcement.title) +
+                  "\r\n            "
+              )
+            ])
           ])
-        ])
-      ]
-    )
-  ])
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -516,11 +530,9 @@ var render = function() {
           [
             _c("option", { attrs: { value: "0" } }, [_vm._v("依條件")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "1" } }, [_vm._v("商品名稱")]),
+            _c("option", { attrs: { value: "1" } }, [_vm._v("標題")]),
             _vm._v(" "),
-            _c("option", { attrs: { value: "2" } }, [_vm._v("規格")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "3" } }, [_vm._v("顏色")]),
+            _c("option", { attrs: { value: "2" } }, [_vm._v("內文")]),
             _vm._v(" "),
             _c("option", { attrs: { value: "0" } }, [_vm._v("全部搜尋")])
           ]
@@ -625,11 +637,7 @@ var render = function() {
           _vm._v(" "),
           _c("option", { attrs: { value: "1" } }, [_vm._v("最新 -> 最舊")]),
           _vm._v(" "),
-          _c("option", { attrs: { value: "2" } }, [_vm._v("最舊 -> 最新")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "3" } }, [_vm._v("價錢高 -> 價錢低")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "4" } }, [_vm._v("價錢低 -> 價錢高")])
+          _c("option", { attrs: { value: "2" } }, [_vm._v("最舊 -> 最新")])
         ]
       )
     ])
@@ -1304,7 +1312,7 @@ var contnet = new Vue({
 
       var url = $('#GetAnnouncementsList').text();
       axios.post(url, {
-        skip: (this.currentPage - 1) * 4,
+        skip: (this.currentPage - 1) * 6,
         type: this.filter.type,
         keywords: this.filter.keyword,
         orderBy: this.filter.order,
@@ -1313,7 +1321,7 @@ var contnet = new Vue({
       }).then(function (response) {
         _this.announcements = response.data.announcements;
         _this.totalcount = response.data.totalcount;
-        _this.totalPage = Math.ceil(_this.totalcount / 20);
+        _this.totalPage = Math.ceil(_this.totalcount / 6);
 
         if (_this.totalcount == 0) {
           _this.currentPage = 0;
@@ -1336,7 +1344,7 @@ var contnet = new Vue({
     },
     chagePage: function chagePage(value) {
       this.currentPage = value;
-      this.getProducts();
+      this.getAnnouncements();
       this.goBackToTop();
     }
   },

@@ -4,9 +4,8 @@
         <div class="filter-dropbox-container">
             <select id="filter-column" name="column" class="form-control filter-dropbox" v-model="filter.type" @change="changeType">
                 <option value="0">依條件</option>
-                <option value="1">商品名稱</option>
-                <option value="2">規格</option>
-                <option value="3">顏色</option>
+                <option value="1">標題</option>
+                <option value="2">內文</option>
                 <option value="0">全部搜尋</option>
             </select>
         </div>
@@ -27,8 +26,6 @@
             <option value="0">排序方式</option>
             <option value="1">最新 -> 最舊</option>
             <option value="2">最舊 -> 最新</option>
-            <option value="3">價錢高 -> 價錢低</option>
-            <option value="4">價錢低 -> 價錢高</option>
         </select>
     </div>
 </div>

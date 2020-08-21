@@ -11,6 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Picture as PictureEloquent;
 use App\SalesOrder as SalesOrderEloquent;
 use App\Product as ProductEloquent;
+use App\Cart as CartEloquent;
 use Lang;
 use URL;
 
@@ -51,6 +52,11 @@ class Consumer extends Authenticatable
     // 抓取此顧客的圖片 多型一對一關聯 (一個顧客對應一張照片)
     public function picture(){
         return $this->morphOne(PictureEloquent::class, 'pictureable');
+    }
+
+    // 購物車
+    public function cart(){
+        return $this->hasOne(CartEloquent::class);
     }
 
     // 顯示顧客頭貼

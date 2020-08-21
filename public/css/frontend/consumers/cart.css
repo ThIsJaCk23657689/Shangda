@@ -135,80 +135,11 @@ section.header .container .title {
 }
 
 section.header .bg-image {
-  background-image: url(../../../../public/images/background/product.jpg);
+  background-image: url(../../../../public/images/background/img-09.jpg);
 }
 
-section.product-detail-section {
+section.cart-content {
   width: 100%;
   position: relative;
   background-color: #efefef;
-}
-section.product-detail-section .container {
-  max-width: 1300px;
-}
-section.product-detail-section .product-detail-container {
-  padding: 35px;
-  height: auto;
-}
-section.product-detail-section .product-detail-container .product-detail-row {
-  width: 100%;
-  height: 100%;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-left {
-  margin: auto;
-  padding-top: 20px;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-left .sp-wrap {
-  display: inline-block;
-  max-width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.2) 5px 5px 5px 5px;
-  background-color: white;
-  border: 0;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right {
-  padding: 20px 20px;
-  color: black;
-  position: relative;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn {
-  position: absolute;
-  right: 0;
-  width: 90px;
-  height: 100px;
-  background-color: white;
-  border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a {
-  display: block;
-  text-decoration: none;
-  width: 100%;
-  height: 100%;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a .row {
-  width: 100%;
-  margin: 0;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a img {
-  width: 60%;
-  margin: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a span {
-  width: 100%;
-  text-align: center;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-cart-btn a:hover {
-  text-decoration: none;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-info {
-  width: 100%;
-  height: 100%;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-info .row {
-  margin: 0;
-}
-section.product-detail-section .product-detail-container .product-detail-row .product-right .product-info .row p {
-  margin-bottom: 15px;
 }

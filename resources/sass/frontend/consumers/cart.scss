@@ -1,0 +1,17 @@
+@import '../variables';
+@import '../content';
+
+section.header {
+    .bg-image {
+        background-image: url(../../../../public/images/background/img-09.jpg);
+    }
+}
+
+section.cart-content {
+    width: 100%;
+    position: relative;
+    background-color: #efefef;
+    .container {
+
+    }
+}

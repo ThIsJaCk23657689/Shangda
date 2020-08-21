@@ -51,11 +51,17 @@ Route::prefix('consumers')->group(function(){
         Route::post('/reset', 'Auth\Consumer\ResetPasswordController@reset')->name('consumers.password.update');
     });
 
-
-    // Route::get('/profile/{id}', 'Auth\Consumer\LoginController@showProfile')->name('consumer.profile');
+    Route::get('/{id}/profile', 'Frontend\ConsumerController@showProfile')->name('front.consumers.profile');
     // Route::get('/salesOrder/{consumer_id}', 'Auth\Consumer\LoginController@showSaleOrders')->name('consumer.showSaleOrders');
     // Route::get('/salesOrder/{consumer_id}/{sale_orders_id}', 'Auth\Consumer\LoginController@showSaleOrderDetails')->name('consumer.showSaleOrderDetails');
     // Route::post('/getSaleOrdersFrontend', 'Auth\Consumer\LoginController@getSaleOrdersFrontend')->name('consumer.getSaleOrdersFrontend');
+
+    // 購物車資訊
+    Route::get('/{id}/cart', 'Frontend\ConsumerController@showCart')->name('front.consumers.cart');
+});
+
+Route::prefix('cart')->group(function(){
+    Route::post('/addProduct', 'CartController@addProductToCart')->name('front.cart.add');
 });
 
 // 後臺管理路由

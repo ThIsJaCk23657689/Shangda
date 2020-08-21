@@ -38,8 +38,6 @@ class CartService extends BaseService
         return $cart;
     }
 
-
-
     public function getlastupdate($id)
     {
         $cart = CartEloquent::find($id);
