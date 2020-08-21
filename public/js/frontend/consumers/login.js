@@ -138,7 +138,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       ConsumerLoginURL: $('#ConsumerLoginURL').text(),
-      ForgetPasswordURL: $('#ForgetPasswordURL').text()
+      ForgetPasswordURL: $('#ForgetPasswordURL').text(),
+      ConsumerRegisterURL: $('#ConsumerRegisterURL').text()
     };
   },
   methods: {
@@ -209,7 +210,20 @@ var render = function() {
   return _c("div", { staticClass: "login-reg-panel" }, [
     _vm._m(0),
     _vm._v(" "),
-    _vm._m(1),
+    _c("div", { staticClass: "register-info-box" }, [
+      _c("h2", [_vm._v("沒有帳號嗎？")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("馬上註冊，優惠馬上到！")]),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "register-link",
+          attrs: { href: _vm.ConsumerRegisterURL }
+        },
+        [_vm._v("註冊")]
+      )
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "white-panel" }, [
       _c("div", { staticClass: "login-show" }, [
@@ -271,20 +285,6 @@ var staticRenderFns = [
       _c("h2", [_vm._v("已經有帳號了？")]),
       _vm._v(" "),
       _c("p", [_vm._v("切換到登入頁進行登入!")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "register-info-box" }, [
-      _c("h2", [_vm._v("沒有帳號嗎？")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("馬上註冊，優惠馬上到！")]),
-      _vm._v(" "),
-      _c("a", { staticClass: "register-link", attrs: { href: "#" } }, [
-        _vm._v("註冊")
-      ])
     ])
   }
 ]

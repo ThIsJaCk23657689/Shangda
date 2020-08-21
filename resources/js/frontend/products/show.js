@@ -33,8 +33,12 @@ const contnet = new Vue({
             }).then(response => {
                 $.showSuccessModal(response.data.message);
             }).catch(error => {
-                console.log('把商品加入購物車時發生錯誤！原因為：' + error);
-                $.showErrorModal(error);
+                console.error('把商品加入購物車時發生錯誤！原因為：' + error);
+                if(error.response.data.message == '請先登入！'){
+                    $.showWarningModal(error.response.data.message, $('#ConsumerLoginURL').text(), '確認');
+                }else{
+                    $.showErrorModal(error);
+                }
             });
         });
     }

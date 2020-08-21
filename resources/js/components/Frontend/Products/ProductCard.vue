@@ -8,7 +8,13 @@
             <div class="view_details" @click="flipToFront">查看圖片</div>
             <div class="stats">
                 <div class="stats-container">
-                    <span class="product_price" v-if="product.showPrice == 1">{{ '$' + product.retailPrice }}</span>
+                    <div class="product_price-container" v-if="product.showPrice == 1">
+                        <span class="product_price">{{ '$' + product.retailPrice }}</span>
+                        <button class="cart-button" @click="addProductToCart">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                        <span class="d-none">{{ product.id }}</span>
+                    </div>
                     <button type="button" class="product_ask_price" v-else>
                         <i class="fas fa-comments-dollar mr-1"></i>
                         詢問價錢
@@ -160,6 +166,25 @@ export default {
         zoomOut(e){
             $(e.target).removeClass('animate');
             $(e.target).find('div.carouselNext, div.carouselPrev').removeClass('visible');
+        },
+        addProductToCart(e){
+            $.showLoadingModal();
+
+            let $product_id = $(e.target).parents('button').next().text();
+            let AddProductToCartURL = $('#AddProductToCartURL').text();
+            axios.post(AddProductToCartURL, {
+                product_id: $product_id,
+            }).then(response => {
+                $.showSuccessModal(response.data.message);
+            }).catch(error => {
+                console.error('把商品加入購物車時發生錯誤！原因為：' + error);
+                if(error.response.data.message == '請先登入！'){
+                    $.showWarningModal(error.response.data.message, $('#ConsumerLoginURL').text(), '確認');
+                }else{
+                    $.showErrorModal(error);
+                }
+            });
+
         }
     },
     created(){

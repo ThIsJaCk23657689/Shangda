@@ -64,6 +64,10 @@
                             嗨，{{ Auth::guard('consumer')->user()->name }}
                         </a>
                     </li>
+                @else
+                    @guest('web')
+                        <li><a href="{{ route('consumers.login') }}">{{ __('Login') }}</a></li>
+                    @endguest
                 @endauth
                 
                 {{-- <li>

@@ -15,6 +15,7 @@
         <div class="bg-gray"></div>
 
         <span id="ConsumerLoginURL" class="d-none">{{ route('consumers.login') }}</span>
+        <span id="ConsumerRegisterURL" class="d-none">{{ route('consumers.register') }}</span>
         <span id="IntendedURL" class="d-none">{{ session('url.intended') }}</span>
         <span id="ForgetPasswordURL" class="d-none">{{ route('consumers.password.request') }}</span>
 

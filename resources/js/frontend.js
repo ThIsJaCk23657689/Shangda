@@ -87,24 +87,52 @@ const navbar = new Vue({
             });
         }
 
-        $.showErrorModalWithoutError = function(message = '發生不明原因，請稍後再試。') {
-            Swal.fire({
-                title: 'Oops!發生錯誤',
-                text: message,
-                icon: 'error',
-                allowOutsideClick: false,
-                confirmButtonText: '確認',
-            });
+        $.showErrorModalWithoutError = function(message = '發生不明原因，請稍後再試。', url = '', buttonText = '返回列表') {
+            if (url == '') {
+                Swal.fire({
+                    title: 'Oops!發生錯誤',
+                    text: message,
+                    icon: 'error',
+                    allowOutsideClick: false,
+                    confirmButtonText: '確認',
+                });
+            } else {
+                Swal.fire({
+                    title: 'Oops!發生錯誤',
+                    text: message,
+                    icon: 'error',
+                    allowOutsideClick: false,
+                    confirmButtonText: buttonText,
+                }).then(result => {
+                    if (result.value) {
+                        window.location.href = url;
+                    }
+                });
+            }
         }
 
-        $.showWarningModal = function(message = '發生不明原因，此操作具有警告性，請聯絡系統工程師。') {
-            Swal.fire({
-                title: '注意',
-                text: message,
-                icon: 'warning',
-                allowOutsideClick: false,
-                confirmButtonText: '確認',
-            });
+        $.showWarningModal = function(message = '發生不明原因，此操作具有警告性，請聯絡系統工程師。', url = '', buttonText = '返回列表') {
+            if (url == '') {
+                Swal.fire({
+                    title: '注意',
+                    text: message,
+                    icon: 'warning',
+                    allowOutsideClick: false,
+                    confirmButtonText: '確認',
+                });
+            } else {
+                Swal.fire({
+                    title: '注意',
+                    text: message,
+                    icon: 'warning',
+                    allowOutsideClick: false,
+                    confirmButtonText: buttonText,
+                }).then(result => {
+                    if (result.value) {
+                        window.location.href = url;
+                    }
+                });
+            }
         }
 
         $.showSuccessModal = function(message = '', url = '', buttonText = '返回列表') {

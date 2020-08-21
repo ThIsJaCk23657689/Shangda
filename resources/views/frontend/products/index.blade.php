@@ -21,6 +21,8 @@
         <div id="product" class="container">
 
             <span id="GetProductsList" class="d-none">{{ route('front.products.index') }}</span>
+            <span id="AddProductToCartURL" class="d-none">{{ route('front.cart.add') }}</span>
+            <span id="ConsumerLoginURL" class="d-none">{{ route('consumers.login') }}</span>
 
             <product-filter :filter="filter" v-on:refresh-product="refreshProduct"></product-filter>
 
