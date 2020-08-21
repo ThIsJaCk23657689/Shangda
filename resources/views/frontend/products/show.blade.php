@@ -56,7 +56,7 @@
                         <div class="product-cart-btn text-center">
                             <a href="#" id="ask-price">
                                 <div class="row">
-                                    <img src="{{ asset('images/icons/cart_icon.png') }}" alt="">
+                                    <img src="{{ asset('images/icons/comment_dollar_icon.png') }}" alt="">
                                 </div>
                                 <div class="row">
                                     <span class="button-text">詢問價錢</span>

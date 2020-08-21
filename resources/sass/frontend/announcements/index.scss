@@ -1,7 +1,6 @@
 @import '../variables';
 @import '../content';
 @import '../filter';
-
 section.header {
     .bg-image {
         background-image: url(../../../../public/images/background/img-09.jpg);
@@ -22,24 +21,24 @@ section.announcement-content {
     }
 }
 
-.announcement-card{
+.announcement-card {
     width: calc(33.333333% - 56px);
     background-color: white;
     margin: 25px 28px;
     color: #000000;
     transition: all 400ms ease-out;
-    .card-link{
+    .card-link {
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         height: 400px;
         position: relative;
         overflow: hidden;
-        .announcement-card-image{
+        .announcement-card-image {
             height: 100%;
             overflow: hidden;
             position: relative;
-            img{
+            img {
                 max-width: fit-content;
                 height: 100%;
                 transform: translateX(-50%);
@@ -48,7 +47,7 @@ section.announcement-content {
                 left: 50%;
                 transition: all 0.8s ease-out;
             }
-            .image-gray{
+            .image-gray {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -58,56 +57,61 @@ section.announcement-content {
                 transition: background-color 0.8s ease-out;
             }
         }
-
-        .announcement-card-info{
+        .announcement-card-info {
             width: 100%;
             height: 110px;
-            padding: 8px;
+            padding: 15px;
             position: absolute;
             top: 100%;
             left: 0;
             background-color: white;
             color: #393c45;
             transition: top 400ms ease-out;
-            .announcement-card-date{
+            .announcement-card-date {
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
                 justify-content: space-between;
                 align-items: center;
-                h3{
+                letter-spacing: 3px;
+                h3 {
                     margin: 0;
                     font-size: 26px;
+                    padding-left: 10px;
+                    border-left: 2px solid $blue;
+                    font-weight: bold;
                 }
-                span{
+                span {
                     text-align: right;
                     font-size: 16px;
                 }
             }
-            .announcement-card-title{
-                font-size: 22px;
+            .announcement-card-title {
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 display: block;
                 width: 100%;
                 overflow: hidden;
+                font-size: 1.2rem;
+                margin-top: 6px;
+                letter-spacing: 2px;
             }
         }
     }
-    &.animate{
-        .card-link{
+    &.animate {
+        .card-link {
             color: #000000;
         }
-        .announcement-card-image{
-            img{
+        .announcement-card-image {
+            img {
                 transform: translateX(-50%) scale(1.1);
             }
-            .image-gray{
+            .image-gray {
                 background-color: rgba(#6c757d, 0);
             }
         }
         box-shadow: 0 0 8px 2px #00000096;
-        .announcement-card-info{
+        .announcement-card-info {
             top: calc(100% - 110px);
         }
     }
