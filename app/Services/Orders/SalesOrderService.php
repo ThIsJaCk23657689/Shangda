@@ -48,7 +48,7 @@ class SalesOrderService extends BaseService
             'invoiceType' => $request->invoiceType,
             'address' => $request->address,
             'confirmStatus' => $request->confirmStatus,
-            'who_created' => Auth::id(),
+            'who_created' => $request->who_created,
         ]);
 
         // 發送通知

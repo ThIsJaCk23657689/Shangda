@@ -19,11 +19,12 @@
 
     <section class="cart-content">
         <div id="cart" class="container">
-            @foreach ($cart->products as $product)
-                <div style="color: #000000">
-                    {{ $product }}<br />
-                </div>
-            @endforeach
+            <span id="CartGetOneURL" class="d-none">{{ route('front.cart.getOne') }}</span>
+            <span id="RemoveProductURL" class="d-none">{{ route('front.cart.remove') }}</span>
+            <span id="UpdateProductQtyURL" class="d-none">{{ route('front.cart.update') }}</span>
+            <span id="CheckOutURL" class="d-none">{{ route('front.cart.checkout') }}</span>
+
+            <cart-table :carts="carts" :status="status"></cart-table>
         </div>
     </section>
 @endsection

@@ -60,8 +60,14 @@ Route::prefix('consumers')->group(function(){
     Route::get('/{id}/cart', 'Frontend\ConsumerController@showCart')->name('front.consumers.cart');
 });
 
+// 購物車相關路由
 Route::prefix('cart')->group(function(){
     Route::post('/addProduct', 'CartController@addProductToCart')->name('front.cart.add');
+    Route::delete('/removeProduct', 'CartController@removeProductToCart')->name('front.cart.remove');
+    Route::patch('/updateQty', 'CartController@updateProductQty')->name('front.cart.update');
+    Route::get('/getOne', 'CartController@getOne')->name('front.cart.getOne');
+
+    Route::post('/checkout', 'CartController@checkout')->name('front.cart.checkout');
 });
 
 // 後臺管理路由

@@ -86,7 +86,7 @@ class SalesOrderDetailService extends BaseService
 
 
             $msg = [
-                'message' => "銷貨單編號：$s_id 新增成功，共有 $count 筆原物料儲存成功。",
+                'message' => "銷貨單編號：$s_id 新增成功，共有 $count 筆商品儲存成功。",
                 'status' => 'OK'
             ];
         }else{
@@ -133,7 +133,7 @@ class SalesOrderDetailService extends BaseService
             $type = 2;
         }
 
-         // 先將所有原物料從細項中刪除。
+         // 先將所有商品從細項中刪除。
          $result = $this->removeDetails($old_details, $type);
          if(!$result){
              // 刪除失敗
@@ -143,7 +143,7 @@ class SalesOrderDetailService extends BaseService
              ];
          }
 
-         // 再新增修改過後的原物料到細項當中。
+         // 再新增修改過後的商品到細項當中。
          $result = $this->addDetails($s_id, $new_details, $type, $salesOrder);
          if(!$result){
              // 新增失敗
