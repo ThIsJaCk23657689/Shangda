@@ -291,6 +291,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['product'],
   data: function data() {
@@ -394,6 +400,24 @@ __webpack_require__.r(__webpack_exports__);
     zoomOut: function zoomOut(e) {
       $(e.target).removeClass('animate');
       $(e.target).find('div.carouselNext, div.carouselPrev').removeClass('visible');
+    },
+    addProductToCart: function addProductToCart(e) {
+      $.showLoadingModal();
+      var $product_id = $(e.target).parents('button').next().text();
+      var AddProductToCartURL = $('#AddProductToCartURL').text();
+      axios.post(AddProductToCartURL, {
+        product_id: $product_id
+      }).then(function (response) {
+        $.showSuccessModal(response.data.message);
+      })["catch"](function (error) {
+        console.error('把商品加入購物車時發生錯誤！原因為：' + error);
+
+        if (error.response.data.message == '請先登入！') {
+          $.showWarningModal(error.response.data.message, $('#ConsumerLoginURL').text(), '確認');
+        } else {
+          $.showErrorModal(error);
+        }
+      });
     }
   },
   created: function created() {},
@@ -777,8 +801,23 @@ var render = function() {
           _c("div", { staticClass: "stats" }, [
             _c("div", { staticClass: "stats-container" }, [
               _vm.product.showPrice == 1
-                ? _c("span", { staticClass: "product_price" }, [
-                    _vm._v(_vm._s("$" + _vm.product.retailPrice))
+                ? _c("div", { staticClass: "product_price-container" }, [
+                    _c("span", { staticClass: "product_price" }, [
+                      _vm._v(_vm._s("$" + _vm.product.retailPrice))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "cart-button",
+                        on: { click: _vm.addProductToCart }
+                      },
+                      [_c("i", { staticClass: "fas fa-shopping-cart" })]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "d-none" }, [
+                      _vm._v(_vm._s(_vm.product.id))
+                    ])
                   ])
                 : _c(
                     "button",

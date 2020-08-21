@@ -10,7 +10,7 @@
 	<div class="register-info-box">
 		<h2>沒有帳號嗎？</h2>
 		<p>馬上註冊，優惠馬上到！</p>
-        <a href="#" class="register-link">註冊</a>
+        <a :href="ConsumerRegisterURL" class="register-link">註冊</a>
 		<!-- <label id="label-login" for="log-login-show">註冊</label> -->
 		<!-- <input type="radio" name="active-log-panel" id="log-login-show" @change="changeMode"> -->
 	</div>
@@ -43,6 +43,7 @@ export default {
         return {
             ConsumerLoginURL: $('#ConsumerLoginURL').text(),
             ForgetPasswordURL: $('#ForgetPasswordURL').text(),
+            ConsumerRegisterURL: $('#ConsumerRegisterURL').text(),
         }
     },
     methods: {

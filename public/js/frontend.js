@@ -55118,24 +55118,58 @@ var navbar = new Vue({
 
     $.showErrorModalWithoutError = function () {
       var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '發生不明原因，請稍後再試。';
-      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
-        title: 'Oops!發生錯誤',
-        text: message,
-        icon: 'error',
-        allowOutsideClick: false,
-        confirmButtonText: '確認'
-      });
+      var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+      var buttonText = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '返回列表';
+
+      if (url == '') {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
+          title: 'Oops!發生錯誤',
+          text: message,
+          icon: 'error',
+          allowOutsideClick: false,
+          confirmButtonText: '確認'
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
+          title: 'Oops!發生錯誤',
+          text: message,
+          icon: 'error',
+          allowOutsideClick: false,
+          confirmButtonText: buttonText
+        }).then(function (result) {
+          if (result.value) {
+            window.location.href = url;
+          }
+        });
+      }
     };
 
     $.showWarningModal = function () {
       var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '發生不明原因，此操作具有警告性，請聯絡系統工程師。';
-      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
-        title: '注意',
-        text: message,
-        icon: 'warning',
-        allowOutsideClick: false,
-        confirmButtonText: '確認'
-      });
+      var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+      var buttonText = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '返回列表';
+
+      if (url == '') {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
+          title: '注意',
+          text: message,
+          icon: 'warning',
+          allowOutsideClick: false,
+          confirmButtonText: '確認'
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default.a.fire({
+          title: '注意',
+          text: message,
+          icon: 'warning',
+          allowOutsideClick: false,
+          confirmButtonText: buttonText
+        }).then(function (result) {
+          if (result.value) {
+            window.location.href = url;
+          }
+        });
+      }
     };
 
     $.showSuccessModal = function () {

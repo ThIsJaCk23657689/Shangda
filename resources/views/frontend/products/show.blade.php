@@ -23,6 +23,7 @@
 
 <div id="product-detail">
     <span id="getOnePictures" style="display: none;">{{ route('front.products.getOnePictures', [$product->id]) }}</span>
+    <span id="ConsumerLoginURL" class="d-none">{{ route('consumers.login') }}</span>
 
     <section class="product-detail-section" >
         <span id="getOnePictures" style="display: none;">{{ route('front.products.getOnePictures', [$product->id]) }}</span>
@@ -37,8 +38,8 @@
                     </div>
                 </div>
                 <div class="col-md-6 product-right">
-
-                    @if(!$product->isPublic)
+                    
+                    @if($product->showPrice)
                         <div class="product-cart-btn text-center">
                             <a href="#" id="add-to-cart">
                                 <div class="row">
@@ -53,7 +54,7 @@
                         </div>
                     @else
                         <div class="product-cart-btn text-center">
-                            <a href="#" id="add-to-cart">
+                            <a href="#" id="ask-price">
                                 <div class="row">
                                     <img src="{{ asset('images/icons/comment_dollar_icon.png') }}" alt="">
                                 </div>
