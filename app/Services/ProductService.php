@@ -196,7 +196,7 @@ class ProductService extends BaseService
             $skip = $request->skip ?? 0 ;
         }
 
-        $take = 20;
+        $take = 21;
 
         // 看是什麼條件，預設就是沒有限制條件。
         $type = $request->type ?? 0;
@@ -217,7 +217,7 @@ class ProductService extends BaseService
                 $products = $this->keywordSearch($products, $type_arr, $keywords, $type);
             }
         }
-
+        $products = $products->orderBy('showPrice', 'desc');
         // 1.最新 -> 最舊 2.最舊 -> 最新 3.價格(高->低) 4.價格(低->高)
         if($orderBy == 2){
             $products = $products->orderBy('created_at', 'asc');
@@ -228,6 +228,8 @@ class ProductService extends BaseService
         }else{
             $products = $products->orderBy('created_at', 'desc');
         }
+
+
 
         // 1. 在前台中顯示 2.在前台不顯示
         $products = $products->where('isPublic', 1);

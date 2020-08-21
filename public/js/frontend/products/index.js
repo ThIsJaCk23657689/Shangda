@@ -1552,7 +1552,7 @@ var contnet = new Vue({
 
       var url = $('#GetProductsList').text();
       axios.post(url, {
-        skip: (this.currentPage - 1) * 20,
+        skip: (this.currentPage - 1) * 21,
         type: this.filter.type,
         keywords: this.filter.keyword,
         orderBy: this.filter.order,
@@ -1561,7 +1561,7 @@ var contnet = new Vue({
       }).then(function (response) {
         _this.products = response.data.products;
         _this.totalcount = response.data.totalcount;
-        _this.totalPage = Math.ceil(_this.totalcount / 20);
+        _this.totalPage = Math.ceil(_this.totalcount / 21);
 
         if (_this.totalcount == 0) {
           _this.currentPage = 0;

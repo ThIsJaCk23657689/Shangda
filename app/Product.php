@@ -19,8 +19,8 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'category_id', 'shownID', 'isManualID', 'name', 'isManualNamed', 
-        'internationalNum', 'specification', 'color', 
+        'category_id', 'shownID', 'isManualID', 'name', 'isManualNamed',
+        'internationalNum', 'specification', 'color',
         'isCustomize', 'isPublic', 'showPrice',
         'length' ,'width', 'chamfer', 'weight', 'qty_per_pack',
         'unit', 'intro', 'quantity', 'safeQuantity', 'comment',
@@ -32,6 +32,7 @@ class Product extends Model
         'isManualID' => 'boolean',
         'isManualNamed' => 'boolean',
         'isCustomize' => 'boolean',
+        'showPrice' => 'boolean',
     ];
 
     // 抓取此商品的圖片() 多型一對多關聯 (系統設定一個商品最多就5張圖片)
