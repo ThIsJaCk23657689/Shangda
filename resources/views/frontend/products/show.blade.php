@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 product-right">
-                    
+
                     @if($product->showPrice)
                         <div class="product-cart-btn text-center">
                             <a href="#" id="add-to-cart">
@@ -93,7 +93,7 @@
                         </div>
                         @if ($product->showPrice)
                             <div class="row">
-                                <p>商品價格 : {{ $product->retailPrice }}</p>
+                                <p>商品價格 : {{ $product->retailPrice }} 元</p>
                             </div>
                         @endif
 

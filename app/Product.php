@@ -81,15 +81,19 @@ class Product extends Model
 
     public function showPicture($index = 1){
         $picture = $this->pictures()->where('index', '=', $index)->first();
-
-        if(empty($picture->url)){
+        if(!$picture){
             return URL::asset('images/products/default.png');
         }else{
-            if(!preg_match("/^[a-zA-Z]+:\/\//", $picture->url)){
-                return URL::asset($picture->url);
+            if(empty($picture->url)){
+                return URL::asset('images/products/default.png');
             }else{
-                return $picture->url;
+                if(!preg_match("/^[a-zA-Z]+:\/\//", $picture->url)){
+                    return URL::asset($picture->url);
+                }else{
+                    return $picture->url;
+                }
             }
         }
+
     }
 }

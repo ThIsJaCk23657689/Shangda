@@ -164,12 +164,15 @@ section.announcement-detail .announcement-detail-container {
   padding: 50px 90px;
 }
 section.announcement-detail .announcement-detail-container .announcement-title {
-  height: 70px;
   margin-bottom: 10px;
   border-bottom: solid #003677;
 }
+section.announcement-detail .announcement-detail-container .announcement-title h1 {
+  letter-spacing: 1px;
+  font-size: 35px;
+}
 section.announcement-detail .announcement-detail-container .announcement-date {
-  font-size: 1.8rem;
+  font-size: 22px;
   letter-spacing: 2px;
   margin-bottom: 15px;
 }
@@ -182,4 +185,16 @@ section.announcement-detail .announcement-detail-container .announcement-content
 }
 section.announcement-detail .announcement-detail-container .announcement-content a {
   text-decoration: none;
+}
+section.announcement-detail .announcement-detail-container .announcement-content .content-row {
+  height: 90%;
+  overflow-y: scroll;
+  padding: 0px 15px;
+}
+section.announcement-detail .announcement-detail-container .announcement-content .return-row {
+  height: 10%;
+  padding-top: 20px;
+}
+section.announcement-detail .announcement-detail-container .announcement-content .return-row .return-text {
+  border-top: 2px solid #003677;
 }

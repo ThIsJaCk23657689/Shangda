@@ -84,17 +84,20 @@ class ProductService extends BaseService
     public function getOne($id){
         $product = ProductEloquent::withTrashed()->findOrFail($id);
         $product_pictures = $product->pictures;
-        if($product_pictures){
+        if(count($product_pictures)!=0){
             $product_images = [];
             $c = 1;
             foreach($product_pictures as $product_picture){
                 $product_images[] = $product->showPicture($c);
                 $c ++;
             }
+        }else{
+            $product_images = [];
+            $product_images[0] = $product->showPicture();
         }
 
         $product->imgs = $product_images;
-        
+
         return $product;
     }
 
