@@ -25,6 +25,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/frontend/consumers/reset.js', 'public/js/frontend/consumers')
     .js('resources/js/frontend/consumers/cart.js', 'public/js/frontend/consumers')
     .js('resources/js/frontend/consumers/sale_orders.js', 'public/js/frontend/consumers')
+    .js('resources/js/frontend/consumers/register.js', 'public/js/frontend/consumers')
 
 .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/welcome/slides.scss', 'public/css/welcome')
@@ -41,6 +42,7 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/frontend/consumers/cart.scss', 'public/css/frontend/consumers')
     .sass('resources/sass/frontend/consumers/sale_orders.scss', 'public/css/frontend/consumers')
     .sass('resources/sass/frontend/consumers/sale_order_details.scss', 'public/css/frontend/consumers')
+    .sass('resources/sass/frontend/consumers/register.scss', 'public/css/frontend/consumers')
     .options({
         processCssUrls: false,
     });
@@ -74,7 +76,7 @@ mix.js('resources/js/backend.js', 'public/js')
     .js('resources/js/produces/edit.js', 'public/js/produces')
 
 .js('resources/js/announcements/create.js', 'public/js/announcements')
-.js('resources/js/announcements/edit.js', 'public/js/announcements')
+    .js('resources/js/announcements/edit.js', 'public/js/announcements')
 
 .js('resources/js/reports/sales/year.js', 'public/js/reports/sales')
     .js('resources/js/reports/sales/daily.js', 'public/js/reports/sales')

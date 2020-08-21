@@ -18,12 +18,12 @@ class RegisterController extends Controller
     public $ConsumerService;
 
     public function __construct(){
-        $this->middleware('guest:api');
+        $this->middleware('guest:consumer');
         $this->ConsumerService = new ConsumerService();
     }
 
     public function showRegistrationForm(){
-        return view('consumers.register');
+        return view('frontend.consumers.auth.register');
     }
 
     public function register(Request $request){
@@ -36,21 +36,19 @@ class RegisterController extends Controller
 
         // 新增顧客資料
         $consumer = $this->ConsumerService->add($request);
-        
+
         // 發送事件
         event(new ConsumerRegisteredEvent($consumer));
 
         // 登入
-        $token = $this->guard()->login($consumer);
-        $cookie_token = 'Bearer ' . $token;
+        $this->guard()->login($consumer);
 
         return response()->json([
-            'status' => 1,
             'msg' => 'Login Successfully',
-            'token' => $token
-        ])->cookie('authorization', $cookie_token, 200);
+            'redirect_url' => redirect()->intended($this->redirectPath())->getTargetUrl()
+        ]);
     }
-    
+
     protected function generateRules(Request $request){
         $rules = [];
         $account_type = $request->account_type;
@@ -58,10 +56,10 @@ class RegisterController extends Controller
         if($account_type == 'individual'){
             $rules = [
                 'account_type' => 'bail|required|string|in:individual',
-    
+
                 'individual_account' => 'required|string|min:6|max:30|unique:consumers,account',
                 'individual_password' => 'required|string|min:6|max:30|confirmed',
-    
+
                 'individual_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'individual_idNumber' => 'required|string|size:10|tw_id',
                 'individual_name' => 'required|string|min:2|max:255',
@@ -72,7 +70,7 @@ class RegisterController extends Controller
                 'individual_uncheckedAmount' => 'required|numeric',
                 'individual_totalConsumption' => 'required|numeric',
                 'individual_comment' => 'nullable|string|max:255',
-    
+
                 'individual_phone' => 'required_without:individual_tel|nullable|string|size:10',
                 'individual_tel' => 'required_without:individual_phone|nullable|string|max:10',
                 'individual_email' => 'required|string|email|max:255|unique:consumers,email',
@@ -81,7 +79,7 @@ class RegisterController extends Controller
                 'individual_address_county' => 'required|string|max:10',
                 'individual_address_district' => 'required|string|max:10',
                 'individual_address_others' => 'required|string|max:255',
-            
+
             ];
         }else if($account_type == 'company'){
             $rules = [
@@ -129,6 +127,6 @@ class RegisterController extends Controller
     }
 
     protected function guard(){
-        return Auth::guard('api');
+        return Auth::guard('consumer');
     }
 }
