@@ -55,6 +55,6 @@ class Announcement extends Model
 
     public function showMonth(){
         $date = Carbon::parse($this->created_at)->format('F');
-        return strtoupper($date);
+        return strtoupper(substr($date, 0, 3).'.');
     }
 }

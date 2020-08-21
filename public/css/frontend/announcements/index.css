@@ -274,7 +274,7 @@ section.announcement-content .container .announcement-list {
 .announcement-card .card-link .announcement-card-info {
   width: 100%;
   height: 110px;
-  padding: 8px;
+  padding: 15px;
   position: absolute;
   top: 100%;
   left: 0;
@@ -294,22 +294,28 @@ section.announcement-content .container .announcement-list {
           justify-content: space-between;
   -webkit-box-align: center;
           align-items: center;
+  letter-spacing: 3px;
 }
 .announcement-card .card-link .announcement-card-info .announcement-card-date h3 {
   margin: 0;
   font-size: 26px;
+  padding-left: 10px;
+  border-left: 2px solid #003677;
+  font-weight: bold;
 }
 .announcement-card .card-link .announcement-card-info .announcement-card-date span {
   text-align: right;
   font-size: 16px;
 }
 .announcement-card .card-link .announcement-card-info .announcement-card-title {
-  font-size: 22px;
   text-overflow: ellipsis;
   white-space: nowrap;
   display: block;
   width: 100%;
   overflow: hidden;
+  font-size: 1.2rem;
+  margin-top: 6px;
+  letter-spacing: 2px;
 }
 .announcement-card.animate {
   box-shadow: 0 0 8px 2px #00000096;
