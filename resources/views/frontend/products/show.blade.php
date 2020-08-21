@@ -37,18 +37,34 @@
                     </div>
                 </div>
                 <div class="col-md-6 product-right">
-                    <div class="product-cart-btn text-center">
-                        <a href="#" id="add-to-cart">
-                            <div class="row">
-                                <img src="{{ asset('images/icons/cart_icon.png') }}" alt="">
-                            </div>
-                            <div class="row">
-                                <span class="button-text">加入購物車</span>
-                            </div>
-                            <span id="AddProductToCartURL" class="d-none">{{ route('front.cart.add') }}</span>
-                            <span id="ProductID" class="d-none">{{ $product->id }}</span>
-                        </a>
-                    </div>
+                    
+                    @if(!$product->isPublic)
+                        <div class="product-cart-btn text-center">
+                            <a href="#" id="add-to-cart">
+                                <div class="row">
+                                    <img src="{{ asset('images/icons/cart_icon.png') }}" alt="">
+                                </div>
+                                <div class="row">
+                                    <span class="button-text">加入購物車</span>
+                                </div>
+                                <span id="AddProductToCartURL" class="d-none">{{ route('front.cart.add') }}</span>
+                                <span id="ProductID" class="d-none">{{ $product->id }}</span>
+                            </a>
+                        </div>
+                    @else
+                        <div class="product-cart-btn text-center">
+                            <a href="#" id="add-to-cart">
+                                <div class="row">
+                                    <img src="{{ asset('images/icons/cart_icon.png') }}" alt="">
+                                </div>
+                                <div class="row">
+                                    <span class="button-text">詢問價錢</span>
+                                </div>
+                                <span id="ProductID" class="d-none">{{ $product->id }}</span>
+                            </a>
+                        </div>
+                    @endif
+
                     <div class="product-info">
                         <div class="row">
                             <h2>{{ $product->name }}</h2>
@@ -66,7 +82,7 @@
                             <p>商品尺寸(長/寬/折角) : {{ $product->length ?? "無"}} / {{ $product->width ?? "無"}} / {{ $product->chamfer ?? "無"}} (單位 : 公分)</p>
                         </div>
                         <div class="row">
-                            <p>商品重量 : {{ $product->weight }} (單位 : 公克)</p>
+                            <p>商品重量 : {{ $product->weight }} (單位 : 台兩)</p>
                         </div>
                         <div class="row">
                             <p>每件數量/單位 : {{ $product->qty_per_pack ?? "無"}}/ {{ $product->showUnit() }}</p>
