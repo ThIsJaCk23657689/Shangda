@@ -11,6 +11,7 @@ use App\Category as CategoryEloquent;
 use App\Produce as ProduceEloquent;
 use App\ProductLog as ProductLogEloquent;
 use App\Consumer as ConsumerEloquent;
+use App\Contact as ContactEloquent;
 
 use URL;
 
@@ -60,6 +61,10 @@ class Product extends Model
 
     public function productlogs(){
         return $this->hasMany(ProductLogEloquent::class);
+    }
+
+    public function contacts(){
+        return $this->hasMany(ContactEloquent::class);
     }
 
     public function showUnit(){

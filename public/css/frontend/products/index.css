@@ -204,6 +204,10 @@ section.header .container .title {
   }
 }
 
+body {
+  padding-right: 0 !important;
+}
+
 section.header .bg-image {
   background-image: url(../../../../public/images/background/product.jpg);
 }
@@ -708,4 +712,8 @@ div.shadow {
 .carousel .arrows-perspective .carouselNext .y {
   -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
+}
+
+.modal {
+  color: black;
 }

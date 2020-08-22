@@ -1,6 +1,11 @@
 @import '../variables';
 @import '../content';
 @import '../filter';
+
+body{
+    padding-right: 0 !important;
+}
+
 section.header {
     .bg-image {
         background-image: url(../../../../public/images/background/product.jpg)
@@ -543,4 +548,8 @@ div.shadow {
             }
         }
     }
+}
+
+.modal{
+    color: black;
 }

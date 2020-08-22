@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ConsumerService;
 use App\Services\CartService;
+use App\Services\Orders\SalesOrderService;
 use Auth;
 use Illuminate\Validation\Rule;
 
@@ -14,12 +15,14 @@ class ConsumerController extends Controller
 
     public $ConsumerService;
     public $CartService;
+    public $SalesOrderService;
 
     public function __construct()
     {
         $this->middleware('auth:consumer');
         $this->ConsumerService = new ConsumerService();
         $this->CartService = new CartService();
+        $this->SalesOrderService = new SalesOrderService();
     }
 
     // 客戶個人資料頁面

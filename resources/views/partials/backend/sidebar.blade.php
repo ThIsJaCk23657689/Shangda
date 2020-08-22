@@ -59,9 +59,10 @@
 		</a>
 		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 			<h6 class="dropdown-header">{{ __('Basic:') }}</h6>
-			<a class="dropdown-item" href="#">{{ __('Web Setting') }}</a>
+			{{-- <a class="dropdown-item" href="#">{{ __('Web Setting') }}</a> --}}
 			<a class="dropdown-item" href="{{ route('announcements.index') }}">{{ __('News') }}</a>
-			<a class="dropdown-item" href="#">{{ __('Log File') }}</a>
+			<a class="dropdown-item" href="{{ route('contacts.index') }}">{{ __('Contacts') }}</a>
+			{{-- <a class="dropdown-item" href="#">{{ __('Log File') }}</a> --}}
 		</div>
     </li>
 

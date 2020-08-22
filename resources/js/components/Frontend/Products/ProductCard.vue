@@ -15,7 +15,7 @@
                         </button>
                         <span class="d-none">{{ product.id }}</span>
                     </div>
-                    <button type="button" class="product_ask_price" v-else>
+                    <button type="button" class="product_ask_price" data-toggle="modal" data-target="#CreateContact" :data-id="product.id" v-else>
                         <i class="fas fa-comments-dollar mr-1"></i>
                         詢問價錢
                     </button>

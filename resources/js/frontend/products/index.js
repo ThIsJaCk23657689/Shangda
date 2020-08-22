@@ -2,6 +2,7 @@ Vue.component('product-filter', require('../../components/Frontend/Products/Prod
 Vue.component('product-container', require('../../components/Frontend/Products/ProductContainer.vue').default);
 Vue.component('product-card', require('../../components/Frontend/Products/ProductCard.vue').default);
 Vue.component('content-paginate', require('../../components/Frontend/Partials/ContentPaginate.vue').default);
+Vue.component('contact-form', require('../../components/Modals/ContactForm.vue').default);
 
 const contnet = new Vue({
     el: '#product',

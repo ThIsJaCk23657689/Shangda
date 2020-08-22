@@ -70,6 +70,11 @@ Route::prefix('cart')->group(function(){
     Route::post('/checkout', 'CartController@checkout')->name('front.cart.checkout');
 });
 
+// 聯絡清單路由
+Route::prefix('/contacts')->group(function(){
+    Route::post('/', 'ContactController@store')->name('front.contacts.store');
+});
+
 // 後臺管理路由
 Route::prefix('/backend')->group(function(){
     Route::get('/', 'HomeController@backend')->name('backend');
@@ -231,6 +236,11 @@ Route::prefix('/backend')->group(function(){
             Route::get('payable', 'ReportController@accountReportPayable')->name('reports.account.payable');
             Route::get('receivable', 'ReportController@accountReportReceivable')->name('reports.account.receivable');
         });
+    });
+
+    // 聯絡清單路由(後台)
+    Route::prefix('/contacts')->group(function(){
+        Route::get('/', 'ContactController@index')->name('contacts.index');
     });
 
 });

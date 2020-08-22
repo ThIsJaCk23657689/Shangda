@@ -23,12 +23,14 @@
             <span id="GetProductsList" class="d-none">{{ route('front.products.index') }}</span>
             <span id="AddProductToCartURL" class="d-none">{{ route('front.cart.add') }}</span>
             <span id="ConsumerLoginURL" class="d-none">{{ route('consumers.login') }}</span>
+            <span id="ContactStoreURL" class="d-none">{{ route('front.contacts.store') }}</span>
 
             <product-filter :filter="filter" v-on:refresh-product="refreshProduct"></product-filter>
 
             <product-container :products="products"></product-container>
             <content-paginate :current-page="currentPage" :total-page="totalPage" v-on:chage-page="chagePage"></content-paginate>
 
+            <contact-form></contact-form>
         </div>
     </section>
 @endsection
