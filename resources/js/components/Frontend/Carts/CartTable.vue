@@ -18,7 +18,7 @@
             購買總金額（{{ status.totalcount }}個商品）：<span class="total-price">${{ status.totalprice }}</span>
         </div>
         <div class="cart-cell w-30">
-            <button type="button" class="btn btn-md btn-checkout" :disabled="carts.length == 0" @click="checkout">確認結帳</button>
+            <button type="button" class="btn btn-md btn-checkout" :disabled="carts.length == 0" @click="checkout">送出訂單</button>
         </div>
     </div>
 </div>
@@ -43,7 +43,7 @@ export default {
             this.status.totalprice = Math.round(this.status.totalprice);
         },
         removeItem(payload){
-        
+
             let url = $('#RemoveProductURL').text();
             axios.post(url, {
                 _method: 'DELETE',
@@ -56,7 +56,7 @@ export default {
                     this.carts[$i].index = $i;
                 }
                 this.calculateTotal();
-                
+
             }).catch(error => {
                 console.log('從購物車刪除商品時發生錯誤。');
                 $.showErrorModal(error);

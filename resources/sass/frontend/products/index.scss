@@ -1,8 +1,7 @@
 @import '../variables';
 @import '../content';
 @import '../filter';
-
-body{
+body {
     padding-right: 0 !important;
 }
 
@@ -22,6 +21,47 @@ section.product-content {
             flex-direction: row;
             justify-content: flex-start;
             color: black;
+        }
+        // marquee {
+        //     width: 100%;
+        //     color: $blue;
+        //      padding: 25px 0px 0px 0px;
+        //     font-size: 1.5rem;
+        //     letter-spacing: 2px;
+        // }
+        .costomer-div {
+            width: 150px;
+            height: 150px;
+            background-color: $blue;
+            color: white;
+            margin: 0;
+            position: fixed;
+            bottom: 25px;
+            right: 15px;
+            border-radius: 150px;
+            box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.5);
+            a {
+                .row {
+                    width: 100%;
+                    margin: 0;
+                    i {
+                        font-size: 2rem;
+                    }
+                    span {
+                        text-align: center;
+                    }
+                }
+                .row-i {
+                    margin: 30px 0px 15px 55px;
+                }
+                .row-span {
+                    padding: 0px 10px;
+                }
+                &:hover {
+                    text-decoration: none;
+                    color: #48cfad;
+                }
+            }
         }
     }
 }
@@ -162,7 +202,7 @@ section.product-content {
     -moz-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
     transition: all 200ms ease-out;
-    .product_price-container{
+    .product_price-container {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -175,7 +215,7 @@ section.product-content {
             font-weight: 600;
             // padding-bottom: 12px;
         }
-        .cart-button{
+        .cart-button {
             border: none;
             outline: none;
             background-color: white;
@@ -187,8 +227,7 @@ section.product-content {
             }
         }
     }
-
-    .product_ask_price{
+    .product_ask_price {
         border: solid 2px #000000;
         padding: 4px;
         margin-bottom: 9px;
@@ -550,6 +589,6 @@ div.shadow {
     }
 }
 
-.modal{
+.modal {
     color: black;
 }

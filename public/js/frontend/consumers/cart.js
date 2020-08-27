@@ -436,7 +436,7 @@ var render = function() {
       _c("div", { staticClass: "cart-footer" }, [
         _c("div", { staticClass: "cart-cell w-70 status-cell" }, [
           _vm._v(
-            "\r\n            購買總金額（" +
+            "\n            購買總金額（" +
               _vm._s(_vm.status.totalcount) +
               "個商品）："
           ),
@@ -453,7 +453,7 @@ var render = function() {
               attrs: { type: "button", disabled: _vm.carts.length == 0 },
               on: { click: _vm.checkout }
             },
-            [_vm._v("確認結帳")]
+            [_vm._v("送出訂單")]
           )
         ])
       ])

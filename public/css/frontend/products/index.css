@@ -227,6 +227,38 @@ section.product-content .container .product-list {
           justify-content: flex-start;
   color: black;
 }
+section.product-content .container .costomer-div {
+  width: 150px;
+  height: 150px;
+  background-color: #003677;
+  color: white;
+  margin: 0;
+  position: fixed;
+  bottom: 25px;
+  right: 15px;
+  border-radius: 150px;
+  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.5);
+}
+section.product-content .container .costomer-div a .row {
+  width: 100%;
+  margin: 0;
+}
+section.product-content .container .costomer-div a .row i {
+  font-size: 2rem;
+}
+section.product-content .container .costomer-div a .row span {
+  text-align: center;
+}
+section.product-content .container .costomer-div a .row-i {
+  margin: 30px 0px 15px 55px;
+}
+section.product-content .container .costomer-div a .row-span {
+  padding: 0px 10px;
+}
+section.product-content .container .costomer-div a:hover {
+  text-decoration: none;
+  color: #48cfad;
+}
 
 .make-3D-space {
   width: 33.3333333%;
