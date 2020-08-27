@@ -38,9 +38,9 @@
                     <div class="row row-i">
                         <i class="fas fa-phone"></i>
                     </div>
-                    <div class="row row-span">
+                    {{-- <div class="row row-span">
                         <span>如需客製化商品。請聯絡我們。</span>
-                    </div>
+                    </div> --}}
                 </a>
 
             </div>
