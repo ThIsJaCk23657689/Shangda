@@ -239,8 +239,8 @@ Route::prefix('/backend')->group(function(){
             Route::post('payable/daily', 'ReportController@accountReportPayableDaily')->name('reports.account.payable.daily');
             // 應收帳款
             Route::get('receivable', 'ReportController@accountReportReceivable')->name('reports.account.receivable');
-            Route::get('receivable', 'ReportController@accountReportReceivableDailyIndex')->name('reports.account.receivable_daily.index');
-            Route::post('receivable', 'ReportController@accountReportReceivableDaily')->name('reports.account.receivable.daily');
+            Route::get('receivable/daily', 'ReportController@accountReportReceivableDailyIndex')->name('reports.account.receivable_daily.index');
+            Route::post('receivable/daily', 'ReportController@accountReportReceivableDaily')->name('reports.account.receivable.daily');
         });
     });
 
