@@ -411,9 +411,18 @@ class ReportService extends BaseService
             $reports = collect($reports);
             foreach($reports as $report){
                 $report->showAddress = $report->companyAddress_county . $report->companyAddress_district . $report->companyAddress_others;
+                if($report->totalPrice == NULL || $report->totalPrice == ""){
+                    $report->totalPrice = 0;
+                }
             }
 
-            return $reports;
+            $result = collect($reports);
+            $result = $result->groupBy('date');
+
+            return [
+                'status' => 200,
+                'result' => $result,
+            ];
     }
 
     // 應收帳款日報表
@@ -442,9 +451,21 @@ class ReportService extends BaseService
             $reports = collect($reports);
             foreach($reports as $report){
                 $report->showAddress = $report->address_county . $report->address_district . $report->address_others;
+                if($report->totalPrice == NULL || $report->totalPrice == ""){
+                    $report->totalPrice = 0;
+                }
+                $report->operator_name = $report->operator_name ?? ($report->principal ?? '無');
+                $report->operator_tel = $report->operator_tel ?? ($report->phone ?? ($report->tel ?? '無'));
             }
 
-            return $reports;
+
+            $result = collect($reports);
+            $result = $result->groupBy('date');
+
+            return [
+                'status' => 200,
+                'result' => $result,
+            ];
     }
 
     public function accountReportReceivable(){

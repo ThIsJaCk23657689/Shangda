@@ -129,7 +129,7 @@ class ReportController extends Controller
 
     // 應收帳款 日度報表
     public function accountReportReceivableDailyIndex(){
-        return view('reports.account.payable_daily');
+        return view('reports.account.receivable_daily');
     }
 
     public function accountReportReceivableDaily(Request $request){

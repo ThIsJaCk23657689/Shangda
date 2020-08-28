@@ -81,7 +81,9 @@
 			<a class="dropdown-item" href="{{ route('reports.purchase.daily') }}">{{ __('Daily Report') }}</a>
 			<h6 class="dropdown-header">{{ __('Account Report') }}</h6>
 			<a class="dropdown-item" href="{{ route('reports.account.payable') }}">{{ __('Accounts Payable Report') }}</a>
+			<a class="dropdown-item" href="{{ route('reports.account.payable_daily.index') }}">{{ __('Accounts Payable Daily Report') }}</a>
 			<a class="dropdown-item" href="{{ route('reports.account.receivable') }}">{{ __('Accounts Receivable Report') }}</a>
+			<a class="dropdown-item" href="{{ route('reports.account.receivable_daily.index') }}">{{ __('Accounts Receivable Daily Report') }}</a>
 		</div>
 	</li>
 

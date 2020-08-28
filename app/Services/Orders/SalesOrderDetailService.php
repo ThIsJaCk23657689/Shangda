@@ -68,14 +68,14 @@ class SalesOrderDetailService extends BaseService
             $saleOrder->totalPrice = $total_unTax;
             if($saleOrder->taxType == 1){
                 $saleOrder->taxPrice = $total_unTax * 0.05;
-                $saleOrder->totalTaxPrice = $total_unTax * 1.05;
-                $saleOrder->unpaidAmount = $total_unTax * 1.05;
-                $add_price = $total_unTax * 1.05;
+                $saleOrder->totalTaxPrice = round($total_unTax * 1.05);
+                $saleOrder->unpaidAmount = round($total_unTax * 1.05);
+                $add_price = round($total_unTax * 1.05);
             }else{
                 $saleOrder->taxPrice = 0;
-                $saleOrder->totalTaxPrice = $total_unTax;
-                $saleOrder->unpaidAmount = $total_unTax;
-                $add_price = $total_unTax;
+                $saleOrder->totalTaxPrice = round($total_unTax);
+                $saleOrder->unpaidAmount = round($total_unTax);
+                $add_price = round($total_unTax);
             }
             $saleOrder->save();
             if($saleOrder->status == 1){
@@ -250,14 +250,14 @@ class SalesOrderDetailService extends BaseService
         $saleOrder->totalPrice = $total_unTax;
         if($saleOrder->taxType == 1){
             $saleOrder->taxPrice = $total_unTax * 0.05;
-            $saleOrder->totalTaxPrice = $total_unTax * 1.05;
-            $saleOrder->unpaidAmount = $total_unTax * 1.05;
-            $add_price = $total_unTax * 1.05;
+            $saleOrder->totalTaxPrice = round($total_unTax * 1.05);
+            $saleOrder->unpaidAmount = round($total_unTax * 1.05);
+            $add_price = round($total_unTax * 1.05);
         }else{
             $saleOrder->taxPrice = 0;
-            $saleOrder->totalTaxPrice = $total_unTax;
-            $saleOrder->unpaidAmount = $total_unTax;
-            $add_price = $total_unTax;
+            $saleOrder->totalTaxPrice = round($total_unTax);
+            $saleOrder->unpaidAmount = round($total_unTax);
+            $add_price = round($total_unTax);
         }
         $saleOrder->save();
         if($saleOrder->status == 1){
