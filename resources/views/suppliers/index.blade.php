@@ -2,10 +2,10 @@
 
 @push('CustomJS')
 	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
-@endpush 
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('People Management') }}</a>
@@ -24,7 +24,7 @@
             </a>
         </div>
     </div>
-	
+
 	<!-- DataTables Example -->
 	<div class="card mb-3">
 		<div class="card-header">
@@ -51,9 +51,9 @@
 								<td>{{ $supplier->id }}</td>
 								<td>{{ $supplier->name }}</td>
 								<td>{{ $supplier->taxId }}</td>
-                                <td>{{ $supplier->operator_name_1 }}</td>
-								<td>{{ $supplier->tel }}</td>
-								<td>{{ $supplier->operator_phone_1 }}</td>
+                                <td>{{ $supplier->operator_name_1 ?? '無' }}</td>
+								<td>{{ $supplier->tel ?? '無' }}</td>
+								<td>{{ $supplier->operator_phone_1 ?? '無' }}</td>
 								<td>
 									<a href="{{ route('suppliers.show', [$supplier->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
@@ -79,7 +79,7 @@
 										@method('DELETE')
 									</form>
 								</td>
-							</tr>	
+							</tr>
 						@endforeach
 					</tbody>
 				</table>
@@ -87,5 +87,5 @@
 		</div>
 		<div class="card-footer small text-muted"> {{ __('Last Updated') }} {{ $lastUpdate??'無' }}</div>
 	</div>
-	
+
 @endsection

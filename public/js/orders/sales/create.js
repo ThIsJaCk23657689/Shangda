@@ -584,7 +584,7 @@ __webpack_require__.r(__webpack_exports__);
       var taxType = $('#taxType').val();
       var tax = taxType == "1" ? Math.round(this.total_price * 0.05 * 10000) / 10000 : 0;
       $('#taxPrice').val(tax);
-      this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
+      this.total_price = Math.round(Math.round((this.total_price + tax) * 10000) / 10000);
       this.$emit('showTotalPrice', this.total_price); // console.log(this.total_price);
     },
     calculateQty: function calculateQty(id, type) {
@@ -1302,15 +1302,15 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.details, function(detail, index) {
                   return _c("tr", { key: index }, [
-                    _c("td", { staticStyle: { width: "4%" } }, [
+                    _c("td", { staticStyle: { width: "3%" } }, [
                       _vm._v(_vm._s(index + 1))
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { width: "20%" } }, [
+                    _c("td", { staticStyle: { width: "18%" } }, [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(detail.product.name) +
-                          "\r\n                            "
+                          "\n                            "
                       ),
                       _c("input", {
                         attrs: {
@@ -1323,13 +1323,13 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "10%" } }, [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(detail.product.internationalNum) +
-                          "\r\n                        "
+                          "\n                        "
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { width: "20%" } }, [
+                    _c("td", { staticStyle: { width: "18%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         staticStyle: { width: "30%", display: "inline-block" },
@@ -1377,7 +1377,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { width: "10%" } }, [
+                    _c("td", { staticStyle: { width: "9%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         attrs: {
@@ -1394,7 +1394,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { width: "8%" } }, [
+                    _c("td", { staticStyle: { width: "7%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         attrs: {
@@ -1411,7 +1411,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticStyle: { width: "8%" } }, [
+                    _c("td", { staticStyle: { width: "15%" } }, [
                       _c("input", {
                         staticClass: "form-control",
                         attrs: {

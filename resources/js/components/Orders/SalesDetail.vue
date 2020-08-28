@@ -34,28 +34,28 @@
                 </thead>
                 <tbody>
                     <tr v-for="(detail, index) in details" :key="index">
-                        <td style="width: 4%">{{ index + 1 }}</td>
-                        <td style="width: 20%">
+                        <td style="width: 3%">{{ index + 1 }}</td>
+                        <td style="width: 18%">
                             {{ detail.product.name }}
                             <input type="hidden" :name="'details[' + (index + 1) + '][product_id]'" :value="detail.product.id">
                         </td>
                         <td style="width: 10%">
                             {{ detail.product.internationalNum }}
                         </td>
-                        <td style="width: 20%">
+                        <td style="width: 18%">
                             <input :id="'pcs_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][pieces]'" :value="detail.pieces" @change="calculateQty(index+1, 'p'); calculateSubtotal(index+1);" style="width:30%;display:inline-block;">
                             <span class="mr-2">件</span>
                             <input :id="'qty_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateQty(index+1, 'q'); calculateSubtotal(index+1);" style="width:30%;display:inline-block;">
                             <span>{{ detail.product.showUnit }}</span>
                             <input type="hidden" :id="'qty_per_pack_' + (index + 1)" :value="detail.product.qty_per_pack">
                         </td>
-                        <td style="width: 10%">
+                        <td style="width: 9%">
                             <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][price]'" :value="detail.product.unitPrice" @change="calculateSubtotal(index+1)">
                         </td>
-                        <td style="width: 8%">
+                        <td style="width: 7%">
                             <input :id="'discount_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][discount]'" :value="detail.discount" @change="calculateSubtotal(index+1)">
                         </td>
-                        <td style="width: 8%">
+                        <td style="width: 15%">
                             <input :id="'subtotal_' + (index + 1)" type="text" class="form-control" :value="detail.subTotal" disabled>
                         </td>
                         <td style="width: 15%">
@@ -139,7 +139,7 @@ export default {
         calculateTotalPrice(){
             this.total_price = 0;
             for(let i = 1; i <=  this.details.length; i++){
-                
+
                 let qty = this.details[i - 1].quantity;
                 let unitPrice = this.details[i - 1].product.unitPrice;
                 let discount = this.details[i - 1].discount;
@@ -152,8 +152,8 @@ export default {
             let taxType = $('#taxType').val();
             let tax = (taxType == "1")? Math.round(this.total_price * 0.05 * 10000) / 10000: 0;
             $('#taxPrice').val(tax);
-            
-            this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
+
+            this.total_price = Math.round(Math.round((this.total_price + tax) * 10000) / 10000);
             this.$emit('showTotalPrice', this.total_price)
             // console.log(this.total_price);
         },
@@ -170,7 +170,7 @@ export default {
                 $('#pcs_' + id).val(qty / qty_per_pack);
 
                 this.details[id - 1].pieces = qty / qty_per_pack;
-            }        
+            }
         },
 
         updateComment(id){
@@ -197,7 +197,7 @@ export default {
             }
         },
 
-        
+
     }
 }
 </script>

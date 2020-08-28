@@ -226,6 +226,8 @@ class ReportService extends BaseService
         $type = $request->type;  // 1.'依供應商別', 2.'依原料別'
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $start_date = Carbon::createFromFormat('Y-m-d H:i', $start_date.' 00:00')->toDateTimeString();
+        $end_date = Carbon::createFromFormat('Y-m-d H:i', $end_date.'23:59')->toDateTimeString();
 
         if($type == 1){
             // 依客戶別
@@ -309,6 +311,8 @@ class ReportService extends BaseService
         $type = $request->type;  // 1.'依供應商別', 2.'依原料別'
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $start_date = Carbon::createFromFormat('Y-m-d H:i', $start_date.' 00:00')->toDateTimeString();
+        $end_date = Carbon::createFromFormat('Y-m-d H:i', $end_date.'23:59')->toDateTimeString();
 
         if($type == 1){
             // 依供應商
@@ -359,8 +363,8 @@ class ReportService extends BaseService
     }
 
     public function accountReportPayable(){
-        // SELECT suppliers.*, SUM(purchase_orders.totalPrice) as totalPrice 
-        // FROM `purchase_orders` RIGHT JOIN suppliers ON suppliers.id = purchase_orders.supplier_id 
+        // SELECT suppliers.*, SUM(purchase_orders.totalPrice) as totalPrice
+        // FROM `purchase_orders` RIGHT JOIN suppliers ON suppliers.id = purchase_orders.supplier_id
         // WHERE purchase_orders.paid_at IS NULL GROUP BY suppliers.id
 
         $reports = DB::table('purchase_orders')
@@ -381,8 +385,8 @@ class ReportService extends BaseService
     }
 
     public function accountReportReceivable(){
-        // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice 
-        // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id 
+        // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice
+        // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id
         // GROUP BY consumers.id
 
         $reports = DB::table('sales_orders')

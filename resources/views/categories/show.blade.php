@@ -2,17 +2,17 @@
 
 @push('CustomJS')
     <script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
-@endpush    
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
-		<li class="breadcrumb-item">
-			<a href="#">{{ __('People Management') }}</a>
-		</li>
-		<li class="breadcrumb-item">
-			<a href="#">{{ __('Categories') }}</a>
-		</li>
+        <li class="breadcrumb-item">
+            <a href="#">{{ __('Stuffs Management') }}</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
+        </li>
 		<li class="breadcrumb-item active">{{ __('Show') }}</li>
 	@endcomponent
 
@@ -23,30 +23,30 @@
                     <span class="text-danger">*</span>
                     商品分類名稱
                 </label>
-            
+
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control" name="name" value="{{ $category->name }}" disabled>
                 </div>
             </div>
-            
+
             <div class="form-group row">
                 <label for="intro" class="col-md-4 col-form-label text-md-right">
                     <span class="text-danger">*</span>
                     商品類別簡介
                 </label>
-            
+
                 <div class="col-md-6">
-                    <input id="intro" type="text" class="form-control" name="intro" value="{{ $category->intro }}" disabled>
+                    <input id="intro" type="text" class="form-control" name="intro" value="{{ ($category->intro == "") ? '無' : $category->intro }}" disabled>
                 </div>
             </div>
-            
+
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <h3>此類別的旗下商品</h3>
                 </div>
 
                 <div class="col-md-12">
-                    
+
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -107,17 +107,17 @@
                                                 下架
                                             </a>
                                         @endif
-    
+
                                         <form id="deleteform-{{ $product->id }}" action="{{ route('products.destroy', [$product->id]) }}" method="POST" style="displat: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
                                     </td>
-                                </tr>	
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
-            
+
                 </div>
             </div>
 
@@ -132,5 +132,5 @@
             </div>
         </div>
     </div>
-	
+
 @endsection

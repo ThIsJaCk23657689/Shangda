@@ -2,16 +2,16 @@
 
 @push('CustomJS')
 	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
-@endpush 
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('Stuffs Management') }}</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a href="#">{{ __('Categories') }}</a>
+			<a href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
 		</li>
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
 	@endcomponent
@@ -24,7 +24,7 @@
             </a>
         </div>
     </div> --}}
-	
+
 	<!-- DataTables Example -->
 	<div class="card mb-3">
 		<div class="card-header">
@@ -48,7 +48,7 @@
 							<tr>
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
-								<td>{{ $category->intro }}</td>
+								<td>{{ ($category->intro == "") ? '無' : $category->intro }}</td>
 								<td>{{ $category->products()->count() }}</td>
 								<td>
 									<a href="{{ route('categories.show', [$category->id]) }}" class="btn btn-md btn-info">
@@ -77,7 +77,7 @@
 										</form>
 									@endif --}}
 								</td>
-							</tr>	
+							</tr>
 						@endforeach
 					</tbody>
 				</table>

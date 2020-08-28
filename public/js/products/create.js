@@ -379,6 +379,11 @@ __webpack_require__.r(__webpack_exports__);
       this.profit = $('#profit').val();
       this.retail_price = parseFloat(this.total_cost) + parseFloat(this.profit);
     },
+    calculateProfit: function calculateProfit() {
+      this.calculateTotalCost();
+      this.retail_price = $('#retailPrice').val();
+      this.profit = -parseFloat(this.total_cost) + parseFloat(this.retail_price);
+    },
     // 取得原物料資料
     getMaterialData: function getMaterialData() {
       var _this = this;
@@ -1229,9 +1234,9 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [
                   _vm._v(
-                    "\r\n                        " +
+                    "\n                        " +
                       _vm._s(recipe.material.name) +
-                      "\r\n                        "
+                      "\n                        "
                   ),
                   _c("input", {
                     attrs: {
@@ -1358,13 +1363,9 @@ var render = function() {
             _vm._v(" "),
             _c("input", {
               staticClass: "form-control",
-              attrs: {
-                id: "retailPrice",
-                name: "retailPrice",
-                type: "text",
-                readonly: ""
-              },
-              domProps: { value: this.retail_price }
+              attrs: { id: "retailPrice", name: "retailPrice", type: "text" },
+              domProps: { value: this.retail_price },
+              on: { change: _vm.calculateProfit }
             })
           ])
         ])
@@ -1399,7 +1400,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "profit" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("利潤\r\n                    ")
+      _vm._v("利潤\n                    ")
     ])
   }
 ]

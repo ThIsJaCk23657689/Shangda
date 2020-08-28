@@ -775,7 +775,7 @@ __webpack_require__.r(__webpack_exports__);
       var taxType = $('#taxType').val();
       var tax = taxType == "1" ? Math.round(this.total_price * 0.05 * 10000) / 10000 : 0;
       $('#tax_price').val(tax);
-      this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
+      this.total_price = Math.round(Math.round((this.total_price + tax) * 10000) / 10000);
       this.$emit('show-total-price', this.total_price); // console.log(this.total_price);
     },
     updateComment: function updateComment(id) {
@@ -2069,9 +2069,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "20%" } }, [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(detail.material.name) +
-                          "\r\n                            "
+                          "\n                            "
                       ),
                       _c("input", {
                         attrs: {
@@ -2084,9 +2084,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "10%" } }, [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(detail.material.internationalNum) +
-                          "\r\n                        "
+                          "\n                        "
                       )
                     ]),
                     _vm._v(" "),

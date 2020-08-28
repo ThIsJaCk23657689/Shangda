@@ -131,7 +131,7 @@ export default {
         calculateTotalPrice(){
             this.total_price = 0;
             for(let i = 1; i <=  this.details.length; i++){
-                
+
                 let qty = this.details[i - 1].quantity;
                 let unitPrice = this.details[i - 1].material.unitPrice;
                 let discount = this.details[i - 1].discount;
@@ -144,8 +144,8 @@ export default {
             let taxType = $('#taxType').val();
             let tax = (taxType == "1")? Math.round(this.total_price * 0.05 * 10000) / 10000: 0;
             $('#tax_price').val(tax);
-            
-            this.total_price = Math.round((this.total_price + tax) * 10000) / 10000;
+
+            this.total_price = Math.round(Math.round((this.total_price + tax) * 10000) / 10000);
             this.$emit('show-total-price', this.total_price)
             // console.log(this.total_price);
         },
@@ -176,7 +176,7 @@ export default {
 
     },
     mounted() {
-        
+
     },
 }
 </script>

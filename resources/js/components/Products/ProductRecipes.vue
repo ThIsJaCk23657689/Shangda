@@ -76,12 +76,12 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="retailPrice">零售價</label>
-                    <input id="retailPrice" name="retailPrice" type="text" class="form-control" :value="this.retail_price" readonly>
+                    <input id="retailPrice" name="retailPrice" type="text" class="form-control" :value="this.retail_price" @change="calculateProfit">
                 </div>
             </div>
 
         </div>
-        
+
     </div>
 </div>
 </template>
@@ -96,7 +96,7 @@ export default {
         return {
             recipes: [],
             current_material: [],
-            
+
             total_cost: 0,
             profit: 0,
             retail_price: 0
@@ -163,6 +163,12 @@ export default {
             this.calculateTotalCost();
             this.profit = $('#profit').val();
             this.retail_price = parseFloat(this.total_cost) + parseFloat(this.profit);
+        },
+
+        calculateProfit(){
+            this.calculateTotalCost();
+            this.retail_price = $('#retailPrice').val();
+            this.profit = -parseFloat(this.total_cost) + parseFloat(this.retail_price);
         },
 
         // 取得原物料資料
