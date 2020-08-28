@@ -233,8 +233,14 @@ Route::prefix('/backend')->group(function(){
 
         // 帳戶應收、應付報表
         Route::prefix('/account')->group(function(){
+            //應付帳款
             Route::get('payable', 'ReportController@accountReportPayable')->name('reports.account.payable');
+            Route::get('payable/daily', 'ReportController@accountReportPayableDailyIndex')->name('reports.account.payable_daily.index');
+            Route::post('payable/daily', 'ReportController@accountReportPayableDaily')->name('reports.account.payable.daily');
+            // 應收帳款
             Route::get('receivable', 'ReportController@accountReportReceivable')->name('reports.account.receivable');
+            Route::get('receivable', 'ReportController@accountReportReceivableDailyIndex')->name('reports.account.receivable_daily.index');
+            Route::post('receivable', 'ReportController@accountReportReceivableDaily')->name('reports.account.receivable.daily');
         });
     });
 

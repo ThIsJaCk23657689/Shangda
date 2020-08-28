@@ -384,6 +384,69 @@ class ReportService extends BaseService
             return $reports;
     }
 
+    // 應付帳款日報表
+    public function accountReportPayableDaily($request){
+        // SELECT suppliers.*, SUM(purchase_orders.totalPrice) as totalPrice
+        // FROM `purchase_orders` RIGHT JOIN suppliers ON suppliers.id = purchase_orders.supplier_id
+        // WHERE (purchase_orders.paid_at IS NULL) AND (purchase_orders.created_at BETWEEN '2020-06-15' AND '2020-08-30') GROUP BY suppliers.id
+
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $start_date = Carbon::createFromFormat('Y-m-d H:i', $start_date.' 00:00')->toDateTimeString();
+        $end_date = Carbon::createFromFormat('Y-m-d H:i', $end_date.'23:59')->toDateTimeString();
+
+        $reports = DB::table('purchase_orders')
+            ->select(
+                DB::raw('suppliers.*'),
+                DB::raw('SUM(purchase_orders.totalPrice) as totalPrice')
+            )->rightJoin('suppliers', 'suppliers.id', '=', 'purchase_orders.supplier_id')
+            ->where('purchase_orders.paid_at', '=', NULL)
+            ->whereBetween('purchase_orders.created_at', [
+                $start_date,
+                $end_date
+            ])
+            ->groupByRaw('suppliers.id')
+            ->get();
+
+            $reports = collect($reports);
+            foreach($reports as $report){
+                $report->showAddress = $report->companyAddress_county . $report->companyAddress_district . $report->companyAddress_others;
+            }
+
+            return $reports;
+    }
+
+    // 應收帳款日報表
+    public function accountReportReceivableDaily($request){
+        // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice
+        // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id
+        // WHERE sales_orders.created_at BETWEEN '2020-06-15' AND '2020-08-31' GROUP BY consumers.id
+
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $start_date = Carbon::createFromFormat('Y-m-d H:i', $start_date.' 00:00')->toDateTimeString();
+        $end_date = Carbon::createFromFormat('Y-m-d H:i', $end_date.'23:59')->toDateTimeString();
+
+        $reports = DB::table('sales_orders')
+            ->select(
+                DB::raw('consumers.*'),
+                DB::raw('SUM(sales_orders.unpaidAmount) as totalPrice')
+            )->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
+            ->whereBetween('sales_orders.created_at', [
+                $start_date,
+                $end_date
+            ])
+            ->groupByRaw('consumers.id')
+            ->get();
+
+            $reports = collect($reports);
+            foreach($reports as $report){
+                $report->showAddress = $report->address_county . $report->address_district . $report->address_others;
+            }
+
+            return $reports;
+    }
+
     public function accountReportReceivable(){
         // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice
         // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id

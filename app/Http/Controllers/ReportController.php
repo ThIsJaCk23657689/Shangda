@@ -108,8 +108,36 @@ class ReportController extends Controller
         return view('reports.account.payable', compact('reports'));
     }
 
+    // 應付帳款 日度報表
+    public function accountReportPayableDailyIndex(){
+        return view('reports.account.payable_daily');
+    }
+
+    public function accountReportPayableDaily(Request $request){
+        $this->validate($request, [
+            'start_date'=> 'nullable|date_format:Y-m-d',
+            'end_date'=> 'nullable|date_format:Y-m-d',
+        ]);
+        $res = $this->ReportService->accountReportPayableDaily($request);
+        return response()->json($res, $res['status']);
+    }
+
     public function accountReportReceivable(){
         $reports = $this->ReportService->accountReportReceivable();
         return view('reports.account.receivable', compact('reports'));
+    }
+
+    // 應收帳款 日度報表
+    public function accountReportReceivableDailyIndex(){
+        return view('reports.account.payable_daily');
+    }
+
+    public function accountReportReceivableDaily(Request $request){
+        $this->validate($request, [
+            'start_date'=> 'nullable|date_format:Y-m-d',
+            'end_date'=> 'nullable|date_format:Y-m-d',
+        ]);
+        $res = $this->ReportService->accountReportReceivableDaily($request);
+        return response()->json($res, $res['status']);
     }
 }
