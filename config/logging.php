@@ -35,9 +35,19 @@ return [
     */
 
     'channels' => [
+        'consumers' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/consumers.log'),
+        ],
+
+        'users' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/users.log'),
+        ],
+
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
 

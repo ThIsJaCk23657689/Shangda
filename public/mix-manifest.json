@@ -19,6 +19,8 @@
     "/css/frontend/consumers/sale_order_details.css": "/css/frontend/consumers/sale_order_details.css",
     "/css/frontend/consumers/register.css": "/css/frontend/consumers/register.css",
     "/css/backend.css": "/css/backend.css",
+    "/css/auth/auth.css": "/css/auth/auth.css",
+    "/js/auth/login.js": "/js/auth/login.js",
     "/js/backend.js": "/js/backend.js",
     "/js/consumers/create.js": "/js/consumers/create.js",
     "/js/discounts/edit-consumer.js": "/js/discounts/edit-consumer.js",

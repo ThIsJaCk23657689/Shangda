@@ -27,6 +27,7 @@ class UserRequest extends FormRequest
             'jobTitle' => 'required|integer|exists:job_titles,id',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'account' => 'required|string|min:6|max:30|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'gender' => 'required|boolean',
             'birthday' => 'nullable|date',

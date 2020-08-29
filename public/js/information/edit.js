@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -347,7 +347,11 @@ var staticRenderFns = [
             staticClass: "btn btn-block btn-success",
             attrs: { type: "submit" }
           },
-          [_vm._v("\n                        確認編輯\n                    ")]
+          [
+            _vm._v(
+              "\r\n                        確認編輯\r\n                    "
+            )
+          ]
         )
       ])
     ])
@@ -745,7 +749,7 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 34:
+/***/ 35:
 /*!************************************************!*\
   !*** multi ./resources/js/information/edit.js ***!
   \************************************************/

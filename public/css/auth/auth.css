@@ -1,0 +1,136 @@
+body {
+  background-color: #272b30;
+}
+
+.auth-container {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  flex-wrap: nowrap;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  width: 100%;
+  height: calc(100vh - 56px);
+}
+
+.auth-panel {
+  background-color: #fff;
+  width: 560px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 0 15px 9px #00000096;
+  padding: 55px 85px;
+}
+.auth-panel.bg-dark {
+  background-color: #3a3f44 !important;
+}
+.auth-panel .auth-form {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  flex-wrap: nowrap;
+}
+.auth-panel .auth-form .form-title {
+  color: white;
+  font-size: 30px;
+  text-transform: uppercase;
+  text-align: left;
+  width: 100%;
+  display: block;
+  padding-bottom: 32px;
+  margin: 0px;
+  letter-spacing: 3px;
+}
+.auth-panel .auth-form .form-input {
+  color: #555;
+  font-size: 18px;
+  width: 100%;
+  display: block;
+  background: white;
+  height: 55px;
+  margin-bottom: 36px;
+  padding: 0 25px;
+  border: none;
+  outline: none;
+}
+.auth-panel .auth-login-footer {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+          align-items: center;
+  width: 100%;
+  padding-bottom: 24px;
+}
+.auth-panel .auth-login-footer .checkbox-container {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  flex-wrap: nowrap;
+  -webkit-box-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+          align-items: center;
+}
+.auth-panel .auth-login-footer .checkbox-container .checkbox-input {
+  box-sizing: border-box;
+  padding: 0;
+  outline: none;
+  border: none;
+}
+.auth-panel .auth-login-footer .checkbox-container .checkbox-label {
+  font-size: 13px;
+  color: #999999;
+  display: block;
+  padding-left: 0.5rem;
+  margin: 0px;
+  cursor: pointer;
+}
+.auth-panel .auth-login-footer .form-link {
+  display: inline-block;
+  padding: 10px 0;
+  text-decoration: none;
+  font-size: 13px;
+}
+.auth-panel .auth-login-footer .form-link:hover {
+  color: #47a0ff;
+}
+.auth-panel .button-container {
+  width: 100%;
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+.auth-panel .button-container .submit-button {
+  max-width: 150px;
+  width: 100%;
+  background: #222222;
+  color: #f9f9f9;
+  border: none;
+  padding: 10px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  float: right;
+  cursor: pointer;
+  -webkit-transition: 300ms all ease-in-out;
+  transition: 300ms all ease-in-out;
+}
+.auth-panel .button-container .submit-button:hover {
+  background: #333333;
+}
+
+.m-b-12 {
+  margin-bottom: 12px !important;
+}

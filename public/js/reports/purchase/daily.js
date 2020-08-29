@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 38);
+/******/ 	return __webpack_require__(__webpack_require__.s = 39);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -208,7 +208,7 @@ var render = function() {
             _vm._s(_vm.filters.start_date) +
             " ~ " +
             _vm._s(_vm.filters.end_date) +
-            "\n        "
+            "\r\n        "
         )
       ]),
       _vm._v(" "),
@@ -3072,7 +3072,7 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 38:
+/***/ 39:
 /*!******************************************************!*\
   !*** multi ./resources/js/reports/purchase/daily.js ***!
   \******************************************************/

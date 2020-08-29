@@ -436,7 +436,7 @@ var render = function() {
       _c("div", { staticClass: "cart-footer" }, [
         _c("div", { staticClass: "cart-cell w-70 status-cell" }, [
           _vm._v(
-            "\n            購買總金額（" +
+            "\r\n            購買總金額（" +
               _vm._s(_vm.status.totalcount) +
               "個商品）："
           ),

@@ -50,6 +50,8 @@ mix.js('resources/js/app.js', 'public/js')
 // 後台
 mix.js('resources/js/backend.js', 'public/js')
 
+.js('resources/js/auth/login.js', 'public/js/auth')
+
 .js('resources/js/users/create.js', 'public/js/users')
     .js('resources/js/suppliers/create.js', 'public/js/suppliers')
     .js('resources/js/materials/create.js', 'public/js/materials')
@@ -88,4 +90,5 @@ mix.js('resources/js/backend.js', 'public/js')
     .js('resources/js/reports/account/payble_daily.js', 'public/js/reports/account')
     .js('resources/js/reports/account/receivable_daily.js', 'public/js/reports/account')
 
-.sass('resources/sass/backend/backend.scss', 'public/css');
+.sass('resources/sass/backend/backend.scss', 'public/css')
+.sass('resources/sass/backend/auth/auth.scss', 'public/css/auth');

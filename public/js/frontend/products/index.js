@@ -1104,7 +1104,7 @@ var render = function() {
       _vm.products.length == 0
         ? _c("span", { staticClass: "not-found-message" }, [
             _vm._v(
-              "\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\n    "
+              "\r\n        很抱歉，無法找到您所查詢的資料，請重新查詢謝謝。\r\n    "
             )
           ])
         : _vm._e()
@@ -1238,7 +1238,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n                搜尋\n            ")]
+          [_vm._v("\r\n                搜尋\r\n            ")]
         )
       ])
     ]),

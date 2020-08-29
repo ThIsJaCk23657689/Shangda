@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 18);
+/******/ 	return __webpack_require__(__webpack_require__.s = 19);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -2069,9 +2069,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "20%" } }, [
                       _vm._v(
-                        "\n                            " +
+                        "\r\n                            " +
                           _vm._s(detail.material.name) +
-                          "\n                            "
+                          "\r\n                            "
                       ),
                       _c("input", {
                         attrs: {
@@ -2084,9 +2084,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "10%" } }, [
                       _vm._v(
-                        "\n                            " +
+                        "\r\n                            " +
                           _vm._s(detail.material.internationalNum) +
-                          "\n                        "
+                          "\r\n                        "
                       )
                     ]),
                     _vm._v(" "),
@@ -2600,7 +2600,7 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 18:
+/***/ 19:
 /*!******************************************************!*\
   !*** multi ./resources/js/orders/purchase/create.js ***!
   \******************************************************/
