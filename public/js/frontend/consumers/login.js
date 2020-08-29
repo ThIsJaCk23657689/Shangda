@@ -133,6 +133,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: [],
   data: function data() {
@@ -261,15 +273,22 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "submit-button", attrs: { type: "submit" } },
-              [_vm._v("登入")]
-            ),
+            _c("div", { staticClass: "auth-login-footer" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", [
+                _c(
+                  "a",
+                  {
+                    staticClass: "form-link",
+                    attrs: { href: _vm.ForgetPasswordURL }
+                  },
+                  [_vm._v("忘記密碼？")]
+                )
+              ])
+            ]),
             _vm._v(" "),
-            _c("a", { attrs: { href: _vm.ForgetPasswordURL } }, [
-              _vm._v("忘記密碼？")
-            ])
+            _vm._m(2)
           ]
         )
       ])
@@ -285,6 +304,39 @@ var staticRenderFns = [
       _c("h2", [_vm._v("已經有帳號了？")]),
       _vm._v(" "),
       _c("p", [_vm._v("切換到登入頁進行登入!")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "checkbox-container" }, [
+      _c("input", {
+        staticClass: "checkbox-input",
+        attrs: { type: "checkbox", name: "remember", id: "remember" }
+      }),
+      _vm._v(" "),
+      _c(
+        "label",
+        { staticClass: "checkbox-label", attrs: { for: "remember" } },
+        [
+          _vm._v(
+            "\r\n                            記住我\r\n                        "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "button-container" }, [
+      _c(
+        "button",
+        { staticClass: "submit-button", attrs: { type: "submit" } },
+        [_vm._v("登入")]
+      )
     ])
   }
 ]

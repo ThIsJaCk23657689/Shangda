@@ -124,6 +124,65 @@ section.header {
             text-decoration: none;
         }
     }
+    .auth-login-footer{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding-bottom: 24px;
+        .checkbox-container{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: center;
+            .checkbox-input{
+                box-sizing: border-box;
+                padding: 0;
+                outline: none;
+                border: none;
+            }
+            .checkbox-label{
+                font-size: 14px;
+                color: #999999;
+                display: block;
+                padding-left: 0.5rem;
+                margin: 0px;
+                cursor: pointer;
+            }
+        }
+        .form-link{
+            display: inline-block;
+            padding: 10px 0;
+            text-decoration: none;
+            font-size: 14px;
+            &:hover{
+                color: #47a0ff;
+            }
+        }
+    }
+    .button-container{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        .submit-button {
+            max-width: 150px;
+            width: 100%;
+            background: #222222;
+            color: #f9f9f9;
+            border: none;
+            padding: 10px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            float: right;
+            cursor:pointer;
+            transition: 300ms all ease-in-out;
+            &:hover{
+                background: #333333;
+            }
+        }
+    }
 }
 
 .right-log{

@@ -21,8 +21,20 @@
                 <h2>登入</h2>
                 <input type="text" name="account" autocomplete="off" placeholder="帳號" required>
                 <input type="password" name="password" autocomplete="current-password" placeholder="密碼" required>
-                <button type="submit" class="submit-button">登入</button>
-                <a :href="ForgetPasswordURL">忘記密碼？</a>
+                <div class="auth-login-footer">
+                    <div class="checkbox-container">
+                        <input class="checkbox-input" type="checkbox" name="remember" id="remember">
+                        <label for="remember" class="checkbox-label">
+                            記住我
+                        </label>
+                    </div>
+                    <div>
+                        <a :href="ForgetPasswordURL" class="form-link">忘記密碼？</a>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="submit-button">登入</button>
+                </div>
             </form>
 		</div>
 		<!-- <div class="register-show">
