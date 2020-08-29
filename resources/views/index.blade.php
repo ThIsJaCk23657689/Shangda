@@ -35,9 +35,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="background" style="background-image:url(http://localhost/Shangda/public/images/background/welcome.jpg)"></div>
+		{{-- <div class="background" style="background-image:url(http://localhost/Shangda/public/images/background/welcome.jpg)"></div> --}}
+		<div class="background" style="background-image:url({{ asset($information->showCoverImage())}})"></div>
     </section>
-    
+
     {{-- <!-- About 關於尚達 -->
     <section class="slide fade-6 kenBurns fromLeft">
 		<div class="content">
@@ -204,7 +205,7 @@
 			</div>
 		</div>
     </div> --}}
-    
+
     <!-- Contact 聯絡我們 -->
     {{-- <section class="slide fade-6 kenBurns">
 		<div class="content">

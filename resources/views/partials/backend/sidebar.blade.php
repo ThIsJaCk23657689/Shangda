@@ -62,6 +62,7 @@
 			{{-- <a class="dropdown-item" href="#">{{ __('Web Setting') }}</a> --}}
 			<a class="dropdown-item" href="{{ route('announcements.index') }}">{{ __('News') }}</a>
 			<a class="dropdown-item" href="{{ route('contacts.index') }}">{{ __('Contacts') }}</a>
+			<a class="dropdown-item" href="{{ route('information.edit', [1]) }}">{{ __('Information Image') }}</a>
 			{{-- <a class="dropdown-item" href="#">{{ __('Log File') }}</a> --}}
 		</div>
     </li>

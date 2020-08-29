@@ -242,6 +242,14 @@ Route::prefix('/backend')->group(function(){
             Route::get('receivable/daily', 'ReportController@accountReportReceivableDailyIndex')->name('reports.account.receivable_daily.index');
             Route::post('receivable/daily', 'ReportController@accountReportReceivableDaily')->name('reports.account.receivable.daily');
         });
+
+        // 首頁封面圖片
+        Route::prefix('/information')->group(function(){
+            Route::patch('information/{id}', 'InformationController@update')->name('information.update');
+            Route::get('information/getOne/{id}', 'InformationController@getOne')->name('information.getOne');
+            Route::get('information/edit/{id}', 'InformationController@edit')->name('information.edit');
+
+        });
     });
 
     // 聯絡清單路由(後台)
