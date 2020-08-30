@@ -5,17 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Requests\UserRequest;
-use App\Services\JobTitleService;
 
 class UsersController extends Controller
 {
     public $UserService;
-    public $JobTitleService;
 
     public function __construct(){
         $this->middleware('auth');
         $this->UserService = new UserService();
-        $this->JobTitleService = new JobTitleService();
     }
     
     public function index(){
@@ -25,13 +22,15 @@ class UsersController extends Controller
     }
 
     public function create(){
-        $jobTitles = $this->JobTitleService->getList();
-        return view('users.create', compact('jobTitles'));
+        return view('users.create');
     }
 
     public function store(UserRequest $request){
-        $user = $this->UserService->add($request);
-        return redirect()->route('users.index');
+        $result = $this->UserService->add($request);
+        return response()->json([
+            'message' => $result['message'], 
+            'url' => route('users.index')
+        ], $result['status']);
     }
 
     public function show($id){
@@ -45,33 +44,48 @@ class UsersController extends Controller
         }
         
         $user = $this->UserService->getOne($id);
-        $jobTitles = $this->JobTitleService->getList();
-        return view('users.edit', compact('user', 'jobTitles'));
+        return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, $id){
         $this->validate($request, [
             'jobTitle' => 'nullable|integer|exists:job_titles,id',
             'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'gender' => 'required|boolean',
             'birthday' => 'nullable|date',
+            'tel' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|max:20',
 
-            'zipcode' => 'nullable|string|size:3',
-            'county' => 'nullable|string|max:10',
-            'district' => 'nullable|string|max:10',
-            'address' => 'nullable|string|max:255',
+            'address_zipcode' => 'nullable|string|size:3',
+            'address_county' => 'nullable|string|max:10',
+            'address_district' => 'nullable|string|max:10',
+            'address_others' => 'nullable|string|max:255',
+            'comment' => 'nullable|string|max:255',
         ]);
 
         if($id == 1){
+            // 管理員不能修改資訊
             return redirect()->route('users.index');
         }
         
-        $user = $this->UserService->update($request, $id);
-        return redirect()->route('users.show', [$id]);
+        $result = $this->UserService->update($request, $id);
+        return response()->json([
+            'message' => $result['message'], 
+            'url' => route('users.show', [$id]),
+        ], $result['status']);
     }
 
     public function destroy($id){
         $this->UserService->delete($id);
         return redirect()->route('users.index');
+    }
+
+    public function getOne($id){
+        $user = $this->UserService->getOne($id);
+        return response()->json([
+            'status' => 'OK',
+            'user' => $user
+        ]);
     }
 }

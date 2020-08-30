@@ -24,8 +24,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'account', 'password', 'gender', 'birthday', 
-        'address_zipcode', 'address_county', 'address_district', 'address_others'
+        'name', 'email', 'account', 'password', 'gender', 'birthday', 'tel', 'phone',
+        'address_zipcode', 'address_county', 'address_district', 'address_others', 'comment'
     ];
 
     /**
@@ -44,8 +44,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'birthday' => 'date',
-    ];
+        'birthday' => 'datetime:Y-m-d',
+    ];  
 
     public function showGender(){
         return ($this->gender)? '男': '女';
@@ -63,6 +63,14 @@ class User extends Authenticatable
             return $this->birthday->toDateString();
         }
         return null;
+    }
+
+    public function showAddress(){
+        $result = $this->address_zipcode . $this->address_county . $this->address_district . $this->address_others;
+        if(is_null($result) || $result == ''){
+            return '無資料';
+        }
+        return $result;
     }
 
     public function purchaseOrders(){

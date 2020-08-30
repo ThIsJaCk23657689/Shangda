@@ -19,4 +19,24 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    public function __construct()
+    {
+        $this->middleware('guest:consumer');
+        $this->middleware('guest');
+    }
+
+    protected function sendResetLinkResponse(Request $request, $response)
+    {
+        return response()->json([
+            'message' => trans($response)
+        ]);
+    }
+
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        return response()->json([
+            'message' => trans($response)
+        ], 422);
+    }
 }

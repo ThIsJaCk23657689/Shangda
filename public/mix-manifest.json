@@ -20,7 +20,9 @@
     "/css/frontend/consumers/register.css": "/css/frontend/consumers/register.css",
     "/css/backend.css": "/css/backend.css",
     "/css/auth/auth.css": "/css/auth/auth.css",
+    "/js/auth/email.js": "/js/auth/email.js",
     "/js/auth/login.js": "/js/auth/login.js",
+    "/js/auth/reset.js": "/js/auth/reset.js",
     "/js/backend.js": "/js/backend.js",
     "/js/consumers/create.js": "/js/consumers/create.js",
     "/js/discounts/edit-consumer.js": "/js/discounts/edit-consumer.js",
@@ -58,6 +60,7 @@
     "/js/reports/sales/year.js": "/js/reports/sales/year.js",
     "/js/suppliers/create.js": "/js/suppliers/create.js",
     "/js/users/create.js": "/js/users/create.js",
+    "/js/users/edit.js": "/js/users/edit.js",
     "/js/welcome/app.js": "/js/welcome/app.js",
     "/js/welcome/slides.js": "/js/welcome/slides.js"
 }

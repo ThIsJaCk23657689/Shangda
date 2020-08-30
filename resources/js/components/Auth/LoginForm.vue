@@ -2,8 +2,17 @@
 <div class="auth-panel bg-dark">
     <form class="auth-form" action="#" method="POST" @submit.prevent="login">
         <h2 class="form-title">後台登入</h2>
-        <input type="text" class="form-control form-input" name="account" autocomplete="off" placeholder="帳號" required autofocus>
-        <input type="password" class="form-control form-input m-b-12" name="password" autocomplete="current-password" placeholder="密碼" required>
+        
+        <div id="account-ic" class="input-container mb-2">
+            <input type="text" class="form-control form-input mb-2" name="account" autocomplete="off" placeholder="帳號" required autofocus>
+            <small id="account-error-msg" class="error-message"></small>
+        </div>
+
+        <div id="password-ic" class="input-container m-b-12">
+            <input type="password" class="form-control form-input mb-2" name="password" autocomplete="current-password" placeholder="密碼" required>
+            <small id="password-error-msg" class="error-message"></small>
+        </div>
+        
         <div class="auth-login-footer">
             <div class="checkbox-container">
                 <input class="checkbox-input" type="checkbox" name="remember" id="remember">
@@ -33,6 +42,7 @@ export default {
     },
     methods: {
         login(e){
+            $('.form-input').removeClass('error');
             let data = $(e.target).serializeObject();
 
             $.showLoadingModal('驗證帳戶資訊中...');
@@ -49,11 +59,11 @@ export default {
                 }else{
                     console.error(error.response.data.errors);
                     $.showErrorModal(error);
-                    // let $key = Object.keys(error.response.data.errors);
-                    // $key.forEach(function(item, index){
-                    //     $('#' + item).addClass('is-invalid');
-                    //     $('#' + item + '_error').html('<strong>'+ error.response.data.errors[item] + '</strong>');
-                    // });
+                    let $key = Object.keys(error.response.data.errors);
+                    $key.forEach(function(item, index){
+                        $('#' + item + '-ic').addClass('error');
+                        $('#' + item + '-error-msg').html('<strong>'+ error.response.data.errors[item] + '</strong>');
+                    });
                 }
             });
         }

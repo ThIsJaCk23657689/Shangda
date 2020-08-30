@@ -13,111 +13,99 @@
 	@endcomponent
 
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
 
-            <div class="form-group row">
-                <label for="name" class="col-md-4 col-form-label text-md-right">
-                    員工名稱
-                </label>
+            <div class="row">
 
-                <div class="col-md-6">
-                    <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}" disabled>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input id="name" name="name" type="text" class="form-control" value="{{ $user->name }}" readonly>
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="gender" class="col-md-4 col-form-label text-md-right">
-                    性別
-                </label>
-
-                <div class="col-md-6">
-                    <input id="gender" type="text" class="form-control" name="gender" value="{{ $user->showGender() }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="jobTitle" class="col-md-4 col-form-label text-md-right">
-                    職稱
-                </label>
-
-                <div class="col-md-6">
-                    <input id="jobTitle" type="text" class="form-control" name="jobTitle" value="{{ $user->jobTitle->name }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="email" class="col-md-4 col-form-label text-md-right">
-                    信箱
-                </label>
-
-                <div class="col-md-6">
-                    <input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="email_verified_at" class="col-md-4 col-form-label text-md-right">
-                    信箱驗證時間
-                </label>
-
-                <div class="col-md-6">
-                    <input id="email_verified_at" type="text" class="form-control" name="email_verified_at" value="{{ $user->email_verified_at ?? '尚未驗證' }}" disabled>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="birthday" class="col-md-4 col-form-label text-md-right">
-                    生日
-                </label>
 
                 <div class="col-md-4">
-                    <input id="birthday" type="text" class="form-control" name="birthday" value="{{ $user->showBirthday() ?? '無' }}" disabled>
+                    <div class="form-group">
+                        <label for="email">信箱</label>
+                        <input id="email" name="email" type="email" class="form-control" value="{{ $user->email }}" readonly>
+                    </div>
                 </div>
+
                 <div class="col-md-2">
-                    <input id="age" type="text" class="form-control" name="age" value="{{ $user->showAge() }}" disabled>
+                    <div class="form-group">
+                        <label for="gender">性別</label>
+                        <input id="gender" name="gender" type="text" class="form-control" value="{{ $user->showGender() }}" readonly>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="jobTitle">職稱</label>
+                        <input id="jobTitle" name="jobTitle" type="text" class="form-control" value="{{ $user->jobTitle->name }}" readonly>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col-md-4 col-form-label text-md-right">
-                    地址
-                </label>
-                <div class="col-md-2">
-                    <input id="address_county" type="text" class="form-control" name="address_county" value="{{ $user->address_county ?? '無' }}" disabled>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="account">帳號</label>
+                        <input id="account" name="account" type="text" class="form-control" value="{{ $user->account }}" readonly>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <input id="address_district" type="text" class="form-control" name="address_district" value="{{ $user->address_district ?? '無' }}" disabled>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="created_at">建立時間</label>
+                        <input id="created_at" name="created_at" type="text" class="form-control" value="{{ $user->created_at }}" readonly>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <input id="address_zipcode" type="text" class="form-control" name="address_zipcode" value="{{ $user->address_zipcode ?? '無' }}" disabled>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="updated_at">更新時間</label>
+                        <input id="updated_at" name="updated_at" type="text" class="form-control" value="{{ $user->updated_at }}" readonly>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group row">
-                <div class="offset-md-4 col-md-6">
-                    <input id="address_others" type="text" class="form-control" name="address_others" value="{{ $user->address_others ?? '無' }}" disabled>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="tel">電話</label>
+                        <input id="tel" name="tel" type="text" class="form-control" value="{{ $user->tel ?? '無資料' }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="phone">手機</label>
+                        <input id="phone" name="phone" type="text" class="form-control" value="{{ $user->phone ?? '無資料' }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="birthday">生日</label>
+                        <input id="birthday" name="birthday" type="text" class="form-control" value="{{ $user->showBirthday() ?? '無資料' }}" readonly>
+                    </div>
                 </div>
             </div>
 
-            <hr>
-
-            <div class="form-group row">
-                <label for="updated_at" class="col-md-4 col-form-label text-md-right">
-                    上次更新時間
-                </label>
-
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="comment">備註內容</label>
+                        <textarea name="comment" id="comment" class="form-control" rows="3" readonly>{{ $user->comment }}</textarea>
+                    </div>
+                </div>
                 <div class="col-md-6">
-                    <input id="updated_at" type="text" class="form-control" name="updated_at" value="{{ $user->updated_at }}" disabled>
+                    <div class="form-group">
+                        <label for="address">地址</label>
+                        <input id="address" name="address" type="text" class="form-control" value="{{ $user->showAddress() ?? '無資料' }}" readonly>
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="created_at" class="col-md-4 col-form-label text-md-right">
-                    註冊時間
-                </label>
-
-                <div class="col-md-6">
-                    <input id="created_at" type="text" class="form-control" name="created_at" value="{{ $user->created_at }}" disabled>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="age">年齡</label>
+                        <input id="age" name="age" type="text" class="form-control" value="{{ $user->showAge() ?? '無資料' }}" readonly>
+                    </div>
                 </div>
             </div>
 

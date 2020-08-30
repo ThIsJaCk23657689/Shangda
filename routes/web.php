@@ -80,9 +80,13 @@ Route::prefix('/backend')->group(function(){
     Route::get('/', 'HomeController@backend')->name('backend');
 
     // 員工管理路由
+    Route::get('/users/{id}/json', 'UsersController@getOne')->name('users.getOne');
     Route::resource('/users', 'UsersController');
 
     // 職稱管理路由
+    Route::prefix('jobtitles')->group(function(){
+        Route::get('showName', 'JobTitleController@showName')->name('jobtitles.showName');
+    });
     Route::resource('/jobtitles', 'JobTitleController')->only(['index', 'show']);
 
     // 供應商管理路由

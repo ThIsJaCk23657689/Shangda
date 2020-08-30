@@ -61,41 +61,60 @@
 										<i class="fas fa-info-circle"></i>
 										查看
 									</a>
-									@if($user->id != 1)
-										<a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-md btn-success">
-											<i class="fas fa-user-edit"></i>
+									@if(Auth::id() == 1 || Auth::id() == $user->id)
+                                        <a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-md btn-success">
+											<i class="fas fa-pencil-alt"></i>
 											編輯
-										</a>
-										@if(Auth::id() != $user->id)
-											@if($user->trashed())
-												<a href="#" class="btn btn-md btn-light" onclick="
-													event.preventDefault();
-													ans = confirm('確定要解鎖此員工嗎?');
-													if(ans){
-														$('#deleteform-{{ $user->id }}').submit();
-													}
-												">
-													<i class="fas fa-unlock"></i>
-													解鎖
-												</a>
-											@else
-												<a href="#" class="btn btn-md btn-danger" onclick="
-													event.preventDefault();
-													ans = confirm('確定要封鎖此員工嗎?');
-													if(ans){
-														$('#deleteform-{{ $user->id }}').submit();
-													}
-												">
-													<i class="fas fa-user-slash"></i>
-													封鎖
-												</a>
-											@endif
-
-											<form id="deleteform-{{ $user->id }}" action="{{ route('users.destroy', [$user->id]) }}" method="POST" style="displat: none;">
-												@csrf
-												@method('DELETE')
-											</form>
+                                        </a>
+									@endif
+									@if($user->id != 1 && $user->id != Auth::id())
+										@if($user->trashed())
+											<a href="#" class="btn btn-md btn-light" onclick="
+												event.preventDefault();
+												Swal.fire({
+                                                    title: '注意！',
+                                                    text: '您確定要解鎖此帳號嗎？',
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: '確認',
+                                                    cancelButtonText: '取消',
+                                                }).then((result) => {
+                                                    if (result.value) {
+                                                        $('#deleteform-{{ $user->id }}').submit();
+                                                    }
+                                                });
+											">
+												<i class="fas fa-unlock"></i>
+												解鎖
+											</a>
+										@else
+											<a href="#" class="btn btn-md btn-danger" onclick="
+												event.preventDefault();
+												Swal.fire({
+                                                    title: '注意！',
+                                                    text: '您確定要停權此帳號嗎？',
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: '確認',
+                                                    cancelButtonText: '取消',
+                                                }).then((result) => {
+                                                    if (result.value) {
+                                                        $('#deleteform-{{ $user->id }}').submit();
+                                                    }
+                                                });
+											">
+												<i class="fas fa-user-slash"></i>
+												封鎖
+											</a>
 										@endif
+										<form id="deleteform-{{ $user->id }}" action="{{ route('users.destroy', [$user->id]) }}" method="POST" style="displat: none;">
+											@csrf
+											@method('DELETE')
+										</form>
 									@endif
 								</td>
 							</tr>	

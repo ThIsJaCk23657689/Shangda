@@ -119,4 +119,11 @@ class JobTitleController extends Controller
     //     $this->JobTitleService->delete($id);
     //     return redirect()->route('jobtitles.index');
     // }
+
+    public function showName(){
+        $jobTitles = $this->JobTitleService->getNamesList();
+        return response()->json([
+            'jobTitles' => $jobTitles
+        ], 200);
+    }
 }

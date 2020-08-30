@@ -1,21 +1,20 @@
 <template>
-<div class="white-panel">
-	<div class="login-show">
-		<form action="#" method="POST" @submit.prevent="submitConsumerRequestForm">
-            <h2>忘記密碼</h2>
-            <small>我們將為您引導來重新設定您的密碼，請輸入您帳號所綁定的信箱。</small>
-            <div class="input-container">
-                <input type="email" id="email" name="email" autocomplete="off" placeholder="信箱" required>
-                <small id="email-error-msg"></small>
-            </div>
-            <small id="counter" class="d-none">沒有收到信件嗎？{{ counter }}秒後重新再試。</small>
+<div class="auth-panel bg-dark">
+	<form class="auth-form" action="#" method="POST" @submit.prevent="submitRequestForm">
+        <h2 class="form-title pb-2">忘記密碼</h2>
+        <small class="text-white pb-3">我們將為您引導來重新設定您的密碼，請輸入您帳號所綁定的信箱。</small>
+        
+        <div class="input-container mb-2">
+            <input type="email" class="form-control form-input mb-2" name="email" id="email" autocomplete="off" placeholder="信箱" required>
+            <small id="email-error-msg" class="error-message"></small>
+        </div>
+
+        <small id="counter" class="text-white mb-2 d-none">沒有收到信件嗎？{{ counter }}秒後重新再試。</small>
             
-            <div class="button-container">
-                <button type="submit" class="submit-button">發送重設密碼連結</button>
-            </div>
-            
-        </form>
-	</div>
+        <div class="button-container">
+            <button type="submit" class="submit-button">發送重設密碼連結</button>
+        </div>
+    </form>
 </div>
 </template>
 
@@ -24,17 +23,17 @@ export default {
     props: [],
     data(){
         return {
-            ConsumerPasswordEmailURL: $('#ConsumerPasswordEmailURL').text(),
+            PasswordEmailURL: $('#PasswordEmailURL').text(),
             counter: 60,
         }
     },
     methods: {
-        submitConsumerRequestForm(e){
+        submitRequestForm(e){
             $('.input-container').removeClass('error');
             let data = $(e.target).serializeObject();
 
             $.showLoadingModal('驗證帳戶資訊中...');
-            axios.post(this.ConsumerPasswordEmailURL, data).then(response => {
+            axios.post(this.PasswordEmailURL, data).then(response => {
                 $.showSuccessModal(response.data.message);
                 this.disableForm();
             }).catch(error => {
@@ -71,7 +70,7 @@ export default {
         
     },
     mounted(){
-        $('.login-show').addClass('show-log-panel').fadeTo(0, 100);
+
     },
 }
 </script>

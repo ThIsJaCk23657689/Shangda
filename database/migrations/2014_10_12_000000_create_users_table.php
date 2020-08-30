@@ -27,11 +27,15 @@ class CreateUsersTable extends Migration
             $table->string('password')->comment('密碼');
             $table->boolean('gender')->nullable()->comment('性別');
             $table->date('birthday')->nullable()->comment('生日');
+            $table->string('tel', 20)->nullable()->comment('電話號碼');
+            $table->string('phone', 20)->nullable()->comment('手機號碼');
 
             $table->string('address_zipcode', 5)->nullable()->comment('地址 - 郵遞區號');
             $table->string('address_county', 10)->nullable()->comment('地址 - 縣市');
             $table->string('address_district', 10)->nullable()->comment('地址 - 鄉鎮');
             $table->string('address_others')->nullable()->comment('地址 - 其他');
+
+            $table->string('comment')->nullable()->comment('備註');
 
             $table->rememberToken();
             $table->timestamps();

@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/LoginForm.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/LoginForm.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/RequestLinkForm.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/RequestLinkForm.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -115,53 +115,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: [],
   data: function data() {
     return {
-      LoginURL: $('#LoginURL').text(),
-      ForgetPasswordURL: $('#ForgetPasswordURL').text()
+      PasswordEmailURL: $('#PasswordEmailURL').text(),
+      counter: 60
     };
   },
   methods: {
-    login: function login(e) {
-      $('.form-input').removeClass('error');
+    submitRequestForm: function submitRequestForm(e) {
+      var _this = this;
+
+      $('.input-container').removeClass('error');
       var data = $(e.target).serializeObject();
       $.showLoadingModal('驗證帳戶資訊中...');
-      axios.post(this.LoginURL, data).then(function (response) {
-        if ($('#IntendedURL').html() != '' && $('#IntendedURL').html() != null) {
-          location.href = $('#IntendedURL').html();
-        } else {
-          location.href = response.data.redirect_url;
-        }
-      })["catch"](function (error) {
-        console.error('登入失敗，錯誤訊息：' + error);
+      axios.post(this.PasswordEmailURL, data).then(function (response) {
+        $.showSuccessModal(response.data.message);
 
-        if (error.response.data.errors == null) {
-          $.showErrorModalWithoutError('登入失敗，錯誤訊息：' + error.response.data.message + '\n請聯絡系統設計師處理。');
-        } else {
-          console.error(error.response.data.errors);
-          $.showErrorModal(error);
-          var $key = Object.keys(error.response.data.errors);
-          $key.forEach(function (item, index) {
-            $('#' + item + '-ic').addClass('error');
-            $('#' + item + '-error-msg').html('<strong>' + error.response.data.errors[item] + '</strong>');
-          });
-        }
+        _this.disableForm();
+      })["catch"](function (error) {
+        console.error('請求重設密碼信件失敗，錯誤訊息：' + error);
+        $.showErrorModal(error);
+        $('.input-container').addClass('error');
+        $('#email-error-msg').html(error.response.data.message);
       });
+    },
+    countDownTimer: function countDownTimer() {
+      var _this2 = this;
+
+      if (this.counter > 0) {
+        setTimeout(function () {
+          _this2.counter--;
+
+          _this2.countDownTimer();
+        }, 1000);
+      } else {
+        this.enableForm();
+      }
+    },
+    enableForm: function enableForm() {
+      $('.submit-button').attr('disabled', false).removeClass('disabled');
+      $('#email').attr('disabled', false);
+      $('#counter').fadeTo(100, 0).addClass('d-none');
+      this.counter = 60;
+    },
+    disableForm: function disableForm() {
+      $('.submit-button').attr('disabled', true).addClass('disabled');
+      $('#email').attr('disabled', true);
+      $('#counter').removeClass('d-none').fadeTo(0, 100);
+      this.countDownTimer();
     }
   },
   created: function created() {},
@@ -170,10 +173,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/LoginForm.vue?vue&type=template&id=79e9479e&":
-/*!*****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/LoginForm.vue?vue&type=template&id=79e9479e& ***!
-  \*****************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/RequestLinkForm.vue?vue&type=template&id=00817af1&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Auth/RequestLinkForm.vue?vue&type=template&id=00817af1& ***!
+  \***********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -194,33 +197,26 @@ var render = function() {
         on: {
           submit: function($event) {
             $event.preventDefault()
-            return _vm.login($event)
+            return _vm.submitRequestForm($event)
           }
         }
       },
       [
-        _c("h2", { staticClass: "form-title" }, [_vm._v("後台登入")]),
+        _c("h2", { staticClass: "form-title pb-2" }, [_vm._v("忘記密碼")]),
+        _vm._v(" "),
+        _c("small", { staticClass: "text-white pb-3" }, [
+          _vm._v("我們將為您引導來重新設定您的密碼，請輸入您帳號所綁定的信箱。")
+        ]),
         _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
-        _vm._m(1),
+        _c(
+          "small",
+          { staticClass: "text-white mb-2 d-none", attrs: { id: "counter" } },
+          [_vm._v("沒有收到信件嗎？" + _vm._s(_vm.counter) + "秒後重新再試。")]
+        ),
         _vm._v(" "),
-        _c("div", { staticClass: "auth-login-footer" }, [
-          _vm._m(2),
-          _vm._v(" "),
-          _c("div", [
-            _c(
-              "a",
-              {
-                staticClass: "form-link",
-                attrs: { href: _vm.ForgetPasswordURL }
-              },
-              [_vm._v("忘記密碼？")]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(3)
+        _vm._m(1)
       ]
     )
   ])
@@ -230,70 +226,23 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "input-container mb-2", attrs: { id: "account-ic" } },
-      [
-        _c("input", {
-          staticClass: "form-control form-input mb-2",
-          attrs: {
-            type: "text",
-            name: "account",
-            autocomplete: "off",
-            placeholder: "帳號",
-            required: "",
-            autofocus: ""
-          }
-        }),
-        _vm._v(" "),
-        _c("small", {
-          staticClass: "error-message",
-          attrs: { id: "account-error-msg" }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "input-container m-b-12", attrs: { id: "password-ic" } },
-      [
-        _c("input", {
-          staticClass: "form-control form-input mb-2",
-          attrs: {
-            type: "password",
-            name: "password",
-            autocomplete: "current-password",
-            placeholder: "密碼",
-            required: ""
-          }
-        }),
-        _vm._v(" "),
-        _c("small", {
-          staticClass: "error-message",
-          attrs: { id: "password-error-msg" }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "checkbox-container" }, [
+    return _c("div", { staticClass: "input-container mb-2" }, [
       _c("input", {
-        staticClass: "checkbox-input",
-        attrs: { type: "checkbox", name: "remember", id: "remember" }
+        staticClass: "form-control form-input mb-2",
+        attrs: {
+          type: "email",
+          name: "email",
+          id: "email",
+          autocomplete: "off",
+          placeholder: "信箱",
+          required: ""
+        }
       }),
       _vm._v(" "),
-      _c(
-        "label",
-        { staticClass: "checkbox-label", attrs: { for: "remember" } },
-        [_vm._v("\r\n                    記住我\r\n                ")]
-      )
+      _c("small", {
+        staticClass: "error-message",
+        attrs: { id: "email-error-msg" }
+      })
     ])
   },
   function() {
@@ -304,7 +253,7 @@ var staticRenderFns = [
       _c(
         "button",
         { staticClass: "submit-button", attrs: { type: "submit" } },
-        [_vm._v("登入")]
+        [_vm._v("發送重設密碼連結")]
       )
     ])
   }
@@ -422,14 +371,14 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ "./resources/js/auth/login.js":
+/***/ "./resources/js/auth/email.js":
 /*!************************************!*\
-  !*** ./resources/js/auth/login.js ***!
+  !*** ./resources/js/auth/email.js ***!
   \************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-Vue.component('login-form', __webpack_require__(/*! ./../components/Auth/LoginForm.vue */ "./resources/js/components/Auth/LoginForm.vue")["default"]);
+Vue.component('request-link-form', __webpack_require__(/*! ./../components/Auth//RequestLinkForm.vue */ "./resources/js/components/Auth/RequestLinkForm.vue")["default"]);
 var app = new Vue({
   el: '#auth',
   data: function data() {
@@ -442,17 +391,17 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ "./resources/js/components/Auth/LoginForm.vue":
-/*!****************************************************!*\
-  !*** ./resources/js/components/Auth/LoginForm.vue ***!
-  \****************************************************/
+/***/ "./resources/js/components/Auth/RequestLinkForm.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/Auth/RequestLinkForm.vue ***!
+  \**********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _LoginForm_vue_vue_type_template_id_79e9479e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoginForm.vue?vue&type=template&id=79e9479e& */ "./resources/js/components/Auth/LoginForm.vue?vue&type=template&id=79e9479e&");
-/* harmony import */ var _LoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginForm.vue?vue&type=script&lang=js& */ "./resources/js/components/Auth/LoginForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _RequestLinkForm_vue_vue_type_template_id_00817af1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RequestLinkForm.vue?vue&type=template&id=00817af1& */ "./resources/js/components/Auth/RequestLinkForm.vue?vue&type=template&id=00817af1&");
+/* harmony import */ var _RequestLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RequestLinkForm.vue?vue&type=script&lang=js& */ "./resources/js/components/Auth/RequestLinkForm.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -462,9 +411,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _LoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _LoginForm_vue_vue_type_template_id_79e9479e___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _LoginForm_vue_vue_type_template_id_79e9479e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _RequestLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RequestLinkForm_vue_vue_type_template_id_00817af1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _RequestLinkForm_vue_vue_type_template_id_00817af1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -474,51 +423,51 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/Auth/LoginForm.vue"
+component.options.__file = "resources/js/components/Auth/RequestLinkForm.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/Auth/LoginForm.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/Auth/LoginForm.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************/
+/***/ "./resources/js/components/Auth/RequestLinkForm.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/Auth/RequestLinkForm.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./LoginForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/LoginForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RequestLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./RequestLinkForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/RequestLinkForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RequestLinkForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/Auth/LoginForm.vue?vue&type=template&id=79e9479e&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/Auth/LoginForm.vue?vue&type=template&id=79e9479e& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/components/Auth/RequestLinkForm.vue?vue&type=template&id=00817af1&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/Auth/RequestLinkForm.vue?vue&type=template&id=00817af1& ***!
+  \*****************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_template_id_79e9479e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./LoginForm.vue?vue&type=template&id=79e9479e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/LoginForm.vue?vue&type=template&id=79e9479e&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_template_id_79e9479e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RequestLinkForm_vue_vue_type_template_id_00817af1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./RequestLinkForm.vue?vue&type=template&id=00817af1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Auth/RequestLinkForm.vue?vue&type=template&id=00817af1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RequestLinkForm_vue_vue_type_template_id_00817af1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_template_id_79e9479e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RequestLinkForm_vue_vue_type_template_id_00817af1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
 /***/ }),
 
-/***/ 14:
+/***/ 15:
 /*!******************************************!*\
-  !*** multi ./resources/js/auth/login.js ***!
+  !*** multi ./resources/js/auth/email.js ***!
   \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\auth\login.js */"./resources/js/auth/login.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\auth\email.js */"./resources/js/auth/email.js");
 
 
 /***/ })

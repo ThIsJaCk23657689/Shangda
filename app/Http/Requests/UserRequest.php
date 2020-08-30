@@ -31,11 +31,14 @@ class UserRequest extends FormRequest
             'password' => 'required|string|min:8|confirmed',
             'gender' => 'required|boolean',
             'birthday' => 'nullable|date',
+            'tel' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|max:20',
 
             'address_zipcode' => 'nullable|string|size:3',
             'address_county' => 'nullable|string|max:10',
             'address_district' => 'nullable|string|max:10',
             'address_others' => 'nullable|string|max:255',
+            'comment' => 'nullable|string|max:255',
         ];
     }
 }

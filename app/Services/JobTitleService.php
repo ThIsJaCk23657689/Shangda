@@ -46,4 +46,9 @@ class JobTitleService extends BaseService
         $jobTitle = JobTitleEloquent::orderBy('id', 'DESC')->first();
         return $jobTitle->updated_at;
     }
+
+    public function getNamesList(){
+        $jobTitles = JobTitleEloquent::select('id','name')->get();
+        return $jobTitles;
+    }
 }
