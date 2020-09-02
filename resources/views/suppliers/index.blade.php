@@ -40,8 +40,7 @@
 							<th>名稱</th>
 							<th>統一編號</th>
                             <th>聯絡窗口</th>
-							<th>電話號碼</th>
-							<th>手機</th>
+							<th>電話</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -53,7 +52,6 @@
 								<td>{{ $supplier->taxId }}</td>
                                 <td>{{ $supplier->operator_name_1 ?? '無' }}</td>
 								<td>{{ $supplier->tel ?? '無' }}</td>
-								<td>{{ $supplier->operator_phone_1 ?? '無' }}</td>
 								<td>
 									<a href="{{ route('suppliers.show', [$supplier->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
@@ -65,10 +63,20 @@
 									</a>
 									<a href="#" class="btn btn-md btn-danger" onclick="
 										event.preventDefault();
-										ans = confirm('確定要刪除此廠商嗎?');
-										if(ans){
-											$('#deleteform-{{ $supplier->id }}').submit();
-										}
+										Swal.fire({
+                                            title: '注意！',
+                                            text: '您確定要刪除此供應商嗎？',
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: '確認',
+                                            cancelButtonText: '取消',
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                $('#deleteform-{{ $supplier->id }}').submit();
+                                            }
+                                        });
 									">
 										<i class="far fa-trash-alt"></i>
 										刪除

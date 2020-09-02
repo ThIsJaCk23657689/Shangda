@@ -12,18 +12,14 @@ class SupplierService extends BaseService
             'shortName' => $request->shortName,
             'taxId' => $request->taxId,
             'tel' => $request->tel,
-            'phone_day' => $request->phone_day,
-            'phone_night' => $request->phone_night,
             'tax' => $request->tax,
             'comment' => $request->comment,
 
             'operator_name_1' => $request->operator_name_1,
             'operator_tel_1' => $request->operator_tel_1,
-            'operator_phone_1' => $request->operator_phone_1,
             'operator_email_1' => $request->operator_email_1,
             'operator_name_2' => $request->operator_name_2,
             'operator_tel_2' => $request->operator_tel_2,
-            'operator_phone_1' => $request->operator_phone_1,
             'operator_email_2' => $request->operator_email_2,
 
             'companyAddress_zipcode' => $request->companyAddress_zipcode,
@@ -36,10 +32,20 @@ class SupplierService extends BaseService
             'bank_code' => $request->bank_code,
             'bank_account' => $request->bank_account,
             'bank_account_name' => $request->bank_account_name,
-            'payment_method' => $request->payment_method,
             'monthlyCheckDate' => $request->monthlyCheckDate ?? 0,
         ]);
-        return $supplier;
+        
+        if(!$supplier){
+            return [
+                'status' => 422,
+                'message' => '新增供應商時發生錯誤！'
+            ];
+        }
+        
+        return [
+            'status' => 200,
+            'message' => '新增供應商成功！'
+        ];
     }
 
     public function getList()
@@ -61,7 +67,7 @@ class SupplierService extends BaseService
 
     public function getOne($id)
     {
-        $supplier = SupplierEloquent::find($id);
+        $supplier = SupplierEloquent::findOrFail($id);
         return $supplier;
     }
 
@@ -72,27 +78,41 @@ class SupplierService extends BaseService
             'name' => $request->name,
             'shortName' => $request->shortName,
             'taxId' => $request->taxId,
-
             'tel' => $request->tel,
             'tax' => $request->tax,
-            'phone_day' => $request->phone_day,
-            'phone_night' => $request->phone_night,
+            'comment' => $request->comment,
 
-            'inCharge1' => $request->inCharge1,
-            'tel1' => $request->tel1,
-            'email1' => $request->email1,
-            'inCharge2' => $request->inCharge2,
-            'tel2' => $request->tel2,
-            'email2' => $request->email2,
+            'operator_name_1' => $request->operator_name_1,
+            'operator_tel_1' => $request->operator_tel_1,
+            'operator_email_1' => $request->operator_email_1,
+            'operator_name_2' => $request->operator_name_2,
+            'operator_tel_2' => $request->operator_tel_2,
+            'operator_email_2' => $request->operator_email_2,
 
             'companyAddress_zipcode' => $request->companyAddress_zipcode,
             'companyAddress_county' => $request->companyAddress_county,
             'companyAddress_district' => $request->companyAddress_district,
             'companyAddress_others' => $request->companyAddress_others,
 
-            'comment' => $request->comment,
+            'bank_name' => $request->bank_name,
+            'bank_branch_name' => $request->bank_branch_name,
+            'bank_code' => $request->bank_code,
+            'bank_account' => $request->bank_account,
+            'bank_account_name' => $request->bank_account_name,
+            'monthlyCheckDate' => $request->monthlyCheckDate ?? 0,
         ]);
-        return $supplier;
+        
+        if(!$supplier){
+            return [
+                'status' => 422,
+                'message' => '編輯供應商資料時發生錯誤！'
+            ];
+        }
+
+        return [
+            'status' => 200,
+            'message' => '編輯供應商資料成功！'
+        ];
     }
 
     public function delete($id)

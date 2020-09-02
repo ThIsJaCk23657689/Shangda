@@ -59,6 +59,7 @@
     "/js/reports/sales/profit.js": "/js/reports/sales/profit.js",
     "/js/reports/sales/year.js": "/js/reports/sales/year.js",
     "/js/suppliers/create.js": "/js/suppliers/create.js",
+    "/js/suppliers/edit.js": "/js/suppliers/edit.js",
     "/js/users/create.js": "/js/users/create.js",
     "/js/users/edit.js": "/js/users/edit.js",
     "/js/welcome/app.js": "/js/welcome/app.js",

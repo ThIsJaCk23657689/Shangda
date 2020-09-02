@@ -58,6 +58,8 @@ mix.js('resources/js/backend.js', 'public/js')
 .js('resources/js/users/edit.js', 'public/js/users')
 
 .js('resources/js/suppliers/create.js', 'public/js/suppliers')
+.js('resources/js/suppliers/edit.js', 'public/js/suppliers')
+
 .js('resources/js/materials/create.js', 'public/js/materials')
 
 .js('resources/js/orders/purchase/index.js', 'public/js/orders/purchase')

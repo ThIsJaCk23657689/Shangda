@@ -93,6 +93,7 @@ Route::prefix('/backend')->group(function(){
     Route::prefix('suppliers')->group(function(){
         Route::get('showName', 'SupplierController@showName')->name('suppliers.showName');
         Route::post('getInfo', 'SupplierController@getInfo')->name('suppliers.getInfo');
+        Route::get('{id}/json', 'SupplierController@getOne')->name('suppliers.getOne');
     });
     Route::resource('/suppliers', 'SupplierController');
 

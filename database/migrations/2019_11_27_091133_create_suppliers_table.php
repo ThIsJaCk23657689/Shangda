@@ -22,19 +22,15 @@ class CreateSuppliersTable extends Migration
             $table->string('taxId', 8)->nullable()->unique()->comment('統一編號');
 
             $table->string('tel', 20)->nullable()->comment('電話');
-            $table->string('phone_day', 20)->nullable()->comment('手機(日)');
-            $table->string('phone_night', 20)->nullable()->comment('手機(夜)');
             $table->string('tax', 20)->nullable()->comment('傳真');
 
             $table->string('comment')->nullable()->comment('備註');
 
             $table->string('operator_name_1', 50)->comment('聯絡窗口1 - 姓名');
             $table->string('operator_tel_1', 20)->nullable()->comment('聯絡窗口1 - 電話');
-            $table->string('operator_phone_1', 10)->nullable()->comment('聯絡窗口1 - 手機');
             $table->string('operator_email_1', 100)->nullable()->comment('聯絡窗口1 - 信箱');
             $table->string('operator_name_2', 50)->nullable()->comment('聯絡窗口2 - 姓名');
             $table->string('operator_tel_2', 20)->nullable()->comment('聯絡窗口2 - 電話');
-            $table->string('operator_phone_2', 10)->nullable()->comment('聯絡窗口2 - 手機');
             $table->string('operator_email_2', 100)->nullable()->comment('聯絡窗口2 - 信箱');
 
             $table->string('companyAddress_zipcode', 5)->nullable()->comment('公司地址 - 郵遞區號');
@@ -49,9 +45,7 @@ class CreateSuppliersTable extends Migration
             $table->string('bank_account', 50)->nullable()->comment('帳號');
             $table->string('bank_account_name', 50)->nullable()->comment('戶名');
 
-            // 現金、匯款、支票、信用卡
-            $table->string('payment_method', 1)->nullable()->comment('付款方式');
-            // 0 => 貨到付款、1 ~ 31 => 月結日
+            // 0 => 日結、1 ~ 31 => 月結日
             $table->unsignedInteger('monthlyCheckDate')->default(0)->comment('月結日');
 
             $table->timestamps();

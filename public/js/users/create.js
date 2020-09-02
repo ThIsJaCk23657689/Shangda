@@ -225,14 +225,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['jobTitles'],
   data: function data() {
     return {
-      UsersIndexURL: $('#UsersIndexURL').html(),
-      UsersStoreURL: $('#UsersStoreURL').html()
+      UsersIndexURL: $('#UsersIndexURL').text(),
+      UsersStoreURL: $('#UsersStoreURL').text()
     };
   },
   methods: {
@@ -281,93 +279,87 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-10" }, [
-        _c(
-          "form",
-          {
-            attrs: { method: "POST", id: "user_create_form", action: "#" },
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.userCreateForm($event)
-              }
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-md-10" }, [
+      _c(
+        "form",
+        {
+          attrs: { method: "POST", id: "user_create_form", action: "#" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.userCreateForm($event)
             }
-          },
-          [
-            _c("div", { staticClass: "row" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _vm._m(1),
-              _vm._v(" "),
-              _vm._m(2),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _vm._m(3),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      staticClass: "form-control",
-                      attrs: { name: "jobTitle", id: "jobTitle", required: "" }
-                    },
-                    _vm._l(_vm.jobTitles, function(jobTitle) {
-                      return _c(
-                        "option",
-                        { key: jobTitle.id, domProps: { value: jobTitle.id } },
-                        [_vm._v(_vm._s(jobTitle.name))]
-                      )
-                    }),
-                    0
-                  )
-                ])
+          }
+        },
+        [
+          _c("div", { staticClass: "row" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    staticClass: "form-control",
+                    attrs: { name: "jobTitle", id: "jobTitle", required: "" }
+                  },
+                  _vm._l(_vm.jobTitles, function(jobTitle) {
+                    return _c(
+                      "option",
+                      { key: jobTitle.id, domProps: { value: jobTitle.id } },
+                      [_vm._v(_vm._s(jobTitle.name))]
+                    )
+                  }),
+                  0
+                )
               ])
-            ]),
-            _vm._v(" "),
-            _vm._m(4),
-            _vm._v(" "),
-            _vm._m(5),
-            _vm._v(" "),
-            _vm._m(6),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-group row justify-content-center" },
-              [
-                _c("div", { staticClass: "col-md-8" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-block btn-primary",
-                      attrs: { type: "submit" }
-                    },
-                    [
-                      _vm._v(
-                        "\r\n                            確認新增\r\n                        "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-block btn-danger",
-                      attrs: { href: _vm.UsersIndexURL }
-                    },
-                    [
-                      _vm._v(
-                        "\r\n                            返回列表\r\n                        "
-                      )
-                    ]
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(4),
+          _vm._v(" "),
+          _vm._m(5),
+          _vm._v(" "),
+          _vm._m(6),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row justify-content-center" }, [
+            _c("div", { staticClass: "col-md-8" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-block btn-primary",
+                  attrs: { type: "submit" }
+                },
+                [
+                  _vm._v(
+                    "\r\n                        確認新增\r\n                    "
                   )
-                ])
-              ]
-            )
-          ]
-        )
-      ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-block btn-danger",
+                  attrs: { href: _vm.UsersIndexURL }
+                },
+                [
+                  _vm._v(
+                    "\r\n                        返回列表\r\n                    "
+                  )
+                ]
+              )
+            ])
+          ])
+        ]
+      )
     ])
   ])
 }
@@ -380,7 +372,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "name" } }, [
           _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("姓名\r\n                            ")
+          _vm._v("姓名\r\n                        ")
         ]),
         _vm._v(" "),
         _c("input", {

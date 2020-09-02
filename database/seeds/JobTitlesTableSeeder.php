@@ -22,11 +22,11 @@ class JobTitlesTableSeeder extends Seeder
         ]);
 
         JobTitleEloquent::create([
-            'name' => '廠長'
+            'name' => '管理者'
         ]);
 
         JobTitleEloquent::create([
-            'name' => 'Admin'
+            'name' => '最高管理者'
         ]);
 
 

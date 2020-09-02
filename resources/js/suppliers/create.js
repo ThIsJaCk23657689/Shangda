@@ -1,23 +1,19 @@
-$(function(){
-    $('#companyAddress_twzipcode').twzipcode({
-        'readonly': true
-    });
+Vue.component('supplier-create-form', require('./../components/Suppliers/SupplierCreateForm.vue').default);
 
-    $('#monthlyCheck').change(function (e) {
-        if ($(this).prop("checked")) {
-            $('#monthlyCheckDate').val(0);
-            $('#monthlyCheckDate').attr('disabled', true);
-        } else {
-            $('#monthlyCheckDate').val(0);
-            $('#monthlyCheckDate').attr('disabled', false);
-        }
-    });
+const app = new Vue({
+    el: '#supplier',
+    data() {
+        return {
 
-    $('#isSameAsName').click(function (e) {
-        if ($(this).prop("checked")) {
-            $('#bank_account_name').val($('#name').val());
-        } else {
-            $('#bank_account_name').val('');
         }
-    });
+    },
+    methods: {
+
+    },
+    created() {
+
+    },
+    mounted() {
+        
+    }
 });

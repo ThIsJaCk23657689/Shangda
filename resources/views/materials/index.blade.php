@@ -65,10 +65,20 @@
 									</a>
 									<a href="#" class="btn btn-md btn-danger" onclick="
 										event.preventDefault();
-										ans = confirm('確定要刪除此原物料嗎?');
-										if(ans){
-											$('#deleteform-{{ $material->id }}').submit();
-										}
+										Swal.fire({
+                                            title: '注意！',
+                                            text: '您確定要刪除此原物料嗎？',
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: '確認',
+                                            cancelButtonText: '取消',
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                $('#deleteform-{{ $material->id }}').submit();
+                                            }
+                                        });
 									">
 										<i class="far fa-trash-alt"></i>
 										刪除

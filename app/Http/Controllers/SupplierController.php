@@ -47,8 +47,11 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
-        $supplier = $this->SupplierService->add($request);
-        return redirect()->route('suppliers.index');
+        $result = $this->SupplierService->add($request);
+        return response()->json([
+            'message' => $result['message'], 
+            'url' => route('suppliers.index')
+        ], $result['status']);
     }
 
     /**
@@ -84,8 +87,11 @@ class SupplierController extends Controller
      */
     public function update(SupplierRequest $request, $id)
     {
-        $supplier = $this->SupplierService->update($request, $id);
-        return redirect()->route('suppliers.show', [$id]);
+        $result = $this->SupplierService->update($request, $id);
+        return response()->json([
+            'message' => $result['message'], 
+            'url' => route('suppliers.show', [$id]),
+        ], $result['status']);
     }
 
     /**
@@ -106,9 +112,16 @@ class SupplierController extends Controller
         return response()->json($supplier, 200);
     }
 
-
     public function getInfo(Request $request){
         $supplier_info = $this->SupplierService->getInfoList($request->id);
         return response()->json($supplier_info, 200);
+    }
+
+    public function getOne($id){
+        $supplier = $this->SupplierService->getOne($id);
+        return response()->json([
+            'status' => 'OK',
+            'supplier' => $supplier
+        ]);
     }
 }
