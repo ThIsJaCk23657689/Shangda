@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 37);
+/******/ 	return __webpack_require__(__webpack_require__.s = 40);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -827,7 +827,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 37:
+/***/ 40:
 /*!****************************************************!*\
   !*** multi ./resources/js/announcements/create.js ***!
   \****************************************************/

@@ -11,12 +11,30 @@ use Carbon\Carbon;
 class ConsumerService extends BaseService
 {
     public $CartService;
+
     public function __construct(){
         $this->CartService = new CartService();
     }
 
     public function add($request)
     {
+        if(!is_null($request->image_data) && !is_null($_FILES['image_file'])){
+            // 圖片路徑生成與裁切
+            $crop = new CropImageService($request->image_data, $_FILES['image_file'], 'consumers', 'avatars');
+            $result = $crop->getResult();
+            if($result['status'] == 'ERROR'){
+                return [
+                    'status' => '422',
+                    'message' => $result['message']
+                ];
+            }else{
+                $url = $result['url'];
+            }
+        }else{
+            // 沒有要存圖片
+            $url = null;
+        }
+        
         $data = [];
         if($request->account_type == 'individual'){
             $data = [
@@ -26,7 +44,7 @@ class ConsumerService extends BaseService
                 'account' => $request->individual_account,
                 'password' => bcrypt($request->individual_password),
 
-                'idNumber' => strtoupper($request->individual_idNumber),
+                // 'idNumber' => strtoupper($request->individual_idNumber),
                 'name' => $request->individual_name,
                 'shortName' => $request->individual_shortName,
                 'gender' => $request->individual_gender,
@@ -71,11 +89,17 @@ class ConsumerService extends BaseService
                 'email' => $request->company_email,
                 'lineID' => $request->company_lineID,
 
-                'operator_name' => $request->company_operator_name,
-                'operator_tel' => $request->company_operator_tel,
-                'phone' => $request->company_operator_phone,
-                'operator_email' => $request->company_operator_email,
-                'gender' => $request->company_operator_gender,
+                'operator_name_1' => $request->company_operator_name_1,
+                'operator_tel_1' => $request->company_operator_tel_1,
+                'operator_phone_1' => $request->company_operator_phone_1,
+                'operator_email_1' => $request->company_operator_email_1,
+
+                'operator_name_2' => $request->company_operator_name_2,
+                'operator_tel_2' => $request->company_operator_tel_2,
+                'operator_phone_2' => $request->company_operator_phone_2,
+                'operator_email_2' => $request->company_operator_email_2,
+
+                'gender' => null,
 
                 'address_zipcode' => $request->company_address_zipcode,
                 'address_county' => $request->company_address_county,
@@ -90,15 +114,29 @@ class ConsumerService extends BaseService
         }
 
         $consumer = ConsumerEloquent::create($data);
+
+        if(!$consumer){
+            return [
+                'status' => 422,
+                'message' => '新增顧客時發生錯誤！'
+            ];
+        }
+
         // 建立客戶購物車
         $this->CartService->add($consumer->id);
 
         // 圖片儲存
-        if($request->has('company_picture')){
-            $this->savePicture($request->company_picture, $consumer);
+        if(!is_null($url)){
+            $consumer->picture()->create([
+                'url' => $url,
+                'index' => 1
+            ]);
         }
-
-        return $consumer;
+        
+        return [
+            'status' => 200,
+            'message' => '新增顧客成功！'
+        ];
     }
 
     public function getList()
@@ -200,55 +238,5 @@ class ConsumerService extends BaseService
     public function getInfoList($id){
         $consumer_info = ConsumerEloquent::find($id);
         return $consumer_info;
-    }
-
-    // 儲存顧客頭貼
-    private function savePicture($picture, $consumer){
-        if(!empty($picture)){
-            $ext = strtolower($picture->getClientOriginalExtension());
-            switch($ext){
-                case 'jpg':
-                    $origin_picture = imagecreatefromjpeg($picture);
-                    break;
-                case 'png':
-                    $origin_picture = imagecreatefrompng($picture);
-                    break;
-                case 'bmp':
-                    $origin_picture = imagecreatefrombmp($picture);
-                    break;
-                default:
-                    $origin_picture = imagecreatefromjpeg($picture);
-                    break;
-            }
-
-            $picture_name = $consumer->id;
-            $picture_full_name = $picture_name . '.' . $ext;
-
-            $save_path = public_path('images/consumers/');
-            switch($ext){
-                case 'jpg':
-                    imagejpeg($origin_picture, $save_path . $picture_full_name);
-                    break;
-                case 'png':
-                    $background = imagecolorallocate($origin_picture, 0, 0, 0);
-                    imagecolortransparent($origin_picture, $background);
-                    imagealphablending($origin_picture, false);
-                    imagesavealpha($origin_picture, true);
-                    imagepng($origin_picture, $save_path . $picture_full_name);
-                    break;
-                case 'bmp':
-                    imagebmp($origin_picture, $save_path . $picture_full_name);
-                    break;
-                default:
-                    imagejpeg($origin_picture, $save_path . $picture_full_name);
-                    break;
-            }
-            $image_path = 'images/consumers/' . $picture_full_name;
-
-            $consumer->picture()->create([
-                'url' => $image_path,
-                'index' => 1
-            ]);
-        }
     }
 }

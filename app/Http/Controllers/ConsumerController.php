@@ -33,8 +33,11 @@ class ConsumerController extends Controller
 
     public function store(ConsumerRequest $request)
     {
-        $consumer = $this->ConsumerService->add($request);
-        return redirect()->route('consumers.index');
+        $result = $this->ConsumerService->add($request);
+        return response()->json([
+            'message' => $result['message'], 
+            'url' => route('consumers.index')
+        ], $result['status']);
     }
 
     public function show($id)
@@ -206,5 +209,13 @@ class ConsumerController extends Controller
     public function getInfo(Request $request){
         $comsumer_info = $this->ConsumerService->getInfoList($request->id);
         return response()->json($comsumer_info, 200);
+    }
+
+    public function getOne($id){
+        $consumer = $this->ConsumerService->getOne($id);
+        return response()->json([
+            'status' => 'OK',
+            'consumer' => $consumer
+        ]);
     }
 }

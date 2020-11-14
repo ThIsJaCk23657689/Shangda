@@ -15,7 +15,6 @@ class ConsumerTableSeeder extends Seeder
         ConsumerEloquent::create([
             'account' => '23657689',
             'password' => bcrypt('jack0619'),
-            'idNumber' => 'O100510818',
             'name' => '張竣傑',
             'gender' => 1,
             'monthlyCheckDate' => 25,

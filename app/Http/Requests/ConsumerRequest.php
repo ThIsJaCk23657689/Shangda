@@ -22,7 +22,7 @@ class ConsumerRequest extends FormRequest
                 'individual_password' => 'required|string|min:6|max:30|confirmed',
     
                 'individual_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'individual_idNumber' => 'required|string|size:10|tw_id',
+                // 'individual_idNumber' => 'required|string|size:10|tw_id',
                 'individual_name' => 'required|string|min:2|max:100',
                 'individual_shortName' => 'nullable|string|min:1|max:100',
                 'individual_gender' => 'required|integer|min:0|max:2',
@@ -54,8 +54,8 @@ class ConsumerRequest extends FormRequest
                 'company_branch' => 'nullable|string|max:50',
                 'company_shortName' => 'nullable|string|min:1|max:100',
                 'company_taxID' => 'required|max:8|string|unique:consumers,taxID',
-                'company_principal' => 'required|string|min:2|max:100',
-                'company_idNumber' => 'nullable|string|size:10|tw_id',
+                'company_principal' => 'nullable|string|min:2|max:100',
+                // 'company_idNumber' => 'nullable|string|size:10|tw_id',
                 'company_monthlyCheckDate' => 'nullable|integer|min:0|max:31',
                 'company_uncheckedAmount' => 'required|numeric',
                 'company_totalConsumption' => 'required|numeric',
@@ -63,14 +63,20 @@ class ConsumerRequest extends FormRequest
 
                 'company_tel' => 'nullable|string|max:20',
                 'company_tax' => 'nullable|string|max:10',
-                'company_email' => 'nullable|string|email|max:100',
+                'company_email' => 'required|string|email|max:100|unique:consumers,email',
                 'company_lineID' => 'nullable|string|max:100',
 
-                'company_operator_name' => 'required|string|min:2|max:100',
-                'company_operator_tel' => 'required_without:company_operator_phone|nullable|string|max:20',
-                'company_operator_phone' => 'required_without:company_operator_tel|nullable|string|size:10',
-                'company_operator_email' => 'nullable|string|email|max:100',
-                'company_operator_gender' => 'required|integer|min:0|max:2',
+                'company_operator_name_1' => 'required|string|min:2|max:100',
+                'company_operator_tel_1' => 'required_without:company_operator_phone_1|nullable|string|max:20',
+                'company_operator_phone_1' => 'required_without:company_operator_tel_1|nullable|string|size:10',
+                'company_operator_email_1' => 'nullable|string|email|max:100',
+
+                'company_operator_name_2' => 'nullable|string|min:2|max:100',
+                'company_operator_tel_2' => 'nullable|nullable|string|max:20',
+                'company_operator_phone_2' => 'nullable|nullable|string|size:10',
+                'company_operator_email_2' => 'nullable|string|email|max:100',
+
+                // 'company_operator_gender' => 'required|integer|min:0|max:2',
 
                 'company_address_zipcode' => 'required|string|max:5',
                 'company_address_county' => 'required|string|max:10',

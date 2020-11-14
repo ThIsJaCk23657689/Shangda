@@ -25,7 +25,7 @@ $factory->define(Consumer::class, function (Faker $faker) {
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'name' => $faker->name,
             'gender' => $faker->numberBetween($min = 0, $max = 2),
-            'idNumber' => $faker->unique()->bothify('?#########'),
+            // 'idNumber' => $faker->unique()->bothify('?#########'),
             'birthday' => $faker->numberBetween($min = 1930, $max = 2002) . '-' . $faker->numberBetween($min = 1, $max = 12) . '-' . $faker->numberBetween($min = 1, $max = 28),
             
             'phone' => $faker->bothify('09########'),
@@ -55,16 +55,17 @@ $factory->define(Consumer::class, function (Faker $faker) {
             'taxID' => $faker->unique()->bothify('########'),
             'principal' => $faker->name,
             'gender' => $faker->numberBetween($min = 0, $max = 2),
-            'idNumber' => $faker->unique()->bothify('?#########'),
+            // 'idNumber' => $faker->unique()->bothify('?#########'),
 
             'tel' => $faker->randomElement(['02', '03', '04', '05', '06']) . str_pad($faker->numberBetween(100000, 999999), 6, '0', STR_PAD_LEFT), 
             'tax' => $faker->randomElement(['02', '03', '04', '05', '06']) . str_pad($faker->numberBetween(100000, 999999), 6, '0', STR_PAD_LEFT), 
             'email' => $faker->unique()->safeEmail,
             'lineID' => $faker->userName,
 
-            'operator_name' => $faker->name,
-            'operator_tel' => $faker->bothify('09########'),
-            'operator_email' => $faker->unique()->safeEmail,
+            'operator_name_1' => $faker->name,
+            'operator_tel_1' => $faker->randomElement(['02', '03', '04', '05', '06']) . str_pad($faker->numberBetween(100000, 999999), 6, '0', STR_PAD_LEFT),
+            'operator_phone_1' => $faker->bothify('09########'),
+            'operator_email_1' => $faker->unique()->safeEmail,
 
             'address_zipcode' => '404', 
             'address_county' => '台中市', 
