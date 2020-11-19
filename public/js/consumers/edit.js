@@ -709,7 +709,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['consumer', 'uploadimg'],
   data: function data() {
@@ -1925,10 +1924,10 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-block btn-primary",
+                staticClass: "btn btn-block btn-success",
                 attrs: { type: "submit" }
               },
-              [_vm._v("\r\n                    確認新增\r\n                ")]
+              [_vm._v("\n                    確認修改\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -1937,7 +1936,7 @@ var render = function() {
                 staticClass: "btn btn-block btn-danger",
                 attrs: { href: _vm.ConsumersIndexURL }
               },
-              [_vm._v("\r\n                    返回列表\r\n                ")]
+              [_vm._v("\n                    返回列表\n                ")]
             )
           ])
         ])
@@ -1952,7 +1951,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_taxID" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("統一編號\r\n                        ")
+      _vm._v("統一編號\n                        ")
     ])
   },
   function() {
@@ -1963,7 +1962,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "company_taxID_type" } }, [
           _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("統編類型\r\n                        ")
+          _vm._v("統編類型\n                        ")
         ]),
         _vm._v(" "),
         _c("input", {
@@ -1985,7 +1984,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_name" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("公司名稱\r\n                        ")
+      _vm._v("公司名稱\n                        ")
     ])
   },
   function() {
@@ -2008,7 +2007,7 @@ var staticRenderFns = [
           },
           [_vm._v("*")]
         ),
-        _vm._v("分店名\r\n                        ")
+        _vm._v("分店名\n                        ")
       ]
     )
   },
@@ -2018,7 +2017,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_monthlyCheckDate" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("月結日\r\n                        ")
+      _vm._v("月結日\n                        ")
     ])
   },
   function() {
@@ -2052,7 +2051,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_uncheckedAmount" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("未沖銷帳款\r\n                        ")
+      _vm._v("未沖銷帳款\n                        ")
     ])
   },
   function() {
@@ -2061,7 +2060,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_totalConsumption" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("總消費額\r\n                        ")
+      _vm._v("總消費額\n                        ")
     ])
   },
   function() {
@@ -2070,7 +2069,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_email" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("公司信箱\r\n                ")
+      _vm._v("公司信箱\n                ")
     ])
   },
   function() {
@@ -2079,7 +2078,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_operator_name_1" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("聯絡窗口1 - 姓名\r\n                ")
+      _vm._v("聯絡窗口1 - 姓名\n                ")
     ])
   },
   function() {
@@ -2108,7 +2107,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_operator_tel_1" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("聯絡窗口1 - 電話\r\n                ")
+      _vm._v("聯絡窗口1 - 電話\n                ")
     ])
   },
   function() {
@@ -2137,7 +2136,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_operator_phone_1" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("聯絡窗口1 - 手機\r\n                ")
+      _vm._v("聯絡窗口1 - 手機\n                ")
     ])
   },
   function() {
@@ -2166,7 +2165,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_operator_phone_2" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("聯絡窗口2 - 手機\r\n                ")
+      _vm._v("聯絡窗口2 - 手機\n                ")
     ])
   },
   function() {
@@ -2339,6 +2338,10 @@ var render = function() {
       }
     },
     [
+      _c("input", {
+        attrs: { name: "_method", type: "hidden", value: "PATCH" }
+      }),
+      _vm._v(" "),
       _c("input", {
         attrs: {
           id: "individual_account_type",
@@ -2738,7 +2741,9 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-md-4" }, [
           _c("div", { staticClass: "form-group" }, [
-            _vm._m(8),
+            _c("label", { attrs: { for: "individual_email" } }, [
+              _vm._v("信箱")
+            ]),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -2754,9 +2759,7 @@ var render = function() {
                 id: "individual_email",
                 name: "individual_email",
                 type: "email",
-                autocomplete: "off",
-                required: "",
-                placeholder: "例：test@example.com"
+                disabled: ""
               },
               domProps: { value: _vm.consumer.email },
               on: {
@@ -2820,9 +2823,9 @@ var render = function() {
               attrs: { id: "individual_address_twzipcode" }
             },
             [
-              _vm._m(9),
+              _vm._m(8),
               _vm._v(" "),
-              _vm._m(10),
+              _vm._m(9),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col-md-12" }, [
@@ -2870,10 +2873,10 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-block btn-primary",
+                staticClass: "btn btn-block btn-success",
                 attrs: { type: "submit" }
               },
-              [_vm._v("\r\n                    確認新增\r\n                ")]
+              [_vm._v("\n                    確認修改\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -2882,7 +2885,7 @@ var render = function() {
                 staticClass: "btn btn-block btn-danger",
                 attrs: { href: _vm.ConsumersIndexURL }
               },
-              [_vm._v("\r\n                    返回列表\r\n                ")]
+              [_vm._v("\n                    返回列表\n                ")]
             )
           ])
         ])
@@ -2897,7 +2900,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_name" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("姓名\r\n                        ")
+      _vm._v("姓名\n                        ")
     ])
   },
   function() {
@@ -2908,7 +2911,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "individual_gender" } }, [
           _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("性別\r\n                        ")
+          _vm._v("性別\n                        ")
         ]),
         _vm._v(" "),
         _c(
@@ -2936,7 +2939,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_monthlyCheckDate" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("月結日\r\n                        ")
+      _vm._v("月結日\n                        ")
     ])
   },
   function() {
@@ -2970,7 +2973,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_uncheckedAmount" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("未沖銷帳款\r\n                        ")
+      _vm._v("未沖銷帳款\n                        ")
     ])
   },
   function() {
@@ -2979,7 +2982,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_totalConsumption" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("總消費額\r\n                        ")
+      _vm._v("總消費額\n                        ")
     ])
   },
   function() {
@@ -2988,7 +2991,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_phone" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("手機\r\n                ")
+      _vm._v("手機\n                ")
     ])
   },
   function() {
@@ -2997,16 +3000,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_tel" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("電話\r\n                ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "individual_email" } }, [
-      _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("信箱\r\n                ")
+      _vm._v("電話\n                ")
     ])
   },
   function() {
