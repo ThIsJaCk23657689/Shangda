@@ -7,6 +7,15 @@
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/tests/Unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/Feature" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/23" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/2d" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/36" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/6e" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/8c" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/a4" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/d2" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/ee" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/arcanedev/no-captcha" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/arcanedev/php-html" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/arcanedev/support" />

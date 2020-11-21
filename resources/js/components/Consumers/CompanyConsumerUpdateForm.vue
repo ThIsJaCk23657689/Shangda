@@ -281,8 +281,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary">
-                    確認新增
+                <button type="submit" class="btn btn-block btn-success">
+                    確認修改
                 </button>
                 <a :href="ConsumersIndexURL" class="btn btn-block btn-danger">
                     返回列表
@@ -356,14 +356,14 @@ export default {
 
                                 // 由於目前無法抓取商業統編資料，所以不自動填上資料了
                                 $('#company_taxID_type').val(response.data.type);
-                 
+
                                 break;
                             default:
                                 // 如果統編為無效的話
                                 $.showWarningModal('查無此統編相關資料，無法使用此統編進行註冊。');
                                 $('#company_taxID').val('');
                                 break;
-                            }   
+                            }
                             $.closeModal();
                     }).catch((error) => {
                         console.error('查詢統一編號時發生錯誤，錯誤訊息：' + error);

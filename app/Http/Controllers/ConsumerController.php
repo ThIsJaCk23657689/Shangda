@@ -35,7 +35,7 @@ class ConsumerController extends Controller
     {
         $result = $this->ConsumerService->add($request);
         return response()->json([
-            'message' => $result['message'], 
+            'message' => $result['message'],
             'url' => route('consumers.index')
         ], $result['status']);
     }
@@ -54,8 +54,11 @@ class ConsumerController extends Controller
 
     public function update(ConsumerEditRequest $request, $id)
     {
-        $consumer = $this->ConsumerService->update($request, $id);
-        return redirect()->route('consumers.show', [$id]);
+        $result = $this->ConsumerService->update($request, $id);
+        return response()->json([
+            'message' => $result['message'],
+            'url' => route('consumers.show', [$id])
+        ], $result['status']);
     }
 
     public function destroy($id)

@@ -34,7 +34,7 @@ class ConsumerService extends BaseService
             // 沒有要存圖片
             $url = null;
         }
-        
+
         $data = [];
         if($request->account_type == 'individual'){
             $data = [
@@ -132,7 +132,7 @@ class ConsumerService extends BaseService
                 'index' => 1
             ]);
         }
-        
+
         return [
             'status' => 200,
             'message' => '新增顧客成功！'
@@ -190,28 +190,101 @@ class ConsumerService extends BaseService
     public function update($request, $id)
     {
         $consumer = $this->getOne($id);
-        $consumer->update([
-            'name' => $request->name,
-            'shortName' => $request->shortName,
-            'taxID' => $request->taxID,
-            'idNumber' => $request->idNumber,
-            'inCharge1' => $request->inCharge1,
-            'tel1' => $request->tel1,
-            'email1' => $request->email1,
-            'inCharge2' => $request->inCharge2,
-            'tel2' => $request->tel2,
-            'email2' => $request->email2,
-            'tax' => $request->tax,
-            'monthlyCheckDate' => $request->monthlyCheckDate,
-            'uncheckedAmount' => $request->uncheckedAmount,
-            'totalConsumption' => $request->totalConsumption,
-            'comment' => $request->comment,
-            'companyAddress' => $request->companyAddress,
-            'deliveryAddress' => $request->deliveryAddress,
-            'invoiceAddress' => $request->invoiceAddress,
-        ]);
 
-        return $consumer;
+        if(!is_null($request->image_data) && !is_null($_FILES['image_file'])){
+            // 圖片路徑生成與裁切
+            $crop = new CropImageService($request->image_data, $_FILES['image_file'], 'consumers', 'avatars');
+            $result = $crop->getResult();
+            if($result['status'] == 'ERROR'){
+                return [
+                    'status' => '422',
+                    'message' => $result['message']
+                ];
+            }else{
+                $url = $result['url'];
+            }
+        }else{
+            // 沒有要存圖片
+            $url = null;
+        }
+
+        $data = [];
+        if($request->account_type == 'individual'){
+            $data = [
+                'name' => $request->individual_name,
+                'shortName' => $request->individual_shortName,
+                'gender' => $request->individual_gender,
+                'birthday' => $request->individual_birthday,
+                'monthlyCheckDate' => $request->individual_monthlyCheckDate ?? 0,
+                'uncheckedAmount' => $request->individual_uncheckedAmount,
+                'totalConsumption' => $request->individual_totalConsumption,
+                'policy_agreement' => '1',
+                'comment' => $request->individual_comment,
+
+                'phone' => $request->individual_phone,
+                'tel' => $request->individual_tel,
+                'lineID' => $request->individual_lineID,
+                'address_zipcode' => $request->individual_address_zipcode,
+                'address_county' => $request->individual_address_county,
+                'address_district' => $request->individual_address_district,
+                'address_others' => $request->individual_address_others,
+            ];
+        }else if($request->account_type == 'company'){
+            $data = [
+                'name' => $request->company_name,
+                'branch' => $request->company_branch,
+                'shortName' => $request->company_shortName,
+                'taxID' => $request->company_taxID,
+                'principal' => $request->company_principal,
+                'monthlyCheckDate' => $request->company_monthlyCheckDate ?? 0,
+                'uncheckedAmount' => $request->company_uncheckedAmount,
+                'totalConsumption' => $request->company_totalConsumption,
+                'policy_agreement' => '1',
+                'comment' => $request->company_comment,
+
+                'tel' => $request->company_tel,
+                'tax' => $request->company_tax,
+                'email' => $request->company_email,
+                'lineID' => $request->company_lineID,
+
+                'operator_name_1' => $request->company_operator_name_1,
+                'operator_tel_1' => $request->company_operator_tel_1,
+                'operator_phone_1' => $request->company_operator_phone_1,
+                'operator_email_1' => $request->company_operator_email_1,
+
+                'operator_name_2' => $request->company_operator_name_2,
+                'operator_tel_2' => $request->company_operator_tel_2,
+                'operator_phone_2' => $request->company_operator_phone_2,
+                'operator_email_2' => $request->company_operator_email_2,
+
+                'gender' => null,
+
+                'address_zipcode' => $request->company_address_zipcode,
+                'address_county' => $request->company_address_county,
+                'address_district' => $request->company_address_district,
+                'address_others' => $request->company_address_others,
+
+                'deliveryAddress_zipcode' => $request->company_deliveryAddress_zipcode,
+                'deliveryAddress_county' => $request->company_deliveryAddress_county,
+                'deliveryAddress_district' => $request->company_deliveryAddress_district,
+                'deliveryAddress_others' => $request->company_deliveryAddress_others,
+            ];
+        }
+
+        $consumer->update($data);
+
+        // 圖片更新
+        if(!is_null($url)){
+            $consumer->picture()->create([
+                'url' => $url,
+                'index' => 1
+            ]);
+        }
+
+        return [
+            'status' => 200,
+            'message' => '編輯顧客資料成功！',
+        ];
     }
 
     public function delete($id)

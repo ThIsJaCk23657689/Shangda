@@ -709,7 +709,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['consumer', 'uploadimg'],
   data: function data() {
@@ -1925,10 +1924,10 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-block btn-primary",
+                staticClass: "btn btn-block btn-success",
                 attrs: { type: "submit" }
               },
-              [_vm._v("\r\n                    確認新增\r\n                ")]
+              [_vm._v("\r\n                    確認修改\r\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -2340,6 +2339,10 @@ var render = function() {
     },
     [
       _c("input", {
+        attrs: { name: "_method", type: "hidden", value: "PATCH" }
+      }),
+      _vm._v(" "),
+      _c("input", {
         attrs: {
           id: "individual_account_type",
           name: "account_type",
@@ -2738,7 +2741,9 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-md-4" }, [
           _c("div", { staticClass: "form-group" }, [
-            _vm._m(8),
+            _c("label", { attrs: { for: "individual_email" } }, [
+              _vm._v("信箱")
+            ]),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -2754,9 +2759,7 @@ var render = function() {
                 id: "individual_email",
                 name: "individual_email",
                 type: "email",
-                autocomplete: "off",
-                required: "",
-                placeholder: "例：test@example.com"
+                disabled: ""
               },
               domProps: { value: _vm.consumer.email },
               on: {
@@ -2820,9 +2823,9 @@ var render = function() {
               attrs: { id: "individual_address_twzipcode" }
             },
             [
-              _vm._m(9),
+              _vm._m(8),
               _vm._v(" "),
-              _vm._m(10),
+              _vm._m(9),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col-md-12" }, [
@@ -2870,10 +2873,10 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-block btn-primary",
+                staticClass: "btn btn-block btn-success",
                 attrs: { type: "submit" }
               },
-              [_vm._v("\r\n                    確認新增\r\n                ")]
+              [_vm._v("\r\n                    確認修改\r\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -2998,15 +3001,6 @@ var staticRenderFns = [
     return _c("label", { attrs: { for: "individual_tel" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
       _vm._v("電話\r\n                ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "individual_email" } }, [
-      _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("信箱\r\n                ")
     ])
   },
   function() {

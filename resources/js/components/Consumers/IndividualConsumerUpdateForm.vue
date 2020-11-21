@@ -1,6 +1,7 @@
 <template>
 <form id="individual_form" method="POST" :action="ConsumersUpdateURL" enctype="multipart/form-data" @submit.prevent="consumerUpdateForm">
 
+    <input name="_method" type="hidden" value="PATCH">
     <input id="individual_account_type" name="account_type" type="hidden" value="individual">
 
     <div class="row">
@@ -112,10 +113,8 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="individual_email">
-                    <span class="text-danger mr-2">*</span>信箱
-                </label>
-                <input id="individual_email" name="individual_email" type="email" class="form-control" v-model="consumer.email" autocomplete="off" required placeholder="例：test@example.com">
+                <label for="individual_email">信箱</label>
+                <input id="individual_email" name="individual_email" type="email" class="form-control" v-model="consumer.email" disabled>
                 <small class="form-text text-muted">請填寫正確並可使用之信箱。</small>
             </div>
         </div>
@@ -154,8 +153,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary">
-                    確認新增
+                <button type="submit" class="btn btn-block btn-success">
+                    確認修改
                 </button>
                 <a :href="ConsumersIndexURL" class="btn btn-block btn-danger">
                     返回列表
@@ -234,7 +233,7 @@ export default {
             $('input[name=individual_phone],input[name=individual_tel]').not(this).prop('required', !$(this).val().length);
         });
 
-        
+
     }
 }
 </script>
