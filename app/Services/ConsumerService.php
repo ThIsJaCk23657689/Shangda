@@ -234,7 +234,7 @@ class ConsumerService extends BaseService
                 'name' => $request->company_name,
                 'branch' => $request->company_branch,
                 'shortName' => $request->company_shortName,
-                'taxID' => $request->company_taxID,
+                // 'taxID' => $request->company_taxID,
                 'principal' => $request->company_principal,
                 'monthlyCheckDate' => $request->company_monthlyCheckDate ?? 0,
                 'uncheckedAmount' => $request->company_uncheckedAmount,
@@ -244,7 +244,7 @@ class ConsumerService extends BaseService
 
                 'tel' => $request->company_tel,
                 'tax' => $request->company_tax,
-                'email' => $request->company_email,
+                // 'email' => $request->company_email,
                 'lineID' => $request->company_lineID,
 
                 'operator_name_1' => $request->company_operator_name_1,

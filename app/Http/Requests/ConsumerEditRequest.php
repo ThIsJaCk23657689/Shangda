@@ -56,7 +56,7 @@ class ConsumerEditRequest extends FormRequest
                 'company_name' => 'required|string|min:2|max:100',
                 'company_branch' => 'nullable|string|max:50',
                 'company_shortName' => 'nullable|string|min:1|max:100',
-                'company_taxID' => 'required|max:8|string|unique:consumers,taxID',
+                // 'company_taxID' => 'required|max:8|string|unique:consumers,taxID',
                 'company_principal' => 'nullable|string|min:2|max:100',
 
                 'company_monthlyCheckDate' => 'nullable|integer|min:0|max:31',
@@ -66,7 +66,7 @@ class ConsumerEditRequest extends FormRequest
 
                 'company_tel' => 'nullable|string|max:20',
                 'company_tax' => 'nullable|string|max:10',
-                'company_email' => 'required|string|email|max:100|unique:consumers,email',
+                // 'company_email' => 'required|string|email|max:100|unique:consumers,email',
                 'company_lineID' => 'nullable|string|max:100',
 
                 'company_operator_name_1' => 'required|string|min:2|max:100',

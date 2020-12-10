@@ -216,18 +216,6 @@ export default {
             }
         });
 
-        $('#company_monthlyCheck').change(function (e) {
-            if ($(this).prop("checked")) {
-                $('#company_monthlyCheckDate').val(0);
-                $('#company_monthlyCheckDate').attr('disabled', true);
-            } else {
-                $('#company_monthlyCheckDate').val(0);
-                $('#company_monthlyCheckDate').attr('disabled', false);
-            }
-        });
-
-
-
         $('input[name=individual_phone],input[name=individual_tel]').on('input', function () {
             // Set the required property of the other input to false if this input is not empty.
             $('input[name=individual_phone],input[name=individual_tel]').not(this).prop('required', !$(this).val().length);
