@@ -81,44 +81,30 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 30);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/discounts/index.js":
+/***/ "./resources/js/consumers/index.js":
 /*!*****************************************!*\
-  !*** ./resources/js/discounts/index.js ***!
+  !*** ./resources/js/consumers/index.js ***!
   \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-$(function () {
-  $('#consumers_dataTable').DataTable();
-  $('#products_dataTable').DataTable();
-  $('#sortType').change(function () {
-    var x = $(this).val();
 
-    if (x == 'products') {
-      $('#consumers_card').fadeOut();
-      $('#products_card').fadeIn();
-    } else {
-      $('#consumers_card').fadeIn();
-      $('#products_card').fadeOut();
-    }
-  });
-});
 
 /***/ }),
 
-/***/ 34:
+/***/ 30:
 /*!***********************************************!*\
-  !*** multi ./resources/js/discounts/index.js ***!
+  !*** multi ./resources/js/consumers/index.js ***!
   \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\discounts\index.js */"./resources/js/discounts/index.js");
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\consumers\index.js */"./resources/js/consumers/index.js");
 
 
 /***/ })

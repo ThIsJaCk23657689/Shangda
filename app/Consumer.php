@@ -22,7 +22,7 @@ class Consumer extends Authenticatable
     protected $guard = 'consumer';
 
     protected $fillable = [
-        'account', 'password', 'name', 'shortName', 'gender', 'idNumber', 'email', 'lineID',
+        'account', 'password', 'name', 'shortName', 'gender', 'email', 'lineID',
         'monthlyCheckDate', 'uncheckedAmount', 'totalConsumption',
         'address_zipcode', 'address_county', 'address_district', 'address_others',
         'policy_agreement', 'comment',
@@ -30,7 +30,8 @@ class Consumer extends Authenticatable
         'birthday', 'phone',
 
         'branch', 'principal', 'taxID', 'tel', 'tax',
-        'operator_name', 'operator_tel', 'operator_email',
+        'operator_name_1', 'operator_tel_1', 'operator_phone_1', 'operator_email_1',
+        'operator_name_2', 'operator_tel_2', 'operator_phone_2', 'operator_email_2',
         'deliveryAddress_zipcode', 'deliveryAddress_county', 'deliveryAddress_district', 'deliveryAddress_others',
 
         'account_type', 'who_created', 'user_id'
@@ -85,9 +86,20 @@ class Consumer extends Authenticatable
 
     // 顯示性別
     public function showGender(){
-        return ($this->gender) ? "男" : "女";
+        return  ($this->gender) ? '男' : '女';
     }
 
+    // 顯示帳號的類型
+    public function showAccountType(){
+        return  ($this->account_type == 0) ? '個人帳號' : '公司帳號';
+    }
+
+    // 顯示帳號的創建類型
+    public function showWhoCreated(){
+        return  ($this->who_created == 0) ? '顧客建立' : '管理者建立';
+    }
+
+    // 重設密碼寄信的覆寫
     public function sendPasswordResetNotification($token)
     {
         $notification = new ResetPassword($token);

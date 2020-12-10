@@ -50,9 +50,14 @@
 							<tr class="{{ $consumer->trashed()?'bg-warning':'' }}">
 								<td>{{ $consumer->id }}</td>
 								<td>{{ $consumer->name }}</td>
-								<td>{{ $consumer->taxID }}</td>
-								<td>{{ $consumer->inCharge1 }}</td>
-								<td>{{ $consumer->tel1 }}</td>
+								<td>{{ $consumer->taxID ?? '無' }}</td>
+								@if ($consumer->account_type == 1)
+									<td>{{ $consumer->operator_name_1 ?? '無' }}</td>
+									<td>{{ $consumer->operator_tel_1 ?? '無' }}</td>
+								@else	
+									<td>{{ $consumer->operator_name_1 ?? '無' }}</td>
+									<td>{{ $consumer->phone ?? '無' }}</td>
+								@endif
                                 <td>{{ $consumer->uncheckedAmount }}</td>
 								<td>
 									<a href="{{ route('consumers.show', [$consumer->id]) }}" class="btn btn-md btn-info">
@@ -66,10 +71,20 @@
 									@if($consumer->trashed())
 										<a href="#" class="btn btn-md btn-light" onclick="
 											event.preventDefault();
-											ans = confirm('確定要解鎖此顧客嗎?');
-											if(ans){
-												$('#deleteform-{{ $consumer->id }}').submit();
-											}
+											Swal.fire({
+												title: '注意！',
+												text: '確定要解鎖此顧客嗎？',
+												icon: 'warning',
+												showCancelButton: true,
+												confirmButtonColor: '#3085d6',
+												cancelButtonColor: '#d33',
+												confirmButtonText: '確認',
+												cancelButtonText: '取消',
+											}).then((result) => {
+												if (result.value) {
+													$('#deleteform-{{ $consumer->id }}').submit();
+												}
+											});
 										">
 											<i class="fas fa-unlock"></i>
 											解鎖
@@ -77,10 +92,20 @@
 									@else
 										<a href="#" class="btn btn-md btn-danger" onclick="
 											event.preventDefault();
-											ans = confirm('確定要封鎖此顧客嗎?');
-											if(ans){
-												$('#deleteform-{{ $consumer->id }}').submit();
-											}
+											Swal.fire({
+												title: '注意！',
+												text: '確定要封鎖此顧客嗎？',
+												icon: 'warning',
+												showCancelButton: true,
+												confirmButtonColor: '#3085d6',
+												cancelButtonColor: '#d33',
+												confirmButtonText: '確認',
+												cancelButtonText: '取消',
+											}).then((result) => {
+												if (result.value) {
+													$('#deleteform-{{ $consumer->id }}').submit();
+												}
+											});
 										">
 											<i class="fas fa-user-slash"></i>
 											封鎖

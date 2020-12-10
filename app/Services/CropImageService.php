@@ -43,9 +43,9 @@ class CropImageService extends BaseService{
 	 * @param  string  $model
      * @return array
      */
-	public function __construct($data, $file, $model) {    
+	public function __construct($data, $file, $model, $type = 'cover_images') {    
 		// 設定圖片輸出路徑
-		$this->setPath($model);
+		$this->setPath($model, $type);
 
 		// 生成檔名
 		$this->setFilename();
@@ -77,15 +77,18 @@ class CropImageService extends BaseService{
 		}
 	}
 
-	private function setPath($model){
+	private function setPath($model, $type){
 		$file_path = 'images/' . $model;
 
 		if(!file_exists($file_path)){
 			mkdir($file_path);
-			mkdir($file_path . '/' . 'cover_images' . '/');
+		}
+
+		if(!file_exists($file_path . '/' . $type)){
+			mkdir($file_path . '/' . $type);
 		}
 			
-		$this->path = 'images/' . $model . '/' . 'cover_images' . '/';
+		$this->path = 'images/' . $model . '/' . $type . '/';
 	}
 
 	private function setFilename(){
