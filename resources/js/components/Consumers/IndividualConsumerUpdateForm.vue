@@ -31,7 +31,7 @@
                         <label for="individual_gender">
                             <span class="text-danger mr-2">*</span>性別
                         </label>
-                        <select id="individual_gender" name="individual_gender" class="form-control" required>
+                        <select id="individual_gender" name="individual_gender" class="form-control" required v-model="consumer.gender">
                             <option value="0">女</option>
                             <option value="1">男</option>
                         </select>
@@ -215,18 +215,6 @@ export default {
                 $('#individual_monthlyCheckDate').attr('disabled', false);
             }
         });
-
-        $('#company_monthlyCheck').change(function (e) {
-            if ($(this).prop("checked")) {
-                $('#company_monthlyCheckDate').val(0);
-                $('#company_monthlyCheckDate').attr('disabled', true);
-            } else {
-                $('#company_monthlyCheckDate').val(0);
-                $('#company_monthlyCheckDate').attr('disabled', false);
-            }
-        });
-
-
 
         $('input[name=individual_phone],input[name=individual_tel]').on('input', function () {
             // Set the required property of the other input to false if this input is not empty.

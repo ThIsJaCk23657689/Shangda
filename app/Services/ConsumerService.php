@@ -244,7 +244,6 @@ class ConsumerService extends BaseService
 
                 'tel' => $request->company_tel,
                 'tax' => $request->company_tax,
-                'email' => $request->company_email,
                 'lineID' => $request->company_lineID,
 
                 'operator_name_1' => $request->company_operator_name_1,
@@ -275,6 +274,7 @@ class ConsumerService extends BaseService
 
         // 圖片更新
         if(!is_null($url)){
+            $consumer->picture()->delete();
             $consumer->picture()->create([
                 'url' => $url,
                 'index' => 1

@@ -6,7 +6,7 @@
 @endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('People Management') }}</a>
@@ -20,7 +20,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             @if($consumer->account_type == 0)
-            
+
                 <div class="row">
                     <div class="col-md-6 text-center">
                         <div class="form-group d-flex flex-column">
@@ -74,7 +74,7 @@
                                             <option value="$i" {{ ($consumer->monthlyCheckDate == $i)? 'selected' : '' }}>
                                                 @if ($i == 0)
                                                     無
-                                                @else    
+                                                @else
                                                     {{ $i }}
                                                 @endif
                                             </option>
@@ -113,7 +113,7 @@
                 </div>
 
                 <hr>
-            
+
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -140,7 +140,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="row">
                     <div class="col-md-6">
                         <div id="individual_address_twzipcode" class="form-group">
@@ -226,7 +226,7 @@
                                             <option value="$i" {{ ($consumer->monthlyCheckDate == $i)? 'selected' : '' }}>
                                                 @if ($i == 0)
                                                     無
-                                                @else    
+                                                @else
                                                     {{ $i }}
                                                 @endif
                                             </option>
@@ -263,9 +263,9 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <hr>
-            
+
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -294,7 +294,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
@@ -321,7 +321,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
@@ -348,7 +348,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="row">
                     <div class="col-md-6">
                         <div id="company_address_twzipcode" class="form-group">
@@ -425,15 +425,22 @@
                 </div>
             </div>
 
-            <div class="form-group row justify-content-center">
+            <hr>
+
+            <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <a href="{{ route('consumers.index') }}" class="btn btn-block btn-danger">
-                        返回列表
-                    </a>
+                    <div class="form-group">
+                        <a href="{{ route('consumers.edit', [$consumer->id]) }}" class="btn btn-block btn-success">
+                            編輯資料
+                        </a>
+                        <a href="{{ route('consumers.index') }}" class="btn btn-block btn-danger">
+                            返回列表
+                        </a>
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
-	
+
 @endsection

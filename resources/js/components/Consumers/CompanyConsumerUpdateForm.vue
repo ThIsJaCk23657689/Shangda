@@ -1,6 +1,8 @@
 <template>
 <form id="company_form" method="POST" :action="ConsumersUpdateURL" enctype="multipart/form-data" @submit.prevent="consumerUpdateForm">
 
+    <input name="_method" type="hidden" value="PATCH">
+    <input name="consumer_id" type="hidden" v-model="consumer.id">
     <input id="company_account_type" name="account_type" type="hidden" value="company">
 
     <div class="row">
@@ -22,7 +24,7 @@
                         <label for="company_taxID_type">
                             <span class="text-danger mr-2">*</span>統編類型
                         </label>
-                        <input id="company_taxID_type" name="company_taxID_type" type="text" class="form-control" value="未知" readonly>
+                        <input id="company_taxID_type" name="company_taxID_type" type="text" class="form-control" value="" readonly>
                     </div>
                 </div>
             </div>
@@ -40,7 +42,7 @@
                         <label id="branch_label" for="company_branch" class="text-muted">
                             <span id="branch_required_tag" class="text-danger mr-2" style="display: none;">*</span>分店名
                         </label>
-                        <input id="company_branch" name="company_branch" type="text" class="form-control" v-model="consumer.branch" autocomplete="off" placeholder="例：文心店" disabled>
+                        <input id="company_branch" name="company_branch" type="text" class="form-control" v-model="consumer.branch" autocomplete="off" placeholder="例：文心店">
                     </div>
                 </div>
             </div>
@@ -123,10 +125,8 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="company_email">
-                    <span class="text-danger mr-2">*</span>公司信箱
-                </label>
-                <input id="company_email" name="company_email" type="email" class="form-control" v-model="consumer.email" autocomplete="off" placeholder="例：test@example.com" required>
+                <label for="company_email">公司信箱</label>
+                <input id="company_email" name="company_email" type="email" class="form-control" v-model="consumer.email" disabled>
             </div>
         </div>
         <div class="col-md-2">
@@ -304,7 +304,23 @@ export default {
         }
     },
     methods: {
-        searchByTaxID(){
+        consumerUpdateForm(e){
+            let url = this.ConsumersUpdateURL;
+            let formdata = new FormData($(e.target)[0]);
+
+            $.showLoadingModal();
+            axios.post(url, formdata, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(response => {
+                $.showSuccessModal(response.data.message, response.data.url);
+            }).catch((error) => {
+                console.error('新增顧客時發生錯誤，錯誤訊息：' + error);
+                $.showErrorModal(error);
+            });
+        },
+        searchByTaxID(e){
             // 分公司欄位設定為非必填，且disabled開啟，必填星號消失。
             $('#branch_label').addClass('text-muted');
             $('#company_branch').attr('disabled', true);
@@ -316,7 +332,7 @@ export default {
             $('#company_name').val('');
             $('#company_principal').val('');
 
-            let $taxID = $('#company_taxID').val();
+            let $taxID = $(e.target).val();
             if($taxID != ""){
                 let re = /^[0-9]{8}$/;
                 if(re.test($taxID)){
@@ -363,8 +379,8 @@ export default {
                                 $.showWarningModal('查無此統編相關資料，無法使用此統編進行註冊。');
                                 $('#company_taxID').val('');
                                 break;
-                            }
-                            $.closeModal();
+                        }
+                        $.closeModal();
                     }).catch((error) => {
                         console.error('查詢統一編號時發生錯誤，錯誤訊息：' + error);
                         $.showErrorModal(error);
@@ -372,31 +388,25 @@ export default {
                 }else{
                     // 失敗
                     $.showErrorModalWithoutError('請輸入正確格式的統一編號。');
-                    $('#company_taxID').val('');
+                    $(e.target).val('');
                 }
             }
         },
-        consumerUpdateForm(e){
-            let url = this.ConsumersUpdateURL;
-            let formdata = new FormData($(e.target)[0]);
-
-            $.showLoadingModal();
-            axios.post(url, formdata, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then(response => {
-                $.showSuccessModal(response.data.message, response.data.url);
-            }).catch((error) => {
-                console.error('新增顧客時發生錯誤，錯誤訊息：' + error);
-                $.showErrorModal(error);
-            });
-        }
     },
     created(){
 
     },
     mounted(){
+        $('#company_monthlyCheck').change(function (e) {
+            if ($(this).prop("checked")) {
+                $('#company_monthlyCheckDate').val(0);
+                $('#company_monthlyCheckDate').attr('disabled', true);
+            } else {
+                $('#company_monthlyCheckDate').val(0);
+                $('#company_monthlyCheckDate').attr('disabled', false);
+            }
+        });
+
         $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').on('input', function () {
             // Set the required property of the other input to false if this input is not empty.
             $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').not(this).prop('required', !$(this).val().length);
