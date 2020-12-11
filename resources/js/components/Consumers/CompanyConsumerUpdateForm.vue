@@ -16,7 +16,7 @@
                         <label for="company_taxID">
                             <span class="text-danger mr-2">*</span>統一編號
                         </label>
-                        <input id="company_taxID" name="company_taxID" type="text" class="form-control" v-model="consumer.taxID" required autocomplete="off" placeholder="例：12345678" @change="searchByTaxID">
+                        <input id="company_taxID" name="company_taxID" type="text" class="form-control" v-model="consumer.taxID" autocomplete="off" @change="searchByTaxID" required>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -172,7 +172,7 @@
                 <label for="company_operator_phone_1">
                     <span class="text-warning mr-2">*</span>聯絡窗口1 - 手機
                 </label>
-                <input id="company_operator_phone_1" name="company_operator_phone_1" type="text" class="form-control" v-model="consumer.operator_phone_1" autocomplete="off" placeholder="例：0912345678" required>
+                <input id="company_operator_phone_1" name="company_operator_phone_1" type="text" class="form-control" v-model="consumer.operator_phone_1" autocomplete="off" placeholder="例：0912345678">
                 <small class="form-text text-muted">手機號碼不需+886</small>
             </div>
         </div>
@@ -351,9 +351,10 @@ export default {
                             case "3":
                                 // 如果統編是公司類型的話
                                 // 自動填上統編類型、公司名稱、負責人名稱
+                                this.consumer.name = response.data.result['0'].Company_Name;
+                                this.consumer.principal = response.data.result['0'].Responsible_Name;
+
                                 $('#company_taxID_type').val(response.data.type);
-                                $('#company_name').val(response.data.result['0'].Company_Name);
-                                $('#company_principal').val(response.data.result['0'].Responsible_Name);
                                 break;
                             case "2":
                                 // 如果統編是分公司類型的話
@@ -397,47 +398,43 @@ export default {
 
     },
     mounted(){
+        let vm = this;
         $('#company_monthlyCheck').change(function (e) {
             if ($(this).prop("checked")) {
-                $('#company_monthlyCheckDate').val(0);
+                vm.consumer.monthlyCheckDate = 0
                 $('#company_monthlyCheckDate').attr('disabled', true);
             } else {
-                $('#company_monthlyCheckDate').val(0);
+                vm.consumer.monthlyCheckDate = 0
                 $('#company_monthlyCheckDate').attr('disabled', false);
             }
         });
 
-        $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').on('input', function () {
-            // Set the required property of the other input to false if this input is not empty.
-            $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').not(this).prop('required', !$(this).val().length);
-        });
-
-        $('input[name=company_operator_phone_2],input[name=company_operator_tel_2]').on('input', function () {
-            // Set the required property of the other input to false if this input is not empty.
-            $('input[name=company_operator_phone_2],input[name=company_operator_tel_2]').not(this).prop('required', !$(this).val().length);
-        });
+        // $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').on('change', function () {
+        //     // Set the required property of the other input to false if this input is not empty.
+        //     $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').not(this).prop('required', !$(this).val().length);
+        // });
 
         $('#isSameAsPrincipal').click(function (e) {
             if ($(this).prop("checked")) {
-                $('#company_operator_name_1').val($('#company_principal').val());
+                vm.consumer.operator_name_1 = $('#company_principal').val();
             } else {
-                $('#company_operator_name_1').val('');
+                vm.consumer.operator_name_1 = '';
             }
         });
 
         $('#isSameAsComTel').click(function (e) {
             if ($(this).prop("checked")) {
-                $('#company_operator_tel_1').val($('#company_tel').val());
+                vm.consumer.operator_tel_1 = $('#company_tel').val();
             } else {
-                $('#company_operator_tel_1').val('');
+                vm.consumer.operator_tel_1 = '';
             }
         });
 
         $('#isSameAsComEmail').click(function (e) {
             if ($(this).prop("checked")) {
-                $('#company_operator_email_1').val($('#company_email').val());
+                vm.consumer.operator_email_1 = $('#company_email').val();
             } else {
-                $('#company_operator_email_1').val('');
+                vm.consumer.operator_email_1 = '';
             }
         });
 
@@ -445,10 +442,10 @@ export default {
             if ($(this).prop("checked")) {
                 let $zipcode = $('#company_address_twzipcode').twzipcode('get', 'zipcode');
                 $('#company_deliveryAddress_twzipcode').twzipcode('set', $zipcode[0]);
-                $('#company_deliveryAddress_others').val($('#company_address_others').val());
+                vm.consumer.deliveryAddress_others = $('#company_address_others').val();
             } else {
                 $('#company_deliveryAddress_twzipcode').twzipcode('reset');
-                $('#company_deliveryAddress_others').val('');
+                vm.consumer.deliveryAddress_others = '';
             }
         });
     }

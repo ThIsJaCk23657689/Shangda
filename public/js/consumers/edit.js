@@ -416,6 +416,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     searchByTaxID: function searchByTaxID(e) {
+      var _this = this;
+
       // 分公司欄位設定為非必填，且disabled開啟，必填星號消失。
       $('#branch_label').addClass('text-muted');
       $('#company_branch').attr('disabled', true);
@@ -444,9 +446,9 @@ __webpack_require__.r(__webpack_exports__);
               case "3":
                 // 如果統編是公司類型的話
                 // 自動填上統編類型、公司名稱、負責人名稱
+                _this.consumer.name = response.data.result['0'].Company_Name;
+                _this.consumer.principal = response.data.result['0'].Responsible_Name;
                 $('#company_taxID_type').val(response.data.type);
-                $('#company_name').val(response.data.result['0'].Company_Name);
-                $('#company_principal').val(response.data.result['0'].Responsible_Name);
                 break;
 
               case "2":
@@ -488,52 +490,49 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {},
   mounted: function mounted() {
+    var vm = this;
     $('#company_monthlyCheck').change(function (e) {
       if ($(this).prop("checked")) {
-        $('#company_monthlyCheckDate').val(0);
+        vm.consumer.monthlyCheckDate = 0;
         $('#company_monthlyCheckDate').attr('disabled', true);
       } else {
-        $('#company_monthlyCheckDate').val(0);
+        vm.consumer.monthlyCheckDate = 0;
         $('#company_monthlyCheckDate').attr('disabled', false);
       }
-    });
-    $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').on('input', function () {
-      // Set the required property of the other input to false if this input is not empty.
-      $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').not(this).prop('required', !$(this).val().length);
-    });
-    $('input[name=company_operator_phone_2],input[name=company_operator_tel_2]').on('input', function () {
-      // Set the required property of the other input to false if this input is not empty.
-      $('input[name=company_operator_phone_2],input[name=company_operator_tel_2]').not(this).prop('required', !$(this).val().length);
-    });
+    }); // $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').on('change', function () {
+    //     // Set the required property of the other input to false if this input is not empty.
+    //     $('input[name=company_operator_phone_1],input[name=company_operator_tel_1]').not(this).prop('required', !$(this).val().length);
+    // });
+
     $('#isSameAsPrincipal').click(function (e) {
       if ($(this).prop("checked")) {
-        $('#company_operator_name_1').val($('#company_principal').val());
+        vm.consumer.operator_name_1 = $('#company_principal').val();
       } else {
-        $('#company_operator_name_1').val('');
+        vm.consumer.operator_name_1 = '';
       }
     });
     $('#isSameAsComTel').click(function (e) {
       if ($(this).prop("checked")) {
-        $('#company_operator_tel_1').val($('#company_tel').val());
+        vm.consumer.operator_tel_1 = $('#company_tel').val();
       } else {
-        $('#company_operator_tel_1').val('');
+        vm.consumer.operator_tel_1 = '';
       }
     });
     $('#isSameAsComEmail').click(function (e) {
       if ($(this).prop("checked")) {
-        $('#company_operator_email_1').val($('#company_email').val());
+        vm.consumer.operator_email_1 = $('#company_email').val();
       } else {
-        $('#company_operator_email_1').val('');
+        vm.consumer.operator_email_1 = '';
       }
     });
     $('#isSameAsComAddress').click(function (e) {
       if ($(this).prop("checked")) {
         var $zipcode = $('#company_address_twzipcode').twzipcode('get', 'zipcode');
         $('#company_deliveryAddress_twzipcode').twzipcode('set', $zipcode[0]);
-        $('#company_deliveryAddress_others').val($('#company_address_others').val());
+        vm.consumer.deliveryAddress_others = $('#company_address_others').val();
       } else {
         $('#company_deliveryAddress_twzipcode').twzipcode('reset');
-        $('#company_deliveryAddress_others').val('');
+        vm.consumer.deliveryAddress_others = '';
       }
     });
   }
@@ -1009,9 +1008,8 @@ var render = function() {
                     id: "company_taxID",
                     name: "company_taxID",
                     type: "text",
-                    required: "",
                     autocomplete: "off",
-                    placeholder: "例：12345678"
+                    required: ""
                   },
                   domProps: { value: _vm.consumer.taxID },
                   on: {
@@ -1601,8 +1599,7 @@ var render = function() {
                 name: "company_operator_phone_1",
                 type: "text",
                 autocomplete: "off",
-                placeholder: "例：0912345678",
-                required: ""
+                placeholder: "例：0912345678"
               },
               domProps: { value: _vm.consumer.operator_phone_1 },
               on: {
@@ -1951,7 +1948,7 @@ var render = function() {
                 staticClass: "btn btn-block btn-success",
                 attrs: { type: "submit" }
               },
-              [_vm._v("\n                    確認修改\n                ")]
+              [_vm._v("\r\n                    確認修改\r\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -1960,7 +1957,7 @@ var render = function() {
                 staticClass: "btn btn-block btn-danger",
                 attrs: { href: _vm.ConsumersIndexURL }
               },
-              [_vm._v("\n                    返回列表\n                ")]
+              [_vm._v("\r\n                    返回列表\r\n                ")]
             )
           ])
         ])
@@ -1975,7 +1972,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_taxID" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("統一編號\n                        ")
+      _vm._v("統一編號\r\n                        ")
     ])
   },
   function() {
@@ -1986,7 +1983,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "company_taxID_type" } }, [
           _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("統編類型\n                        ")
+          _vm._v("統編類型\r\n                        ")
         ]),
         _vm._v(" "),
         _c("input", {
@@ -2008,7 +2005,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_name" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("公司名稱\n                        ")
+      _vm._v("公司名稱\r\n                        ")
     ])
   },
   function() {
@@ -2031,7 +2028,7 @@ var staticRenderFns = [
           },
           [_vm._v("*")]
         ),
-        _vm._v("分店名\n                        ")
+        _vm._v("分店名\r\n                        ")
       ]
     )
   },
@@ -2041,7 +2038,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_monthlyCheckDate" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("月結日\n                        ")
+      _vm._v("月結日\r\n                        ")
     ])
   },
   function() {
@@ -2075,7 +2072,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_uncheckedAmount" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("未沖銷帳款\n                        ")
+      _vm._v("未沖銷帳款\r\n                        ")
     ])
   },
   function() {
@@ -2084,7 +2081,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_totalConsumption" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("總消費額\n                        ")
+      _vm._v("總消費額\r\n                        ")
     ])
   },
   function() {
@@ -2093,7 +2090,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_operator_name_1" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("聯絡窗口1 - 姓名\n                ")
+      _vm._v("聯絡窗口1 - 姓名\r\n                ")
     ])
   },
   function() {
@@ -2122,7 +2119,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_operator_tel_1" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("聯絡窗口1 - 電話\n                ")
+      _vm._v("聯絡窗口1 - 電話\r\n                ")
     ])
   },
   function() {
@@ -2151,7 +2148,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_operator_phone_1" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("聯絡窗口1 - 手機\n                ")
+      _vm._v("聯絡窗口1 - 手機\r\n                ")
     ])
   },
   function() {
@@ -2180,7 +2177,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_operator_phone_2" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("聯絡窗口2 - 手機\n                ")
+      _vm._v("聯絡窗口2 - 手機\r\n                ")
     ])
   },
   function() {
@@ -2939,7 +2936,7 @@ var render = function() {
                 staticClass: "btn btn-block btn-success",
                 attrs: { type: "submit" }
               },
-              [_vm._v("\n                    確認修改\n                ")]
+              [_vm._v("\r\n                    確認修改\r\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -2948,7 +2945,7 @@ var render = function() {
                 staticClass: "btn btn-block btn-danger",
                 attrs: { href: _vm.ConsumersIndexURL }
               },
-              [_vm._v("\n                    返回列表\n                ")]
+              [_vm._v("\r\n                    返回列表\r\n                ")]
             )
           ])
         ])
@@ -2963,7 +2960,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_name" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("姓名\n                        ")
+      _vm._v("姓名\r\n                        ")
     ])
   },
   function() {
@@ -2972,7 +2969,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_gender" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("性別\n                        ")
+      _vm._v("性別\r\n                        ")
     ])
   },
   function() {
@@ -2981,7 +2978,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_monthlyCheckDate" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("月結日\n                        ")
+      _vm._v("月結日\r\n                        ")
     ])
   },
   function() {
@@ -3015,7 +3012,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_uncheckedAmount" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("未沖銷帳款\n                        ")
+      _vm._v("未沖銷帳款\r\n                        ")
     ])
   },
   function() {
@@ -3024,7 +3021,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_totalConsumption" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("總消費額\n                        ")
+      _vm._v("總消費額\r\n                        ")
     ])
   },
   function() {
@@ -3033,7 +3030,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_phone" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("手機\n                ")
+      _vm._v("手機\r\n                ")
     ])
   },
   function() {
@@ -3042,7 +3039,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_tel" } }, [
       _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-      _vm._v("電話\n                ")
+      _vm._v("電話\r\n                ")
     ])
   },
   function() {

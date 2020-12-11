@@ -46,7 +46,6 @@ class AnnouncementController extends Controller
     }
 
     public function destroy($id){
-
         $this->AnnouncementService->delete($id);
         return redirect()->route('announcements.index');
     }
