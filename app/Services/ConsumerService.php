@@ -139,16 +139,145 @@ class ConsumerService extends BaseService
         ];
     }
 
-    public function getList()
-    {
-        $consumers = ConsumerEloquent::withTrashed()->get();
-        return $consumers;
+    // public function getList()
+    // {
+    //     $consumers = ConsumerEloquent::withTrashed()->get();
+    //     return $consumers;
+    // }
+
+    // category: 0全部、1個人帳號、2公司帳號、3管理者創建、4顧客創建
+    // status: 0全部、1已封鎖、2未封鎖
+    // type: 0全部 1帳號 2名稱 3統編 4聯絡人名稱 5聯絡人電話
+    // orderby: 1.建立日期(舊->新) 2.建立日期(新->舊) 3.更新日期(舊->新) 4.更新日期(新->舊)
+    public function getList($request){
+        if($request->first_page){
+            $skip = 0;
+        }else{
+            $skip = $request->skip ?? 0 ;
+        }
+
+        $take = $request->take ?? 10;
+        
+        $category = $request->category ?? 0; // default 0
+        $status = $request->status ?? 0; // default 0
+        $type = $request->type ?? 0; // default 0
+        $keywords = ($request->keywords != "") ? explode(" ", $request->keywords) : [];
+        $orderby = $request->orderby ?? 4; // default 4
+        $type_arr = [
+            '', 'account', 'name', 'taxID', 'operator_name_1', 'operator_tel_1',
+        ];
+
+        if($keywords == [] && $status== 0 && $category == 0 && $type== 0 && $orderby == 4){
+            // all default
+            $consumers_tmp = new ConsumerEloquent();
+            $count = $consumers_tmp->count();
+            $consumers = $consumers_tmp->orderBy('updated_at', 'desc')->withTrashed()->skip($skip)->take($take)->get();
+        }else{
+
+            $consumers_tmp = ConsumerEloquent::query()->where(function ($query) use ($keywords, $status, $category, $type, $type_arr) {
+                $c = 0;
+                if($type != 0 && $keywords != []){
+                    foreach ($keywords as $keyword) {
+                        $keyword = '%'.$keyword.'%';
+                        if($c == 0){
+                            $query->where($type_arr[$type], 'like', $keyword);
+                            $c++;
+                        }else{
+                            $query->orWhere($type_arr[$type], 'like', $keyword);
+                        }
+                    }
+                }else if($keywords != []){
+                    foreach ($keywords as $keyword) {
+                        $keyword = '%'.$keyword.'%';
+                        for($i = 1; $i <= 4; $i++){
+                            if($c == 0){
+                                $query->where($type_arr[$i], 'like', $keyword);
+                                $c++;
+                            }else{
+                                $query->orWhere($type_arr[$i], 'like', $keyword);
+                            }
+                        }
+                    }
+                }
+            });
+
+            if($status == 0){
+                $consumers_tmp->withTrashed();
+            }else if($status == 1){
+                $consumers_tmp->onlyTrashed();
+            }else if($status == 2){
+                $consumers_tmp->where('deleted_at', NULL);
+            }
+
+            if($category == 1){
+                $consumers_tmp->where('account_type', 0);
+            }else if($category == 2){
+                $consumers_tmp->where('account_type', 1);
+            }else if($category == 3){
+                $consumers_tmp->where('who_created', 1);
+            }else if($category == 4){
+                $consumers_tmp->where('who_created', 0);
+            }
+
+            $count = $consumers_tmp->count();
+            if($orderby == 1){
+                // 建立時間 舊到新
+                $consumers = $consumers_tmp->orderBy('created_at', 'asc')->skip($skip)->take($take)->get();
+            }else if($orderby == 2){
+                // 建立時間 新到舊
+                $consumers = $consumers_tmp->orderBy('created_at', 'desc')->skip($skip)->take($take)->get();
+            }else if($orderby == 3){
+                // 建立時間 舊到新
+                $consumers = $consumers_tmp->orderBy('updated_at', 'asc')->skip($skip)->take($take)->get();
+            }else if($orderby == 4){
+                // 建立時間 新到舊
+                $consumers = $consumers_tmp->orderBy('updated_at', 'desc')->skip($skip)->take($take)->get();
+            }
+        }
+
+        // '', 'account', 'name', 'taxID', 'operator_name_1', 'operator_tel_1', 'uncheckedAmount'
+        $c = 1;
+        foreach($consumers as $consumer){
+            $consumer['index'] = $skip + $c;
+            $consumer['taxID'] = $consumer->taxID ?? '無';
+            $consumer['operator_name_1'] = $consumer->operator_name_1 ?? '無';
+            $consumer['operator_tel_1'] = $consumer->operator_tel_1 ?? '無';
+
+            if($consumer->trashed()){
+                // 已被封鎖
+                $consumer['action'] =
+                    '<a href="' . route('consumers.show', [$consumer->id]) . '" class="btn btn-md btn-info"><i class="fas fa-info-circle"></i></a>
+                    <button type="button" class="btn btn-md btn-warning unlock-btn"><i class="fas fa-unlock"></i></button type="button">
+                    <span class="d-none">' . route('consumers.destroy', [$consumer->id]) . '</span>';
+            }else{
+                $consumer['action'] =
+                    '<a href="' . route('consumers.show', [$consumer->id]) . '" class="btn btn-md btn-info"><i class="fas fa-info-circle"></i></a>
+                    <a href="' . route('consumers.edit', [$consumer->id]) . '" class="btn btn-md btn-success"><i class="fas fa-pencil-alt"></i></a>
+                    <button type="button" class="btn btn-md btn-danger delete-btn"><i class="fas fa-user-slash"></i></button type="button">
+                    <span class="d-none">' . route('consumers.destroy', [$consumer->id]) . '</span>';
+            }
+            
+            $c++;
+        }
+
+        $result = [
+            'consumers' => $consumers, 
+            'count' => $count
+        ];
+
+        return $result;
     }
+    
 
     public function getOne($id)
     {
         $consumer = ConsumerEloquent::withTrashed()->findOrFail($id);
         return $consumer;
+    }
+
+    public function count()
+    {
+        return ConsumerEloquent::count();
     }
 
     public function getSaleOrdersFrontend($request)

@@ -7,6 +7,7 @@ use App\Http\Requests\ConsumerRequest;
 use App\Http\Requests\ConsumerEditRequest;
 use App\Http\Requests\DiscountRequest;
 use App\Services\ConsumerService;
+use Illuminate\Validation\Rule;
 
 class ConsumerController extends Controller
 {
@@ -21,9 +22,8 @@ class ConsumerController extends Controller
 
     public function index()
     {
-        $consumers = $this->ConsumerService->getList();
-        $lastUpdate = $this->ConsumerService->getlastupdate();
-        return view('consumers.index', compact('consumers', 'lastUpdate'));
+        $DataTotalCount = $this->ConsumerService->count();
+        return view('consumers.index', compact('DataTotalCount'));
     }
 
     public function create()
@@ -219,6 +219,36 @@ class ConsumerController extends Controller
         return response()->json([
             'status' => 'OK',
             'consumer' => $consumer
+        ]);
+    }
+
+    public function getList(Request $request){
+        $this->validate($request, [
+            // category: 0全部、1個人帳號、2公司帳號、3管理者創建、4顧客創建
+            'category' => 'nullable|integer', 
+
+            // status: 0全部、1已封鎖、2未封鎖
+            'status' => 'nullable|integer', 
+
+            // type: 0全部 1帳號 2名稱 3統編 4聯絡人名稱 5聯絡人電話 6未沖帳總額
+            'type' => 'nullable|integer', 
+
+            'keywords' => 'nullable|string',
+            'skip' => 'nullable|integer',
+            'take' => 'nullable|integer|max:100',
+            'orderby' => [
+                'nullable',
+                Rule::in([0, 1, 2, 3, 4]), //  1.建立日期(舊->新) 2.建立日期(新->舊) 3.更新日期(舊->新) 4.更新日期(新->舊)
+            ],
+        ]);
+
+        $result = $this->ConsumerService->getList($request);
+
+        return response()->json([
+            'status' => 'OK',
+            'DataTotalCount' => $result['count'],
+            'consumers' => $result['consumers'],
+            'request' => $request,
         ]);
     }
 }

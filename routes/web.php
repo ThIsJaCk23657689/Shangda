@@ -139,9 +139,12 @@ Route::prefix('/backend')->group(function(){
         Route::get('showName','ConsumerController@showName')->name('consumers.showName');
         Route::post('getInfo','ConsumerController@getInfo')->name('consumers.getInfo');
 
+        // 透過統編去外部網站查詢該對應公司之名稱、負責人與分店名稱
         Route::get('taxID/{taxID}/getData','ConsumerController@getDataByTaxID')->name('consumers.getData');
 
         Route::get('{id}/json', 'ConsumerController@getOne')->name('consumers.getOne');
+        Route::get('/json', 'ConsumerController@getList')->name('consumers.getList');
+
         Route::get('{id}/discounts','ConsumerController@showDiscountsPage')->name('consumers.showDiscountsPage');
         Route::post('{id}/discounts','ConsumerController@editDiscounts');
         Route::get('{id}/discounts/list', 'ConsumerController@getDiscountsList')->name('consumers.getDiscountsList');
