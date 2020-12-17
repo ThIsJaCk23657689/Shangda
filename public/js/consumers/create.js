@@ -435,8 +435,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['uploadimg'],
+  props: ['uploadimg', 'formtype'],
   data: function data() {
     return {
       ConsumersIndexURL: $('#ConsumersIndexURL').text(),
@@ -805,8 +810,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['uploadimg'],
+  props: ['uploadimg', 'formtype'],
   data: function data() {
     return {
       ConsumersIndexURL: $('#ConsumersIndexURL').text(),
@@ -1132,9 +1141,13 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(9),
+            _vm.formtype == "backend"
+              ? _c("div", { staticClass: "col-md-4" }, [_vm._m(9)])
+              : _vm._e(),
             _vm._v(" "),
-            _vm._m(10)
+            _vm.formtype == "backend"
+              ? _c("div", { staticClass: "col-md-4" }, [_vm._m(10)])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _vm._m(11)
@@ -1154,14 +1167,23 @@ var render = function() {
       _c("div", { staticClass: "row justify-content-center" }, [
         _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "form-group" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-block btn-primary",
-                attrs: { type: "submit" }
-              },
-              [_vm._v("\r\n                    確認新增\r\n                ")]
-            ),
+            _vm.formtype == "backend"
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-block btn-primary",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("\n                    確認新增\n                ")]
+                )
+              : _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-block btn-primary",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("\n                    註冊\n                ")]
+                ),
             _vm._v(" "),
             _c(
               "a",
@@ -1169,7 +1191,7 @@ var render = function() {
                 staticClass: "btn btn-block btn-danger",
                 attrs: { href: _vm.ConsumersIndexURL }
               },
-              [_vm._v("\r\n                    返回列表\r\n                ")]
+              [_vm._v("\n                    返回列表\n                ")]
             )
           ])
         ])
@@ -1197,7 +1219,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_account" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("帳號\r\n                ")
+            _vm._v("帳號\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1219,7 +1241,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_password" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("密碼\r\n                ")
+            _vm._v("密碼\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1241,7 +1263,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_password_confirmation" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("密碼確認\r\n                ")
+            _vm._v("密碼確認\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1278,7 +1300,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_taxID" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("統一編號\r\n                        ")
+      _vm._v("統一編號\n                        ")
     ])
   },
   function() {
@@ -1289,7 +1311,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "company_taxID_type" } }, [
           _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("統編類型\r\n                        ")
+          _vm._v("統編類型\n                        ")
         ]),
         _vm._v(" "),
         _c("input", {
@@ -1314,7 +1336,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_name" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("公司名稱\r\n                        ")
+            _vm._v("公司名稱\n                        ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1350,7 +1372,7 @@ var staticRenderFns = [
                 },
                 [_vm._v("*")]
               ),
-              _vm._v("分店名\r\n                        ")
+              _vm._v("分店名\n                        ")
             ]
           ),
           _vm._v(" "),
@@ -1422,7 +1444,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "company_monthlyCheckDate" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("月結日\r\n                        ")
+      _vm._v("月結日\n                        ")
     ])
   },
   function() {
@@ -1455,50 +1477,46 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "company_uncheckedAmount" } }, [
-          _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("未沖銷帳款\r\n                        ")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "company_uncheckedAmount",
-            name: "company_uncheckedAmount",
-            type: "text",
-            value: "0",
-            autocomplete: "off",
-            required: ""
-          }
-        })
-      ])
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "company_uncheckedAmount" } }, [
+        _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
+        _vm._v("未沖銷帳款\n                        ")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          id: "company_uncheckedAmount",
+          name: "company_uncheckedAmount",
+          type: "text",
+          value: "0",
+          autocomplete: "off",
+          required: ""
+        }
+      })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "company_totalConsumption" } }, [
-          _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("總消費額\r\n                        ")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "company_totalConsumption",
-            name: "company_totalConsumption",
-            type: "text",
-            value: "0",
-            autocomplete: "off",
-            required: ""
-          }
-        })
-      ])
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "company_totalConsumption" } }, [
+        _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
+        _vm._v("總消費額\n                        ")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          id: "company_totalConsumption",
+          name: "company_totalConsumption",
+          type: "text",
+          value: "0",
+          autocomplete: "off",
+          required: ""
+        }
+      })
     ])
   },
   function() {
@@ -1587,7 +1605,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_email" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("公司信箱\r\n                ")
+            _vm._v("公司信箱\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1634,7 +1652,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_operator_name_1" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("聯絡窗口1 - 姓名\r\n                ")
+            _vm._v("聯絡窗口1 - 姓名\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1672,7 +1690,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_operator_tel_1" } }, [
             _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-            _vm._v("聯絡窗口1 - 電話\r\n                ")
+            _vm._v("聯絡窗口1 - 電話\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1713,7 +1731,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_operator_phone_1" } }, [
             _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-            _vm._v("聯絡窗口1 - 手機\r\n                ")
+            _vm._v("聯絡窗口1 - 手機\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1829,7 +1847,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "company_operator_phone_2" } }, [
             _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-            _vm._v("聯絡窗口2 - 手機\r\n                ")
+            _vm._v("聯絡窗口2 - 手機\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -2157,9 +2175,13 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(7),
+            _vm.formtype == "backend"
+              ? _c("div", { staticClass: "col-md-4" }, [_vm._m(7)])
+              : _vm._e(),
             _vm._v(" "),
-            _vm._m(8)
+            _vm.formtype == "backend"
+              ? _c("div", { staticClass: "col-md-4" }, [_vm._m(8)])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _vm._m(9)
@@ -2175,14 +2197,23 @@ var render = function() {
       _c("div", { staticClass: "row justify-content-center" }, [
         _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "form-group" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-block btn-primary",
-                attrs: { type: "submit" }
-              },
-              [_vm._v("\r\n                    確認新增\r\n                ")]
-            ),
+            _vm.formtype == "backend"
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-block btn-primary",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("\n                    確認新增\n                ")]
+                )
+              : _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-block btn-primary",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("\n                    註冊\n                ")]
+                ),
             _vm._v(" "),
             _c(
               "a",
@@ -2190,7 +2221,7 @@ var render = function() {
                 staticClass: "btn btn-block btn-danger",
                 attrs: { href: _vm.ConsumersIndexURL }
               },
-              [_vm._v("\r\n                    返回列表\r\n                ")]
+              [_vm._v("\n                    返回列表\n                ")]
             )
           ])
         ])
@@ -2218,7 +2249,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "individual_account" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("帳號\r\n                ")
+            _vm._v("帳號\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -2240,7 +2271,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "individual_password" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("密碼\r\n                ")
+            _vm._v("密碼\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -2262,7 +2293,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "individual_password_confirmation" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("密碼確認\r\n                ")
+            _vm._v("密碼確認\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -2300,7 +2331,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "individual_name" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("姓名\r\n                        ")
+            _vm._v("姓名\n                        ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -2348,7 +2379,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "individual_gender" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("性別\r\n                        ")
+            _vm._v("性別\n                        ")
           ]),
           _vm._v(" "),
           _c(
@@ -2397,7 +2428,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "individual_monthlyCheckDate" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("月結日\r\n                        ")
+      _vm._v("月結日\n                        ")
     ])
   },
   function() {
@@ -2430,50 +2461,46 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "individual_uncheckedAmount" } }, [
-          _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("未沖銷帳款\r\n                        ")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "individual_uncheckedAmount",
-            name: "individual_uncheckedAmount",
-            type: "text",
-            value: "0",
-            autocomplete: "off",
-            required: ""
-          }
-        })
-      ])
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "individual_uncheckedAmount" } }, [
+        _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
+        _vm._v("未沖銷帳款\n                        ")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          id: "individual_uncheckedAmount",
+          name: "individual_uncheckedAmount",
+          type: "text",
+          value: "0",
+          autocomplete: "off",
+          required: ""
+        }
+      })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "individual_totalConsumption" } }, [
-          _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("總消費額\r\n                        ")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            id: "individual_totalConsumption",
-            name: "individual_totalConsumption",
-            type: "text",
-            value: "0",
-            autocomplete: "off",
-            required: ""
-          }
-        })
-      ])
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "individual_totalConsumption" } }, [
+        _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
+        _vm._v("總消費額\n                        ")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          id: "individual_totalConsumption",
+          name: "individual_totalConsumption",
+          type: "text",
+          value: "0",
+          autocomplete: "off",
+          required: ""
+        }
+      })
     ])
   },
   function() {
@@ -2520,7 +2547,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "individual_phone" } }, [
             _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-            _vm._v("手機\r\n                ")
+            _vm._v("手機\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -2546,7 +2573,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "individual_tel" } }, [
             _c("span", { staticClass: "text-warning mr-2" }, [_vm._v("*")]),
-            _vm._v("電話\r\n                ")
+            _vm._v("電話\n                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -2571,7 +2598,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "individual_email" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("信箱\r\n                ")
+            _vm._v("信箱\n                ")
           ]),
           _vm._v(" "),
           _c("input", {

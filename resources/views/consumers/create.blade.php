@@ -56,8 +56,8 @@
                     </div>
                 </div>
 
-                <individual-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'"></individual-consumer-create-form>
-                <company-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'"></company-consumer-create-form>
+                <individual-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'backend'"></individual-consumer-create-form>
+                <company-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'backend'"></company-consumer-create-form>
             </div>
         </div>
     </div>

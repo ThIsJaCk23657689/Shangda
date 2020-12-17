@@ -1,4 +1,7 @@
+import Paginate from 'vuejs-paginate';
 import Swal from 'sweetalert2';
+import Cropper from 'cropperjs';
+import DataTable from 'laravel-vue-datatable';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -6,9 +9,11 @@ import Swal from 'sweetalert2';
  */
 
 require('./bootstrap');
+require('./../../node_modules/jquery-cropper/dist/jquery-cropper')
 
 window.Vue = require('vue');
 window.Swal = Swal;
+window.Cropper = Cropper;
 
 /**
  * The following block of code may be used to automatically register your
@@ -22,6 +27,10 @@ window.Swal = Swal;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('option-item', require('./components/Partials/OptionItem.vue').default);
+Vue.component('loading-modal', require('./components/Modals/LoadingModal.vue').default);
+Vue.component('paginate', Paginate);
+Vue.use(DataTable);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -159,9 +168,9 @@ const navbar = new Vue({
         }
 
         $.closeModal = function() {
-                Swal.close();
-            }
-            // ==================== Swal 函式操作 ====================
+            Swal.close();
+        }
+        // ==================== Swal 函式操作 ====================
     },
     mounted() {
         let vm = this;
@@ -204,4 +213,17 @@ $(function() {
     }
 
     $.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
+
+    $.isUrl = function(url) {
+        var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+        return regexp.test(url);
+    }
+
+    $.formatDate = function(datetime) {
+        let fulldate = new Date(datetime);
+        let year = fulldate.getFullYear();
+        let month = (fulldate.getMonth() + 1) >= 10 ? (fulldate.getMonth() + 1) : ("0" + (fulldate.getMonth() + 1));
+        let date = fulldate.getDate() < 10 ? ("0" + fulldate.getDate()) : fulldate.getDate();
+        return year + '-' + month + '-' + date;
+    }
 });

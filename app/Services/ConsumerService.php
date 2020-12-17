@@ -50,8 +50,8 @@ class ConsumerService extends BaseService
                 'gender' => $request->individual_gender,
                 'birthday' => $request->individual_birthday,
                 'monthlyCheckDate' => $request->individual_monthlyCheckDate ?? 0,
-                'uncheckedAmount' => $request->individual_uncheckedAmount,
-                'totalConsumption' => $request->individual_totalConsumption,
+                'uncheckedAmount' => $request->individual_uncheckedAmount ?? 0,
+                'totalConsumption' => $request->individual_totalConsumption ?? 0,
                 'policy_agreement' => '1',
                 'comment' => $request->individual_comment,
 
@@ -79,8 +79,8 @@ class ConsumerService extends BaseService
                 'principal' => $request->company_principal,
                 // 'idNumber' => strtoupper($request->company_idNumber),
                 'monthlyCheckDate' => $request->company_monthlyCheckDate ?? 0,
-                'uncheckedAmount' => $request->company_uncheckedAmount,
-                'totalConsumption' => $request->company_totalConsumption,
+                'uncheckedAmount' => $request->company_uncheckedAmount ?? 0,
+                'totalConsumption' => $request->company_totalConsumption ?? 0,
                 'policy_agreement' => '1',
                 'comment' => $request->company_comment,
 
@@ -135,7 +135,8 @@ class ConsumerService extends BaseService
 
         return [
             'status' => 200,
-            'message' => '新增顧客成功！'
+            'message' => '新增顧客成功！',
+            'consumer' => $consumer
         ];
     }
 
@@ -157,7 +158,7 @@ class ConsumerService extends BaseService
         }
 
         $take = $request->take ?? 10;
-        
+
         $category = $request->category ?? 0; // default 0
         $status = $request->status ?? 0; // default 0
         $type = $request->type ?? 0; // default 0
@@ -256,18 +257,18 @@ class ConsumerService extends BaseService
                     <button type="button" class="btn btn-md btn-danger delete-btn"><i class="fas fa-user-slash"></i></button type="button">
                     <span class="d-none">' . route('consumers.destroy', [$consumer->id]) . '</span>';
             }
-            
+
             $c++;
         }
 
         $result = [
-            'consumers' => $consumers, 
+            'consumers' => $consumers,
             'count' => $count
         ];
 
         return $result;
     }
-    
+
 
     public function getOne($id)
     {

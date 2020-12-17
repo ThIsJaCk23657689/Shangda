@@ -100,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" v-if="formtype == 'backend'">
                     <div class="form-group">
                         <label for="individual_uncheckedAmount">
                             <span class="text-danger mr-2">*</span>未沖銷帳款
@@ -108,7 +108,7 @@
                         <input id="individual_uncheckedAmount" name="individual_uncheckedAmount" type="text" class="form-control" value="0" autocomplete="off" required>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" v-if="formtype == 'backend'">
                     <div class="form-group">
                         <label for="individual_totalConsumption">
                             <span class="text-danger mr-2">*</span>總消費額
@@ -116,6 +116,7 @@
                         <input id="individual_totalConsumption" name="individual_totalConsumption" type="text" class="form-control" value="0" autocomplete="off" required>
                     </div>
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -198,8 +199,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary">
+                <button type="submit" class="btn btn-block btn-primary" v-if="formtype == 'backend'">
                     確認新增
+                </button>
+                <button type="submit" class="btn btn-block btn-primary" v-else>
+                    註冊
                 </button>
                 <a :href="ConsumersIndexURL" class="btn btn-block btn-danger">
                     返回列表
@@ -213,7 +217,7 @@
 
 <script>
 export default {
-    props: ['uploadimg'],
+    props: ['uploadimg', 'formtype'],
     data(){
         return {
             ConsumersIndexURL: $('#ConsumersIndexURL').text(),

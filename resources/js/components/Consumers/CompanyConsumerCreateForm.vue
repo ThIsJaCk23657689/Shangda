@@ -116,7 +116,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-4" v-if="formtype == 'backend'">
                     <div class="form-group">
                         <label for="company_uncheckedAmount">
                             <span class="text-danger mr-2">*</span>未沖銷帳款
@@ -124,7 +125,7 @@
                         <input id="company_uncheckedAmount" name="company_uncheckedAmount" type="text" class="form-control" value="0" autocomplete="off" required>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" v-if="formtype == 'backend'">
                     <div class="form-group">
                         <label for="company_totalConsumption">
                             <span class="text-danger mr-2">*</span>總消費額
@@ -132,6 +133,7 @@
                         <input id="company_totalConsumption" name="company_totalConsumption" type="text" class="form-control" value="0" autocomplete="off" required>
                     </div>
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -326,8 +328,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary">
+                <button type="submit" class="btn btn-block btn-primary" v-if="formtype == 'backend'">
                     確認新增
+                </button>
+                <button type="submit" class="btn btn-block btn-primary" v-else>
+                    註冊
                 </button>
                 <a :href="ConsumersIndexURL" class="btn btn-block btn-danger">
                     返回列表
@@ -340,7 +345,7 @@
 
 <script>
 export default {
-    props: ['uploadimg'],
+    props: ['uploadimg', 'formtype'],
     data(){
         return {
             ConsumersIndexURL: $('#ConsumersIndexURL').text(),
@@ -401,14 +406,14 @@ export default {
 
                                 // 由於目前無法抓取商業統編資料，所以不自動填上資料了
                                 $('#company_taxID_type').val(response.data.type);
-                 
+
                                 break;
                             default:
                                 // 如果統編為無效的話
                                 $.showWarningModal('查無此統編相關資料，無法使用此統編進行註冊。');
                                 $('#company_taxID').val('');
                                 break;
-                            }   
+                            }
                             $.closeModal();
                     }).catch((error) => {
                         console.error('查詢統一編號時發生錯誤，錯誤訊息：' + error);

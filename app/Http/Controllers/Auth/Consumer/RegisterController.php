@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Services\ConsumerService;
 use App\Events\ConsumerRegisteredEvent;
 use Illuminate\Http\Request;
+use App\Http\Requests\ConsumerRegisterRequest;
 use Validator;
 use Auth;
 
@@ -26,28 +27,29 @@ class RegisterController extends Controller
         return view('frontend.consumers.auth.register');
     }
 
-    public function register(Request $request){
+    public function register(ConsumerRegisterRequest $request){
 
         // 驗證資料
-        $validator = Validator::make($request->all(), $this->generateRules($request));
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), 422);
-        }
+        // $validator = Validator::make($request->all(), $this->generateRules($request));
+        // if ($validator->fails()) {
+            // return response()->json($validator->messages(), 422);
+        // }
 
         // 新增顧客資料
-        $consumer = $this->ConsumerService->add($request);
+        $result = $this->ConsumerService->add($request);
 
         // 發送事件
-        event(new ConsumerRegisteredEvent($consumer));
+        event(new ConsumerRegisteredEvent($result['consumer']));
 
         // 登入
-        $this->guard()->login($consumer);
+        $this->guard()->login($result['consumer']);
 
-        // return response()->json([
-        //     'msg' => 'Login Successfully',
-        //     'redirect_url' => redirect()->intended($this->redirectPath())->getTargetUrl()
-        // ]);
-        return redirect()->route('index');
+        return response()->json([
+            'msg' => 'Login Successfully',
+            'url' => redirect()->intended($this->redirectPath())->getTargetUrl()
+        ]);
+
+        //return redirect()->route('index');
     }
 
     protected function generateRules(Request $request){
@@ -62,14 +64,14 @@ class RegisterController extends Controller
                 'individual_password' => 'required|string|min:6|max:30|confirmed',
 
                 'individual_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'individual_idNumber' => 'required|string|size:10|tw_id',
+                // 'individual_idNumber' => 'required|string|size:10|tw_id',
                 'individual_name' => 'required|string|min:2|max:255',
                 'individual_shortName' => 'nullable|string|min:1|max:255',
                 'individual_gender' => 'required|integer|min:0|max:2',
                 'individual_birthday' => 'nullable|date',
                 'individual_monthlyCheckDate' => 'nullable|integer|min:0|max:31',
-                'individual_uncheckedAmount' => 'required|numeric',
-                'individual_totalConsumption' => 'required|numeric',
+                // 'individual_uncheckedAmount' => 'required|numeric',
+                // 'individual_totalConsumption' => 'required|numeric',
                 'individual_comment' => 'nullable|string|max:255',
 
                 'individual_phone' => 'required_without:individual_tel|nullable|string|size:10',

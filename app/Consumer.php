@@ -104,7 +104,7 @@ class Consumer extends Authenticatable
     {
         $notification = new ResetPassword($token);
         $notification::toMailUsing(function(Consumer $notifiable, string $token){
-            
+
             return (new MailMessage())
                 ->subject(Lang::get('Reset Password Notification'))
                 ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
