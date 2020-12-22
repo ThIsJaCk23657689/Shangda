@@ -7,7 +7,7 @@ const app = new Vue({
             products: [],
             all_products: [],
             products_disabled: [],
-            
+
             original_discounts: [],
             discounts: [],
         }
@@ -32,7 +32,7 @@ const app = new Vue({
                 }
                 this.products_disabled.splice(index, 1);
             }
-            
+
             this.products = [];
             for(let i = 0; i < this.all_products.length; i++){
                 let canAdd = true;
@@ -49,43 +49,52 @@ const app = new Vue({
     },
     created(){
         // 取得所有商品列表(id與name)
+        $.showLoadingModal();
         let getProductsName = $('#getProductsName').html();
         axios.get(getProductsName).then(response => {
+
             this.products = response.data;
             this.all_products = this.products;
-        });
 
-        // 取得折扣資料
-        let getDiscountsList = $('#getDiscountsList').html();
-        axios.get(getDiscountsList).then(response => {
-            this.original_discounts = response.data.discounts;
-            
-            // 將　original_discounts　內的資料加入到　discounts　中
-            for(let i = 0; i < this.original_discounts.length; i++){
-                
-                this.refreshProducts({
-                    id: this.original_discounts[i].id - 1,
-                    type: 'add'
-                });
+            // 取得折扣資料
+            let getDiscountsList = $('#getDiscountsList').html();
+            axios.get(getDiscountsList).then(response => {
+                $.closeModal();
+                this.original_discounts = response.data.discounts;
 
-                this.discounts.push({
-                    count: this.discounts.length,
-                    product: {
-                        id: this.original_discounts[i].id,
-                        shownID: this.original_discounts[i].shownID,
-                        name: this.original_discounts[i].name,
-                        costprice: Math.round(this.original_discounts[i].costprice * 1000) / 1000,
-                        profit: Math.round(this.original_discounts[i].profit * 1000) / 1000,
-                        retailPrice: Math.round(this.original_discounts[i].retailPrice * 1000) / 1000,
-                        showUnit: this.original_discounts[i].showUnit
-                    },
-                    relativePrice: this.original_discounts[i].pivot.price,
-                    absolutePirce: Math.round((this.original_discounts[i].retailPrice - this.original_discounts[i].pivot.price) * 1000) / 1000,
-                });
-            }
+                // 將　original_discounts　內的資料加入到　discounts　中
+                for(let i = 0; i < this.original_discounts.length; i++){
+
+                    this.refreshProducts({
+                        id: this.original_discounts[i].id - 1,
+                        type: 'add'
+                    });
+
+                    this.discounts.push({
+                        count: this.discounts.length,
+                        product: {
+                            id: this.original_discounts[i].id,
+                            shownID: this.original_discounts[i].shownID,
+                            name: this.original_discounts[i].name,
+                            costprice: Math.round(this.original_discounts[i].costprice * 1000) / 1000,
+                            profit: Math.round(this.original_discounts[i].profit * 1000) / 1000,
+                            retailPrice: Math.round(this.original_discounts[i].retailPrice * 1000) / 1000,
+                            showUnit: this.original_discounts[i].showUnit
+                        },
+                        relativePrice: this.original_discounts[i].pivot.price,
+                        absolutePirce: Math.round((this.original_discounts[i].retailPrice - this.original_discounts[i].pivot.price) * 1000) / 1000,
+                    });
+                }
+            }).catch(error => {
+                $.showErrorModal(error);
+                console.error('取得折扣資料時發生錯誤，訊息：' + error);
+            });
+        }).catch(error => {
+            $.showErrorModal(error);
+            console.error('抓取商品資料時發生錯誤，訊息：' + error);
         });
     },
     mounted(){
-        
+
     }
 });

@@ -6,7 +6,7 @@
             <div class="col-md-6 mb-2">
                 <select id="consumer_id" class="form-control" @change="getConsumerData">
                     <option value="0">請選擇...</option>
-                    <option-item v-for="data in consumers" :key="data.id" :data="data"></option-item>
+                    <option v-for="consumer in consumers" :value="consumer.id">{{ consumer.name }}</option>
                 </select>
             </div>
 
@@ -31,14 +31,14 @@
                 </thead>
                 <tbody>
                     <tr v-for="(discount, index) in discounts" :key="index">
-                        <td>{{ discount.consumer.shownID }}</td>
+                        <td>{{ index }}</td>
                         <td>
                             {{ discount.consumer.name }}
                             <input type="hidden" :name="'discounts[' + (index + 1) + '][consumer_id]'" :value="discount.consumer.id">
                         </td>
-                        <td>{{ discount.consumer.taxID }}</td>
-                        <td>{{ discount.consumer.inCharge1 }}</td>
-                        <td>{{ discount.consumer.tel1 }}</td>
+                        <td>{{ discount.consumer.taxID || '無' }}</td>
+                        <td>{{ discount.consumer.operator_name_1 || '無' }}</td>
+                        <td>{{ discount.consumer.operator_tel_1 || '無' }}</td>
                         <td>
                             <input :id="'relativePrice_' + (index + 1)" type="text" class="form-control" :name="'discounts[' + (index + 1)+ '][relativePrice]'" :value="discount.relativePrice" @change="calculateAbsolutePirce(index+1)">
                         </td>
@@ -66,7 +66,7 @@
             </div>
 
         </form>
-        
+
     </div>
 </div>
 </template>
@@ -139,7 +139,7 @@ export default {
                 $('#relativePrice_' + id).val(0);
                 $('#absolutePirce_' + id).val(absolutePirce);
             }
-        
+
             this.discounts[id - 1].relativePrice = relativePrice;
             this.discounts[id - 1].absolutePirce = absolutePirce;
         },
@@ -150,7 +150,7 @@ export default {
             let retailPrice = parseFloat($('#retailPrice').val());
             let absolutePirce = parseFloat(Math.round($('#absolutePirce_' + id).val() * 1000) / 1000);
             let relativePrice = parseFloat(Math.round((retailPrice - absolutePirce) * 1000) / 1000);
-            
+
             if(absolutePirce < costprice){
                 alert('折扣價已低於成本價，這麼做會開始虧錢，無法這樣使用。');
                 relativePrice = 0;
@@ -159,7 +159,7 @@ export default {
                 $('#relativePrice_' + id).val(0);
                 $('#absolutePirce_' + id).val(absolutePirce);
             }
-        
+
             this.discounts[id - 1].relativePrice = relativePrice;
             this.discounts[id - 1].absolutePirce = absolutePirce;
         },
@@ -190,14 +190,12 @@ export default {
                 let url = $('#editDiscountsForm').attr('action');
                 let data = $('#editDiscountsForm').serialize();
 
-                // $('#LoadingModal').modal('show');
+                $.showLoadingModal();
                 axios.post(url, data).then(response => {
-                    console.log(response);
-                    alert(response.data.msg);
+                    $.showSuccessModal(response.data.message, response.data.url);
                 }).catch((error) => {
                     console.error('編輯折扣時發生錯誤，錯誤訊息：' + error);
-                    alert('編輯折扣時發生錯誤，錯誤訊息：' + error);
-                    // $('#LoadingModal').modal('hide');
+                    $.showErrorModal(error);
                 });
             }
         }

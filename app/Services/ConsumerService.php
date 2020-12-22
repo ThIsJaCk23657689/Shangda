@@ -140,11 +140,11 @@ class ConsumerService extends BaseService
         ];
     }
 
-    // public function getList()
-    // {
-    //     $consumers = ConsumerEloquent::withTrashed()->get();
-    //     return $consumers;
-    // }
+     public function getListNoFilter()
+     {
+         $consumers = ConsumerEloquent::withTrashed()->get();
+         return $consumers;
+     }
 
     // category: 0全部、1個人帳號、2公司帳號、3管理者創建、4顧客創建
     // status: 0全部、1已封鎖、2未封鎖
@@ -268,7 +268,6 @@ class ConsumerService extends BaseService
 
         return $result;
     }
-
 
     public function getOne($id)
     {

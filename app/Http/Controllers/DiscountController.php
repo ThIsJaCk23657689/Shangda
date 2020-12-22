@@ -8,10 +8,10 @@ use App\Services\ConsumerService;
 
 class DiscountController extends Controller
 {
-    
+
     public $ProductService;
     public $ConsumerService;
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -21,7 +21,7 @@ class DiscountController extends Controller
 
     public function index(){
         $products = $this->ProductService->getList();
-        $consumers = $this->ConsumerService->getList();
+        $consumers = $this->ConsumerService->getListNoFilter();
         return view('discounts.index', compact('products', 'consumers'));
     }
 }

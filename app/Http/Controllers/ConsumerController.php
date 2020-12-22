@@ -93,7 +93,8 @@ class ConsumerController extends Controller
         }
         return response()->json([
             'status' => 'OK',
-            'msg' => '成功新增' . count($request->discounts) . '筆折扣資料。'
+            'message' => '成功新增' . count($request->discounts) . '筆折扣資料。',
+            'url' => route('discounts.index')
         ]);
 	}
 
@@ -225,13 +226,13 @@ class ConsumerController extends Controller
     public function getList(Request $request){
         $this->validate($request, [
             // category: 0全部、1個人帳號、2公司帳號、3管理者創建、4顧客創建
-            'category' => 'nullable|integer', 
+            'category' => 'nullable|integer',
 
             // status: 0全部、1已封鎖、2未封鎖
-            'status' => 'nullable|integer', 
+            'status' => 'nullable|integer',
 
             // type: 0全部 1帳號 2名稱 3統編 4聯絡人名稱 5聯絡人電話 6未沖帳總額
-            'type' => 'nullable|integer', 
+            'type' => 'nullable|integer',
 
             'keywords' => 'nullable|string',
             'skip' => 'nullable|integer',
