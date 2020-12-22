@@ -403,14 +403,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     addProductToCart: function addProductToCart(e) {
       $.showLoadingModal();
-
-      if ($(e.target) == $('i.fas.fa-shopping-cart')) {} else if ($(e.target) == $('button.cart-button')) {}
-
-      console.log($(e.target));
-      console.log($(e.target).parents('button'));
-      console.log($(e.target).parents('button').next());
-      console.log($(e.target).parents('button').next().text());
-      var $product_id = $(e.target).parents('button').next().text();
+      var $product_id = $(e.currentTarget).next().text();
       var AddProductToCartURL = $('#AddProductToCartURL').text();
       axios.post(AddProductToCartURL, {
         product_id: $product_id
@@ -975,7 +968,7 @@ var render = function() {
                     [
                       _c("i", { staticClass: "fas fa-comments-dollar mr-1" }),
                       _vm._v(
-                        "\r\n                        詢問價錢\r\n                    "
+                        "\n                        詢問價錢\n                    "
                       )
                     ]
                   ),
@@ -999,7 +992,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                            了解更多 >>\r\n                        "
+                      "\n                            了解更多 >>\n                        "
                     )
                   ]
                 )
