@@ -170,6 +170,17 @@ export default {
         addProductToCart(e){
             $.showLoadingModal();
 
+            if ($(e.target) == $('i.fas.fa-shopping-cart')) {
+
+            } else if ($(e.target) == $('button.cart-button')) {
+
+            }
+
+            console.log($(e.target));
+            console.log($(e.target).parents('button'));
+            console.log($(e.target).parents('button').next());
+            console.log($(e.target).parents('button').next().text());
+
             let $product_id = $(e.target).parents('button').next().text();
             let AddProductToCartURL = $('#AddProductToCartURL').text();
             axios.post(AddProductToCartURL, {

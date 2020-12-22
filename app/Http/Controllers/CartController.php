@@ -35,6 +35,11 @@ class CartController extends Controller
         $consumer = Auth::guard('consumer')->user();
         $cart = $consumer->cart;
 
+        if ($cart == null) {
+            // 如果 $cart 為 null ，馬上建立一個購物車
+            $this->CartService->add($consumer->id);
+        }
+
         $product = $this->ProductService->getOne($request->product_id);
         
         //判斷該購物車是否已經有商品
