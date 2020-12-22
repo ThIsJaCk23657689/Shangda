@@ -235,7 +235,6 @@ return [
         'Twid' => Meditate\IdentityCard\Facades\TaiwanIdentityCard::class,
         'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
         'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
-
     ],
 
 ];

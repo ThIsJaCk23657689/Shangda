@@ -3,6 +3,7 @@
 @push('CustomJS')
     <script src="{{ asset('vendor/jQuery-TWzipcode-master/jquery.twzipcode.min.js') }}" defer></script>
     <script src="{{ asset('js/frontend/consumers/register.js') }}" defer></script>
+    {{-- <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script> --}}
 @endpush
 
 @push('CustomCSS')
@@ -62,8 +63,8 @@
                             </div>
                         </div>
 
-                        <individual-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'frontend'"></individual-consumer-create-form>
-                        <company-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'frontend'"></company-consumer-create-form>
+                        <individual-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'frontend'" :captchasitekey="'{{ config('no-captcha.sitekey') }}'"></individual-consumer-create-form>
+                        <company-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'frontend'" :captchasitekey="'{{ config('no-captcha.sitekey') }}'"></company-consumer-create-form>
                     </div>
                 </div>
             </div>
@@ -71,5 +72,5 @@
 
         </div>
     </section>
-
+    
 @endsection

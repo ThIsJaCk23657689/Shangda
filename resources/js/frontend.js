@@ -2,6 +2,7 @@ import Paginate from 'vuejs-paginate';
 import Swal from 'sweetalert2';
 import Cropper from 'cropperjs';
 import DataTable from 'laravel-vue-datatable';
+import VueRecaptcha from 'vue-recaptcha';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -30,6 +31,7 @@ window.Cropper = Cropper;
 Vue.component('option-item', require('./components/Partials/OptionItem.vue').default);
 Vue.component('loading-modal', require('./components/Modals/LoadingModal.vue').default);
 Vue.component('paginate', Paginate);
+Vue.component('vue-recaptcha', VueRecaptcha);
 Vue.use(DataTable);
 
 /**

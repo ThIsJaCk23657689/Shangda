@@ -194,6 +194,12 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6" v-if="formtype == 'frontend'">
+            <div class="form-group">
+                <label for=""><span class="text-danger mr-2">*</span>機器人驗證</label>
+                <vue-recaptcha :sitekey="captchasitekey" :loadRecaptchaScript="true"></vue-recaptcha>
+            </div>
+        </div>
     </div>
 
     <div class="row justify-content-center">
@@ -217,7 +223,7 @@
 
 <script>
 export default {
-    props: ['uploadimg', 'formtype'],
+    props: ['uploadimg', 'formtype', 'captchasitekey'],
     data(){
         return {
             ConsumersIndexURL: $('#ConsumersIndexURL').text(),
