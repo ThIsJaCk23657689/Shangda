@@ -1011,11 +1011,12 @@ var render = function() {
                           _vm._v("請選擇...")
                         ]),
                         _vm._v(" "),
-                        _vm._l(_vm.consumers, function(data) {
-                          return _c("option-item", {
-                            key: data.id,
-                            attrs: { data: data }
-                          })
+                        _vm._l(_vm.consumers, function(consumer) {
+                          return _c(
+                            "option",
+                            { domProps: { value: consumer.id } },
+                            [_vm._v(_vm._s(consumer.name))]
+                          )
                         })
                       ],
                       2
@@ -1155,7 +1156,7 @@ var render = function() {
                     _c("input", {
                       staticClass: "form-control",
                       attrs: { id: "show_act", type: "text", readonly: "" },
-                      domProps: { value: _vm.current_consumer.act || "無" }
+                      domProps: { value: _vm.current_consumer.account || "無" }
                     })
                   ])
                 ]),
@@ -1266,7 +1267,7 @@ var render = function() {
             _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "show_companyAddress" } }, [
-                  _vm._v("公司地址")
+                  _vm._v("地址")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -1276,9 +1277,7 @@ var render = function() {
                     type: "text",
                     readonly: ""
                   },
-                  domProps: {
-                    value: _vm.current_consumer.companyAddress || "無"
-                  }
+                  domProps: { value: _vm.current_consumer.address || "無" }
                 })
               ])
             ]),
@@ -1305,20 +1304,12 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "show_invoiceAddress" } }, [
-                  _vm._v("發票地址")
-                ]),
+                _c("label", { attrs: { for: "show_email" } }, [_vm._v("信箱")]),
                 _vm._v(" "),
                 _c("input", {
                   staticClass: "form-control",
-                  attrs: {
-                    id: "show_invoiceAddress",
-                    type: "text",
-                    readonly: ""
-                  },
-                  domProps: {
-                    value: _vm.current_consumer.invoiceAddress || "無"
-                  }
+                  attrs: { id: "show_email", type: "text", readonly: "" },
+                  domProps: { value: _vm.current_consumer.email || "無" }
                 })
               ])
             ])
@@ -1564,7 +1555,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        確認修改\r\n                    "
+                    "\n                        確認修改\n                    "
                   )
                 ]
               ),
@@ -1577,7 +1568,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        返回銷貨單首頁\r\n                    "
+                    "\n                        返回銷貨單首頁\n                    "
                   )
                 ]
               )
@@ -1598,7 +1589,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "consumer_id" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("顧客名稱\r\n                                ")
+      _vm._v("顧客名稱\n                                ")
     ])
   },
   function() {
@@ -1607,7 +1598,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "expectPay_at" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("預計付款日\r\n                                ")
+      _vm._v("預計付款日\n                                ")
     ])
   },
   function() {
@@ -1616,7 +1607,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "expectDeliver_at" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("預計出貨日\r\n                                ")
+      _vm._v("預計出貨日\n                                ")
     ])
   },
   function() {
@@ -1627,7 +1618,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "invoiceType" } }, [
           _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("發票類型\r\n                                ")
+          _vm._v("發票類型\n                                ")
         ]),
         _vm._v(" "),
         _c(
@@ -1659,7 +1650,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "taxType" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("稅別\r\n                                ")
+      _vm._v("稅別\n                                ")
     ])
   },
   function() {

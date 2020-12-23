@@ -17,7 +17,7 @@
                                 </label>
                                 <select id="consumer_id" name="consumer_id" class="form-control" @change="getConsumerData">
                                     <option value="0">請選擇...</option>
-                                    <option-item v-for="data in consumers" :key="data.id" :data="data"></option-item>
+                                    <option v-for="consumer in consumers" :value="consumer.id">{{ consumer.name }}</option>
                                 </select>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="show_act">帳號</label>
-                                <input id="show_act" type="text" class="form-control" :value="current_comsumer.act || '無'" readonly>
+                                <input id="show_act" type="text" class="form-control" :value="current_comsumer.account || '無'" readonly>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -116,8 +116,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="show_companyAddress">公司地址</label>
-                        <input id="show_companyAddress" type="text" class="form-control" :value="current_comsumer.companyAddress || '無'" readonly>
+                        <label for="show_companyAddress">地址</label>
+                        <input id="show_companyAddress" type="text" class="form-control" :value="current_comsumer.address || '無'" readonly>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -128,8 +128,8 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="show_invoiceAddress">發票地址</label>
-                        <input id="show_invoiceAddress" type="text" class="form-control" :value="current_comsumer.invoiceAddress || '無'" readonly>
+                        <label for="show_email">信箱</label>
+                        <input id="show_email" type="text" class="form-control" :value="current_comsumer.email || '無'" readonly>
                     </div>
                 </div>
             </div>
@@ -231,8 +231,6 @@
                     </a>
                 </div>
             </div>
-            <loading-modal></loading-modal>
-
         </form>
     </div>
 </div>
@@ -245,8 +243,6 @@
 export default {
     props: ['consumers', 'current_comsumer', 'products'],
     mounted() {
-        console.log('SalesCreareForm.vue mounted.');
-
         $("#expectPay_at").datepicker({
             changeYear: true,
             changeMonth: true,

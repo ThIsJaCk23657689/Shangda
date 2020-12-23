@@ -135,7 +135,7 @@ class SalesOrderController extends Controller
     public function destroy($id)
     {
         $this->SalesOrderService->delete($id);
-        return redirect()->route('salesOrders.index');
+        return redirect()->route('sales.index');
     }
 
     public function delivered(Request $request){

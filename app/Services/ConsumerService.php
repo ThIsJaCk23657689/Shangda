@@ -439,6 +439,8 @@ class ConsumerService extends BaseService
 
     public function getInfoList($id){
         $consumer_info = ConsumerEloquent::find($id);
+        $consumer_info['address'] = $consumer_info->showAddress();
+        $consumer_info['deliveryAddress'] = $consumer_info->showDeliveryAddress();
         return $consumer_info;
     }
 }
