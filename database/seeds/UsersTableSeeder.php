@@ -22,27 +22,46 @@ class UsersTableSeeder extends Seeder
         $user->job_title_id = 4;
         $user->save();
 
+        $user = UserEloquent::create([
+            'name' => '張鴻生',
+            'gender' => '1',
+            'email' => 'chang472199@yahoo.com.tw',
+            'account' => 'bossboss',
+            'password' => bcrypt('11141957'),
+        ]);
+        $user->job_title_id = 3;
+        $user->save();
 
         $user = UserEloquent::create([
-            'name' => 'Jack',
+            'name' => '張淳喬',
+            'gender' => '0',
+            'email' => 'jo520520@gmail.com',
+            'account' => 'jojojs',
+            'password' => bcrypt('jack0619'),
+        ]);
+        $user->job_title_id = 3;
+        $user->save();
+
+        $user = UserEloquent::create([
+            'name' => '張庭維',
+            'gender' => '1',
+            'email' => '967076@gmail.com',
+            'account' => '967076',
+            'password' => bcrypt('js460672'),
+        ]);
+        $user->job_title_id = 3;
+        $user->save();
+
+        $user = UserEloquent::create([
+            'name' => '張竣傑',
             'gender' => '1',
             'email' => 'y23657689@gmail.com',
             'account' => '23657689',
             'password' => bcrypt('jack0619'),
         ]);
-        $user->job_title_id = 4;
+        $user->job_title_id = 3;
         $user->save();
 
-        $user = UserEloquent::create([
-            'name' => 'Jamie',
-            'gender' => '1',
-            'email' => 'jamie870116@gmail.com',
-            'account' => 'jamie870116',
-            'password' => bcrypt('jj12345678'),
-        ]);
-        $user->job_title_id = 4;
-        $user->save();
-
-        $users = factory(UserEloquent::class, 8)->create();
+        // $users = factory(UserEloquent::class, 8)->create();
     }
 }

@@ -55,6 +55,7 @@ class Product extends Model
         return $this->belongsTo(CategoryEloquent::class);
     }
 
+    // 製成紀錄
     public function produce(){
         return $this->hasMany(ProduceEloquent::class);
     }
@@ -63,6 +64,7 @@ class Product extends Model
         return $this->hasMany(ProductLogEloquent::class);
     }
 
+    // 抓取對這個商品有興趣的顧客們 (無需登入)
     public function contacts(){
         return $this->hasMany(ContactEloquent::class);
     }
@@ -99,6 +101,5 @@ class Product extends Model
                 }
             }
         }
-
     }
 }
