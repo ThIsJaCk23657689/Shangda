@@ -9,7 +9,7 @@
                 <div class="col-md-6 mb-2">
                     <select id="product_id" class="form-control" @change="getProductData">
                         <option value="0">請選擇...</option>
-                        <option-item v-for="data in products" :key="data.id" :data="data"></option-item>
+                        <option v-for="product in products" :value="product.id">{{ product.name }}</option>
                     </select>
                 </div>
 
@@ -79,7 +79,7 @@
 export default {
     props: ['products'],
     mounted() {
-        console.log('SalesDetail.vue mounted.');
+
     },
     data(){
         return {
@@ -185,12 +185,17 @@ export default {
             if(product_id != 0){
                 let getProductInfo = $('#getProductInfo').html();
 
+                $.showLoadingModal();
                 $('#addDetailBtn').attr('disabled', true);
                 axios.post(getProductInfo, {
                     id: product_id
                 }).then(response => {
+                    $.closeModal();
                     this.current_product = response.data;
                     $('#addDetailBtn').attr('disabled', false);
+                }).catch(error => {
+                    $.showErrorModal(error);
+                    console.error('抓取商品資料失敗，錯誤：' + error);
                 });
             }else{
                 alert('請選擇商品');

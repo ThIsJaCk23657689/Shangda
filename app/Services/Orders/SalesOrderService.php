@@ -177,6 +177,7 @@ class SalesOrderService extends BaseService
         $saleOrder = $this->getOne($id);
         $saleOrder->consumer->uncheckedAmount -= $saleOrder->totalTaxPrice;
         $saleOrder->consumer->save();
+        $saleOrder->details()->delete();
         $saleOrder->delete();
     }
 

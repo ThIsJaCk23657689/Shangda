@@ -3,10 +3,10 @@
 @push('CustomJS')
     {{-- <script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script> --}}
     <script src="{{ asset('js/discounts/index.js') }}" defer></script>
-@endpush 
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('People Management') }}</a>
@@ -16,7 +16,7 @@
 		</li>
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
     @endcomponent
-    
+
     <div class="row mb-3 px-2">
         <div class="col-md-12">
             <span class="mr-2">以</span>
@@ -39,7 +39,9 @@
 					<thead>
 						<tr>
 							<th>編號</th>
-							<th>客戶/公司 名稱</th>
+                            <th>帳號</th>
+							<th>名稱</th>
+                            <th>統編</th>
 							<th>聯絡人名稱</th>
 							<th>聯絡人電話</th>
                             <th>折扣商品數</th>
@@ -50,7 +52,9 @@
 						@foreach ($consumers as $consumer)
 							<tr class="{{ $consumer->trashed()?'bg-warning':'' }}">
 								<td>{{ $consumer->id }}</td>
-								<td>{{ $consumer->name }}</td>
+                                <td>{{ $consumer->account }}</td>
+                                <td>{{ $consumer->name }}</td>
+								<td>{{ $consumer->taxID ?? '無' }}</td>
 								<td>{{ $consumer->operator_name ?? '無' }}</td>
 								<td>{{ $consumer->operator_tel ?? $consumer->tel ?? $consumer->phone }}</td>
 								<td>{{ $consumer->products()->count() }}</td>
@@ -60,14 +64,14 @@
 										編輯
 									</a>
 								</td>
-							</tr>	
+							</tr>
 						@endforeach
 					</tbody>
 				</table>
 			</div>
 		</div>
     </div>
-    
+
     <div id="products_card" class="card mb-3" style="display: none;">
 		<div class="card-header">
 			<i class="fas fa-table"></i>
@@ -104,7 +108,7 @@
 										編輯
 									</a>
 								</td>
-							</tr>	
+							</tr>
 						@endforeach
 					</tbody>
 				</table>

@@ -75,7 +75,7 @@ class ProductController extends Controller
     // 編輯商品的折扣資訊
     public function editDiscounts(DiscountRequest $request, $id){
         $product = $this->ProductService->getOne($id);
-        
+
         // 先將先前的所有折扣商品資料全數刪除
         $product->consumers()->detach();
 
@@ -92,7 +92,8 @@ class ProductController extends Controller
         }
         return response()->json([
             'status' => 'OK',
-            'msg' => '成功新增' . count($request->discounts) . '筆折扣資料。'
+            'message' => '成功新增' . count($request->discounts) . '筆折扣資料。',
+            'url' => route('discounts.index')
         ]);
     }
 
@@ -100,7 +101,7 @@ class ProductController extends Controller
     public function getDiscountsList($id){
         $product = $this->ProductService->getOne($id);
 		$discounts = $product->consumers()
-			->select(['id', 'shownID', 'name', 'taxID', 'inCharge1', 'tel1'])
+			->select(['id', 'shortName', 'name', 'taxID', 'operator_name_1', 'operator_tel_1'])
 			->get();
 
 		return response()->json([

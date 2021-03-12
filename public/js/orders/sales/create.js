@@ -336,12 +336,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['consumers', 'current_comsumer', 'products'],
   mounted: function mounted() {
-    console.log('SalesCreareForm.vue mounted.');
     $("#expectPay_at").datepicker({
       changeYear: true,
       changeMonth: true,
@@ -513,9 +510,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['products'],
-  mounted: function mounted() {
-    console.log('SalesDetail.vue mounted.');
-  },
+  mounted: function mounted() {},
   data: function data() {
     return {
       details: [],
@@ -612,12 +607,17 @@ __webpack_require__.r(__webpack_exports__);
 
       if (product_id != 0) {
         var getProductInfo = $('#getProductInfo').html();
+        $.showLoadingModal();
         $('#addDetailBtn').attr('disabled', true);
         axios.post(getProductInfo, {
           id: product_id
         }).then(function (response) {
+          $.closeModal();
           _this.current_product = response.data;
           $('#addDetailBtn').attr('disabled', false);
+        })["catch"](function (error) {
+          $.showErrorModal(error);
+          console.error('抓取商品資料失敗，錯誤：' + error);
         });
       } else {
         alert('請選擇商品');
@@ -684,11 +684,12 @@ var render = function() {
                           _vm._v("請選擇...")
                         ]),
                         _vm._v(" "),
-                        _vm._l(_vm.consumers, function(data) {
-                          return _c("option-item", {
-                            key: data.id,
-                            attrs: { data: data }
-                          })
+                        _vm._l(_vm.consumers, function(consumer) {
+                          return _c(
+                            "option",
+                            { domProps: { value: consumer.id } },
+                            [_vm._v(_vm._s(consumer.name))]
+                          )
                         })
                       ],
                       2
@@ -737,7 +738,7 @@ var render = function() {
                     _c("input", {
                       staticClass: "form-control",
                       attrs: { id: "show_act", type: "text", readonly: "" },
-                      domProps: { value: _vm.current_comsumer.act || "無" }
+                      domProps: { value: _vm.current_comsumer.account || "無" }
                     })
                   ])
                 ]),
@@ -848,7 +849,7 @@ var render = function() {
             _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "show_companyAddress" } }, [
-                  _vm._v("公司地址")
+                  _vm._v("地址")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -858,9 +859,7 @@ var render = function() {
                     type: "text",
                     readonly: ""
                   },
-                  domProps: {
-                    value: _vm.current_comsumer.companyAddress || "無"
-                  }
+                  domProps: { value: _vm.current_comsumer.address || "無" }
                 })
               ])
             ]),
@@ -887,20 +886,12 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "show_invoiceAddress" } }, [
-                  _vm._v("發票地址")
-                ]),
+                _c("label", { attrs: { for: "show_email" } }, [_vm._v("信箱")]),
                 _vm._v(" "),
                 _c("input", {
                   staticClass: "form-control",
-                  attrs: {
-                    id: "show_invoiceAddress",
-                    type: "text",
-                    readonly: ""
-                  },
-                  domProps: {
-                    value: _vm.current_comsumer.invoiceAddress || "無"
-                  }
+                  attrs: { id: "show_email", type: "text", readonly: "" },
+                  domProps: { value: _vm.current_comsumer.email || "無" }
                 })
               ])
             ])
@@ -999,7 +990,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        確認新增\r\n                    "
+                    "\n                        確認新增\n                    "
                   )
                 ]
               ),
@@ -1012,14 +1003,12 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        返回進貨單首頁\r\n                    "
+                    "\n                        返回進貨單首頁\n                    "
                   )
                 ]
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("loading-modal")
+          ])
         ],
         1
       )
@@ -1033,7 +1022,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "consumer_id" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("顧客名稱\r\n                                ")
+      _vm._v("顧客名稱\n                                ")
     ])
   },
   function() {
@@ -1090,7 +1079,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "expectPay_at" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("預計付款日\r\n                                ")
+            _vm._v("預計付款日\n                                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1109,7 +1098,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "expectDeliver_at" } }, [
             _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-            _vm._v("預計出貨日\r\n                                ")
+            _vm._v("預計出貨日\n                                ")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -1133,7 +1122,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "invoiceType" } }, [
           _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-          _vm._v("發票類型\r\n                                ")
+          _vm._v("發票類型\n                                ")
         ]),
         _vm._v(" "),
         _c(
@@ -1165,7 +1154,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "taxType" } }, [
       _c("span", { staticClass: "text-danger mr-2" }, [_vm._v("*")]),
-      _vm._v("稅別\r\n                                ")
+      _vm._v("稅別\n                                ")
     ])
   },
   function() {
@@ -1265,11 +1254,10 @@ var render = function() {
                     _vm._v("請選擇...")
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.products, function(data) {
-                    return _c("option-item", {
-                      key: data.id,
-                      attrs: { data: data }
-                    })
+                  _vm._l(_vm.products, function(product) {
+                    return _c("option", { domProps: { value: product.id } }, [
+                      _vm._v(_vm._s(product.name))
+                    ])
                   })
                 ],
                 2
@@ -1308,9 +1296,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "18%" } }, [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(detail.product.name) +
-                          "\r\n                            "
+                          "\n                            "
                       ),
                       _c("input", {
                         attrs: {
@@ -1323,9 +1311,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "10%" } }, [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(detail.product.internationalNum) +
-                          "\r\n                        "
+                          "\n                        "
                       )
                     ]),
                     _vm._v(" "),
@@ -1770,8 +1758,9 @@ var app = new Vue({
       var _this = this;
 
       var getConsumerInfo = $('#getConsumerInfo').html();
+      $.showLoadingModal();
       axios.post(getConsumerInfo, id).then(function (response) {
-        console.log(response);
+        $.closeModal();
         _this.current_consumer = response.data;
 
         if (_this.current_consumer.monthlyCheckDate == 0) {
@@ -1779,6 +1768,9 @@ var app = new Vue({
         } else {
           _this.current_consumer.settlement = '每個月' + _this.current_consumer.monthlyCheckDate + '號結算';
         }
+      })["catch"](function (error) {
+        $.showErrorModal(error);
+        console.error('抓取顧客資料失敗，錯誤：' + error);
       });
     }
   },
@@ -1787,11 +1779,19 @@ var app = new Vue({
 
     var getConsumersName = $('#getConsumersName').html();
     var getProductsName = $('#getProductsName').html();
+    $.showLoadingModal();
     axios.get(getConsumersName).then(function (response) {
       _this2.consumers = response.data;
+    })["catch"](function (error) {
+      $.showErrorModal(error);
+      console.error('抓取顧客名稱列表失敗，錯誤：' + error);
     });
     axios.get(getProductsName).then(function (response) {
       _this2.products = response.data;
+      $.closeModal();
+    })["catch"](function (error) {
+      $.showErrorModal(error);
+      console.error('抓取商品名稱列表失敗，錯誤：' + error);
     });
   }
 });

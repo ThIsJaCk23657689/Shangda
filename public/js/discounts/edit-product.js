@@ -280,14 +280,13 @@ __webpack_require__.r(__webpack_exports__);
         alert('請先新增折扣商品!');
       } else {
         var url = $('#editDiscountsForm').attr('action');
-        var data = $('#editDiscountsForm').serialize(); // $('#LoadingModal').modal('show');
-
+        var data = $('#editDiscountsForm').serialize();
+        $.showLoadingModal();
         axios.post(url, data).then(function (response) {
-          console.log(response);
-          alert(response.data.msg);
+          $.showSuccessModal(response.data.message, response.data.url);
         })["catch"](function (error) {
           console.error('編輯折扣時發生錯誤，錯誤訊息：' + error);
-          alert('編輯折扣時發生錯誤，錯誤訊息：' + error); // $('#LoadingModal').modal('hide');
+          $.showErrorModal(error);
         });
       }
     }
@@ -325,11 +324,10 @@ var render = function() {
             [
               _c("option", { attrs: { value: "0" } }, [_vm._v("請選擇...")]),
               _vm._v(" "),
-              _vm._l(_vm.consumers, function(data) {
-                return _c("option-item", {
-                  key: data.id,
-                  attrs: { data: data }
-                })
+              _vm._l(_vm.consumers, function(consumer) {
+                return _c("option", { domProps: { value: consumer.id } }, [
+                  _vm._v(_vm._s(consumer.name))
+                ])
               })
             ],
             2
@@ -374,13 +372,13 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.discounts, function(discount, index) {
                   return _c("tr", { key: index }, [
-                    _c("td", [_vm._v(_vm._s(discount.consumer.shownID))]),
+                    _c("td", [_vm._v(_vm._s(index))]),
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(discount.consumer.name) +
-                          "\r\n                            "
+                          "\n                            "
                       ),
                       _c("input", {
                         attrs: {
@@ -391,11 +389,15 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(discount.consumer.taxID))]),
+                    _c("td", [_vm._v(_vm._s(discount.consumer.taxID || "無"))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(discount.consumer.inCharge1))]),
+                    _c("td", [
+                      _vm._v(_vm._s(discount.consumer.operator_name_1 || "無"))
+                    ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(discount.consumer.tel1))]),
+                    _c("td", [
+                      _vm._v(_vm._s(discount.consumer.operator_tel_1 || "無"))
+                    ]),
                     _vm._v(" "),
                     _c("td", [
                       _c("input", {
@@ -463,7 +465,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        確認儲存\r\n                    "
+                    "\n                        確認儲存\n                    "
                   )
                 ]
               ),
@@ -476,7 +478,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        返回列表\r\n                    "
+                    "\n                        返回列表\n                    "
                   )
                 ]
               )

@@ -109,16 +109,22 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="show_companyAddress">公司地址</label>
                         <input id="show_companyAddress" type="text" class="form-control" value="{{ $salesOrder->consumer->showAddress() ?? '無' }}" readonly>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="show_deliveryAddress">送貨地址</label>
                         <input id="show_deliveryAddress" type="text" class="form-control" value="{{ $salesOrder->consumer->showDeliveryAddress() ?? '無' }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="show_email">信箱</label>
+                        <input id="show_email" type="text" class="form-control" value="{{ $salesOrder->consumer->email ?? '無' }}" readonly>
                     </div>
                 </div>
             </div>

@@ -174,8 +174,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['products', 'discounts'],
-  mounted: function mounted() {
-    console.log('ConsumerDiscounts.vue mounted.');
+  mounted: function mounted() {// console.log('ConsumerDiscounts.vue mounted.');
   },
   data: function data() {
     return {
@@ -265,6 +264,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var product_id = $('#product_id').val();
+      $.showLoadingModal();
 
       if (product_id != 0) {
         var getProductInfo = $('#getProductInfo').html();
@@ -273,8 +273,12 @@ __webpack_require__.r(__webpack_exports__);
           id: product_id
         }).then(function (response) {
           // console.log(response);
+          $.closeModal();
           _this.current_product = response.data;
           $('#addProductBtn').attr('disabled', false);
+        })["catch"](function (error) {
+          console.error('抓取商品資料時發生錯誤！');
+          $.showErrorModal(error);
         });
       } else {
         alert('請選擇商品');
@@ -286,14 +290,13 @@ __webpack_require__.r(__webpack_exports__);
         alert('請先新增折扣商品!');
       } else {
         var url = $('#editDiscountsForm').attr('action');
-        var data = $('#editDiscountsForm').serialize(); // $('#LoadingModal').modal('show');
-
+        var data = $('#editDiscountsForm').serialize();
+        $.showLoadingModal();
         axios.post(url, data).then(function (response) {
-          console.log(response);
-          alert(response.data.msg);
+          $.showSuccessModal(response.data.message, response.data.url);
         })["catch"](function (error) {
           console.error('編輯折扣時發生錯誤，錯誤訊息：' + error);
-          alert('編輯折扣時發生錯誤，錯誤訊息：' + error); // $('#LoadingModal').modal('hide');
+          $.showErrorModal(error);
         });
       }
     }
@@ -331,11 +334,10 @@ var render = function() {
             [
               _c("option", { attrs: { value: "0" } }, [_vm._v("請選擇...")]),
               _vm._v(" "),
-              _vm._l(_vm.products, function(data) {
-                return _c("option-item", {
-                  key: data.id,
-                  attrs: { data: data }
-                })
+              _vm._l(_vm.products, function(product) {
+                return _c("option", { domProps: { value: product.id } }, [
+                  _vm._v(_vm._s(product.name))
+                ])
               })
             ],
             2
@@ -384,9 +386,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(discount.product.name) +
-                          "\r\n                            "
+                          "\n                            "
                       ),
                       _c("input", {
                         attrs: {
@@ -497,7 +499,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        確認儲存\r\n                    "
+                    "\n                        確認儲存\n                    "
                   )
                 ]
               ),
@@ -510,7 +512,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        返回列表\r\n                    "
+                    "\n                        返回列表\n                    "
                   )
                 ]
               )
@@ -790,37 +792,45 @@ var app = new Vue({
     var _this = this;
 
     // 取得所有商品列表(id與name)
+    $.showLoadingModal();
     var getProductsName = $('#getProductsName').html();
     axios.get(getProductsName).then(function (response) {
       _this.products = response.data;
-      _this.all_products = _this.products;
-    }); // 取得折扣資料
+      _this.all_products = _this.products; // 取得折扣資料
 
-    var getDiscountsList = $('#getDiscountsList').html();
-    axios.get(getDiscountsList).then(function (response) {
-      _this.original_discounts = response.data.discounts; // 將　original_discounts　內的資料加入到　discounts　中
+      var getDiscountsList = $('#getDiscountsList').html();
+      axios.get(getDiscountsList).then(function (response) {
+        $.closeModal();
+        _this.original_discounts = response.data.discounts; // 將　original_discounts　內的資料加入到　discounts　中
 
-      for (var i = 0; i < _this.original_discounts.length; i++) {
-        _this.refreshProducts({
-          id: _this.original_discounts[i].id - 1,
-          type: 'add'
-        });
+        for (var i = 0; i < _this.original_discounts.length; i++) {
+          _this.refreshProducts({
+            id: _this.original_discounts[i].id - 1,
+            type: 'add'
+          });
 
-        _this.discounts.push({
-          count: _this.discounts.length,
-          product: {
-            id: _this.original_discounts[i].id,
-            shownID: _this.original_discounts[i].shownID,
-            name: _this.original_discounts[i].name,
-            costprice: Math.round(_this.original_discounts[i].costprice * 1000) / 1000,
-            profit: Math.round(_this.original_discounts[i].profit * 1000) / 1000,
-            retailPrice: Math.round(_this.original_discounts[i].retailPrice * 1000) / 1000,
-            showUnit: _this.original_discounts[i].showUnit
-          },
-          relativePrice: _this.original_discounts[i].pivot.price,
-          absolutePirce: Math.round((_this.original_discounts[i].retailPrice - _this.original_discounts[i].pivot.price) * 1000) / 1000
-        });
-      }
+          _this.discounts.push({
+            count: _this.discounts.length,
+            product: {
+              id: _this.original_discounts[i].id,
+              shownID: _this.original_discounts[i].shownID,
+              name: _this.original_discounts[i].name,
+              costprice: Math.round(_this.original_discounts[i].costprice * 1000) / 1000,
+              profit: Math.round(_this.original_discounts[i].profit * 1000) / 1000,
+              retailPrice: Math.round(_this.original_discounts[i].retailPrice * 1000) / 1000,
+              showUnit: _this.original_discounts[i].showUnit
+            },
+            relativePrice: _this.original_discounts[i].pivot.price,
+            absolutePirce: Math.round((_this.original_discounts[i].retailPrice - _this.original_discounts[i].pivot.price) * 1000) / 1000
+          });
+        }
+      })["catch"](function (error) {
+        $.showErrorModal(error);
+        console.error('取得折扣資料時發生錯誤，訊息：' + error);
+      });
+    })["catch"](function (error) {
+      $.showErrorModal(error);
+      console.error('抓取商品資料時發生錯誤，訊息：' + error);
     });
   },
   mounted: function mounted() {}

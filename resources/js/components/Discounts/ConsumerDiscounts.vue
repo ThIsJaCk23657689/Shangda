@@ -6,7 +6,7 @@
             <div class="col-md-6 mb-2">
                 <select id="product_id" class="form-control" @change="getProductData">
                     <option value="0">請選擇...</option>
-                    <option-item v-for="data in products" :key="data.id" :data="data"></option-item>
+                    <option v-for="product in products" :value="product.id">{{ product.name }}</option>
                 </select>
             </div>
 
@@ -70,7 +70,7 @@
             </div>
 
         </form>
-        
+
     </div>
 </div>
 </template>
@@ -79,7 +79,7 @@
 export default {
     props: ['products', 'discounts'],
     mounted() {
-        console.log('ConsumerDiscounts.vue mounted.');
+        // console.log('ConsumerDiscounts.vue mounted.');
     },
     data(){
         return {
@@ -144,7 +144,7 @@ export default {
                 $('#relativePrice_' + id).val(0);
                 $('#absolutePirce_' + id).val(absolutePirce);
             }
-        
+
             this.discounts[id - 1].relativePrice = relativePrice;
             this.discounts[id - 1].absolutePirce = absolutePirce;
         },
@@ -155,7 +155,7 @@ export default {
             let retailPrice = parseFloat($('#retailPrice_' + id).val());
             let absolutePirce = parseFloat(Math.round($('#absolutePirce_' + id).val() * 1000) / 1000);
             let relativePrice = parseFloat(Math.round((retailPrice - absolutePirce) * 1000) / 1000);
-            
+
             if(absolutePirce < costprice){
                 alert('折扣價已低於成本價，這麼做會開始虧錢，無法這樣使用。');
                 relativePrice = 0;
@@ -164,7 +164,7 @@ export default {
                 $('#relativePrice_' + id).val(0);
                 $('#absolutePirce_' + id).val(absolutePirce);
             }
-        
+
             this.discounts[id - 1].relativePrice = relativePrice;
             this.discounts[id - 1].absolutePirce = absolutePirce;
         },
@@ -173,6 +173,7 @@ export default {
         getProductData(){
             let product_id = $('#product_id').val();
 
+            $.showLoadingModal();
             if(product_id != 0){
                 let getProductInfo = $('#getProductInfo').html();
                 $('#addProductBtn').attr('disabled', true);
@@ -180,8 +181,12 @@ export default {
                     id: product_id
                 }).then(response => {
                     // console.log(response);
+                    $.closeModal();
                     this.current_product = response.data;
                     $('#addProductBtn').attr('disabled', false);
+                }).catch(error => {
+                    console.error('抓取商品資料時發生錯誤！');
+                    $.showErrorModal(error);
                 });
             }else{
                 alert('請選擇商品');
@@ -196,14 +201,12 @@ export default {
                 let url = $('#editDiscountsForm').attr('action');
                 let data = $('#editDiscountsForm').serialize();
 
-                // $('#LoadingModal').modal('show');
+                $.showLoadingModal();
                 axios.post(url, data).then(response => {
-                    console.log(response);
-                    alert(response.data.msg);
+                    $.showSuccessModal(response.data.message, response.data.url);
                 }).catch((error) => {
                     console.error('編輯折扣時發生錯誤，錯誤訊息：' + error);
-                    alert('編輯折扣時發生錯誤，錯誤訊息：' + error);
-                    // $('#LoadingModal').modal('hide');
+                    $.showErrorModal(error);
                 });
             }
         }
