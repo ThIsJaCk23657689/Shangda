@@ -24,16 +24,16 @@
         <div class="about-content">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{  asset('/images/background/welcome.jpg') }}" alt="">
+                    <img src="{{ asset('/images/background/welcome.jpg') }}" alt="">
                 </div>
                 <div class="col-md-6 about-info">
-                    <h2>關於我們</h3>
+                    <h2>關於尚達</h2>
                     <p class="upper_p">
-                        自民國XX年（西元XXXX）成立自今，累積了XX年專業製造經驗，加上頂上的生產設備、
-                        高品質的進口原料與精益求精的工作態度，製造出價格親民、品質強韌耐用的塑膠袋。
-
+                        尚達塑膠秉持著【積極向上】的態度傳承下去，對於塑膠袋的品質是非常的講究，一絲都不會馬虎，就只為了我們最誠敬的顧客們，
+                        自民國 88 年成立自今，累積了 20 年以上的專業製造經驗，加上頂級的生產設備、 高品質的進口原料以及精益求精的工作態度，
+                        尚達能製造出價格親民且品質強韌耐用的塑膠袋，除此之外我們尚達的塑膠袋是絕對無毒可以安心使用！
                     </p>
-                    <p class="lower_p">信任尚達，天天發達。</p>
+                    <p class="lower_p">相信尚達，天天發達。</p>
                 </div>
             </div>
         </div>

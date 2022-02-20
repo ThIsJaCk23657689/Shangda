@@ -2,7 +2,7 @@
 @import 'content';
 section.header {
     .bg-image {
-        background-image: url(../../../public/images/background/about.jpg)
+        background-image: url(../../../images/background/about.jpg)
     }
 }
 
@@ -28,9 +28,9 @@ section.about-detail {
                     padding-bottom: 5px;
                 }
                 .upper_p {
-                    line-height: 45px;
-                    font-size: 1.3rem;
-                    letter-spacing: 2px;
+                    line-height: 36px;
+                    font-size: 1.2rem;
+                    font-weight: 500;
                 }
                 .lower_p {
                     line-height: 45px;

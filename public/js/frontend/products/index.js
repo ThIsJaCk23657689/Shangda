@@ -968,7 +968,7 @@ var render = function() {
                     [
                       _c("i", { staticClass: "fas fa-comments-dollar mr-1" }),
                       _vm._v(
-                        "\n                        詢問價錢\n                    "
+                        "\r\n                        詢問價錢\r\n                    "
                       )
                     ]
                   ),
@@ -992,7 +992,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                            了解更多 >>\n                        "
+                      "\r\n                            了解更多 >>\r\n                        "
                     )
                   ]
                 )
