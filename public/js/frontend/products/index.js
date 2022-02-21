@@ -356,6 +356,7 @@ __webpack_require__.r(__webpack_exports__);
       }, 150);
     },
     loadPrevImages: function loadPrevImages(e) {
+      var vm = this;
       var $carousel = $(e.target).parents('.carousel');
       var currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
       var newLeft = currentLeft - this.carouselSlideWidth;
@@ -968,7 +969,7 @@ var render = function() {
                     [
                       _c("i", { staticClass: "fas fa-comments-dollar mr-1" }),
                       _vm._v(
-                        "\r\n                        詢問價錢\r\n                    "
+                        "\n                        詢問價錢\n                    "
                       )
                     ]
                   ),
@@ -992,7 +993,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\r\n                            了解更多 >>\r\n                        "
+                      "\n                            了解更多 >>\n                        "
                     )
                   ]
                 )

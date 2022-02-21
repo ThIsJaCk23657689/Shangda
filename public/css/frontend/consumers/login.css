@@ -44,11 +44,16 @@ section.header .bg-gray {
 }
 section.header .container {
   height: 100%;
+  display: -webkit-box;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
 }
 section.header .container .title {
   font-weight: bold;
@@ -59,9 +64,12 @@ section.header .container .title {
 
 .content-paginate-container {
   position: relative;
+  display: -webkit-box;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
   width: 100%;
   height: 2.3rem;
   margin-top: 18px;
@@ -87,6 +95,7 @@ section.header .container .title {
   font-size: 1.3rem;
   font-weight: bold;
   cursor: pointer;
+  -webkit-transition: color 0.2s ease-in-out;
   transition: color 0.2s ease-in-out;
 }
 @media (max-width: 767px) {
@@ -139,7 +148,8 @@ section.header .bg-image {
   margin: auto;
   position: relative;
   top: 50%;
-  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
   text-align: center;
   color: white;
   background-color: #003677;
@@ -171,6 +181,7 @@ section.header .bg-image {
   font-weight: 600;
   font-size: 18px;
   text-decoration: none;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .login-reg-panel .register-info-box .register-link:hover {
@@ -191,6 +202,7 @@ section.header .bg-image {
   cursor: pointer;
   font-weight: 600;
   font-size: 18px;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .login-reg-panel #label-login:hover, .login-reg-panel #label-register:hover {
@@ -205,6 +217,7 @@ section.header .bg-image {
   top: -50px;
   width: 50%;
   right: calc(50% - 50px);
+  -webkit-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
   z-index: 0;
   box-shadow: 0 0 15px 9px #00000096;
@@ -213,6 +226,7 @@ section.header .bg-image {
   z-index: 1;
   display: none;
   opacity: 0;
+  -webkit-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
   color: #242424;
   text-align: left;
@@ -244,19 +258,29 @@ section.header .bg-image {
   text-decoration: none;
 }
 .white-panel .auth-login-footer {
+  display: -webkit-box;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+          align-items: center;
   width: 100%;
   padding-bottom: 24px;
 }
 .white-panel .auth-login-footer .checkbox-container {
+  display: -webkit-box;
   display: flex;
-  flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: center;
+  -webkit-box-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+          align-items: center;
 }
 .white-panel .auth-login-footer .checkbox-container .checkbox-input {
   box-sizing: border-box;
@@ -283,6 +307,7 @@ section.header .bg-image {
 }
 .white-panel .button-container {
   width: 100%;
+  display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
 }
@@ -297,6 +322,7 @@ section.header .bg-image {
   border-radius: 2px;
   float: right;
   cursor: pointer;
+  -webkit-transition: 300ms all ease-in-out;
   transition: 300ms all ease-in-out;
 }
 .white-panel .button-container .submit-button:hover {
@@ -324,4 +350,55 @@ section.header .bg-image {
   font-weight: bold;
   letter-spacing: 1px;
   z-index: 99;
+}
+
+@media (max-width: 1140px) {
+  .login-reg-panel {
+    width: 80%;
+  }
+  .login-reg-panel .register-info-box {
+    padding: 0 20px;
+  }
+}
+@media (max-width: 960px) {
+  .login-reg-panel {
+    width: 95%;
+  }
+  .login-reg-panel .register-info-box {
+    padding: 0 20px;
+  }
+
+  .white-panel .login-show {
+    padding: 40px;
+  }
+}
+@media (max-width: 720px) {
+  .login-reg-panel {
+    width: 90%;
+    height: 530px;
+  }
+  .login-reg-panel .register-info-box {
+    width: 100%;
+    top: 64%;
+    left: auto;
+    right: auto;
+    padding: 0 20px;
+  }
+  .login-reg-panel .register-info-box h2 {
+    font-size: 32px;
+    margin-bottom: 3px;
+  }
+  .login-reg-panel .register-info-box p {
+    font-size: 21px;
+    margin-bottom: 12px;
+  }
+
+  .white-panel {
+    height: auto;
+    width: 100%;
+    right: 0;
+  }
+  .white-panel .login-show {
+    padding: 20px;
+  }
 }

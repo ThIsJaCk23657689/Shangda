@@ -95,3 +95,24 @@ section.header {
     transition: 200ms ease-out;
     opacity: 0;
 }
+
+@media (max-width: 1280px) {
+    .white-panel {
+        width: 60%;
+    }
+}
+
+@media (max-width: 960px) {
+    .white-panel {
+        width: 80%;
+    }
+}
+
+@media (max-width: 720px) {
+    .white-panel {
+        width: 90%;
+        .login-show {
+            padding: 50px 40px;
+        }
+    }
+}

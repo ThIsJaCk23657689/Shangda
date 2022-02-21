@@ -386,9 +386,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\r\n                            " +
+                        "\n                            " +
                           _vm._s(discount.product.name) +
-                          "\r\n                            "
+                          "\n                            "
                       ),
                       _c("input", {
                         attrs: {
@@ -499,7 +499,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        確認儲存\r\n                    "
+                    "\n                        確認儲存\n                    "
                   )
                 ]
               ),
@@ -512,7 +512,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\r\n                        返回列表\r\n                    "
+                    "\n                        返回列表\n                    "
                   )
                 ]
               )

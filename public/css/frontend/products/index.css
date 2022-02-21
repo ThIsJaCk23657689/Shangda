@@ -44,11 +44,16 @@ section.header .bg-gray {
 }
 section.header .container {
   height: 100%;
+  display: -webkit-box;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
 }
 section.header .container .title {
   font-weight: bold;
@@ -59,9 +64,12 @@ section.header .container .title {
 
 .content-paginate-container {
   position: relative;
+  display: -webkit-box;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
   width: 100%;
   height: 2.3rem;
   margin-top: 18px;
@@ -87,6 +95,7 @@ section.header .container .title {
   font-size: 1.3rem;
   font-weight: bold;
   cursor: pointer;
+  -webkit-transition: color 0.2s ease-in-out;
   transition: color 0.2s ease-in-out;
 }
 @media (max-width: 767px) {
@@ -144,10 +153,14 @@ section.header .container .title {
   border-radius: 10px;
   padding: 5px 0px 5px 15px;
   position: relative;
+  display: -webkit-box;
   display: flex;
-  flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
   flex-wrap: nowrap;
-  align-items: center;
+  -webkit-box-align: center;
+          align-items: center;
 }
 @media (max-width: 767px) {
   .filter-row .filter-search {
@@ -159,9 +172,13 @@ section.header .container .title {
   width: 34px;
   height: 30px;
   color: #000;
+  display: -webkit-box;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-align: center;
+          align-items: center;
 }
 .filter-row .filter-search .search-input {
   display: inline-block;
@@ -182,7 +199,8 @@ section.header .container .title {
 }
 @media (max-width: 767px) {
   .filter-row .search-div {
-    order: 3;
+    -webkit-box-ordinal-group: 4;
+            order: 3;
   }
 }
 
@@ -200,9 +218,13 @@ section.product-content {
   background-color: #efefef;
 }
 section.product-content .container .product-list {
+  display: -webkit-box;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-pack: start;
+          justify-content: flex-start;
   color: black;
 }
 section.product-content .container .costomer-div {
@@ -243,9 +265,14 @@ section.product-content .container .costomer-div a:hover {
   width: 33.3333333%;
   height: 400px;
   position: relative;
-  perspective: 800px;
-  transform-style: preserve-3d;
+  -webkit-perspective: 800px;
+          perspective: 800px;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 5s;
+  transition: -webkit-transform 5s;
   transition: transform 5s;
+  transition: transform 5s, -webkit-transform 5s;
   margin-bottom: 30px;
 }
 .make-3D-space .product-card {
@@ -255,7 +282,9 @@ section.product-content .container .costomer-div a:hover {
   top: 10px;
   left: calc((100% - 325px) / 2);
   overflow: hidden;
-  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: 100ms ease-out;
   transition: 100ms ease-out;
 }
 .make-3D-space .product-card.animate {
@@ -264,14 +293,17 @@ section.product-content .container .costomer-div a:hover {
   top: 5px;
   left: calc((100% - 335px) / 2);
   box-shadow: 0px 13px 21px -5px rgba(0, 0, 0, 0.3);
+  -webkit-transition: 100ms ease-out;
   transition: 100ms ease-out;
 }
 .make-3D-space .product-card.animate .stats-container {
   top: 230px;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .make-3D-space .product-card.animate .image_overlay {
   opacity: 0.7;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .make-3D-space .product-card.animate .view_details {
@@ -280,28 +312,38 @@ section.product-content .container .costomer-div a:hover {
   font-size: 15px;
   margin-left: -75px;
   top: 115px;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .make-3D-space .product-card.animate .product-back,
 .make-3D-space .product-card.animate .product-front {
   top: 0px;
   left: 0px;
+  -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 .make-3D-space .product-card.flip-10 {
+  -webkit-transform: rotateY(-10deg);
   transform: rotateY(-10deg);
+  -webkit-transition: 50ms ease-out;
   transition: 50ms ease-out;
 }
 .make-3D-space .product-card.flip90 {
+  -webkit-transform: rotateY(90deg);
   transform: rotateY(90deg);
+  -webkit-transition: 100ms ease-in;
   transition: 100ms ease-in;
 }
 .make-3D-space .product-card.flip190 {
+  -webkit-transform: rotateY(190deg);
   transform: rotateY(190deg);
+  -webkit-transition: 100ms ease-out;
   transition: 100ms ease-out;
 }
 .make-3D-space .product-card.flip180 {
+  -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
+  -webkit-transition: 150ms ease-out;
   transition: 150ms ease-out;
 }
 .make-3D-space .product-card .product-front,
@@ -312,11 +354,13 @@ section.product-content .container .costomer-div a:hover {
   position: absolute;
   left: 0px;
   top: 0px;
+  -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 .make-3D-space .product-card .product-back {
   display: none;
-  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
 }
 .make-3D-space .product-card .product-back div.shadow {
   z-index: 10;
@@ -328,8 +372,11 @@ section.product-content .container .costomer-div a:hover {
 }
 
 .stats-container {
+  display: -webkit-box;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
   flex-wrap: nowrap;
   width: 100%;
   height: 300px;
@@ -338,13 +385,18 @@ section.product-content .container .costomer-div a:hover {
   position: absolute;
   top: 284px;
   left: 0;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .stats-container .product_price-container {
+  display: -webkit-box;
   display: flex;
-  flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
   align-content: center;
   margin-bottom: 12px;
 }
@@ -359,6 +411,7 @@ section.product-content .container .costomer-div a:hover {
   background-color: white;
   z-index: 2;
   font-size: 1.1rem;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .stats-container .product_price-container .cart-button:hover {
@@ -372,6 +425,7 @@ section.product-content .container .costomer-div a:hover {
   font-weight: bold;
   background-color: white;
   z-index: 2;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .stats-container .product_ask_price:hover {
@@ -409,6 +463,7 @@ section.product-content .container .costomer-div a:hover {
   bottom: 145px;
   font-size: 0.8rem;
   font-weight: bold;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .stats-container .readmore-container .readmore:hover {
@@ -457,6 +512,7 @@ section.product-content .container .costomer-div a:hover {
   padding: 10px 0;
   width: 172px;
   opacity: 0;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .view_details:hover {
@@ -529,6 +585,7 @@ div.shadow {
 .flip-back:hover .cx,
 .flip-back:hover .cy {
   background: #979ca7;
+  -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
 }
 
@@ -540,35 +597,47 @@ div.shadow {
   top: 15px;
   right: 15px;
   height: 3px;
+  -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
 }
 .cx.s1,
 .cy.s1 {
   right: 0;
   width: 30px;
+  -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 
 .cy.s2 {
+  -webkit-transform: rotate(50deg);
   transform: rotate(50deg);
+  -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 .cy.s3 {
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
+  -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 
 .cx.s1 {
   right: 0;
   width: 30px;
+  -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 .cx.s2 {
+  -webkit-transform: rotate(140deg);
   transform: rotate(140deg);
+  -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 .cx.s3 {
+  -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
+  -webkit-transition: all 100ease-out;
+  -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
 }
 
@@ -595,9 +664,14 @@ div.shadow {
   height: 55px;
   position: absolute;
   top: 218px;
-  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 5s;
+  transition: -webkit-transform 5s;
   transition: transform 5s;
-  perspective: 335px;
+  transition: transform 5s, -webkit-transform 5s;
+  -webkit-perspective: 335px;
+          perspective: 335px;
 }
 .carousel .arrows-perspective .carouselPrev,
 .carousel .arrows-perspective .carouselNext {
@@ -606,6 +680,7 @@ div.shadow {
   background: #ccc;
   position: absolute;
   top: 0;
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
   opacity: 0.9;
   cursor: pointer;
@@ -620,46 +695,123 @@ div.shadow {
   position: absolute;
   top: 31px;
   left: 17px;
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 .carousel .arrows-perspective .carouselPrev .x,
 .carousel .arrows-perspective .carouselNext .x {
+  -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
   top: 21px;
 }
 .carousel .arrows-perspective .carouselPrev {
   left: -26px;
   top: 0;
+  -webkit-transform: rotateY(117deg);
   transform: rotateY(117deg);
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .carousel .arrows-perspective .carouselPrev.visible {
   left: 0;
   opacity: 0.8;
   background: #eee;
+  -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .carousel .arrows-perspective .carouselNext {
   top: 0;
   right: -26px;
+  -webkit-transform: rotateY(-117deg);
   transform: rotateY(-117deg);
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .carousel .arrows-perspective .carouselNext.visible {
   right: 0;
   opacity: 0.8;
   background: #efefef;
+  -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
+  -webkit-transition: all 200ms ease-out;
   transition: all 200ms ease-out;
 }
 .carousel .arrows-perspective .carouselNext .x {
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 .carousel .arrows-perspective .carouselNext .y {
+  -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
 }
 
 .modal {
   color: black;
+}
+
+@media (max-width: 1200px) {
+  .make-3D-space {
+    width: calc(33.333333% - 20px);
+    margin: 0px 10px 15px 10px;
+  }
+  .make-3D-space .product-card {
+    width: 100%;
+  }
+  .make-3D-space .product-card.animate {
+    width: 101%;
+    z-index: 99;
+  }
+}
+@media (max-width: 992px) {
+  .make-3D-space {
+    width: calc(50% - 20px);
+    margin: 0px 10px 15px 10px;
+  }
+  .make-3D-space .product-card {
+    width: 100%;
+  }
+  .make-3D-space .product-card.animate {
+    width: 101%;
+    z-index: 99;
+  }
+}
+@media (max-width: 768px) {
+  .filter-row {
+    margin-bottom: 0px;
+  }
+
+  .search-div {
+    margin-top: 15px;
+  }
+
+  .make-3D-space {
+    width: calc(50% - 20px);
+    margin: 0px 10px 15px 10px;
+  }
+  .make-3D-space .product-card {
+    width: 100%;
+    left: 0;
+  }
+  .make-3D-space .product-card.animate {
+    width: 101%;
+    z-index: 99;
+    left: 0;
+  }
+}
+@media (max-width: 576px) {
+  .make-3D-space {
+    width: calc(100% - 20px);
+    margin: 0px 10px 15px 10px;
+  }
+  .make-3D-space .product-card {
+    width: 100%;
+    left: 0;
+  }
+  .make-3D-space .product-card.animate {
+    width: 101%;
+    left: 0;
+    z-index: 99;
+  }
 }

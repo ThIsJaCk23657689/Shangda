@@ -208,3 +208,59 @@ section.header {
     letter-spacing: 1px;
     z-index: 99;
 }
+
+@media (max-width: 1140px) {
+    .login-reg-panel {
+        width: 80%;
+        .register-info-box {
+            padding: 0 20px;
+        }
+    }
+}
+
+@media (max-width: 960px) {
+    .login-reg-panel {
+        width: 95%;
+        .register-info-box {
+            padding: 0 20px;
+        }
+    }
+
+    .white-panel {
+        .login-show {
+            padding: 40px;
+        }
+    }
+}
+
+@media (max-width: 720px) {
+    .login-reg-panel {
+        width: 90%;
+        height: 530px;
+        .register-info-box {
+            width: 100%;
+            top: 64%;
+            left: auto;
+            right: auto;
+            padding: 0 20px;
+            h2 {
+                font-size: 32px;
+                margin-bottom: 3px;
+            }
+            p {
+                font-size: 21px;
+                margin-bottom: 12px;
+            }
+        }
+    }
+
+    .white-panel {
+        height: auto;
+        width: 100%;
+        right: 0;
+        .login-show {
+            padding: 20px;
+        }
+    }
+}
+

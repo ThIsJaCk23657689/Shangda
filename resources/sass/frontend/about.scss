@@ -46,3 +46,34 @@ section.about-detail {
         }
     }
 }
+
+@media (max-width: 992px) {
+    section.about-detail{
+        .about-detail-container {
+            padding: 40px 45px;
+            .about-content {
+                padding: 40px 30px;
+                img {
+                    box-shadow: rgb(0 0 0 / 54%) 4px 5px 12px 1px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    section.about-detail{
+        .about-detail-container {
+            padding: 0px;
+            .about-content {
+                padding: 25px 30px;
+                img {
+                    box-shadow: rgb(0 0 0 / 54%) 4px 5px 12px 1px;
+                }
+                .about-info {
+                    margin-top: 25px;
+                }
+            }
+        }
+    }
+}

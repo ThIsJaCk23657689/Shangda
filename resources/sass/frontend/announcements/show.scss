@@ -67,3 +67,11 @@ section.announcement-detail {
         }
     }
 }
+
+@media (max-width: 992px) {
+    section.announcement-detail {
+        .announcement-detail-container {
+            padding: 30px 35px;
+        }
+    }
+}

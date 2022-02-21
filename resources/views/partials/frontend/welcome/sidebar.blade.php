@@ -12,27 +12,51 @@
             </svg>
         </a>
         <ul class="mainMenu margin-top-3">
-            <li><a href="#">{{ __('About') }}</a></li>
-            <li><a href="#">{{ __('Products') }}</a></li>
-            <li><a href="#">{{ __('News') }}</a></li>
-            <li><a href="#">{{ __('Location') }}</a></li>
-            <li><a href="#">{{ __('Contact') }}</a></li>
+            <li><a href="{{ route('index') }}">{{ __('ShangDa') }}</a></li>
+            <li><a href="{{ route('front.about') }}">{{ __('About') }}</a></li>
+            <li><a href="{{ route('front.products.index') }}">{{ __('Products') }}</a></li>
+            <li><a href="{{ route('front.announcements.index') }}">{{ __('News') }}</a></li>
+            <li><a href="{{ route('front.contact') }}">{{ __('Contact') }}</a></li>
+            @auth('web')
+                {{-- 管理者登入 --}}
+                <li><a href="{{ route('backend') }}">{{ __('Backend') }}</a></li>
+            @endauth
+            @auth('consumer')
+                {{-- 客戶登入 --}}
+                <li><a href="{{ route('front.consumers.cart', ['id' => Auth::guard('consumer')->id()]) }}">{{ __('Cart') }}</a></li>
+                <li><a href="{{ route('consumer.showSaleOrders', ['consumer_id' => Auth::guard('consumer')->id()]) }}">{{ __('Consumer Sale Order') }}</a></li>
+            @endauth
         </ul>
         <ul class="subMenu small opacity-8">
-            @guest
-                <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
-            @else
-                <li><a href="{{ route('backend') }}">{{ __('Backend') }}</a></li>
-                <li><a href="#">{{ __('Profile') }}</a></li>
+            @auth('web')
                 <li>
-                    <a href="{{ route('logout') }}" 
-                    onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
                     </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </li>
-            @endguest
+            @endauth
+            @auth('consumer')
+                <li>
+                    <a href="#" onclick="
+                        event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('consumers.logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            @else
+                @guest('web')
+                    <li><a href="{{ route('consumers.login') }}">{{ __('Login') }}</a></li>
+                    <li><a href="{{ route('consumers.register') }}">{{ __('Register') }}</a></li>
+                @endguest
+            @endauth
             <li><a href="#">{{ __('Terms & Conditions') }}</a></li>
             <li><a href="#">{{ __('Privacy Policy') }}</a></li>
         </ul>
