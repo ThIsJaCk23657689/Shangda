@@ -3,7 +3,7 @@
 @import '../filter';
 section.header {
     .bg-image {
-        background-image: url(../../../../public/images/background/img-09.jpg);
+        background-image: url(../../../../images/background/img-09.jpg);
     }
 }
 
@@ -116,3 +116,39 @@ section.announcement-content {
         }
     }
 }
+
+@media (max-width: 1200px) {
+    .announcement-card {
+        width: calc(33.333333% - 30px);
+        margin: 25px 15px;
+    }
+}
+
+@media (max-width: 992px) {
+    .announcement-card {
+        width: calc(50% - 30px);
+        margin: 25px 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .announcement-card {
+        width: calc(50% - 20px);
+        margin: 20px 10px;
+    }
+    .filter-row {
+        margin-bottom: 0px;
+    }
+    .search-div {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .announcement-card {
+        width: calc(100% - 20px);
+        margin: 15px 10px;
+    }
+}
+
+

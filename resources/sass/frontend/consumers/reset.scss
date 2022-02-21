@@ -9,7 +9,7 @@ section.header {
     justify-content: center;
     align-items: center;
     .bg-image {
-        background-image: url(../../../../public/images/background/img-14.jpg);
+        background-image: url(../../../../images/background/img-14.jpg);
     }
 }
 
@@ -94,4 +94,25 @@ section.header {
 #counter{
     transition: 200ms ease-out;
     opacity: 0;
+}
+
+@media (max-width: 1280px) {
+    .white-panel {
+        width: 60%;
+    }
+}
+
+@media (max-width: 960px) {
+    .white-panel {
+        width: 80%;
+    }
+}
+
+@media (max-width: 720px) {
+    .white-panel {
+        width: 90%;
+        .login-show {
+            padding: 50px 40px;
+        }
+    }
 }

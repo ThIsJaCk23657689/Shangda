@@ -1,22 +1,24 @@
 <template>
 <div class="cart-row">
-    <div class="cart-cell w-15 p-3">
+    <div class="cart-cell w-15 p-3 cart-pic">
         <img :src="cart.product.coverImage" alt="" width="100%">
     </div>
-    <div class="cart-cell w-30 px-4">
-        <a :href="cart.product.showURL" class="product-link">
-            {{ cart.product.name }}
-        </a>
-    </div>
-    <div class="cart-cell w-15">${{ cart.product.retailPrice }}</div>
-    <div class="cart-cell w-15 px-4">
-        <input type="text" class="form-control text-center quantity" name="quantity[]" v-model="cart.quantity" @input="quantityOnInput">
-    </div>
-    <div class="cart-cell w-15">${{ cart.subtotal }}</div>
-    <div class="cart-cell w-10">
-        <button class="btn btn-md btn-danger" @click="removeItem">
-            <i class="far fa-trash-alt"></i>
-        </button>
+    <div class="cart-cell w-85 p-3 cart-spec">
+        <div class="cart-cell w-35">
+            <a :href="cart.product.showURL" class="product-link">
+                {{ cart.product.name }}
+            </a>
+        </div>
+        <div class="cart-cell w-15">${{ cart.product.retailPrice }}</div>
+        <div class="cart-cell w-20">
+            <input type="text" class="form-control text-center quantity" name="quantity[]" v-model="cart.quantity" @input="quantityOnInput">
+        </div>
+        <div class="cart-cell w-15">${{ cart.subtotal }}</div>
+        <div class="cart-cell w-15">
+            <button class="btn btn-md btn-danger" @click="removeItem">
+                <i class="far fa-trash-alt"></i>
+            </button>
+        </div>
     </div>
 </div>
 </template>
@@ -45,9 +47,9 @@ export default {
             }
             this.calculateSubTotal(this, e.target);
         },
-        
+
         calculateSubTotal: _.debounce((vm, input) => {
-            
+
             let url = $('#UpdateProductQtyURL').text();
             $('input.quantity').attr('disabled', true);
             axios.post(url, {

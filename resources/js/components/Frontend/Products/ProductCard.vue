@@ -130,6 +130,7 @@ export default {
             }, 150);
         },
         loadPrevImages(e){
+            let vm = this;
             let $carousel = $(e.target).parents('.carousel');
             let currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
             let newLeft = currentLeft - this.carouselSlideWidth;

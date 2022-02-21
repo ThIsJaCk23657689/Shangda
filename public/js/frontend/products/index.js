@@ -356,6 +356,7 @@ __webpack_require__.r(__webpack_exports__);
       }, 150);
     },
     loadPrevImages: function loadPrevImages(e) {
+      var vm = this;
       var $carousel = $(e.target).parents('.carousel');
       var currentLeft = Math.abs(parseInt($($carousel).find('ul').css('left')));
       var newLeft = currentLeft - this.carouselSlideWidth;

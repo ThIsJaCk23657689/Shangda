@@ -9,10 +9,12 @@
 @endpush
 
 @section('content')
-    
+
     <section id="auth" class="header">
         <div class="bg-image"></div>
         <div class="bg-gray"></div>
+
+{{--        TODO: RWD, Google API --}}
 
         <span id="ConsumerLoginURL" class="d-none">{{ route('consumers.login') }}</span>
         <span id="ConsumerRegisterURL" class="d-none">{{ route('consumers.register') }}</span>

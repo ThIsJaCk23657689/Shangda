@@ -135,7 +135,7 @@ section.header .container .title {
 }
 
 section.header .bg-image {
-  background-image: url(../../../public/images/background/about.jpg);
+  background-image: url(../../../images/background/about.jpg);
 }
 
 section.about-detail {
@@ -164,9 +164,9 @@ section.about-detail .about-detail-container .about-content .about-info h2 {
   padding-bottom: 5px;
 }
 section.about-detail .about-detail-container .about-content .about-info .upper_p {
-  line-height: 45px;
-  font-size: 1.3rem;
-  letter-spacing: 2px;
+  line-height: 36px;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 section.about-detail .about-detail-container .about-content .about-info .lower_p {
   line-height: 45px;
@@ -177,4 +177,30 @@ section.about-detail .about-detail-container .about-content .about-info .lower_p
 section.about-detail .about-detail-container .about-content img {
   box-shadow: rgba(0, 0, 0, 0.5) 8px 8px 8px;
   border-radius: 10px;
+}
+
+@media (max-width: 992px) {
+  section.about-detail .about-detail-container {
+    padding: 40px 45px;
+  }
+  section.about-detail .about-detail-container .about-content {
+    padding: 40px 30px;
+  }
+  section.about-detail .about-detail-container .about-content img {
+    box-shadow: rgba(0, 0, 0, 0.54) 4px 5px 12px 1px;
+  }
+}
+@media (max-width: 768px) {
+  section.about-detail .about-detail-container {
+    padding: 0px;
+  }
+  section.about-detail .about-detail-container .about-content {
+    padding: 25px 30px;
+  }
+  section.about-detail .about-detail-container .about-content img {
+    box-shadow: rgba(0, 0, 0, 0.54) 4px 5px 12px 1px;
+  }
+  section.about-detail .about-detail-container .about-content .about-info {
+    margin-top: 25px;
+  }
 }

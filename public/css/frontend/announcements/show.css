@@ -135,7 +135,7 @@ section.header .container .title {
 }
 
 section.header .bg-image {
-  background-image: url(../../../../public/images/background/product.jpg);
+  background-image: url(../../../../images/background/product.jpg);
 }
 
 .full-height {
@@ -197,4 +197,10 @@ section.announcement-detail .announcement-detail-container .announcement-content
 }
 section.announcement-detail .announcement-detail-container .announcement-content .return-row .return-text {
   border-top: 2px solid #003677;
+}
+
+@media (max-width: 992px) {
+  section.announcement-detail .announcement-detail-container {
+    padding: 30px 35px;
+  }
 }

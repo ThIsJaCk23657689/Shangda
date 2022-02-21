@@ -118,6 +118,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['cart'],
   data: function data() {
@@ -325,68 +327,75 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "cart-row" }, [
-    _c("div", { staticClass: "cart-cell w-15 p-3" }, [
+    _c("div", { staticClass: "cart-cell w-15 p-3 cart-pic" }, [
       _c("img", {
         attrs: { src: _vm.cart.product.coverImage, alt: "", width: "100%" }
       })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "cart-cell w-30 px-4" }, [
-      _c(
-        "a",
-        {
-          staticClass: "product-link",
-          attrs: { href: _vm.cart.product.showURL }
-        },
-        [
-          _vm._v(
-            "\r\n            " + _vm._s(_vm.cart.product.name) + "\r\n        "
-          )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "cart-cell w-15" }, [
-      _vm._v("$" + _vm._s(_vm.cart.product.retailPrice))
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "cart-cell w-15 px-4" }, [
-      _c("input", {
-        directives: [
+    _c("div", { staticClass: "cart-cell w-85 p-3 cart-spec" }, [
+      _c("div", { staticClass: "cart-cell w-35" }, [
+        _c(
+          "a",
           {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.cart.quantity,
-            expression: "cart.quantity"
-          }
-        ],
-        staticClass: "form-control text-center quantity",
-        attrs: { type: "text", name: "quantity[]" },
-        domProps: { value: _vm.cart.quantity },
-        on: {
-          input: [
-            function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.cart, "quantity", $event.target.value)
-            },
-            _vm.quantityOnInput
+            staticClass: "product-link",
+            attrs: { href: _vm.cart.product.showURL }
+          },
+          [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.cart.product.name) +
+                "\n            "
+            )
           ]
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "cart-cell w-15" }, [
-      _vm._v("$" + _vm._s(_vm.cart.subtotal))
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "cart-cell w-10" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-md btn-danger", on: { click: _vm.removeItem } },
-        [_c("i", { staticClass: "far fa-trash-alt" })]
-      )
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "cart-cell w-15" }, [
+        _vm._v("$" + _vm._s(_vm.cart.product.retailPrice))
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "cart-cell w-20" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.cart.quantity,
+              expression: "cart.quantity"
+            }
+          ],
+          staticClass: "form-control text-center quantity",
+          attrs: { type: "text", name: "quantity[]" },
+          domProps: { value: _vm.cart.quantity },
+          on: {
+            input: [
+              function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.cart, "quantity", $event.target.value)
+              },
+              _vm.quantityOnInput
+            ]
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "cart-cell w-15" }, [
+        _vm._v("$" + _vm._s(_vm.cart.subtotal))
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "cart-cell w-15" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-md btn-danger",
+            on: { click: _vm.removeItem }
+          },
+          [_c("i", { staticClass: "far fa-trash-alt" })]
+        )
+      ])
     ])
   ])
 }

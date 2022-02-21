@@ -148,7 +148,7 @@ section.header {
           align-items: center;
 }
 section.header .bg-image {
-  background-image: url(../../../../public/images/background/img-14.jpg);
+  background-image: url(../../../../images/background/img-14.jpg);
 }
 
 .white-panel {
@@ -234,4 +234,23 @@ section.header .bg-image {
   -webkit-transition: 200ms ease-out;
   transition: 200ms ease-out;
   opacity: 0;
+}
+
+@media (max-width: 1280px) {
+  .white-panel {
+    width: 60%;
+  }
+}
+@media (max-width: 960px) {
+  .white-panel {
+    width: 80%;
+  }
+}
+@media (max-width: 720px) {
+  .white-panel {
+    width: 90%;
+  }
+  .white-panel .login-show {
+    padding: 50px 40px;
+  }
 }
