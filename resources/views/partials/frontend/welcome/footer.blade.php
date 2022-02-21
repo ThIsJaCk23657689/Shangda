@@ -3,7 +3,7 @@
     <div class="sections">
         <div class="center">
             <a href="#" class="opacity-8">
-                Copyright &copy; 2021 {{ __('Shangda Plastic Co., Ltd.') }} {{ __('All rights reserved.') }}
+                Copyright &copy; 2022 {{ __('Shangda Plastic Co., Ltd.') }} {{ __('All rights reserved.') }}
             </a>
         </div>
     </div>
