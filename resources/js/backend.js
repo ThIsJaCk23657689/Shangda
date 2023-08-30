@@ -161,7 +161,7 @@ $(function() {
 
     $.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
 
-    $.extend(true, $.fn.dataTable.defaults, {
+    $.dataTableLangTW = {
         "language": {
             "processing": "處理中...",
             "loadingRecords": "載入中...",
@@ -183,7 +183,7 @@ $(function() {
                 "sortDescending": ": 降冪排列"
             }
         }
-    });
+    };
 
     $.isUrl = function(url) {
         var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
