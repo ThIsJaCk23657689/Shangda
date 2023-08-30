@@ -66,7 +66,7 @@ class ProductService extends BaseService
     }
 
     public function getList(){
-        $products = ProductEloquent::withTrashed()->get();
+        $products = ProductEloquent::withTrashed()->with(['category:id,name'])->get();
         return $products;
     }
 
