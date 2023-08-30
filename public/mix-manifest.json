@@ -1,4 +1,9 @@
 {
+    "/js/admin/demo/chart-area-demo.js": "/js/admin/demo/chart-area-demo.js",
+    "/js/admin/demo/chart-bar-demo.js": "/js/admin/demo/chart-bar-demo.js",
+    "/js/admin/demo/chart-pie-demo.js": "/js/admin/demo/chart-pie-demo.js",
+    "/js/admin/demo/datatables-demo.js": "/js/admin/demo/datatables-demo.js",
+    "/js/admin/sb-admin.js": "/js/admin/sb-admin.js",
     "/js/announcements/create.js": "/js/announcements/create.js",
     "/js/announcements/edit.js": "/js/announcements/edit.js",
     "/js/app.js": "/js/app.js",
