@@ -15,18 +15,18 @@ class CreatePurchaseOrderDetailsTable extends Migration
     {
         // 進貨單詳細資料表 (原物料 與 進貨單 之間多對多樞紐表)
         Schema::create('purchase_order_details', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
 
             $table->unsignedBigInteger('material_id')->comment('原物料編號');
             $table->unsignedBigInteger('purchaseOrder_id')->comment('進貨單編號');
-            
+
             $table->integer('count')->comment('進貨單序號');
             $table->double('price')->default(0)->comment('單價');
             $table->integer('quantity')->default(0)->comment('數量');
             $table->float('discount')->default(1)->comment('折數');
             $table->double('subTotal')->default(0)->comment('小計');
             $table->string('comment')->nullable()->comment('備註');
-            
+
             // $table->softDeletes();
             $table->foreign('material_id')->references('id')->on('materials');
             $table->foreign('purchaseOrder_id')->references('id')->on('purchase_orders');

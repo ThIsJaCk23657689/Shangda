@@ -17,7 +17,7 @@ class CreateConsumersTable extends Migration
         Schema::create('consumers', function (Blueprint $table) {
 
             // ==================== 通用資料 (個人帳號與法人帳號都通用之資料) ====================
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->string('account', 30)->unique()->comment('帳號');
             $table->string('password')->comment('密碼');
             $table->string('name', 100)->comment('姓名 or 公司名稱');

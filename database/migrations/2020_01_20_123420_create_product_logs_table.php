@@ -14,7 +14,7 @@ class CreateProductLogsTable extends Migration
     public function up()
     {
         Schema::create('product_logs', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->unsignedBigInteger('user_id')->comment('員工編號');
             $table->unsignedBigInteger('product_id')->comment('商品編號');
             // 1.訂單細項新增 2.訂單細項修改 3.訂單細項刪除 4.存貨新增 5.存貨修改 6.存貨刪除 7.確認出貨 8.取消出貨 9.確認付款 10.取消付款

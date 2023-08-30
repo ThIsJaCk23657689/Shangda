@@ -14,7 +14,7 @@ class CreateInformationTable extends Migration
     public function up()
     {
         Schema::create('information', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->string('cover_image')->nullable()->comment('首頁封面圖片');
             $table->timestamps();
         });

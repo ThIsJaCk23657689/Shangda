@@ -14,7 +14,7 @@ class CreateProduceProductsTable extends Migration
     public function up()
     {
         Schema::create('produce_products', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->unsignedBigInteger('produce_id')->comment('對應商品增量表主鍵的外來鍵');
             $table->unsignedBigInteger('product_id')->comment('所增量的商品編號');
             $table->double('quantity')->comment('所增量的數量');

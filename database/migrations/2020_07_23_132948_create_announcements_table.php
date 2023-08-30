@@ -14,7 +14,7 @@ class CreateAnnouncementsTable extends Migration
     public function up()
     {
         Schema::create('announcements', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->unsignedBigInteger('last_update_user_id')->nullable()->comment('最後更新使用者編號');
             $table->string('title')->comment('標題');
             $table->text('content')->comment('內文');

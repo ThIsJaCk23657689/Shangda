@@ -14,7 +14,7 @@ class CreateCartsTable extends Migration
     public function up()
     {
         Schema::create('carts', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('購物車編號');
+            $$table->id()->comment('購物車編號');
             $table->unsignedBigInteger('consumer_id')->comment('客戶編號');
             $table->float('totalTaxPrice')->default(0)->comment('購物車商品總價');
 

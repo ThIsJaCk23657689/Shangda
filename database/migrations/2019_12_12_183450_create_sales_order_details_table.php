@@ -14,7 +14,7 @@ class CreateSalesOrderDetailsTable extends Migration
     public function up()
     {
         Schema::create('sales_order_details', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->unsignedBigInteger('sales_order_id')->comment('銷貨單編號');
             $table->unsignedBigInteger('product_id')->comment('商品編號');
 

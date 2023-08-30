@@ -14,7 +14,7 @@ class CreateCartDetailsTable extends Migration
     public function up()
     {
         Schema::create('cart_details', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->unsignedBigInteger('cart_id')->comment('購物車編號');
             $table->unsignedBigInteger('product_id')->comment('商品編號');
 

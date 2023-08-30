@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration
     {
         // 成品資料表
         Schema::create('products', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->unsignedBigInteger('category_id')->comment('商品類別編號');
 
             $table->string('shownID')->unique()->comment('識別編號');
@@ -42,7 +42,7 @@ class CreateProductsTable extends Migration
             // 商品庫存為1時，代表此商品外袋庫存只剩下1個。
             $table->integer('qty_per_pack')->default(0)->comment('每件數量');
 
-            // unit 可能的值為： package：包, kg：公斤, roll：捲 和 NULL：個 
+            // unit 可能的值為： package：包, kg：公斤, roll：捲 和 NULL：個
             $table->string('unit', 10)->nullable()->comment('慣用單位');
 
             $table->text('intro')->nullable()->comment('簡介');
@@ -51,12 +51,12 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('safeQuantity')->default(0)->comment('安全庫存');
             $table->text('comment')->nullable()->comment('備註');
 
-            $table->double('costprice')->default(0)->comment('成本價格'); 
-            $table->double('profit')->default(0)->comment('利潤'); 
-            
+            $table->double('costprice')->default(0)->comment('成本價格');
+            $table->double('profit')->default(0)->comment('利潤');
+
             // retailPrice = profit + costprice
             $table->double('retailPrice')->default(0)->comment('零售價格');
-            
+
 
             $table->timestamps();
             $table->softDeletes();

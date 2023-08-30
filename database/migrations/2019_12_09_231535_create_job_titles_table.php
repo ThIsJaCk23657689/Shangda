@@ -15,7 +15,7 @@ class CreateJobTitlesTable extends Migration
     {
         // 職稱
         Schema::create('job_titles', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->string('name', 10)->comment('名稱');
         });
     }

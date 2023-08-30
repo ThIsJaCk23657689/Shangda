@@ -15,7 +15,7 @@ class CreateSuppliersTable extends Migration
     {
         // 供應商
         Schema::create('suppliers', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
 
             $table->string('name', 100)->comment('名稱');
             $table->string('shortName', 100)->nullable()->comment('簡稱');

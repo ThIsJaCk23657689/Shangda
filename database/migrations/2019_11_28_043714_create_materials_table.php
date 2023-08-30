@@ -15,7 +15,7 @@ class CreateMaterialsTable extends Migration
     {
         // 原物料
         Schema::create('materials', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->string('name')->comment('名稱');
             $table->string('shortName', 100)->nullable()->comment('簡稱');
             $table->string('internationalNum', 25)->nullable()->comment('國際條碼');

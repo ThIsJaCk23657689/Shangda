@@ -14,7 +14,7 @@ class CreateNotificationsTable extends Migration
     public function up()
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->unsignedBigInteger('job_title_id')->comment('職稱編號');
             // 0 => 未分類
             // 1 => (新建銷貨單通知); 2 => (原物料庫存低於安全庫存通知); 3 => (月結日期到結帳通知);

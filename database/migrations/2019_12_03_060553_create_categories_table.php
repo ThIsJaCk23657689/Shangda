@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         // 商品分類
         Schema::create('categories', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('編號');
+            $table->id()->comment('編號');
             $table->string('name')->comment('名稱');
             $table->text('intro')->nullable()->comment('簡介');
         });

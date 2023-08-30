@@ -14,7 +14,7 @@ class CreateMaterialLogsTable extends Migration
     public function up()
     {
         Schema::create('material_logs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('user_id')->comment('員工編號');
             $table->unsignedBigInteger('material_id')->comment('原物料編號');
             //1.進貨新增 2.進貨修改 3.進貨刪除 4.原料使用 5.原料使用修改 6.原料使用刪除 7.確認到貨 8.取消到貨 9.確認付款 10.取消付款
