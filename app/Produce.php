@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Product as ProductEloquent;
 use App\ProduceDetail as ProduceDetailEloquent;
 use App\ProduceProduct as ProduceProductEloquent;
 use App\User as UserEloquent;
@@ -17,8 +18,9 @@ class Produce extends Model
         return $this->hasMany(ProduceDetailEloquent::class);
     }
 
-    public function produceProducts(){
-        return $this->hasMany(ProduceProductEloquent::class);
+    // 紀錄這個 製程 可製作 哪些商品（多對多關係）
+    public function products(){
+        return $this->belongsToMany(ProductEloquent::class, 'produce_products');
     }
 
     public function user(){

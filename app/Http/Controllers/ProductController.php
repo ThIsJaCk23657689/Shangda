@@ -66,6 +66,11 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
+    public function forceDelete($id) {
+        $this->ProductService->forceDelete($id);
+        return redirect()->route('products.index');
+    }
+
     // 顯示此商品對應的折扣資料(有哪些顧客)
     public function showDiscountsPage($id){
         $product = $this->ProductService->getOne($id);

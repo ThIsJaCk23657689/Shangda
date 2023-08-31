@@ -47,17 +47,17 @@ class Product extends Model
     }
 
     // 抓取擁有此商品優貨的顧客們
-    public function consumers(){
+    public function consumers() {
         return $this->belongsToMany(ConsumerEloquent::class, 'discounts')->withPivot('price');
     }
 
-    public function category(){
+    public function category() {
         return $this->belongsTo(CategoryEloquent::class);
     }
 
-    // 製成紀錄
-    public function produce(){
-        return $this->hasMany(ProduceEloquent::class);
+    // 製程紀錄 跟 商品 是多對多關係
+    public function produces() {
+        return $this->belongsToMany(ProduceEloquent::class, 'produce_products');
     }
 
     public function productlogs(){

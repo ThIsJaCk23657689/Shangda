@@ -169,6 +169,20 @@ class ProductService extends BaseService
         }
     }
 
+    public function forceDelete($id){
+        $product = $this->getOne($id);
+        if($product->trashed()){
+            $product->materials()->detach();
+            $product->consumers()->detach();
+            $product->pictures()->delete();
+            $product->materials()->delete();
+            $product->produces()->delete();
+            $product->productlogs()->delete();
+            $product->contacts()->delete();
+            $product->forceDelete();
+        }
+    }
+
     public function getlastupdate(){
         $product = ProductEloquent::withTrashed()->orderBy('id', 'DESC')->first();
         if(!empty($product)){

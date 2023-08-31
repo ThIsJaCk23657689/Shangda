@@ -2,10 +2,10 @@
 
 @push('CustomJS')
 	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
-@endpush 
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('Stuffs Management') }}</a>
@@ -27,7 +27,7 @@
             </a>
 		</div>
     </div>
-	
+
 	<!-- DataTables Example -->
 	<div class="card mb-3">
 		<div class="card-header">
@@ -36,7 +36,7 @@
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
-				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+				<table class="table table-bordered" id="dataTable">
 					<thead>
 						<tr>
                             <th>編號</th>
@@ -79,6 +79,16 @@
 											<i class="fas fa-arrow-alt-circle-up"></i>
 											上架
 										</a>
+                                        <a href="#" class="btn btn-md btn-danger" onclick="
+											event.preventDefault();
+											ans = confirm('確定要刪除此商品嗎?');
+											if(ans){
+												$('#forceDeleteForm-{{ $product->id }}').submit();
+											}
+										">
+                                            <i class="fas fa-trash"></i>
+                                            刪除
+                                        </a>
 									@else
 										<a href="#" class="btn btn-md btn-danger" onclick="
 											event.preventDefault();
@@ -91,12 +101,16 @@
 											下架
 										</a>
 									@endif
-									<form id="deleteform-{{ $product->id }}" action="{{ route('products.destroy', [$product->id]) }}" method="POST" style="displat: none;">
+									<form id="deleteform-{{ $product->id }}" action="{{ route('products.destroy', [$product->id]) }}" method="POST" style="display: none;">
 										@csrf
 										@method('DELETE')
 									</form>
+                                    <form id="forceDeleteForm-{{ $product->id }}" action="{{ route('products.forceDelete', [$product->id]) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
 								</td>
-							</tr>	
+							</tr>
 						@endforeach
 					</tbody>
 				</table>

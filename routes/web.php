@@ -114,6 +114,7 @@ Route::prefix('/backend')->group(function(){
         Route::get('{id}/discounts','ProductController@showDiscountsPage')->name('products.showDiscountsPage');
         Route::post('{id}/discounts','ProductController@editDiscounts');
         Route::get('{id}/discounts/list', 'ProductController@getDiscountsList')->name('products.getDiscountsList');
+        Route::delete('{id}/forceDelete', 'ProductController@forceDelete')->name('products.forceDelete');
     });
     Route::resource('/products', 'ProductController');
 
