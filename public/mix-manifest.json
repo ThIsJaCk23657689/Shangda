@@ -71,5 +71,6 @@
     "/js/users/create.js": "/js/users/create.js",
     "/js/users/edit.js": "/js/users/edit.js",
     "/js/welcome/app.js": "/js/welcome/app.js",
-    "/js/welcome/slides.js": "/js/welcome/slides.js"
+    "/js/welcome/slides.js": "/js/welcome/slides.js",
+    "/js/welcome/plugins.js": "/js/welcome/plugins.js"
 }

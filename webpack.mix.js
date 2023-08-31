@@ -16,6 +16,10 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/frontend.js', 'public/js')
     .js('resources/js/welcome/app.js', 'public/js/welcome')
     .js('resources/js/welcome/slides.js', 'public/js/welcome')
+
+    // 目前這個檔案一定要用 copy 不然會沒辦法跑動畫
+    .copy('resources/js/welcome/plugins.js', 'public/js/welcome')
+
     .js('resources/js/frontend/products/index.js', 'public/js/frontend/products')
     .js('resources/js/frontend/products/show.js', 'public/js/frontend/products')
     .js('resources/js/frontend/announcements/index.js', 'public/js/frontend/announcements')
