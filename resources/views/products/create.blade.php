@@ -32,10 +32,10 @@
                             <label for="shownID">
                                 <span class="text-danger mr-2">*</span>商品編號
                             </label>
-                            <input id="shownID" name="shownID" type="text" class="form-control mb-2 @error('shownID') is-invalid @enderror" value="{{ old('shownID') }}" autocomplete="off" placeholder="商品編號會自動生產" readonly>
+                            <input id="shownID" name="shownID" type="text" class="form-control mb-2 @error('shownID') is-invalid @enderror" value="{{ old('shownID') }}" autocomplete="off" placeholder="商品編號會自動生產">
 
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" name="isManualID" id="ManualID" value="1">
+                                <input type="checkbox" class="custom-control-input" name="isManualID" id="ManualID" value="1" checked>
                                 <label class="custom-control-label" for="ManualID">
                                     <small>手動編號</small>
                                 </label>
@@ -55,10 +55,10 @@
                                 <span class="text-danger mr-2">*</span>商品名稱
                             </label>
 
-                            <input id="name" name="name" type="text" class="form-control mb-2 @error('name') is-invalid @enderror" value="{{ old('name') }}" autocomplete="off" placeholder="商品名稱預設會自動命名" readonly>
+                            <input id="name" name="name" type="text" class="form-control mb-2 @error('name') is-invalid @enderror" value="{{ old('name') }}" autocomplete="off" placeholder="商品名稱預設會自動命名">
 
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" name="isManualNamed" id="ManualNamed" value="1">
+                                <input type="checkbox" class="custom-control-input" name="isManualNamed" id="ManualNamed" value="1" checked>
                                 <label class="custom-control-label" for="ManualNamed">
                                     <small>手動命名</small>
                                 </label>
