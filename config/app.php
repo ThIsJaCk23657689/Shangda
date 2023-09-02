@@ -174,9 +174,9 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-//        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
-//        Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
 
     ],
