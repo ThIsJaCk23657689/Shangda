@@ -6,6 +6,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <!-- SEO -->
+    {!! SEOMeta::generate() !!}
+    {!! OpenGraph::generate() !!}
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -21,7 +25,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/welcome/slides.css') }}" rel="stylesheet" type="text/css">
-    
+
     <!-- Custom styles for this template-->
     @stack('CustomCSS')
 </head>
@@ -38,8 +42,8 @@
     <div id="app">
         @yield('content')
     </div>
-    
+
     @include('partials.frontend.welcome.footer')
-            
+
 </body>
 </html>
