@@ -37,17 +37,17 @@ class ProductRequest extends FormRequest
             'isPublic' => 'nullable|boolean',
             'showPrice' => 'nullable|boolean',
 
-            'length' => 'required|numeric|min:0',
-            'width' => 'required|numeric|min:0',
+            'length' => 'nullable|numeric|min:0',
+            'width' => 'nullable|numeric|min:0',
             'chamfer' => 'nullable|numeric|min:0',
 
-            'weight' => 'required|numeric|min:0',
-            'qty_per_pack' => 'required|integer|min:0',
+            'weight' => 'nullable|numeric|min:0',
+            'qty_per_pack' => 'nullable|integer|min:0',
             'unit' => 'nullable|string|max:100',
             'intro' => 'nullable|string',
 
-            'quantity' => 'required|integer|min:0',
-            'safeQuantity' => 'required|integer|min:0',
+            'quantity' => 'nullable|integer|min:0',
+            'safeQuantity' => 'nullable|integer|min:0',
             'comment' => 'nullable|string',
 
             'recipes.*.material_id' => "nullable|exists:materials,id|integer",

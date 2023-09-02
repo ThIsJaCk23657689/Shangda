@@ -23,15 +23,15 @@ class ProductService extends BaseService
             'isPublic' => $request->isPublic ?? '0',
             'showPrice' => $request->showPrice ?? '0',
 
-            'length' => $request->length,
-            'width' => $request->width,
+            'length' => $request->length ?? '0',
+            'width' => $request->width ?? '0',
             'chamfer' => $request->chamfer,
-            'weight' => $request->weight,
-            'qty_per_pack' => $request->qty_per_pack,
+            'weight' => $request->weight ?? '0',
+            'qty_per_pack' => $request->qty_per_pack ?? '0',
             'comment' => $request->comment,
             'unit' => $request->unit,
-            'quantity' => $request->quantity,
-            'safeQuantity' => $request->safeQuantity,
+            'quantity' => $request->quantity ?? '0',
+            'safeQuantity' => $request->safeQuantity ?? '0',
             'intro' => $request->intro,
         ]);
 
@@ -131,15 +131,15 @@ class ProductService extends BaseService
             'isPublic' => $request->isPublic ?? '0',
             'showPrice' => $request->showPrice ?? '0',
 
-            'length' => $request->length,
-            'width' => $request->width,
+            'length' => $request->length ?? '0',
+            'width' => $request->width ?? '0',
             'chamfer' => $request->chamfer,
-            'weight' => $request->weight,
-            'qty_per_pack' => $request->qty_per_pack,
+            'weight' => $request->weight ?? '0',
+            'qty_per_pack' => $request->qty_per_pack ?? '0',
             'comment' => $request->comment,
             'unit' => $request->unit,
-            'quantity' => $request->quantity,
-            'safeQuantity' => $request->safeQuantity,
+            'quantity' => $request->quantity ?? '0',
+            'safeQuantity' => $request->safeQuantity ?? '0',
             'intro' => $request->intro,
         ]);
         return $product;
@@ -289,6 +289,10 @@ class ProductService extends BaseService
     }
 
     private function savePicture($pictures, $product){
+        if (empty($pictures))  {
+            return;
+        }
+
         foreach($pictures as $picture){
 
             // 生成原圖
