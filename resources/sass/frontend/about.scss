@@ -40,8 +40,7 @@ section.about-detail {
                 }
             }
             img {
-                box-shadow: rgba(0, 0, 0, 0.5) 8px 8px 8px;
-                border-radius: 10px;
+                border-radius: 5px;
             }
         }
     }
@@ -53,9 +52,6 @@ section.about-detail {
             padding: 40px 45px;
             .about-content {
                 padding: 40px 30px;
-                img {
-                    box-shadow: rgb(0 0 0 / 54%) 4px 5px 12px 1px;
-                }
             }
         }
     }
@@ -67,9 +63,6 @@ section.about-detail {
             padding: 0px;
             .about-content {
                 padding: 25px 30px;
-                img {
-                    box-shadow: rgb(0 0 0 / 54%) 4px 5px 12px 1px;
-                }
                 .about-info {
                     margin-top: 25px;
                 }
