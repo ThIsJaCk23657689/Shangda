@@ -42,8 +42,10 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label for="created_at">訂單建立日期</label>
-                        <input id="created_at" type="text" class="form-control" readonly>
+                        <label for="transaction_at">
+                            <span class="text-danger mr-2">*</span>訂單日期
+                        </label>
+                        <input id="transaction_at" name="transaction_at" type="text" class="form-control" required>
                     </div>
                 </div>
 
@@ -255,10 +257,16 @@ export default {
             dateFormat: 'yy-mm-dd'
         });
 
+        $("#transaction_at").datepicker({
+            changeYear: true,
+            changeMonth: true,
+            dateFormat: 'yy-mm-dd'
+        });
+
         // 設定 訂單日期為今天 和 其他欄位 為預設。
         var myDate = new Date();
         var date = myDate.getFullYear() + '-' + ('0'+ (myDate.getMonth() + 1) ).slice(-2) + '-' + ('0'+ myDate.getDate()).slice(-2);
-        $("#created_at").val(date);
+        $("#transaction_at").val(date);
         $("#expectPay_at").val(date);
         $("#expectDeliver_at").val(date);
 
@@ -312,8 +320,6 @@ export default {
 
         createSalesOrder(){
             // 新建進貨單
-            alert('createSalesOrder');
-
             // 1. 先創建 SalesOrder
             let url = $('#createSalesOrder').html();
 

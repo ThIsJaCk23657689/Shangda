@@ -31,6 +31,7 @@ class SalesOrderRequest extends FormRequest
             'expectDeliver_at' => 'required|date',
             'delivered_at' => 'nullable|date',
             'makeInvoice_at' => 'nullable|date',
+            'transaction_at' => 'required|date',
 
             'piadAmount' => 'nullable|min:0|numeric',
             'unpiadAmount' => 'nullable|min:0|numeric',

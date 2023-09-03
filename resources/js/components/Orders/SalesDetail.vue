@@ -85,7 +85,7 @@
                         <td style="width: 7%">
                             <input :id="'discount_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][discount]'" :value="detail.discount" @change="calculateSubtotal(index+1)">
                         </td>
-                        <td style="width: 15%">
+                        <td style="width: 10%">
                             <input :id="'subtotal_' + (index + 1)" type="text" class="form-control" :value="detail.subTotal" disabled>
                         </td>
                         <td style="width: 15%">
@@ -111,7 +111,6 @@ export default {
     mounted() {
         $('#SalesOrderDetailForm').submit(function (e) {
             e.preventDefault();
-            alert('SalesOrderDetailForm');
         });
     },
     data(){
@@ -272,12 +271,17 @@ export default {
 
         calculateQty(id, type){
             let qty_per_pack = $('#qty_per_pack_' + id).val();
+            if (qty_per_pack == 0) {
+                // 自動計算功能先關閉
+                return;
+            }
+
             if(type === 'p'){
                 let pcs = $('#pcs_' + id).val();
                 $('#qty_' + id).val(pcs * qty_per_pack);
 
                 this.details[id - 1].pieces = pcs;
-            }else if(type === 'q' && qty_per_pack !== 0){
+            }else if(type === 'q'){
                 let qty = $('#qty_' + id).val();
                 $('#pcs_' + id).val(qty / qty_per_pack);
 
