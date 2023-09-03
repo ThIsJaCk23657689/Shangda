@@ -208,6 +208,8 @@ Route::prefix('/backend')->group(function(){
             // });
         });
         Route::resource('/return', 'Orders\ReturnOrderController');
+
+        Route::get('/billing', 'Orders\BillingController@index')->name('billing.index');
     });
 
     //購物車路由
