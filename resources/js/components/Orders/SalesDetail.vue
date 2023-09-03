@@ -246,12 +246,12 @@ export default {
 
         calculateQty(id, type){
             let qty_per_pack = $('#qty_per_pack_' + id).val();
-            if(type == 'p'){
+            if(type === 'p'){
                 let pcs = $('#pcs_' + id).val();
                 $('#qty_' + id).val(pcs * qty_per_pack);
 
                 this.details[id - 1].pieces = pcs;
-            }else if(type == 'q'){
+            }else if(type === 'q' && qty_per_pack !== 0){
                 let qty = $('#qty_' + id).val();
                 $('#pcs_' + id).val(qty / qty_per_pack);
 
