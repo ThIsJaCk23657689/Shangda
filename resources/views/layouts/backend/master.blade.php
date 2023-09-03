@@ -20,7 +20,7 @@
 	<script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}" defer></script>
 
 	<!-- Custom scripts for all pages-->
-	<script src="{{ asset('js/admin/sb-admin.min.js') }}" defer></script>
+	<script src="{{ asset('js/admin/sb-admin.js') }}" defer></script>
 	@stack('CustomJS')
 
 	<!-- Styles -->
