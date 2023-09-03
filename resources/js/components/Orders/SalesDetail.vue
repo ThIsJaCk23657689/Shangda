@@ -28,11 +28,6 @@
                             </li>
                         </ul>
                     </div>
-
-<!--                    <select id="product_id" class="form-control" @change="getProductData">-->
-<!--                        <option value="0">請選擇...</option>-->
-<!--                        <option v-for="product in products" :value="product.id">{{ product.shownID }}</option>-->
-<!--                    </select>-->
                 </div>
                 <div v-else class="col-md-3 mb-2">
                     <input id="" type="text" class="form-control" placeholder="請輸入商品名稱..." @input="searchProductName" />
@@ -47,16 +42,11 @@
                             </li>
                         </ul>
                     </div>
-
-<!--                    <select id="product_name" class="form-control" @change="getProductData">-->
-<!--                        <option value="0">請選擇...</option>-->
-<!--                        <option v-for="product in products" :value="product.id">{{ product.name }}</option>-->
-<!--                    </select>-->
                 </div>
 
-                <div class="col-md-3">
-                    <button id="addDetailBtn" type="button" class="btn btn-md btn-success" @click="addDetail">新增至細項</button>
-                </div>
+<!--                <div class="col-md-3">-->
+<!--                    <button id="addDetailBtn" type="button" class="btn btn-md btn-success" @click="addDetail">新增至細項</button>-->
+<!--                </div>-->
             </div>
 
             <table class="table table-bordered" width="100%" cellspacing="0">
