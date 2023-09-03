@@ -51,16 +51,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="company_taxID">
-                            <span class="text-danger mr-2">*</span>統一編號
-                        </label>
-                        <input id="company_taxID" name="company_taxID" type="text" class="form-control" value="" required autocomplete="off" placeholder="例：12345678" @change="searchByTaxID">
+                        <label for="company_taxID">統一編號</label>
+                        <input id="company_taxID" name="company_taxID" type="text" class="form-control" value="" autocomplete="off" placeholder="例：12345678" @change="searchByTaxID">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="company_taxID_type">
-                            <span class="text-danger mr-2">*</span>統編類型
+                            統編類型
                         </label>
                         <input id="company_taxID_type" name="company_taxID_type" type="text" class="form-control" value="" readonly>
                     </div>
@@ -102,7 +100,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="company_monthlyCheckDate">
-                            <span class="text-danger mr-2">*</span>月結日
+                            月結日
                         </label>
                         <select id="company_monthlyCheckDate" name="company_monthlyCheckDate" class="form-control mb-2" disabled>
                             <option value="0">請選擇...</option>
@@ -120,17 +118,17 @@
                 <div class="col-md-4" v-if="formtype == 'backend'">
                     <div class="form-group">
                         <label for="company_uncheckedAmount">
-                            <span class="text-danger mr-2">*</span>未沖銷帳款
+                            未沖銷帳款
                         </label>
-                        <input id="company_uncheckedAmount" name="company_uncheckedAmount" type="text" class="form-control" value="0" autocomplete="off" required>
+                        <input id="company_uncheckedAmount" name="company_uncheckedAmount" type="text" class="form-control" value="0" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-4" v-if="formtype == 'backend'">
                     <div class="form-group">
                         <label for="company_totalConsumption">
-                            <span class="text-danger mr-2">*</span>總消費額
+                            總消費額
                         </label>
-                        <input id="company_totalConsumption" name="company_totalConsumption" type="text" class="form-control" value="0" autocomplete="off" required>
+                        <input id="company_totalConsumption" name="company_totalConsumption" type="text" class="form-control" value="0" autocomplete="off">
                     </div>
                 </div>
 
@@ -170,10 +168,8 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="company_email">
-                    <span class="text-danger mr-2">*</span>公司信箱
-                </label>
-                <input id="company_email" name="company_email" type="email" class="form-control" value="" autocomplete="off" placeholder="例：test@example.com" required>
+                <label for="company_email">公司信箱</label>
+                <input id="company_email" name="company_email" type="email" class="form-control" value="" autocomplete="off" placeholder="例：test@example.com">
             </div>
         </div>
         <div class="col-md-2">
@@ -188,9 +184,9 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label for="company_operator_name_1">
-                    <span class="text-danger mr-2">*</span>聯絡窗口1 - 姓名
+                    聯絡窗口1 - 姓名
                 </label>
-                <input id="company_operator_name_1" name="company_operator_name_1" type="text" class="form-control mb-2" value="" required autocomplete="off" placeholder="例：王大明">
+                <input id="company_operator_name_1" name="company_operator_name_1" type="text" class="form-control mb-2" value="" autocomplete="off" placeholder="例：王大明">
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="isSameAsPrincipal" value="1">
                     <label class="custom-control-label" for="isSameAsPrincipal">
@@ -202,7 +198,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label for="company_operator_tel_1">
-                    <span class="text-warning mr-2">*</span>聯絡窗口1 - 電話
+                    聯絡窗口1 - 電話
                 </label>
                 <input id="company_operator_tel_1" name="company_operator_tel_1" type="text" class="form-control" value="" autocomplete="off" placeholder="例：0412345678">
                 <small class="form-text text-muted">電話請包含區碼並省略"-"。</small>
@@ -219,7 +215,7 @@
                 <label for="company_operator_phone_1">
                     <span class="text-warning mr-2">*</span>聯絡窗口1 - 手機
                 </label>
-                <input id="company_operator_phone_1" name="company_operator_phone_1" type="text" class="form-control" value="" autocomplete="off" placeholder="例：0912345678" required>
+                <input id="company_operator_phone_1" name="company_operator_phone_1" type="text" class="form-control" value="" autocomplete="off" placeholder="例：0912345678">
                 <small class="form-text text-muted">手機號碼不需+886</small>
             </div>
         </div>
@@ -273,42 +269,42 @@
     <div class="row">
         <div class="col-md-6">
             <div id="company_address_twzipcode" class="form-group">
-                <label><span class="text-danger mr-2">*</span>公司地址</label>
+                <label>公司地址</label>
                 <div class="row mb-2">
                     <div class="col-md-4">
-                        <div data-role="county" data-style="form-control" data-name="company_address_county" data-value="" data-required="1"></div>
+                        <div data-role="county" data-style="form-control" data-name="company_address_county" data-value=""></div>
                     </div>
                     <div class="col-md-4">
-                        <div data-role="district" data-style="form-control" data-name="company_address_district" data-value="" data-required="1"></div>
+                        <div data-role="district" data-style="form-control" data-name="company_address_district" data-value=""></div>
                     </div>
                     <div class="col-md-4">
-                        <div data-role="zipcode" data-style="form-control" data-name="company_address_zipcode" data-value="" data-required="1"></div>
+                        <div data-role="zipcode" data-style="form-control" data-name="company_address_zipcode" data-value=""></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input id="company_address_others" type="text" class="form-control" name="company_address_others" value="" autocomplete="off" required>
+                        <input id="company_address_others" type="text" class="form-control" name="company_address_others" value="" autocomplete="off">
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div id="company_deliveryAddress_twzipcode" class="form-group">
-                <label><span class="text-danger mr-2">*</span>送貨地址</label>
+                <label>送貨地址</label>
                 <div class="row mb-2">
                     <div class="col-md-4">
-                        <div data-role="county" data-style="form-control" data-name="company_deliveryAddress_county" data-value="" data-required="1"></div>
+                        <div data-role="county" data-style="form-control" data-name="company_deliveryAddress_county" data-value=""></div>
                     </div>
                     <div class="col-md-4">
-                        <div data-role="district" data-style="form-control" data-name="company_deliveryAddress_district" data-value="" data-required="1"></div>
+                        <div data-role="district" data-style="form-control" data-name="company_deliveryAddress_district" data-value=""></div>
                     </div>
                     <div class="col-md-4">
-                        <div data-role="zipcode" data-style="form-control" data-name="company_deliveryAddress_zipcode" data-value="" data-required="1"></div>
+                        <div data-role="zipcode" data-style="form-control" data-name="company_deliveryAddress_zipcode" data-value=""></div>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <input id="company_deliveryAddress_others" type="text" class="form-control" name="company_deliveryAddress_others" value="" autocomplete="off" required>
+                        <input id="company_deliveryAddress_others" type="text" class="form-control" name="company_deliveryAddress_others" value="" autocomplete="off">
                     </div>
                 </div>
                 <div class="row">

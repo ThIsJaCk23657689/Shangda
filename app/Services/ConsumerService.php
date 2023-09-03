@@ -34,6 +34,10 @@ class ConsumerService extends BaseService
             // 沒有要存圖片
             $url = null;
         }
+        
+        $account = $request->company_account ?? '';
+        $password = $request->company_password ?? '';
+        $email = $request->company_email ?? '';
 
         $data = [];
         if($request->account_type == 'individual'){
@@ -69,8 +73,8 @@ class ConsumerService extends BaseService
                 'account_type' => 1,
                 'who_created' => 1,
 
-                'account' => $request->company_account,
-                'password' => bcrypt($request->company_password),
+                'account' => $account,
+                'password' => bcrypt($password),
 
                 'name' => $request->company_name,
                 'branch' => $request->company_branch,
@@ -86,7 +90,7 @@ class ConsumerService extends BaseService
 
                 'tel' => $request->company_tel,
                 'tax' => $request->company_tax,
-                'email' => $request->company_email,
+                'email' => $email,
                 'lineID' => $request->company_lineID,
 
                 'operator_name_1' => $request->company_operator_name_1,

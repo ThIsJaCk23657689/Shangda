@@ -10,17 +10,17 @@ class ConsumerRequest extends FormRequest
         return true;
     }
 
-    public function rules(){   
+    public function rules(){
 
         $account_type = $this->request->get('account_type');
 
         if($account_type == 'individual'){
             $rules = [
                 'account_type' => 'bail|required|string|in:individual',
-    
+
                 'individual_account' => 'required|string|min:6|max:30|unique:consumers,account',
                 'individual_password' => 'required|string|min:6|max:30|confirmed',
-    
+
                 'individual_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 // 'individual_idNumber' => 'required|string|size:10|tw_id',
                 'individual_name' => 'required|string|min:2|max:100',
@@ -31,7 +31,7 @@ class ConsumerRequest extends FormRequest
                 'individual_uncheckedAmount' => 'required|numeric',
                 'individual_totalConsumption' => 'required|numeric',
                 'individual_comment' => 'nullable|string|max:255',
-    
+
                 'individual_phone' => 'required_without:individual_tel|nullable|string|size:10',
                 'individual_tel' => 'required_without:individual_phone|nullable|string|max:20',
                 'individual_email' => 'required|string|email|max:100|unique:consumers,email',
@@ -40,35 +40,35 @@ class ConsumerRequest extends FormRequest
                 'individual_address_county' => 'required|string|max:10',
                 'individual_address_district' => 'required|string|max:10',
                 'individual_address_others' => 'required|string|max:255',
-            
+
             ];
         }else if($account_type == 'company'){
             $rules = [
                 'account_type' => 'bail|required|string|in:company',
 
-                'company_account' => 'required|string|min:6|max:30|unique:consumers,account',
-                'company_password' => 'required|string|min:6|max:30|confirmed',
+                'company_account' => 'nullable|string|min:6|max:30',
+                'company_password' => 'nullable|string|min:6|max:30|confirmed',
 
                 'company_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'company_name' => 'required|string|min:2|max:100',
                 'company_branch' => 'nullable|string|max:50',
                 'company_shortName' => 'nullable|string|min:1|max:100',
-                'company_taxID' => 'required|max:8|string|unique:consumers,taxID',
+                'company_taxID' => 'nullable|max:8|string|unique:consumers,taxID',
                 'company_principal' => 'nullable|string|min:2|max:100',
                 // 'company_idNumber' => 'nullable|string|size:10|tw_id',
                 'company_monthlyCheckDate' => 'nullable|integer|min:0|max:31',
-                'company_uncheckedAmount' => 'required|numeric',
-                'company_totalConsumption' => 'required|numeric',
+                'company_uncheckedAmount' => 'nullable|numeric',
+                'company_totalConsumption' => 'nullable|numeric',
                 'company_comment' => 'nullable|string|max:255',
 
                 'company_tel' => 'nullable|string|max:20',
                 'company_tax' => 'nullable|string|max:10',
-                'company_email' => 'required|string|email|max:100|unique:consumers,email',
+                'company_email' => 'nullable|string|email|max:100',
                 'company_lineID' => 'nullable|string|max:100',
 
-                'company_operator_name_1' => 'required|string|min:2|max:100',
-                'company_operator_tel_1' => 'required_without:company_operator_phone_1|nullable|string|max:20',
-                'company_operator_phone_1' => 'required_without:company_operator_tel_1|nullable|string|size:10',
+                'company_operator_name_1' => 'nullable|string|min:2|max:100',
+                'company_operator_tel_1' => 'nullable|string|max:20',
+                'company_operator_phone_1' => 'nullable|string|size:10',
                 'company_operator_email_1' => 'nullable|string|email|max:100',
 
                 'company_operator_name_2' => 'nullable|string|min:2|max:100',
@@ -78,15 +78,15 @@ class ConsumerRequest extends FormRequest
 
                 // 'company_operator_gender' => 'required|integer|min:0|max:2',
 
-                'company_address_zipcode' => 'required|string|max:5',
-                'company_address_county' => 'required|string|max:10',
-                'company_address_district' => 'required|string|max:10',
-                'company_address_others' => 'required|string|max:255',
+                'company_address_zipcode' => 'nullable|string|max:5',
+                'company_address_county' => 'nullable|string|max:10',
+                'company_address_district' => 'nullable|string|max:10',
+                'company_address_others' => 'nullable|string|max:255',
 
-                'company_deliveryAddress_zipcode' => 'required|string|max:5',
-                'company_deliveryAddress_county' => 'required|string|max:10',
-                'company_deliveryAddress_district' => 'required|string|max:10',
-                'company_deliveryAddress_others' => 'required|string|max:255',
+                'company_deliveryAddress_zipcode' => 'nullable|string|max:5',
+                'company_deliveryAddress_county' => 'nullable|string|max:10',
+                'company_deliveryAddress_district' => 'nullable|string|max:10',
+                'company_deliveryAddress_others' => 'nullable|string|max:255',
             ];
         }
 
