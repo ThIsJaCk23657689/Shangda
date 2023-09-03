@@ -70,6 +70,10 @@ class Product extends Model
     }
 
     public function showUnit(){
+        if (empty($this->unit))  {
+            return $result = "未知";
+        }
+
         switch($this->unit){
             case "package":
                 $result = "包";
