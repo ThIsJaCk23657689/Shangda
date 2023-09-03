@@ -1,7 +1,7 @@
 <template>
 <div class="row justify-content-center">
     <div class="col-md-11">
-        <form id="SalesOrderCreateForm" method="POST" action="#" v-on:submit.prevent="createSalesOrder">
+        <form id="SalesOrderCreateForm" method="POST" action="#" @submit.prevent="createSalesOrder">
 
             <input type="hidden" name="status" value="1">
             <input type="hidden" name="confirmStatus" value="1">
@@ -223,7 +223,7 @@
 
             <div class="form-group row justify-content-center">
                 <div class="col-md-8">
-                    <button type="submit" class="btn btn-block btn-primary">
+                    <button type="button" class="btn btn-block btn-primary" @click="createSalesOrder">
                         確認新增
                     </button>
                     <a :href="getSalesOrderIndex" class="btn btn-block btn-danger">
@@ -312,6 +312,7 @@ export default {
 
         createSalesOrder(){
             // 新建進貨單
+            alert('createSalesOrder');
 
             // 1. 先創建 SalesOrder
             let url = $('#createSalesOrder').html();

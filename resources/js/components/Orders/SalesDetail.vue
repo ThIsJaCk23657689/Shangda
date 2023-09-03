@@ -15,7 +15,7 @@
                 </div>
 
                 <div v-if="current_search_type === '0'" class="col-md-3 mb-2">
-                    <input id="searchProductIDInput" type="text" class="form-control" placeholder="請輸入商品編號..." @input ="searchProductID" />
+                    <input id="searchProductIDInput" type="text" class="form-control" placeholder="請輸入商品編號..." @input="searchProductID" @keydown.enter.prevent="searchPressEnterKey" />
 
                     <div v-if="product_search_result.length !== 0" style="border: 1px solid; border-top: none; position: absolute; width: 90%; z-index: 40;">
                         <ul class="m-0 px-0 py-2 flex flex-column" style="list-style: none;background-color: #fafafa;">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div v-else class="col-md-3 mb-2">
-                    <input id="searchProductNameInput" type="text" class="form-control" placeholder="請輸入商品名稱..." @input="searchProductName" />
+                    <input id="searchProductNameInput" type="text" class="form-control" placeholder="請輸入商品名稱..." @input="searchProductName" @keydown.enter.prevent="searchPressEnterKey" />
 
                     <div v-if="product_search_result.length !== 0" style="border: 1px solid; border-top: none; position: absolute; width: 90%; z-index: 40;">
                         <ul class="m-0 px-0 py-2 flex flex-column" style="list-style: none;background-color: #fafafa;">
@@ -109,7 +109,10 @@
 export default {
     props: ['products'],
     mounted() {
-
+        $('#SalesOrderDetailForm').submit(function (e) {
+            e.preventDefault();
+            alert('SalesOrderDetailForm');
+        });
     },
     data(){
         return {
@@ -138,7 +141,6 @@ export default {
         // 搜尋商品編號
         searchProductID(event) {
             let ProductID = event.target.value;
-            console.log(ProductID);
             if (ProductID === '') {
                 this.product_search_result = [];
                 return;
@@ -146,6 +148,19 @@ export default {
 
             const regex = new RegExp(ProductID, 'i');
             this.product_search_result = this.products.filter(item => regex.test(item.shownID));
+        },
+
+        searchPressEnterKey(event) {
+            let Text = event.target.value;
+
+            if (Text === '') {
+                this.product_search_result = [];
+                return;
+            }
+
+            if (this.product_search_result.length !== 0) {
+                this.selectSearchProduct(this.product_search_result[0].id);
+            }
         },
 
         // 搜訊商品名稱
@@ -177,8 +192,11 @@ export default {
                 console.error('抓取商品資料失敗，錯誤：' + error);
             });
 
-            $('#searchProductIDInput').val('');
-            $('#searchProductNameInput').val('');
+            if (this.current_search_type === '0') {
+                $('#searchProductIDInput').val('').focus();
+            } else {
+                $('#searchProductNameInput').val('').focus();
+            }
             this.product_search_result = [];
         },
 
