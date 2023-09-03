@@ -135,6 +135,5 @@ class ProductController extends Controller
         }else{
             return response()->json($products, 200);
         }
-        ;
     }
 }
