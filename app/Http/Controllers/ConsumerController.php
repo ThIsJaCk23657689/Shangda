@@ -116,7 +116,15 @@ class ConsumerController extends Controller
 		]);
     }
 
-    public function getDataByTaxID($taxID){
+    public function getDataByTaxID(Request $request){
+        $taxID = $request->input('taxID');
+
+        if (empty($taxID)) {
+            return response()->json([
+                'status' => '0',
+                'msg' => '統一編號為空'
+            ]);
+        }
 
         // use key 'http' even if you send the request to https://...
         $options = [
@@ -124,6 +132,7 @@ class ConsumerController extends Controller
                 'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
                 'method'  => 'GET',
                 'content' => null,
+                'timeout' => 2, // 超時時間為2秒
             ]
         ];
 
@@ -137,18 +146,24 @@ class ConsumerController extends Controller
         $url = 'http://data.gcis.nat.gov.tw/od/data/api/673F0FC0-B3A7-429F-9041-E9866836B66D?' . http_build_query($data);
 
         $context  = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
 
-        // $result 是string 必須先轉成array
-        $result = json_decode($result, true);
+        try {
+            $result = file_get_contents($url, false, $context);
 
-        if ($result === FALSE){
+            if ($result === false) {
+                // 請求失敗，拋出異常
+                throw new \Exception("HTTP request failed!");
+            }
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => '4',
                 'msg' => '判斷統一編號時發生錯誤。',
                 'result' => $result
             ]);
         }
+
+        // $result 是string 必須先轉成array
+        $result = json_decode($result, true);
 
         if($result[0]["exist"] == "Y"){
             $type = "公司";

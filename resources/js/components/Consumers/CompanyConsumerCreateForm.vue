@@ -3,38 +3,38 @@
 
     <input id="company_account_type" name="account_type" type="hidden" value="company">
 
-    <div class="row">
-        <div class="col-md-12 mb-2">
-            <h4>2. 填寫帳戶資訊</h4>
-        </div>
-    </div>
+<!--    <div class="row">-->
+<!--        <div class="col-md-12 mb-2">-->
+<!--            <h4>2. 填寫帳戶資訊</h4>-->
+<!--        </div>-->
+<!--    </div>-->
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="company_account">
-                    <span class="text-danger mr-2">*</span>帳號
-                </label>
-                <input id="company_account" name="company_account" type="text" class="form-control" value="" required autocomplete="off" placeholder="請輸入6~30個英文或數字">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="company_password">
-                    <span class="text-danger mr-2">*</span>密碼
-                </label>
-                <input id="company_password" name="company_password" type="password" class="form-control" value="" required autocomplete="off" placeholder="請輸入至少6個英文或數字">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="company_password_confirmation">
-                    <span class="text-danger mr-2">*</span>密碼確認
-                </label>
-                <input id="company_password_confirmation" name="company_password_confirmation" type="password" class="form-control" value="" required autocomplete="off" placeholder="請再次輸入密碼">
-            </div>
-        </div>
-    </div>
+<!--    <div class="row">-->
+<!--        <div class="col-md-4">-->
+<!--            <div class="form-group">-->
+<!--                <label for="company_account">-->
+<!--                    <span class="text-danger mr-2">*</span>帳號-->
+<!--                </label>-->
+<!--                <input id="company_account" name="company_account" type="text" class="form-control" value="" required autocomplete="off" placeholder="請輸入6~30個英文或數字">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4">-->
+<!--            <div class="form-group">-->
+<!--                <label for="company_password">-->
+<!--                    <span class="text-danger mr-2">*</span>密碼-->
+<!--                </label>-->
+<!--                <input id="company_password" name="company_password" type="password" class="form-control" value="" required autocomplete="off" placeholder="請輸入至少6個英文或數字">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4">-->
+<!--            <div class="form-group">-->
+<!--                <label for="company_password_confirmation">-->
+<!--                    <span class="text-danger mr-2">*</span>密碼確認-->
+<!--                </label>-->
+<!--                <input id="company_password_confirmation" name="company_password_confirmation" type="password" class="form-control" value="" required autocomplete="off" placeholder="請再次輸入密碼">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <div class="row">
         <div class="col-md-12 mb-2">
@@ -372,12 +372,21 @@ export default {
             $('#company_name').val('');
             $('#company_principal').val('');
 
+            let $TaxUrl = $('#ConsumersTaxIDURL').text();
+            console.log('taxUrl' + $TaxUrl);
+
             let $taxID = $(e.target).val();
             if($taxID != ""){
                 let re = /^[0-9]{8}$/;
                 if(re.test($taxID)){
 
-                    let url = 'http://localhost/Shangda/public/backend/consumers/taxID/' + $taxID + '/getData';
+                    const params = new URLSearchParams();
+                    params.append('taxID', $taxID);
+
+                    const url = new URL($TaxUrl);
+                    url.search = params.toString();
+
+                    console.log('url' + url);
 
                     $.showLoadingModal();
                     axios.get(url).then(response => {

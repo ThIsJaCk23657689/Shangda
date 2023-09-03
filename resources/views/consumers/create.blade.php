@@ -18,6 +18,7 @@
 	@endcomponent
 
     <div id="consumer">
+        <span id="ConsumersTaxIDURL" class="d-none">{{ route('consumers.getData') }}</span>
         <span id="ConsumersIndexURL" class="d-none">{{ route('consumers.index') }}</span>
         <span id="ConsumersStoreURL" class="d-none">{{ route('consumers.store') }}</span>
 
