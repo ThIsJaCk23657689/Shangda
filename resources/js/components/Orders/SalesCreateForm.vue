@@ -246,14 +246,12 @@ export default {
         $("#expectPay_at").datepicker({
             changeYear: true,
             changeMonth: true,
-            minDate: new Date,
             dateFormat: 'yy-mm-dd'
         });
 
         $("#expectDeliver_at").datepicker({
             changeYear: true,
             changeMonth: true,
-            minDate: new Date,
             dateFormat: 'yy-mm-dd'
         });
 

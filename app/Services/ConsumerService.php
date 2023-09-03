@@ -34,7 +34,7 @@ class ConsumerService extends BaseService
             // 沒有要存圖片
             $url = null;
         }
-        
+
         $account = $request->company_account ?? '';
         $password = $request->company_password ?? '';
         $email = $request->company_email ?? '';

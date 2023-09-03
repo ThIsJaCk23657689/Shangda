@@ -119,12 +119,12 @@ class ConsumerController extends Controller
     public function getDataByTaxID(Request $request){
         $taxID = $request->input('taxID');
 
-//        if (empty($taxID)) {
-//            return response()->json([
-//                'status' => '0',
-//                'msg' => '統一編號為空'
-//            ]);
-//        }
+        if (empty($taxID)) {
+            return response()->json([
+                'status' => '0',
+                'msg' => '統一編號為空'
+            ]);
+        }
 
         // use key 'http' even if you send the request to https://...
         $options = [

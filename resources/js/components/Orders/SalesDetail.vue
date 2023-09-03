@@ -91,7 +91,8 @@ export default {
     methods: {
         // 新增原物料細項
         addDetail(){
-            if(this.current_product.length != 0){
+            console.log(this.current_product);
+            if(this.current_product){
                 this.details.push({
                     count: this.details.length,
                     product: {
