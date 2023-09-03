@@ -15,10 +15,9 @@
                 </div>
 
                 <div v-if="current_search_type === '0'" class="col-md-3 mb-2">
-                    <input id="" type="text" class="form-control" placeholder="請輸入商品編號..." @input ="searchProductID" />
+                    <input id="searchProductIDInput" type="text" class="form-control" placeholder="請輸入商品編號..." @input ="searchProductID" />
 
-
-                    <div v-if="product_search_result.length !== 0" style="border: 1px solid; border-top: none; position: absolute; width: 90%">
+                    <div v-if="product_search_result.length !== 0" style="border: 1px solid; border-top: none; position: absolute; width: 90%; z-index: 40;">
                         <ul class="m-0 px-0 py-2 flex flex-column" style="list-style: none;background-color: #fafafa;">
                             <li v-for="(product, index) in product_search_result" :key="index" class="px-2" style="cursor: pointer;"
                                 @mouseover="hoverSearchProductItem($event, true)"
@@ -30,9 +29,9 @@
                     </div>
                 </div>
                 <div v-else class="col-md-3 mb-2">
-                    <input id="" type="text" class="form-control" placeholder="請輸入商品名稱..." @input="searchProductName" />
+                    <input id="searchProductNameInput" type="text" class="form-control" placeholder="請輸入商品名稱..." @input="searchProductName" />
 
-                    <div v-if="product_search_result.length !== 0" style="border: 1px solid; border-top: none; position: absolute; width: 90%">
+                    <div v-if="product_search_result.length !== 0" style="border: 1px solid; border-top: none; position: absolute; width: 90%; z-index: 40;">
                         <ul class="m-0 px-0 py-2 flex flex-column" style="list-style: none;background-color: #fafafa;">
                             <li v-for="(product, index) in product_search_result" :key="index" class="px-2" style="cursor: pointer;"
                                 @mouseover="hoverSearchProductItem($event, true)"
@@ -72,9 +71,6 @@
                         <td style="width: 18%">
                             {{ detail.product.name }}
                             <input type="hidden" :name="'details[' + (index + 1) + '][product_id]'" :value="detail.product.id">
-                        </td>
-                        <td style="width: 10%">
-                            {{ detail.product.internationalNum }}
                         </td>
                         <td style="width: 18%">
                             <input :id="'pcs_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][pieces]'" :value="detail.pieces" @change="calculateQty(index+1, 'p'); calculateSubtotal(index+1);" style="width:30%;display:inline-block;">
@@ -142,6 +138,11 @@ export default {
         // 搜尋商品編號
         searchProductID(event) {
             let ProductID = event.target.value;
+            console.log(ProductID);
+            if (ProductID === '') {
+                this.product_search_result = [];
+                return;
+            }
 
             const regex = new RegExp(ProductID, 'i');
             this.product_search_result = this.products.filter(item => regex.test(item.shownID));
@@ -150,6 +151,10 @@ export default {
         // 搜訊商品名稱
         searchProductName(event)  {
             let ProductName = event.target.value;
+            if (ProductName === '') {
+                this.product_search_result = [];
+                return;
+            }
 
             const regex = new RegExp(ProductName, 'i');
             this.product_search_result = this.products.filter(item => regex.test(item.name));
@@ -166,12 +171,15 @@ export default {
                 $.closeModal();
                 this.current_product = response.data;
                 $('#addDetailBtn').attr('disabled', false);
-
                 this.addDetail();
             }).catch(error => {
                 $.showErrorModal(error);
                 console.error('抓取商品資料失敗，錯誤：' + error);
             });
+
+            $('#searchProductIDInput').val('');
+            $('#searchProductNameInput').val('');
+            this.product_search_result = [];
         },
 
         // 新增原物料細項
