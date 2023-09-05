@@ -21,7 +21,7 @@
 
         <div class="w-full flex justify-center items-center">
 
-            <div class="lg:w-5/6 md:w-full sm:w-full flex flex-col justify-center items-center">
+            <div class="lg:w-5/6 md:w-full sm:w-full mb-48 flex flex-col justify-center items-center">
 
                 <div class="w-full text-center mt-12 mb-2">
                     <h1 class="text-4xl font-bold tracking-widest sb-font">尚達塑膠有限公司</h1>
