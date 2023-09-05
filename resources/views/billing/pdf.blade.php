@@ -97,12 +97,12 @@
                                         <div class="flex justify-start" style="width: 25%"></div>
                                     @endif
                                     <div class="flex justify-start px-1" style="width: 25%">{{ $detail->product->name }}</div>
-                                    <div class="flex justify-start px-1" style="width: 5%">{{ $detail->quantity }}</div>
-                                    <div class="flex justify-start px-1" style="width: 5%">{{ $detail->price }}</div>
-                                    <div class="flex justify-start px-1" style="width: 5%">{{ $detail->discount }}</div>
-                                    <div class="flex justify-start px-1" style="width: 8%">{{ $detail->totalAmount }}</div>
-                                    <div class="flex justify-start px-1" style="width: 8%">{{ $detail->taxAmount }}</div>
-                                    <div class="flex justify-start px-1" style="width: 9%">{{ $detail->total }}</div>
+                                    <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->quantity, 0) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->price, 2) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->discount, 2) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 8%">{{ number_format($detail->totalAmount, 2) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 8%">{{ number_format($detail->taxAmount, 2) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 9%">{{ number_format($detail->total, 2) }}</div>
                                     <div class="flex justify-start px-1" style="width: 10%">{{ $detail->comment }}</div>
                                 </div>
                             @endforeach
@@ -116,9 +116,9 @@
                                 <div class="flex justify-start" style="width: 40%"></div>
                                 <div class="flex justify-start font-bold sb-font" style="width: 10%">小計：</div>
                                 <div class="flex justify-start" style="width: 15%"></div>
-                                <div class="flex justify-start px-1" style="width: 8%">{{ $salesOrder->orderTotalAmount }}</div>
-                                <div class="flex justify-start px-1" style="width: 8%">{{ $salesOrder->orderTaxAmount }}</div>
-                                <div class="flex justify-start px-1" style="width: 9%">{{ $salesOrder->orderTotal }}</div>
+                                <div class="flex justify-end px-1" style="width: 8%">{{ number_format($salesOrder->orderTotalAmount, 2) }}</div>
+                                <div class="flex justify-end px-1" style="width: 8%">{{ number_format($salesOrder->orderTaxAmount, 2) }}</div>
+                                <div class="flex justify-end px-1" style="width: 9%">{{ number_format($salesOrder->orderTotal, 2) }}</div>
                                 <div class="flex justify-start px-1" style="width: 10%"></div>
                             </div>
 
@@ -127,11 +127,10 @@
 
                     <div class="w-full flex flex-row mb-2">
                         <div class="flex justify-start" style="width: 40%"></div>
-                        <div class="flex justify-start font-bold sb-font" style="width: 10%">本期總金額合計：</div>
-                        <div class="flex justify-start" style="width: 15%"></div>
-                        <div class="flex justify-start px-1" style="width: 8%">{{ $data['result']->periodTotalAmount  }}</div>
-                        <div class="flex justify-start px-1" style="width: 8%">{{ $data['result']->periodTaxAmount  }}</div>
-                        <div class="flex justify-start px-1 font-bold" style="width: 9%">{{ $data['result']->periodTotal  }}</div>
+                        <div class="flex justify-start font-bold sb-font" style="width: 25%">本期總金額合計：</div>
+                        <div class="flex justify-end px-1" style="width: 8%">{{ number_format($data['result']->periodTotalAmount, 2) }}</div>
+                        <div class="flex justify-end px-1" style="width: 8%">{{ number_format($data['result']->periodTaxAmount, 2) }}</div>
+                        <div class="flex justify-end px-1 font-bold" style="width: 9%">{{ number_format($data['result']->periodTotal, 2) }}</div>
                         <div class="flex justify-start" style="width: 10%"></div>
                     </div>
 
