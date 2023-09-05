@@ -28,7 +28,8 @@ class BillingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back();
+            $data = [];
+            return view('billing.pdf', compact('data'));
         }
 
         $consumer_id = $request->input('consumer_id');
