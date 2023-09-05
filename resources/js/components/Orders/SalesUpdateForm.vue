@@ -44,11 +44,12 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label for="created_at">訂單建立日期</label>
-                        <input id="created_at" type="text" class="form-control"  v-model="salesOrder.created_at" readonly>
+                        <label for="transaction_at">
+                            <span class="text-danger mr-2">*</span>訂單日期
+                        </label>
+                        <input id="transaction_at" name="transaction_at" type="text" class="form-control" v-model="salesOrder.transaction_at" required>
                     </div>
                 </div>
-
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="creator">建立者</label>
@@ -341,14 +342,18 @@ export default {
         $("#expectPay_at").datepicker({
             changeYear: true,
             changeMonth: true,
-            minDate: new Date,
             dateFormat: 'yy-mm-dd'
         });
 
         $("#expectDeliver_at").datepicker({
             changeYear: true,
             changeMonth: true,
-            minDate: new Date,
+            dateFormat: 'yy-mm-dd'
+        });
+
+        $("#transaction_at").datepicker({
+            changeYear: true,
+            changeMonth: true,
             dateFormat: 'yy-mm-dd'
         });
     }

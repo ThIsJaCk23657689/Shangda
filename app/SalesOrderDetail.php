@@ -15,7 +15,7 @@ class SalesOrderDetail extends Model
 
     public $timestamps = false;
 
-    public function saleOrder(){
+    public function salesOrder(){
         return $this->belongsTo(SalesOrderEloquent::class);
     }
 

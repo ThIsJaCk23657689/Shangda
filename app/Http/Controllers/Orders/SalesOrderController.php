@@ -58,11 +58,11 @@ class SalesOrderController extends Controller
         $request->confirmStatus = 1;
         $request->who_created = 0;
         $salesOrder = $this->SalesOrderService->add($request);
-            return response()->json([
-                'salesOrder_id' => $salesOrder->id,
-                'massenge' => '單號' . $salesOrder->shown_id . '建立成功。',
-                'status' => 'OK'
-            ]);
+        return response()->json([
+            'salesOrder_id' => $salesOrder->id,
+            'message' => '單號' . $salesOrder->shown_id . '建立成功。',
+            'status' => 'OK'
+        ]);
     }
 
     public function storeFromCart(SalesOrderRequest $request)
@@ -74,7 +74,7 @@ class SalesOrderController extends Controller
         $salesOrder = $this->SalesOrderService->add($request);
         return response()->json([
             'salesOrder_id' => $salesOrder->id,
-            'massenge' => '單號' . $salesOrder->shown_id . '建立成功。',
+            'message' => '單號' . $salesOrder->shown_id . '建立成功。',
             'status' => 'OK'
         ]);
     }
@@ -167,7 +167,11 @@ class SalesOrderController extends Controller
         $salesOrder->creator = $salesOrder->user->name;
 
         foreach($details as $detail){
-            $detail['pieces'] = $detail->quantity / $detail->product->qty_per_pack;
+            if ($detail->product->qty_per_pack != 0) {
+                $detail['pieces'] = $detail->quantity / $detail->product->qty_per_pack;
+            } else {
+                $detail['pieces'] = $detail->quantity;
+            }
             $detail['products'] = $detail->product;
         }
 

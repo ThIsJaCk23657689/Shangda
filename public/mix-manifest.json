@@ -48,6 +48,7 @@
     "/js/frontend/products/show.js": "/js/frontend/products/show.js",
     "/js/information/edit.js": "/js/information/edit.js",
     "/js/materials/create.js": "/js/materials/create.js",
+    "/js/orders/billing/index.js": "/js/orders/billing/index.js",
     "/js/orders/purchase/create.js": "/js/orders/purchase/create.js",
     "/js/orders/purchase/edit.js": "/js/orders/purchase/edit.js",
     "/js/orders/purchase/index.js": "/js/orders/purchase/index.js",

@@ -41,7 +41,8 @@ class Consumer extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function saleOrder(){
+    // 此顧客的所有出貨單
+    public function salesOrders(){
         return $this->hasMany(SalesOrderEloquent::class);
     }
 

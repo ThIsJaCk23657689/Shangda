@@ -336,10 +336,11 @@ class SalesOrderService extends BaseService
         $today = Carbon::today()->toDateTimeString();   //2019-12-26 00:00:00
         $today = substr($today, 0, 10);                 //2019-12-26
         $today = str_replace('-', '', $today);            //20191226
-        $count = SalesOrderEloquent::where('shown_id', 'like', 'S' . $today . '%')->count();
-        $count += 1;
-        $count = str_pad($count, 4, '0', STR_PAD_LEFT);
-        $shown_id = 'S' . $today . $count;                  //S201912260001
+        $lastSalesOrder = SalesOrderEloquent::where('shown_id', 'like', 'S' . $today . '%')->latest('id')->first();
+        $lastShownId = $lastSalesOrder->shown_id;
+        $lastFourDigits = substr($lastShownId, -4);
+        $newLastFourDigits = sprintf('%04d', intval($lastFourDigits) + 1);
+        $shown_id = 'S' . $today . $newLastFourDigits;                  //S201912260001
         return $shown_id;
     }
 }

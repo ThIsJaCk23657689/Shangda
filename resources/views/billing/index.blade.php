@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-    <script src="{{ asset('js/orders/purchase/index.js') }}" defer></script>
+    <script src="{{ asset('js/orders/billing/index.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -16,8 +16,13 @@
         <li class="breadcrumb-item active">{{ __('Index') }}</li>
     @endcomponent
 
-    <div id="">
+    <div id="billing">
+        <span id="getConsumersName" style="display: none;">{{ route('consumers.showName') }}</span>
+        <span id="getConsumerInfo" style="display: none;">{{ route('consumers.getInfo') }}</span>
 
+        <span id="getBillingPDF" style="display: none;">{{ route('billing.pdf') }}</span>
+
+        <billing-index-list :consumers="consumers"></billing-index-list>
     </div>
 
     @include('partials.backend.modals.purchase.received')
