@@ -210,7 +210,7 @@ Route::prefix('/backend')->group(function(){
         Route::resource('/return', 'Orders\ReturnOrderController');
 
         Route::get('/billing', 'Orders\BillingController@index')->name('billing.index');
-        Route::get('/billing/pdf', 'Orders\BillingController@generatePDF')->name('billing.pdf');
+        Route::get('/billing/pdf/{consumer_id?}/{start_at?}/{end_at?}', 'Orders\BillingController@generatePDF')->name('billing.pdf');
     });
 
     //購物車路由

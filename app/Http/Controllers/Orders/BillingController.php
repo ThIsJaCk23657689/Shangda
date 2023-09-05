@@ -19,22 +19,22 @@ class BillingController extends Controller
         return view('billing.index');
     }
 
-    public function generatePDF(Request $request)
+    public function generatePDF($consumer_id, $start_at, $end_at)
     {
-        $validator = Validator::make($request->all(), [
-            'consumer_id' => 'required|exists:consumers,id',
-            'start_at' => 'required|date|before_or_equal:end_at',
-            'end_at' => 'required|date|after_or_equal:start_at',
-        ]);
+//        $validator = Validator::make($request->all(), [
+//            'consumer_id' => 'required|exists:consumers,id',
+//            'start_at' => 'required|date|before_or_equal:end_at',
+//            'end_at' => 'required|date|after_or_equal:start_at',
+//        ]);
+//
+//        if ($validator->fails()) {
+//            $data = [];
+//            return view('billing.pdf', compact('data'));
+//        }
 
-        if ($validator->fails()) {
-            $data = [];
-            return view('billing.pdf', compact('data'));
-        }
-
-        $consumer_id = $request->input('consumer_id');
-        $start_at = $request->input('start_at');
-        $end_at = $request->input('end_at');
+//        $consumer_id = $request->input('consumer_id');
+//        $start_at = $request->input('start_at');
+//        $end_at = $request->input('end_at');
 
         $consumer = Consumer::with([
             'salesOrders' => function ($query) use ($start_at, $end_at) {

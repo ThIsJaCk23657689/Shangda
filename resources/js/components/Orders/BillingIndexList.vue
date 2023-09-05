@@ -84,7 +84,6 @@ export default {
     methods: {
         generatePDF() {
             const pdfURLString = $('#getBillingPDF').html();
-            const pdfURL = new URL(pdfURLString);
 
             let consumer_id = $('#consumer_id').val();
             let start_at = $('#start_at').val();
@@ -102,10 +101,8 @@ export default {
                 return;
             }
 
-            pdfURL.searchParams.append('consumer_id', consumer_id);
-            pdfURL.searchParams.append('start_at', start_at);
-            pdfURL.searchParams.append('end_at', end_at);
-            window.open(pdfURL, '_blank');
+            const url = `${pdfURLString}/${consumer_id}/${start_at}/${end_at}`;
+            window.open(url, '_blank');
         }
     }
 }
