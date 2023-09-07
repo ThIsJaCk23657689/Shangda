@@ -333,14 +333,22 @@ class SalesOrderService extends BaseService
     }
 
     public function generateShownID(){
-        $today = Carbon::today()->toDateTimeString();   //2019-12-26 00:00:00
-        $today = substr($today, 0, 10);                 //2019-12-26
-        $today = str_replace('-', '', $today);            //20191226
+        // Generate date series
+        $today = Carbon::today()->toDateTimeString();                // 2019-12-26 00:00:00
+        $today = substr($today, 0, 10);               // 2019-12-26
+        $today = str_replace('-', '', $today);      // 20191226
+
         $lastSalesOrder = SalesOrderEloquent::where('shown_id', 'like', 'S' . $today . '%')->latest('id')->first();
-        $lastShownId = $lastSalesOrder->shown_id;
-        $lastFourDigits = substr($lastShownId, -4);
-        $newLastFourDigits = sprintf('%04d', intval($lastFourDigits) + 1);
-        $shown_id = 'S' . $today . $newLastFourDigits;                  //S201912260001
-        return $shown_id;
+
+        if ( empty( $lastSalesOrder ) ) {
+            // 如果 $lastSalesOrder 代表今天日期還沒有新增任何一筆銷貨單
+            $newLastFourDigits = sprintf('%04d', 1);    // 0001
+        } else {
+            $lastShownId = $lastSalesOrder->shown_id;                     // 202309070005
+            $lastFourDigits = substr($lastShownId, -4);            // 0005
+            $newLastFourDigits = sprintf('%04d', intval($lastFourDigits) + 1);  // 0006
+        }
+
+        return 'S' . $today . $newLastFourDigits;                  // S201912260001
     }
 }
