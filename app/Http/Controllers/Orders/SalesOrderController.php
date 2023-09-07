@@ -157,8 +157,11 @@ class SalesOrderController extends Controller
 
     // 取消付款 傳id
     public function paymentCancel(Request $request){
-        $msg = $this->SalesOrderService->paymentCancel($request);
-        return response()->json($msg, 200);
+        $result = $this->SalesOrderService->paymentCancel($request);
+        return response()->json([
+            'message' => $result['message'],
+            'url' => route('sales.index')
+        ], $result['status']);
     }
 
     public function getOne($id){

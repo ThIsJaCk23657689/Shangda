@@ -81,7 +81,7 @@
                                             <i class="fas fa-undo-alt"></i>
                                             取消付清
                                         </button>
-                                        <form id="cancle-paid-form-{{ $salesOrder->id }}" class="cancle-paid-form" action="{{ route('sales.paid') }}" method="POST" style="display: none;">
+                                        <form id="cancle-paid-form-{{ $salesOrder->id }}" class="cancle-paid-form" action="{{ route('sales.paymentCancel') }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('PATCH')
                                             <input type="hidden" name="sales_id" value="{{ $salesOrder->id }}">

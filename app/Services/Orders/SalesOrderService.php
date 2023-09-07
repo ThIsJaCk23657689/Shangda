@@ -293,13 +293,14 @@ class SalesOrderService extends BaseService
             $saleOrder->consumer->save();
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
+
             return  [
                 'message' => '成功付清',
                 'status' => 200
             ];
         }else{
             return  [
-                'message' => '查無此銷貨單',
+                'message' => '查無此銷貨單或此銷貨單已經結清',
                 'status' => 404
             ];
         }
@@ -307,7 +308,7 @@ class SalesOrderService extends BaseService
     }
 
     public function paymentCancel($request){
-        $saleOrder_id = $request->id;
+        $saleOrder_id = $request->sales_id;
         $saleOrder = $this->getOne($saleOrder_id);
 
         if($saleOrder){
@@ -327,8 +328,16 @@ class SalesOrderService extends BaseService
             $saleOrder->consumer->save();
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
+
+            return  [
+                'message' => '成功取消付清',
+                'status' => 200
+            ];
         }else{
-            return 'Sale Order Not Found';
+            return  [
+                'message' => '查無此銷貨單',
+                'status' => 404
+            ];
         }
     }
 
