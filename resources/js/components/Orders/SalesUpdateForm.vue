@@ -324,7 +324,7 @@ export default {
                 let detailData = $('#SalesOrderDetailForm').serialize();
 
                 axios.patch(detailURL, detailData).then(response => {
-                   $.showSuccessModal(response.data.message, response.data.url);
+                   $.showSuccessModal(response.data.message, this.returnUrl);
                 }).catch((error) => {
                     console.error('更新銷貨單細項時發生錯誤，錯誤訊息：' + error);
                     $.showErrorModal(error);

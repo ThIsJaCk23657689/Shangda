@@ -39,9 +39,9 @@
 						<tr>
 							<th>顧客名稱</th>
                             <th>總銷售額(含稅)</th>
+                            <th>交易日期</th>
 							<th>預期付款日</th>
 							<th>預期出貨日</th>
-							<th>建單日期</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -50,9 +50,9 @@
 							<tr>
 								<td>{{ $salesOrder->consumer->name }}</td>
 								<td>{{ $salesOrder->totalTaxPrice }}</td>
+                                <td>{{ $salesOrder->transaction_at->toDateString() }}</td>
 								<td>{{ $salesOrder->expectPay_at->toDateString() }}</td>
 								<td>{{ $salesOrder->expectDeliver_at->toDateString() }}</td>
-								<td>{{ $salesOrder->created_at->toDateString() }}</td>
 								<td>
 									@if($salesOrder->delivered_at == null)
                                         <button type="button" class="btn btn-md btn-primary delivered-btn" data-toggle="modal" data-target="#DeliveredModal" data-id="{{ $salesOrder->id }}" data-expect-delivered-at="{{ $salesOrder->showExpectDeliverAtDate() }}">

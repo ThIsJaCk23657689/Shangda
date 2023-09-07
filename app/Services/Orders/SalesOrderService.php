@@ -119,6 +119,7 @@ class SalesOrderService extends BaseService
                 'expectDeliver_at' => $request->expectDeliver_at,
                 'delivered_at' => $request->delivered_at,
                 'makeInvoice_at' => $request->makeInvoice_at,
+                'transaction_at' => $request->transaction_at,
 
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
@@ -136,6 +137,7 @@ class SalesOrderService extends BaseService
                 'expectDeliver_at' => $request->expectDeliver_at,
                 'delivered_at' => $request->delivered_at,
                 'makeInvoice_at' => $request->makeInvoice_at,
+                'transaction_at' => $request->transaction_at,
 
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
@@ -153,6 +155,7 @@ class SalesOrderService extends BaseService
                 'expectDeliver_at' => $request->expectDeliver_at,
                 'delivered_at' => $request->delivered_at,
                 'makeInvoice_at' => $request->makeInvoice_at,
+                'transaction_at' => $request->transaction_at,
 
                 // 'paidAmount' => $request->paidAmount,
                 // 'unpaidAmount' => $request->unpaidAmount,
