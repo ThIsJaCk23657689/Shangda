@@ -16,23 +16,18 @@ class ReportService extends BaseService
 {
     public function salesReportYear($request)
     {
-        // 依客戶別SQL
-        // SELECT MONTH(sales_orders.created_at) as `month`, sales_orders.consumer_id , consumers.name, SUM(sales_orders.totalTaxPrice)
-        // FROM sales_orders RIGHT JOIN consumers ON sales_orders.consumer_id = consumers.id
-        // WHERE sales_orders.created_at BETWEEN '2020-01-01' AND '2020-12-31' GROUP BY sales_orders.consumer_id, `month`
-
-        // 依商品別SQL
-        // SELECT products.id,products.name, MONTH(sales_orders.created_at) as `month`, SUM(sales_order_details.subTotal) FROM
-        // (sales_orders RIGHT JOIN sales_order_details ON sales_orders.id = sales_order_details.sales_order_id)
-        // RIGHT JOIN products ON sales_order_details.product_id = products.id
-        // WHERE sales_orders.created_at BETWEEN '2020-01-01' AND '2020-12-31' GROUP BY sales_order_details.product_id, `month`
-
         $type = $request->type ?? 1;  // 1.'依客戶別', 2.'依商品別'
         $year = $request->year ?? Carbon::now()->year;  // 預設 今年
         $orderby = $request->orderby ?? 1; // 1.'升序', 2.'降序'
 
         // 依客戶別
         if($type == 1){
+            // 依客戶別SQL
+            // SELECT MONTH(sales_orders.created_at) as `month`, sales_orders.consumer_id , consumers.name, SUM(sales_orders.totalTaxPrice)
+            // FROM sales_orders RIGHT JOIN consumers ON sales_orders.consumer_id = consumers.id
+            // where `sales_orders.paid_at` is null
+            // WHERE sales_orders.transaction_at BETWEEN '2020-01-01' AND '2020-12-31' GROUP BY sales_orders.consumer_id, `month`
+
             $consumers = ConsumerEloquent::get();
             $salesOrders = DB::table('sales_orders')
                 ->select(
@@ -41,7 +36,8 @@ class ReportService extends BaseService
                     'consumers.name',
                     DB::raw('SUM(totalTaxPrice) as total_sales')
                 )->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
-                ->whereBetween('sales_orders.created_at', [
+                ->whereNull('sales_orders.paid_at')
+                ->whereBetween('sales_orders.transaction_at', [
                     $year . '-01-01',
                     $year . '-12-31'
                 ])->groupByRaw('sales_orders.consumer_id, month')->get();
@@ -66,16 +62,18 @@ class ReportService extends BaseService
             // SELECT products.id,products.name, MONTH(sales_orders.created_at) as `month`, SUM(sales_order_details.subTotal) FROM
             // (sales_orders RIGHT JOIN sales_order_details ON sales_orders.id = sales_order_details.sales_order_id)
             // RIGHT JOIN products ON sales_order_details.product_id = products.id
-            // WHERE sales_orders.created_at BETWEEN '2020-01-01' AND '2020-12-31' GROUP BY sales_order_details.product_id, `month`
+            // where `sales_orders.paid_at` is null
+            // WHERE sales_orders.transaction_at BETWEEN '2020-01-01' AND '2020-12-31' GROUP BY sales_order_details.product_id, `month`
             $products = ProductEloquent::get();
             $salesOrders = DB::table('sales_orders')
             ->select(
                 DB::raw('products.id as p_id'), 'products.name',
                 DB::raw('SUM(sales_order_details.subTotal) as subTotal'),
-                DB::raw('MONTH(sales_orders.created_at) as month'),
+                DB::raw('MONTH(sales_orders.created_at) as month')
             )->rightJoin('sales_order_details', 'sales_orders.id', '=', 'sales_order_details.sales_order_id')
             ->rightJoin('products', 'products.id', '=', 'sales_order_details.product_id')
-            ->whereBetween('sales_orders.created_at', [
+            ->whereNull('sales_orders.paid_at')
+            ->whereBetween('sales_orders.transaction_at', [
                 $year . '-01-01',
                 $year . '-12-31'
             ])->groupByRaw('sales_order_details.product_id, month')->get();
@@ -209,20 +207,6 @@ class ReportService extends BaseService
     }
 
     public function salesReportDaily($request){
-
-        // 依商品別 SQL
-        // SELECT products.id,products.name, DATE(sales_orders.created_at) as `date`, SUM(sales_order_details.subTotal) FROM
-        // (sales_orders RIGHT JOIN sales_order_details ON sales_orders.id = sales_order_details.sales_order_id)
-        // RIGHT JOIN products ON sales_order_details.product_id = products.id
-        // WHERE sales_orders.created_at BETWEEN '2020-06-15' AND '2020-07-31' GROUP BY  products.id, `date`
-        // ORDER BY `date` ASC , products.id ASC
-
-        // 依客戶別 SQL
-        // SELECT consumers.id,consumers.name, DATE(sales_orders.created_at) as `date`, SUM(sales_orders.totalPrice) FROM sales_orders
-        // RIGHT JOIN consumers ON sales_orders.consumer_id = consumers.id
-        // WHERE sales_orders.created_at BETWEEN '2020-06-15' AND '2020-07-31' GROUP BY  consumers.id, `date`
-        // ORDER BY `date` ASC
-
         $type = $request->type;  // 1.'依供應商別', 2.'依原料別'
         $start_date = $request->start_date;
         $end_date = $request->end_date;
@@ -230,14 +214,22 @@ class ReportService extends BaseService
         $end_date = Carbon::createFromFormat('Y-m-d H:i', $end_date.'23:59')->toDateTimeString();
 
         if($type == 1){
-            // 依客戶別
+            // 依客戶別 SQL
+            // SELECT consumers.id,consumers.name, DATE(sales_orders.transaction_at) as `date`, SUM(sales_orders.totalPrice) FROM sales_orders
+            // RIGHT JOIN consumers ON sales_orders.consumer_id = consumers.id
+            // WHERE `sales_orders.paid_at` is null
+            // WHERE `sales_orders.transaction_at` BETWEEN '2020-06-15' AND '2020-07-31' GROUP BY  consumers.id, `date`
+            // ORDER BY `date` ASC
+
             $salesOrders = DB::table('sales_orders')
             ->select(
                 DB::raw('consumers.id as c_id'), 'consumers.name',
-                DB::raw('SUM(sales_orders.totalPrice) as subTotal'),
-                DB::raw('DATE(sales_orders.created_at) as date'))
+                DB::raw('SUM(sales_orders.totalTaxPrice) as subTotal'),
+                DB::raw('DATE(sales_orders.transaction_at) as date')
+            )
             ->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
-            ->whereBetween('sales_orders.created_at', [
+            ->whereNull('sales_orders.paid_at')
+            ->whereBetween('sales_orders.transaction_at', [
                 $start_date,
                 $end_date
             ])->groupByRaw('consumers.id, date')->orderBy('date', 'asc')->get();
@@ -251,11 +243,12 @@ class ReportService extends BaseService
             ];
 
         }else{
-            // 依商品別
-            // SELECT products.id,products.name, DATE(sales_orders.created_at) as `date`, SUM(sales_order_details.subTotal) FROM
+            // 依商品別 SQL
+            // SELECT products.id,products.name, DATE(sales_orders.transaction_at) as `date`, SUM(sales_order_details.subTotal) FROM
             // (sales_orders RIGHT JOIN sales_order_details ON sales_orders.id = sales_order_details.sales_order_id)
             // RIGHT JOIN products ON sales_order_details.product_id = products.id
-            // WHERE sales_orders.created_at BETWEEN '2020-06-15' AND '2020-07-31' GROUP BY  products.id, `date`
+            // WHERE `sales_orders.paid_at` is null
+            // WHERE `sales_orders.transaction_at` BETWEEN '2020-06-15' AND '2020-07-31' GROUP BY  products.id, `date`
             // ORDER BY `date` ASC , products.id ASC
 
             $salesOrders = DB::table('sales_orders')
@@ -264,10 +257,12 @@ class ReportService extends BaseService
                 DB::raw('SUM(sales_order_details.subTotal) as subTotal'),
                 DB::raw('SUM(sales_order_details.quantity) as quantity'),
                 DB::raw('products.unit as unit'),
-                DB::raw('DATE(sales_orders.created_at) as date'),
-            )->rightJoin('sales_order_details', 'sales_orders.id', '=', 'sales_order_details.sales_order_id')
+                DB::raw('DATE(sales_orders.transaction_at) as date')
+            )
+            ->rightJoin('sales_order_details', 'sales_orders.id', '=', 'sales_order_details.sales_order_id')
             ->rightJoin('products', 'products.id', '=', 'sales_order_details.product_id')
-            ->whereBetween('sales_orders.created_at', [
+            ->whereNull('sales_orders.paid_at')
+            ->whereBetween('sales_orders.transaction_at', [
                 $start_date,
                 $end_date
             ])->groupByRaw('sales_order_details.product_id, date')->orderBy('date', 'asc')->orderBy('p_id', 'asc')->get();
@@ -429,7 +424,9 @@ class ReportService extends BaseService
     public function accountReportReceivableDaily($request){
         // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice
         // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id
-        // WHERE sales_orders.created_at BETWEEN '2020-06-15' AND '2020-08-31' GROUP BY consumers.id
+        // WHERE sales_orders.transaction_at BETWEEN '2020-06-15' AND '2020-08-31'
+        // where `sales_orders.paid_at` is null
+        // GROUP BY consumers.id
 
         $start_date = $request->start_date;
         $end_date = $request->end_date;
@@ -441,10 +438,11 @@ class ReportService extends BaseService
                 DB::raw('consumers.*'),
                 DB::raw('SUM(sales_orders.unpaidAmount) as totalPrice')
             )->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
-            ->whereBetween('sales_orders.created_at', [
+            ->whereBetween('sales_orders.transaction_at', [
                 $start_date,
                 $end_date
             ])
+            ->whereNull('sales_orders.paid_at')
             ->groupByRaw('consumers.id')
             ->get();
 
@@ -471,6 +469,7 @@ class ReportService extends BaseService
     public function accountReportReceivable(){
         // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice
         // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id
+        // where `sales_orders.paid_at` is null
         // GROUP BY consumers.id
 
         $reports = DB::table('sales_orders')
@@ -478,14 +477,15 @@ class ReportService extends BaseService
                 DB::raw('consumers.*'),
                 DB::raw('SUM(sales_orders.unpaidAmount) as totalPrice')
             )->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
+            ->whereNull('sales_orders.paid_at')
             ->groupByRaw('consumers.id')
             ->get();
 
-            $reports = collect($reports);
-            foreach($reports as $report){
-                $report->showAddress = $report->address_county . $report->address_district . $report->address_others;
-            }
+        $reports = collect($reports);
+        foreach($reports as $report){
+            $report->showAddress = $report->address_county . $report->address_district . $report->address_others;
+        }
 
-            return $reports;
+        return $reports;
     }
 }
