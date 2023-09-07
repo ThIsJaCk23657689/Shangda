@@ -40,7 +40,8 @@ class BillingController extends Controller
             'salesOrders' => function ($query) use ($start_at, $end_at) {
                 $query->select('id', 'consumer_id', 'shown_id', 'transaction_at', 'taxType', 'paid_at')
                     ->whereNull('paid_at')
-                    ->whereBetween('transaction_at', [ $start_at, $end_at ]);
+                    ->whereBetween('transaction_at', [ $start_at, $end_at ])
+                    ->orderBy('transaction_at', 'asc');
             },
             'salesOrders.details' => function ($query) {
                 $query->select('id', 'sales_order_id', 'product_id', 'count', 'price', 'quantity', 'discount', 'subTotal', 'comment');
