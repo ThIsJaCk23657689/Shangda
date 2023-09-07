@@ -38,7 +38,8 @@ class BillingController extends Controller
 
         $consumer = Consumer::with([
             'salesOrders' => function ($query) use ($start_at, $end_at) {
-                $query->select('id', 'consumer_id', 'shown_id', 'transaction_at', 'taxType' )
+                $query->select('id', 'consumer_id', 'shown_id', 'transaction_at', 'taxType', 'paid_at')
+                    ->whereNull('paid_at')
                     ->whereBetween('transaction_at', [ $start_at, $end_at ]);
             },
             'salesOrders.details' => function ($query) {
