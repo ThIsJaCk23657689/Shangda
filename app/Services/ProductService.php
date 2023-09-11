@@ -167,6 +167,20 @@ class ProductService extends BaseService
             $product->produces()->delete();
             $product->productlogs()->delete();
             $product->contacts()->delete();
+
+            // 此商品對應的銷貨單與銷貨單細項都要跟著刪除
+            // 刪除關聯的 SalesOrderDetail
+            $product->details()->delete();
+
+            // 遍歷刪除 SalesOrderDetail 以刪除相關的 SalesOrder
+            $product->details->each(function ($salesOrderDetail) {
+                $salesOrder = $salesOrderDetail->salesOrder;
+
+                if ($salesOrder) {
+                    $salesOrder->delete();
+                }
+            });
+
             $product->forceDelete();
         }
     }

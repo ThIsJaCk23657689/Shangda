@@ -39,11 +39,6 @@ class SalesOrder extends Model
         return $this->belongsTo(ConsumerEloquent::class);
     }
 
-    public function products(){
-        return $this->belongsToMany(ProductEloquent::class)
-        ->withPivot('price', 'quantity', 'subTotal', 'comment', 'discount');
-    }
-
     public function details(){
         return $this->hasMany(SalesOrderDetailEloquent::class);
     }

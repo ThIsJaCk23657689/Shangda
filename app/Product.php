@@ -12,6 +12,7 @@ use App\Produce as ProduceEloquent;
 use App\ProductLog as ProductLogEloquent;
 use App\Consumer as ConsumerEloquent;
 use App\Contact as ContactEloquent;
+use App\SalesOrderDetail as SalesOrderDetailEloquent;
 
 use URL;
 
@@ -67,6 +68,11 @@ class Product extends Model
     // 抓取對這個商品有興趣的顧客們 (無需登入)
     public function contacts(){
         return $this->hasMany(ContactEloquent::class);
+    }
+
+    // 抓取這個商品對應的銷貨單細項
+    public function details(){
+        return $this->hasMany(SalesOrderDetailEloquent::class);
     }
 
     public function showUnit(){
