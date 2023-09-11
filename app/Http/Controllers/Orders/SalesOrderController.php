@@ -89,6 +89,9 @@ class SalesOrderController extends Controller
     public function show($id)
     {
         $salesOrder = $this->SalesOrderService->getOne($id);
+        if (empty($salesOrder)) {
+            return redirect()->route('sales.index');
+        }
         return view('salesOrders.show', compact('salesOrder'));
     }
 
@@ -101,6 +104,9 @@ class SalesOrderController extends Controller
     public function edit($id)
     {
         $salesOrder = $this->SalesOrderService->getOne($id);
+        if (empty($salesOrder)) {
+            return redirect()->route('sales.index');
+        }
         return view('salesOrders.edit', compact('salesOrder'));
     }
 
