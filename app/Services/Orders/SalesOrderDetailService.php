@@ -79,9 +79,9 @@ class SalesOrderDetailService extends BaseService
             }
             $saleOrder->save();
             if($saleOrder->status == 1){
-                $saleOrder->consumer->uncheckedAmount += $add_price;
-                $saleOrder->consumer->totalConsumption += $add_price;
-                $saleOrder->consumer->save();
+//                $saleOrder->consumer->uncheckedAmount += $add_price;
+//                $saleOrder->consumer->totalConsumption += $add_price;
+//                $saleOrder->consumer->save();
             }
 
 
@@ -261,9 +261,9 @@ class SalesOrderDetailService extends BaseService
         }
         $saleOrder->save();
         if($saleOrder->status == 1){
-            $saleOrder->consumer->uncheckedAmount += $add_price;
-            $saleOrder->consumer->totalConsumption += $add_price;
-            $saleOrder->consumer->save();
+//            $saleOrder->consumer->uncheckedAmount += $add_price;
+//            $saleOrder->consumer->totalConsumption += $add_price;
+//            $saleOrder->consumer->save();
         }
 
         if($count == count($details)){
@@ -320,9 +320,9 @@ class SalesOrderDetailService extends BaseService
             // 判斷是出貨還退貨
             if($saleOrder->status == 1){
                 $status = 3;
-                $saleOrder->consumer->uncheckedAmount -= $subTotal_tax;
-                $saleOrder->consumer->totalConsumption -= $subTotal_tax;
-                $saleOrder->consumer->save();
+//                $saleOrder->consumer->uncheckedAmount -= $subTotal_tax;
+//                $saleOrder->consumer->totalConsumption -= $subTotal_tax;
+//                $saleOrder->consumer->save();
             }else{
                 $status = 15;
             }

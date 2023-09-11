@@ -91,16 +91,16 @@ class SalesOrderService extends BaseService
         if ($status == 1 and ($orginalStatus == 0 or $orginalStatus == 2)){
             //沒訂單或尚未確認變成有訂單，應新增金額。
             $totalTaxPrice = $saleOrder->totalTaxPrice;
-            $saleOrder->consumer->uncheckedAmount += $totalTaxPrice;
-            $saleOrder->consumer->totalConsumption += $totalTaxPrice;
-            $saleOrder->consumer->save();
+//            $saleOrder->consumer->uncheckedAmount += $totalTaxPrice;
+//            $saleOrder->consumer->totalConsumption += $totalTaxPrice;
+//            $saleOrder->consumer->save();
             return $saleOrder;
         }elseif($status == 2 and $orginalStatus == 1){
             //已確認訂單刪除，應刪除金額。
             $totalTaxPrice = $saleOrder->totalTaxPrice;
-            $saleOrder->consumer->uncheckedAmount -= $totalTaxPrice;
-            $saleOrder->consumer->totalConsumption -= $totalTaxPrice;
-            $saleOrder->consumer->save();
+//            $saleOrder->consumer->uncheckedAmount -= $totalTaxPrice;
+//            $saleOrder->consumer->totalConsumption -= $totalTaxPrice;
+//            $saleOrder->consumer->save();
             return $saleOrder;
         }
         return "error";
@@ -115,9 +115,9 @@ class SalesOrderService extends BaseService
                 'last_user_id' => Auth::id(),
 
                 'expectPay_at' => $request->expectPay_at,
-                'paid_at' => $request->paid_at,
+//                'paid_at' => $request->paid_at,
                 'expectDeliver_at' => $request->expectDeliver_at,
-                'delivered_at' => $request->delivered_at,
+//                'delivered_at' => $request->delivered_at,
                 'makeInvoice_at' => $request->makeInvoice_at,
                 'transaction_at' => $request->transaction_at,
 
@@ -133,9 +133,9 @@ class SalesOrderService extends BaseService
                 'last_user_id' => Auth::id(),
 
                 'expectPay_at' => $request->expectPay_at,
-                'paid_at' => $request->paid_at,
+//                'paid_at' => $request->paid_at,
                 'expectDeliver_at' => $request->expectDeliver_at,
-                'delivered_at' => $request->delivered_at,
+//                'delivered_at' => $request->delivered_at,
                 'makeInvoice_at' => $request->makeInvoice_at,
                 'transaction_at' => $request->transaction_at,
 
@@ -151,17 +151,17 @@ class SalesOrderService extends BaseService
                 'last_user_id' => Auth::id(),
 
                 'expectPay_at' => $request->expectPay_at,
-                'paid_at' => $request->paid_at,
+//                'paid_at' => $request->paid_at,
                 'expectDeliver_at' => $request->expectDeliver_at,
-                'delivered_at' => $request->delivered_at,
+//                'delivered_at' => $request->delivered_at,
                 'makeInvoice_at' => $request->makeInvoice_at,
                 'transaction_at' => $request->transaction_at,
 
                 // 'paidAmount' => $request->paidAmount,
                 // 'unpaidAmount' => $request->unpaidAmount,
                 // 'totalPrice' => $request->totalPrice,
-                'taxPrice' => $request->taxPrice*1.05,
-                'totalTaxPrice' => $request->totalTaxPrice*1.05,
+                'taxPrice' => $request->taxPrice * 1.05,
+                'totalTaxPrice' => $request->totalTaxPrice * 1.05,
 
                 'comment' => $request->comment,
                 'taxType' => $request->taxType,
@@ -169,8 +169,8 @@ class SalesOrderService extends BaseService
                 'invoiceType' => $request->invoiceType,
                 'address' => $request->address,
             ]);
-            $saleOrder->consumer->uncheckedAmount =  $saleOrder->consumer->uncheckedAmount - $request->taxPrice + $request->taxPrice*1.05;
-            $saleOrder->consumer->save();
+//            $saleOrder->consumer->uncheckedAmount =  $saleOrder->consumer->uncheckedAmount - $request->taxPrice + $request->taxPrice*1.05;
+//            $saleOrder->consumer->save();
         }
 
         return $saleOrder;
@@ -179,7 +179,7 @@ class SalesOrderService extends BaseService
     public function delete($id)
     {
         $saleOrder = $this->getOne($id);
-        $saleOrder->consumer->uncheckedAmount -= $saleOrder->totalTaxPrice;
+//        $saleOrder->consumer->uncheckedAmount -= $saleOrder->totalTaxPrice;
         $saleOrder->consumer->save();
         $saleOrder->details()->delete();
         $saleOrder->delete();
@@ -292,7 +292,7 @@ class SalesOrderService extends BaseService
                 $saleOrder->paidAmount = $saleOrder->totalTaxPrice;
             }
             // 扣除客戶未結款項
-            $saleOrder->consumer->uncheckedAmount -= $paidAmount;
+//            $saleOrder->consumer->uncheckedAmount -= $paidAmount;
             $saleOrder->consumer->save();
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
@@ -327,7 +327,7 @@ class SalesOrderService extends BaseService
             $saleOrder->overpaidAmount = 0;
 
             // 加回客戶未結款項
-            $saleOrder->consumer->uncheckedAmount += $orig_paid + $orig_overpaidAmount;
+//            $saleOrder->consumer->uncheckedAmount += $orig_paid + $orig_overpaidAmount;
             $saleOrder->consumer->save();
             $saleOrder->last_user_id = Auth::id();
             $saleOrder->save();
