@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <table class="table table-bordered" width="100%" cellspacing="0">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>編號</th>
