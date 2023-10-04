@@ -88,39 +88,53 @@
 
                     @foreach( $data['result']->salesOrders as $salesOrder )
                         <div class="w-full flex flex-col mb-2 pb-1 border-b-4 border-zinc-900">
-                            @foreach( $salesOrder->details as $detail )
-                                <div class="w-full flex flex-row">
-                                    @if ( $loop->first )
-                                        <div class="flex justify-start px-1" style="width: 10%">{{ $salesOrder->transaction_at->format('Y/m/d') }}</div>
-                                        <div class="flex justify-start px-1" style="width: 15%">{{ $salesOrder->shown_id }}</div>
-                                    @else
-                                        <div class="flex justify-start" style="width: 25%"></div>
-                                    @endif
-                                    <div class="flex justify-start px-1" style="width: 25%">{{ $detail->product->name }}</div>
-                                    <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->quantity, 0) }}</div>
-                                    <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->price, 2) }}</div>
-                                    <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->discount, 2) }}</div>
-                                    <div class="flex justify-end px-1" style="width: 8%">{{ number_format($detail->totalAmount, 2) }}</div>
-                                    <div class="flex justify-end px-1" style="width: 8%">{{ number_format($detail->taxAmount, 2) }}</div>
-                                    <div class="flex justify-end px-1" style="width: 9%">{{ number_format($detail->total, 2) }}</div>
-                                    <div class="flex justify-start px-1" style="width: 10%">{{ $detail->comment }}</div>
+
+                            @if( $data['show_detail'] )
+                                @foreach( $salesOrder->details as $detail )
+                                    <div class="w-full flex flex-row">
+                                        @if ( $loop->first )
+                                            <div class="flex justify-start px-1" style="width: 10%">{{ $salesOrder->transaction_at->format('Y/m/d') }}</div>
+                                            <div class="flex justify-start px-1" style="width: 15%">{{ $salesOrder->shown_id }}</div>
+                                        @else
+                                            <div class="flex justify-start" style="width: 25%"></div>
+                                        @endif
+                                        <div class="flex justify-start px-1" style="width: 25%">{{ $detail->product->name }}</div>
+                                        <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->quantity, 0) }}</div>
+                                        <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->price, 2) }}</div>
+                                        <div class="flex justify-end px-1" style="width: 5%">{{ number_format($detail->discount, 2) }}</div>
+                                        <div class="flex justify-end px-1" style="width: 8%">{{ number_format($detail->totalAmount, 2) }}</div>
+                                        <div class="flex justify-end px-1" style="width: 8%">{{ number_format($detail->taxAmount, 2) }}</div>
+                                        <div class="flex justify-end px-1" style="width: 9%">{{ number_format($detail->total, 2) }}</div>
+                                        <div class="flex justify-start px-1" style="width: 10%">{{ $detail->comment }}</div>
+                                    </div>
+                                @endforeach
+
+                                <div class="w-full flex flex-row my-2">
+                                    <div style="width: 40%"></div>
+                                    <div class="border-b-2 border-dashed border-zinc-500" style="width: 50%"></div>
                                 </div>
-                            @endforeach
 
-                            <div class="w-full flex flex-row my-2">
-                                <div style="width: 40%"></div>
-                                <div class="border-b-2 border-dashed border-zinc-500" style="width: 50%"></div>
-                            </div>
-
-                            <div class="w-full flex flex-row">
-                                <div class="flex justify-start" style="width: 40%"></div>
-                                <div class="flex justify-start font-bold sb-font" style="width: 10%">小計：</div>
-                                <div class="flex justify-start" style="width: 15%"></div>
-                                <div class="flex justify-end px-1" style="width: 8%">{{ number_format($salesOrder->orderTotalAmount, 2) }}</div>
-                                <div class="flex justify-end px-1" style="width: 8%">{{ number_format($salesOrder->orderTaxAmount, 2) }}</div>
-                                <div class="flex justify-end px-1" style="width: 9%">{{ number_format($salesOrder->orderTotal, 2) }}</div>
-                                <div class="flex justify-start px-1" style="width: 10%"></div>
-                            </div>
+                                <div class="w-full flex flex-row">
+                                    <div class="flex justify-start" style="width: 40%"></div>
+                                    <div class="flex justify-start font-bold sb-font" style="width: 10%">小計：</div>
+                                    <div class="flex justify-start" style="width: 15%"></div>
+                                    <div class="flex justify-end px-1" style="width: 8%">{{ number_format($salesOrder->orderTotalAmount, 2) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 8%">{{ number_format($salesOrder->orderTaxAmount, 2) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 9%">{{ number_format($salesOrder->orderTotal, 2) }}</div>
+                                    <div class="flex justify-start px-1" style="width: 10%"></div>
+                                </div>
+                            @else
+                                <div class="w-full flex flex-row">
+                                    <div class="flex justify-start px-1" style="width: 10%">{{ $salesOrder->transaction_at->format('Y/m/d') }}</div>
+                                    <div class="flex justify-start px-1" style="width: 15%">{{ $salesOrder->shown_id }}</div>
+                                    <div class="flex justify-start font-bold sb-font" style="width: 25%">小計：</div>
+                                    <div class="flex justify-start" style="width: 15%"></div>
+                                    <div class="flex justify-end px-1" style="width: 8%">{{ number_format($salesOrder->orderTotalAmount, 2) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 8%">{{ number_format($salesOrder->orderTaxAmount, 2) }}</div>
+                                    <div class="flex justify-end px-1" style="width: 9%">{{ number_format($salesOrder->orderTotal, 2) }}</div>
+                                    <div class="flex justify-start px-1" style="width: 10%"></div>
+                                </div>
+                            @endif
 
                         </div>
                     @endforeach

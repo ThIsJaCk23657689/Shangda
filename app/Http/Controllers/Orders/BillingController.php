@@ -19,7 +19,7 @@ class BillingController extends Controller
         return view('billing.index');
     }
 
-    public function generatePDF($consumer_id, $start_at, $end_at)
+    public function generatePDF($consumer_id, $start_at, $end_at, $show_detail)
     {
 //        $validator = Validator::make($request->all(), [
 //            'consumer_id' => 'required|exists:consumers,id',
@@ -41,7 +41,7 @@ class BillingController extends Controller
                 $query->select('id', 'consumer_id', 'shown_id', 'transaction_at', 'taxType', 'paid_at')
                     ->whereNull('paid_at')
                     ->whereBetween('transaction_at', [ $start_at, $end_at ])
-                    ->orderBy('transaction_at', 'asc');
+                    ->orderBy('transaction_at', 'desc');
             },
             'salesOrders.details' => function ($query) {
                 $query->select('id', 'sales_order_id', 'product_id', 'count', 'price', 'quantity', 'discount', 'subTotal', 'comment');
@@ -97,6 +97,7 @@ class BillingController extends Controller
             'consumer_id' => $consumer_id,
             'start_at' => str_replace("-", "/", $start_at),
             'end_at' => str_replace("-", "/", $end_at),
+            'show_detail' => $show_detail == 'true',
             'result' => $consumer,
         ]);
 

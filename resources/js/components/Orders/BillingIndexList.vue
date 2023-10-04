@@ -2,7 +2,7 @@
 <div class="row justify-content-center">
     <div class="col-md-11">
 
-        <form id="SalesOrderCreateForm" method="POST" action="#" @submit.prevent="createSalesOrder">
+        <form id="SalesOrderCreateForm" method="POST" action="#">
 
             <div class="row">
 
@@ -44,6 +44,22 @@
                 </div>
 
             </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="showDetail" id="show_detail" value="1" checked>
+                                <label class="custom-control-label" for="show_detail">
+                                    <small>是否顯示商品細項</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </form>
 
     </div>
@@ -88,6 +104,7 @@ export default {
             let consumer_id = $('#consumer_id').val();
             let start_at = $('#start_at').val();
             let end_at = $('#end_at').val();
+            let show_detail = $('#show_detail').prop('checked');
 
             if (consumer_id == 0) {
                 alert('請先選擇顧客');
@@ -101,7 +118,7 @@ export default {
                 return;
             }
 
-            const url = `${pdfURLString}/${consumer_id}/${start_at}/${end_at}`;
+            const url = `${pdfURLString}/${consumer_id}/${start_at}/${end_at}/${show_detail}`;
             window.open(url, '_blank');
         }
     }
