@@ -79,12 +79,15 @@
                         <td style="width: 18%">
                             {{ detail.product.name }}
                         </td>
-                        <td style="width: 18%">
-                            <input :id="'pcs_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][pieces]'" :value="detail.pieces" @change="calculateQty(index+1, 'p'); calculateSubtotal(index+1);" style="width:30%;display:inline-block;">
-                            <span class="mr-2">件</span>
-                            <input :id="'qty_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateQty(index+1, 'q'); calculateSubtotal(index+1);" style="width:30%;display:inline-block;">
-                            <span>{{ detail.product.showUnit }}</span>
+                        <td style="width: 23%">
                             <input type="hidden" :id="'qty_per_pack_' + (index + 1)" :value="detail.product.qty_per_pack">
+
+                            <input v-if="detail.product.qty_per_pack !== 0" :id="'pcs_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][pieces]'" :value="detail.pieces" @change="calculateQty(index+1, 'p'); calculateSubtotal(index+1);" style="width:40%;display:inline-block;">
+                            <input v-else disabled :id="'pcs_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][pieces]'" :value="detail.pieces" @change="calculateQty(index+1, 'p'); calculateSubtotal(index+1);" style="width:40%;display:inline-block;">
+                            <span class="mr-2">件</span>
+
+                            <input :id="'qty_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][quantity]'" :value="detail.quantity" @change="calculateQty(index+1, 'q'); calculateSubtotal(index+1);" style="width:40%;display:inline-block;">
+                            <span>{{ detail.product.showUnit }}</span>
                         </td>
                         <td style="width: 9%">
                             <input :id="'unitPrice_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][price]'" :value="detail.price" @change="calculateSubtotal(index+1)">
@@ -95,7 +98,7 @@
                         <td style="width: 10%">
                             <input :id="'subtotal_' + (index + 1)" type="text" class="form-control" :value="detail.subTotal" disabled>
                         </td>
-                        <td style="width: 15%">
+                        <td style="width: 10%">
                             <input :id="'comment_' + (index + 1)" type="text" class="form-control" :name="'details[' + (index + 1)+ '][comment]'" :value="detail.comment" @change="updateComment(index+1)">
                         </td>
                         <td style="width: 5%">
@@ -276,8 +279,9 @@ export default {
 
         calculateQty(id, type){
             let qty_per_pack = $('#qty_per_pack_' + id).val();
-            if (qty_per_pack == 0) {
+            if (qty_per_pack === '0' || qty_per_pack === 0) {
                 // 自動計算功能先關閉
+                this.details[id - 1].pieces = 0;
                 return;
             }
 
