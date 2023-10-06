@@ -19,7 +19,7 @@ class BillingController extends Controller
         return view('billing.index');
     }
 
-    public function generatePDF($consumer_id, $start_at, $end_at, $show_detail)
+    public function generatePDF($consumer_id, $start_at, $end_at, $show_detail = true)
     {
 //        $validator = Validator::make($request->all(), [
 //            'consumer_id' => 'required|exists:consumers,id',
