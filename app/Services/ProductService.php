@@ -40,20 +40,23 @@ class ProductService extends BaseService
 
         // 計算成本價格
         $costprice = 0;
-        foreach($request->recipes as $recipe){
-            $material_id = $recipe['material_id'];
-            $material = MaterialEloquent::find($material_id);
-            $price = $material->unitPrice;
-            $subcost = round($price * $recipe['raito'], 4);
-            $costprice += $subcost;
+        if ( $request->recipes ) {
+            foreach($request->recipes as $recipe){
+                $material_id = $recipe['material_id'];
+                $material = MaterialEloquent::find($material_id);
+                $price = $material->unitPrice;
+                $subcost = round($price * $recipe['raito'], 4);
+                $costprice += $subcost;
 
-            if($recipe['raito'] != 0){
-                $product->materials()->attach($material_id, [
-                    'ratio' => $recipe['raito'],
-                    'subcost' => $subcost
-                ]);
+                if($recipe['raito'] != 0){
+                    $product->materials()->attach($material_id, [
+                        'ratio' => $recipe['raito'],
+                        'subcost' => $subcost
+                    ]);
+                }
             }
         }
+
 
         // 更新商品價格
         $product->update([
