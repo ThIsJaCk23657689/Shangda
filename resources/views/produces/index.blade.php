@@ -2,10 +2,10 @@
 
 @push('CustomJS')
 	<script src="{{ asset('js/admin/demo/datatables-demo.js') }}" defer></script>
-@endpush 
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('Stuffs Management') }}</a>
@@ -24,7 +24,7 @@
 			</a>
 		</div>
     </div>
-	
+
 	<!-- DataTables Example -->
 	<div class="card mb-3">
 		<div class="card-header">
@@ -37,7 +37,7 @@
 					<thead>
 						<tr>
                             <th>編號</th>
-                            <th>產出龜頭數</th>
+                            <th>產出商品數</th>
                             <th>投入原料數</th>
                             <th>時間</th>
 							<th>操作</th>
@@ -74,7 +74,7 @@
 										@method('DELETE')
 									</form>
 								</td>
-							</tr>	
+							</tr>
 						@endforeach
 					</tbody>
 				</table>
