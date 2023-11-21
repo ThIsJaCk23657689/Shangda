@@ -88,8 +88,32 @@
 
 <script>
 export default {
-    props: ['materials'],
+    props: ['materials', 'oldprofit'],
     mounted() {
+        // 取得該商品的 recipes
+        $.showLoadingModal();
+        let getProductRecipes = $('#getProductRecipes').html();
+        axios.get(getProductRecipes).then(response => {
+            let materials = response.data;
+            materials.forEach(( material ) => {
+                this.recipes.push({
+                    count: this.recipes.length,
+                    material: {
+                        id: material.id,
+                        name: material.name,
+                        unitPrice: material.unitPrice,
+                        unit: material.unit
+                    },
+                    raito: material.ratio,
+                    subcost: material.subcost
+                });
+            });
+            this.calculateTotalCost();
+
+            $('#profit').val(this.oldprofit);
+            this.calculateRetailPrice();
+            $.closeModal();
+        });
         console.log('ProductRecipes.vue mounted.');
     },
     data(){
@@ -140,8 +164,10 @@ export default {
                 type: 'deleted'
             });
             this.calculateTotalCost();
+            this.calculateRetailPrice();
         },
 
+        // 計算單項原物料成本價
         calculateSubcost(id){
             let raito = parseFloat($('#raito_' + id).val());
             let unitPrice = this.recipes[id - 1].material.unitPrice;
@@ -152,6 +178,7 @@ export default {
             this.calculateTotalCost();
         },
 
+        // 計算總原物料成本價
         calculateTotalCost(){
             this.total_cost = 0;
             for(let i = 1; i <=  this.recipes.length; i++){

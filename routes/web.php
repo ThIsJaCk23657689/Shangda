@@ -110,6 +110,7 @@ Route::prefix('/backend')->group(function(){
     Route::prefix('/products')->group(function(){
         Route::get('showName','ProductController@showName')->name('products.showName');
         Route::post('getInfo','ProductController@getInfo')->name('products.getInfo');
+        Route::get('{id}/getRecipes','ProductController@getRecipes')->name('products.getRecipes');
 
         Route::get('{id}/discounts','ProductController@showDiscountsPage')->name('products.showDiscountsPage');
         Route::post('{id}/discounts','ProductController@editDiscounts');

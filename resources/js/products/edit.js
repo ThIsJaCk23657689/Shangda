@@ -5,6 +5,7 @@ const app = new Vue({
     el: '#product',
     data() {
         return {
+            recipes: [],
             materials: [],
             all_materials: [],
             materials_disabled: [],
@@ -206,7 +207,7 @@ const app = new Vue({
             }
         });
 
-        $('#product_create_form').submit(function(e){
+        $('#product_edit_form').submit(function(e){
             e.preventDefault();
 
             // if(vm.$refs.productRecipes.recipes.length == 0){
@@ -222,15 +223,15 @@ const app = new Vue({
                 key => formdata.append(key, data[key])
             );
             console.log(formdata);
-            let pictures = vm.$refs.picturesUpload.filelist;
-            console.log('sss：' + pictures.length);
-            console.log(pictures);
-            if(pictures.length > 0){
-                for(let $i = 0; $i < pictures.length; $i++){
-                    let picture = pictures[$i];
-                    formdata.append('pictures[' + $i + ']', picture);
-                }
-            }
+            // let pictures = vm.$refs.picturesUpload.filelist;
+            // console.log('sss：' + pictures.length);
+            // console.log(pictures);
+            // if(pictures.length > 0){
+            //     for(let $i = 0; $i < pictures.length; $i++){
+            //         let picture = pictures[$i];
+            //         formdata.append('pictures[' + $i + ']', picture);
+            //     }
+            // }
             console.log(formdata);
 
             $.showLoadingModal();
@@ -239,6 +240,7 @@ const app = new Vue({
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(response => {
+                console.log(response.data);
                 $('#productID').val(response.data.product_id);
                 $.showSuccessModal(response.data.messenge, response.data.redirect_url);
             }).catch(error => {

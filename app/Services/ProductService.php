@@ -87,6 +87,26 @@ class ProductService extends BaseService
         return $product_info;
     }
 
+    public function getRecipes($id) {
+        $product = ProductEloquent::find($id);
+
+        $materials = [];
+        if ($product) {
+            $materials = $product->materials()->get()->map(function ( $material ) {
+                return [
+                    'id' => $material['id'],
+                    'name' => $material['name'],
+                    'unit' => $material['unit'],
+                    'unitPrice' => $material['unitPrice'],
+                    'ratio' => $material['pivot']['ratio'],
+                    'subcost' => $material['pivot']['subcost'],
+                ];
+            });
+        }
+
+        return $materials;
+    }
+
     public function getOne($id){
         $product = ProductEloquent::withTrashed()->findOrFail($id);
         return $product;
@@ -120,8 +140,6 @@ class ProductService extends BaseService
         // 圖片儲存
         $this->savePicture($request->picture, $product);
 
-        $realName = $request->name."(".$request->specification."+".$request->size."+".$request->weight."+".")";
-
         $product->update([
             'category_id' => $request->category_id,
             'name' => $request->name,
@@ -148,6 +166,36 @@ class ProductService extends BaseService
             'safeQuantity' => $request->safeQuantity ?? '0',
             'intro' => $request->intro,
         ]);
+
+        // 計算成本價格
+        $new_pivot_data = [];
+        $costprice = 0;
+
+        if ( $request->recipes ) {
+            foreach( $request->recipes as $recipe ){
+                $material_id = $recipe[ 'material_id' ];
+                $material = MaterialEloquent::find( $material_id );
+                $price = $material->unitPrice;
+                $subcost = round($price * $recipe['raito'], 4);
+                $costprice += $subcost;
+
+                if($recipe['raito'] != 0){
+                    $new_pivot_data[ $material_id ] = [
+                        'ratio' => $recipe['raito'],
+                        'subcost' => $subcost
+                    ];
+                }
+            }
+        }
+        $product->materials()->sync($new_pivot_data);
+
+        // 更新商品價格
+        $product->update([
+            'costprice' => $costprice,
+            'profit' => $request->profit,
+            'retailPrice' => ($request->profit + $costprice),
+        ]);
+
         return $product;
     }
 

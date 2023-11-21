@@ -95,6 +95,7 @@ mix.js('resources/js/backend.js', 'public/js')
 
 
 .js('resources/js/products/create.js', 'public/js/products')
+    .js('resources/js/products/edit.js', 'public/js/products')
     .js('resources/js/produces/create.js', 'public/js/produces')
     .js('resources/js/produces/edit.js', 'public/js/produces')
 

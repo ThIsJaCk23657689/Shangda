@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductEditRequest;
 use App\Http\Requests\DiscountRequest;
 
 use App\Services\ProductService;
@@ -56,9 +57,14 @@ class ProductController extends Controller
         return view('products.edit', compact(['categories', 'product', 'recipes']));
     }
 
-    public function update(ProductRequest $request, $id){
+    public function update(ProductEditRequest $request, $id){
         $product = $this->ProductService->update($request, $id);
-        return redirect()->route('products.show', [$id]);
+        return response()->json([
+            'product_id' => $product->id,
+            'messenge' => '商品編號 ' . $product->shownID . ' 編輯成功。',
+            'redirect_url' => route('products.index'),
+            'status' => 'OK'
+        ]);
     }
 
     public function destroy($id){
@@ -126,6 +132,11 @@ class ProductController extends Controller
     public function getInfo(Request $request){
         $product_info = $this->ProductService->getInfoList($request->id);
         return response()->json($product_info, 200);
+    }
+
+    public function getRecipes(Request $request, $id){
+        $productRecipes = $this->ProductService->getRecipes($id);
+        return response()->json($productRecipes, 200);
     }
 
     public function getProductListByCategory($category_id){

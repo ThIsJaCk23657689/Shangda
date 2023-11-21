@@ -1,7 +1,7 @@
 @extends('layouts.backend.master')
 
 @push('CustomJS')
-    <script src="{{ asset('js/products/create.js') }}" defer></script>
+    <script src="{{ asset('js/products/edit.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -20,9 +20,10 @@
 
         <span id="getMeterialsName" style="display: none;">{{ route('materials.showName') }}</span>
 		<span id="getMeterialInfo" style="display: none;">{{ route('materials.getInfo') }}</span>
+        <span id="getProductRecipes" style="display: none;">{{ route('products.getRecipes', [$product->id]) }}</span>
 
         <div class="col-md-10">
-            <form id="product_create_form" method="POST" action="{{ route('products.update', [$product->id]) }}" enctype="multipart/form-data">
+            <form id="product_edit_form" method="POST" action="{{ route('products.update', [$product->id]) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
 
@@ -350,7 +351,7 @@
 
                 <hr>
 
-                <product-recipes :materials="materials" v-on:refresh-materials="refreshMaterials"></product-recipes>
+                <product-recipes :recipes="recipes" :materials="materials" v-on:refresh-materials="refreshMaterials" :oldprofit="{{ $product->profit }}"></product-recipes>
 
                 <div class="form-group row justify-content-center">
                     <div class="col-md-8">

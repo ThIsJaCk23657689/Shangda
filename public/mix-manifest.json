@@ -60,6 +60,7 @@
     "/js/produces/create.js": "/js/produces/create.js",
     "/js/produces/edit.js": "/js/produces/edit.js",
     "/js/products/create.js": "/js/products/create.js",
+    "/js/products/edit.js": "/js/products/edit.js",
     "/js/reports/account/payble_daily.js": "/js/reports/account/payble_daily.js",
     "/js/reports/account/receivable_daily.js": "/js/reports/account/receivable_daily.js",
     "/js/reports/purchase/daily.js": "/js/reports/purchase/daily.js",
