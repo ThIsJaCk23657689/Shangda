@@ -332,12 +332,20 @@ export default {
             $('#company_name').val('');
             $('#company_principal').val('');
 
+            let $TaxUrl = $('#ConsumersTaxIDURL').text();
+            console.log('taxUrl: ' + $TaxUrl);
+
             let $taxID = $(e.target).val();
             if($taxID != ""){
                 let re = /^[0-9]{8}$/;
                 if(re.test($taxID)){
 
-                    let url = 'http://localhost/Shangda/public/backend/consumers/taxID/' + $taxID + '/getData';
+                    const params = new URLSearchParams();
+                    params.append('taxID', $taxID);
+
+                    let url = new URL($TaxUrl);
+                    url.search = params.toString();
+                    console.log('url: ' + url);
 
                     $.showLoadingModal();
                     axios.get(url).then(response => {

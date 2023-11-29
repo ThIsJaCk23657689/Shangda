@@ -3,10 +3,10 @@
 @push('CustomJS')
     <script src="{{ asset('vendor/jQuery-TWzipcode-master/jquery.twzipcode.min.js') }}" defer></script>
     <script src="{{ asset('js/consumers/edit.js') }}" defer></script>
-@endpush 
+@endpush
 
 @section('content')
-				
+
 	@component('components.breadcrumbs')
 		<li class="breadcrumb-item">
 			<a href="#">{{ __('People Management') }}</a>
@@ -16,8 +16,9 @@
 		</li>
 		<li class="breadcrumb-item active">{{ __('Edit') }}</li>
     @endcomponent
-    
+
     <div id="consumer">
+        <span id="ConsumersTaxIDURL" class="d-none">{{ route('consumers.getData') }}</span>
         <span id="ConsumerGetOneURL" class="d-none">{{ route('consumers.getOne', [$consumer->id]) }}</span>
         <span id="ConsumersIndexURL" class="d-none">{{ route('consumers.index') }}</span>
         <span id="ConsumersUpdateURL" class="d-none">{{ route('consumers.update', [$consumer->id]) }}</span>
@@ -33,6 +34,6 @@
 
             </div>
         </div>
-    </div>  
-	
+    </div>
+
 @endsection
