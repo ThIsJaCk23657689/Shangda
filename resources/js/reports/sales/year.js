@@ -8,8 +8,8 @@ const app = new Vue({
             month_total: ['合計', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             filters: {
                 type: 1,
-                year: 2020,
-                orderby: 1
+                year: 2023,
+                orderby: 2
             },
 
         }
@@ -27,9 +27,9 @@ const app = new Vue({
                 let $key = Object.keys(this.reports);
                 $key.forEach(function(item, index) {
                     let report = vm.reports[item];
-                    for (let $i = 1; $i < report.length; $i++) {
-                        month_total[$i] += report[$i];
-                        month_total[$i] = Math.round(month_total[$i] * 100) / 100;
+                    for (let $i = 2; $i < report.length; $i++) {
+                        month_total[$i - 1] += report[$i];
+                        month_total[$i - 1] = Math.round(month_total[$i - 1] * 100) / 100;
                     }
                 });
                 this.month_total = month_total;
@@ -45,6 +45,7 @@ const app = new Vue({
         this.refreshData();
     },
     mounted() {
-
+        const now = new Date();
+        this.year = now.getFullYear();
     }
 });

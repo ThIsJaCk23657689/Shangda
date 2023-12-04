@@ -7,7 +7,8 @@
         <div class="card-body">
             <div class="row justify-content-center mb-2">
                 <div class="col-md-12 justify-content-center">
-                    <form action="#" method="GET">
+
+                    <form action="#" method="GET" @submit.prevent="changeYear">
                         <div class="row mb-3 justify-content-center">
                             <div class="col-md-3">
                                 <select name="type" id="type" class="form-control" v-model="filters.type" @change="changeType">
@@ -16,7 +17,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" id="year" name="year" class="form-control" placeholder="請輸入年份：2020" v-model="filters.year" @change="changeYear">
+                                <input type="text" id="year" name="year" class="form-control" placeholder="請輸入年份" v-model="filters.year" @change="changeYear" @keydown.enter.prevent="changeYear">
                             </div>
                             <div class="col-md-3">
                                 <select name="orderby" id="orderby" class="form-control" v-model="filters.orderby" @change="changeOrderby">
@@ -26,11 +27,12 @@
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
 
             <div class="table-responsive">
-                <table id="SalesYearTable" class="table table-bordered" width="100%" cellspacing="0">
+                <table id="SalesYearTable" class="table table-bordered">
                     <thead>
                         <tr>
                             <th>{{ tableTitle }}</th>
@@ -40,7 +42,20 @@
                     </thead>
                     <tbody>
                         <tr v-for="report in reports" :key="report[0]">
-                            <td v-for="n in report.length" :key="n">{{ report[n - 1] }}</td>
+                            <td>{{ report[1] }}</td>
+                            <td>{{ report[2] }}</td>
+                            <td>{{ report[3] }}</td>
+                            <td>{{ report[4] }}</td>
+                            <td>{{ report[5] }}</td>
+                            <td>{{ report[6] }}</td>
+                            <td>{{ report[7] }}</td>
+                            <td>{{ report[8] }}</td>
+                            <td>{{ report[9] }}</td>
+                            <td>{{ report[10] }}</td>
+                            <td>{{ report[11] }}</td>
+                            <td>{{ report[12] }}</td>
+                            <td>{{ report[13] }}</td>
+                            <td>{{ report[14] }}</td>
                         </tr>
                         <tr>
                             <td v-for="index in month_total.length" :key="index">

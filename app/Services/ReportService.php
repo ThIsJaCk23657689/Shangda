@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\SalesOrder as SalesOrderEloquent;
-use App\PurchaseOrder as PurchaseOrderEloquent;
 use App\Consumer as ConsumerEloquent;
 use App\Supplier as SupplierEloquent;
 use App\Product as ProductEloquent;
@@ -14,93 +12,94 @@ use DB;
 
 class ReportService extends BaseService
 {
+    // 銷售年度報表
     public function salesReportYear($request)
     {
         $type = $request->type ?? 1;  // 1.'依客戶別', 2.'依商品別'
         $year = $request->year ?? Carbon::now()->year;  // 預設 今年
-        $orderby = $request->orderby ?? 1; // 1.'升序', 2.'降序'
+        $orderBy = $request->orderby ?? 1; // 1.'升序', 2.'降序'
 
         // 依客戶別
         if($type == 1){
             // 依客戶別SQL
-            // SELECT MONTH(sales_orders.created_at) as `month`, sales_orders.consumer_id , consumers.name, SUM(sales_orders.totalTaxPrice)
-            // FROM sales_orders RIGHT JOIN consumers ON sales_orders.consumer_id = consumers.id
-            // where `sales_orders.paid_at` is null
-            // WHERE sales_orders.transaction_at BETWEEN '2020-01-01' AND '2020-12-31' GROUP BY sales_orders.consumer_id, `month`
-
+            // SELECT sales_orders.consumer_id as consumer_id, MONTH(sales_orders.transaction_at) as month, SUM(totalTaxPrice) as total_sales
+            // FROM `sales_orders` RIGHT JOIN `consumers` ON `consumers`.`id` = `sales_orders`.`consumer_id`
+            // WHERE YEAR(`sales_orders`.`transaction_at`) = 2023
+            // GROUP BY sales_orders.consumer_id, month
             $consumers = ConsumerEloquent::get();
             $salesOrders = DB::table('sales_orders')
                 ->select(
                     DB::raw('sales_orders.consumer_id as consumer_id'),
-                    DB::raw('MONTH(sales_orders.created_at) as month'),
-                    'consumers.name',
+                    DB::raw('MONTH(sales_orders.transaction_at) as month'),
                     DB::raw('SUM(totalTaxPrice) as total_sales')
                 )->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
-                ->whereNull('sales_orders.paid_at')
-                ->whereBetween('sales_orders.transaction_at', [
-                    $year . '-01-01',
-                    $year . '-12-31'
-                ])->groupByRaw('sales_orders.consumer_id, month')->get();
-
+                ->whereYear('sales_orders.transaction_at', $year)
+                ->groupByRaw('sales_orders.consumer_id, month')->get();
 
             $result = [];
             foreach ($consumers as $consumer) {
-                $c_arr = [$consumer->name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                // 對每個顧客...
+
+                // 客戶編號, 客戶名稱, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, Total
+                $c_arr = [$consumer->id, $consumer->name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+                // 該年份總金額
                 $total_price = 0;
+
+                // 查詢的結果為：
+                // 顧客 id, month, 每個月總金額
                 foreach ($salesOrders as $salesOrder) {
                     if ($salesOrder->consumer_id == $consumer->id) {
-                        $c_arr[$salesOrder->month] = $salesOrder->total_sales;
+                        $c_arr[$salesOrder->month + 1] = $salesOrder->total_sales;
                         $total_price += $salesOrder->total_sales;
                     }
                 }
-                $c_arr[13] = $total_price;
-                array_push($result, $c_arr);
+
+                $c_arr[14] = $total_price;
+                $result[] = $c_arr;
             }
         }else{
             // 依商品別
             // 依商品別SQL
-            // SELECT products.id,products.name, MONTH(sales_orders.created_at) as `month`, SUM(sales_order_details.subTotal) FROM
+            // SELECT products.id,products.name, MONTH(sales_orders.transaction_at) as `month`, SUM(sales_order_details.subTotal) FROM
             // (sales_orders RIGHT JOIN sales_order_details ON sales_orders.id = sales_order_details.sales_order_id)
             // RIGHT JOIN products ON sales_order_details.product_id = products.id
-            // where `sales_orders.paid_at` is null
-            // WHERE sales_orders.transaction_at BETWEEN '2020-01-01' AND '2020-12-31' GROUP BY sales_order_details.product_id, `month`
+            // WHERE YEAR(sales_orders.transaction_at) = 2023
+            // GROUP BY sales_order_details.product_id, `month`
             $products = ProductEloquent::get();
             $salesOrders = DB::table('sales_orders')
             ->select(
                 DB::raw('products.id as p_id'), 'products.name',
                 DB::raw('SUM(sales_order_details.subTotal) as subTotal'),
-                DB::raw('MONTH(sales_orders.created_at) as month')
+                DB::raw('MONTH(sales_orders.transaction_at) as month')
             )->rightJoin('sales_order_details', 'sales_orders.id', '=', 'sales_order_details.sales_order_id')
             ->rightJoin('products', 'products.id', '=', 'sales_order_details.product_id')
-            ->whereNull('sales_orders.paid_at')
-            ->whereBetween('sales_orders.transaction_at', [
-                $year . '-01-01',
-                $year . '-12-31'
-            ])->groupByRaw('sales_order_details.product_id, month')->get();
+            ->whereYear('sales_orders.transaction_at', $year)
+            ->groupByRaw('sales_order_details.product_id, month')->get();
 
             $result = [];
             foreach ($products as $product) {
-                $c_arr = [$product->name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                $c_arr = [$product->id, $product->name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 $total_price = 0;
                 foreach ($salesOrders as $salesOrder) {
                     if ($salesOrder->p_id == $product->id) {
-                        $c_arr[$salesOrder->month] = $salesOrder->subTotal;
+                        $c_arr[$salesOrder->month + 1] = $salesOrder->subTotal;
                         $total_price += $salesOrder->subTotal;
                     }
                 }
-                $c_arr[13] = $total_price;
-                array_push($result, $c_arr);
+                $c_arr[14] = $total_price;
+                $result[] = $c_arr;
             }
         }
 
         $result = collect($result);
-        if($orderby == 1){
+        if($orderBy == 1){
             $sorted = $result->sortBy(function ($row, $key) {
-                return $row[13];
+                return $row[14];
             });
         }else{
             $sorted = $result->sortByDesc(function ($row, $key) {
-                return $row[13];
+                return $row[14];
             });
         }
         $result = $sorted->values()->all();
@@ -111,6 +110,7 @@ class ReportService extends BaseService
         ];
     }
 
+    // 進貨年度報表
     public function purchaseReportYear($request){
 
         // 依客戶別SQL
@@ -127,7 +127,7 @@ class ReportService extends BaseService
 
         $type = $request->type ?? 1;  // 1.'依客戶別', 2.'依商品別'
         $year = $request->year ?? Carbon::now()->year;  // 預設 今年
-        $orderby = $request->orderby ?? 1; // 1.'升序', 2.'降序'
+        $orderBy = $request->orderby ?? 1; // 1.'升序', 2.'降序'
 
         // 依客戶別
         if($type == 1){
@@ -156,7 +156,7 @@ class ReportService extends BaseService
                     }
                 }
                 $c_arr[13] = $total_price;
-                array_push($result, $c_arr);
+                $result[] = $c_arr;
             }
         }else{
             // 依原料別
@@ -184,12 +184,12 @@ class ReportService extends BaseService
                     }
                 }
                 $c_arr[13] = $total_price;
-                array_push($result, $c_arr);
+                $result[] = $c_arr;
             }
         }
 
         $result = collect($result);
-        if($orderby == 1){
+        if($orderBy == 1){
             $sorted = $result->sortBy(function ($row, $key) {
                 return $row[13];
             });
@@ -206,6 +206,7 @@ class ReportService extends BaseService
         ];
     }
 
+    // 銷貨貨日度報表
     public function salesReportDaily($request){
         $type = $request->type;  // 1.'依供應商別', 2.'依原料別'
         $start_date = $request->start_date;
@@ -288,6 +289,7 @@ class ReportService extends BaseService
         }
     }
 
+    // 進貨日度報表
     public function purchaseReportDaily($request){
 
         // 依原料別 SQL
@@ -357,6 +359,7 @@ class ReportService extends BaseService
         }
     }
 
+    // 應付帳款報表
     public function accountReportPayable(){
         // SELECT suppliers.*, SUM(purchase_orders.totalPrice) as totalPrice
         // FROM `purchase_orders` RIGHT JOIN suppliers ON suppliers.id = purchase_orders.supplier_id
@@ -420,6 +423,30 @@ class ReportService extends BaseService
             ];
     }
 
+    // 應收帳款報表
+    public function accountReportReceivable(){
+        // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice
+        // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id
+        // where `sales_orders.paid_at` is null
+        // GROUP BY consumers.id
+
+        $reports = DB::table('sales_orders')
+            ->select(
+                DB::raw('consumers.*'),
+                DB::raw('SUM(sales_orders.unpaidAmount) as totalPrice')
+            )->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
+            ->whereNull('sales_orders.paid_at')
+            ->groupByRaw('consumers.id')
+            ->get();
+
+        $reports = collect($reports);
+        foreach($reports as $report){
+            $report->showAddress = $report->address_county . $report->address_district . $report->address_others;
+        }
+
+        return $reports;
+    }
+
     // 應收帳款日報表
     public function accountReportReceivableDaily($request){
         // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice
@@ -464,28 +491,5 @@ class ReportService extends BaseService
                 'status' => 200,
                 'result' => $result,
             ];
-    }
-
-    public function accountReportReceivable(){
-        // SELECT consumers.*, SUM(sales_orders.unpaidAmount) as totalPrice
-        // FROM `sales_orders` RIGHT JOIN consumers ON consumers.id = sales_orders.consumer_id
-        // where `sales_orders.paid_at` is null
-        // GROUP BY consumers.id
-
-        $reports = DB::table('sales_orders')
-            ->select(
-                DB::raw('consumers.*'),
-                DB::raw('SUM(sales_orders.unpaidAmount) as totalPrice')
-            )->rightJoin('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
-            ->whereNull('sales_orders.paid_at')
-            ->groupByRaw('consumers.id')
-            ->get();
-
-        $reports = collect($reports);
-        foreach($reports as $report){
-            $report->showAddress = $report->address_county . $report->address_district . $report->address_others;
-        }
-
-        return $reports;
     }
 }
