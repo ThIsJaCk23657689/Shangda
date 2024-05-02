@@ -47,7 +47,7 @@ class BillingController extends Controller
                 $query->select('id', 'sales_order_id', 'product_id', 'count', 'price', 'quantity', 'discount', 'subTotal', 'comment');
             },
             'salesOrders.details.product' => function ($query) {
-                $query->select('id', 'name', 'unit');
+                $query->select('id', 'name', 'unit')->withTrashed();
             }
         ])
         ->select('id', 'name', 'address_county', 'address_district', 'address_others', 'operator_name_1', 'operator_phone_1')
@@ -102,13 +102,5 @@ class BillingController extends Controller
         ]);
 
         return view('billing.pdf', compact('data'));
-
-        // instantiate and use the dompdf class
-//        $pdf = PDF::LoadView('billing.pdf', compact('data'));
-//
-//        // (Optional) Setup the paper size and orientation
-//        $pdf->setPaper('A4', 'landscape');
-//
-//        return $pdf->stream('尚達塑膠有限公司_客戶_請款單.pdf');
     }
 }
