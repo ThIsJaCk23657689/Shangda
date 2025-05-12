@@ -1,1 +1,538 @@
-!function(t){var e={};function r(n){if(e[n])return e[n].exports;var a=e[n]={i:n,l:!1,exports:{}};return t[n].call(a.exports,a,a.exports,r),a.l=!0,a.exports}r.m=t,r.c=e,r.d=function(t,e,n){r.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},r.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},r.t=function(t,e){if(1&e&&(t=r(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var a in t)r.d(n,a,function(e){return t[e]}.bind(null,a));return n},r.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return r.d(e,"a",e),e},r.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},r.p="/",r(r.s=172)}({0:function(t,e,r){"use strict";function n(t,e,r,n,a,o,s,i){var l,c="function"==typeof t?t.options:t;if(e&&(c.render=e,c.staticRenderFns=r,c._compiled=!0),n&&(c.functional=!0),o&&(c._scopeId="data-v-"+o),s?(l=function(t){(t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),a&&a.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(s)},c._ssrRegister=l):a&&(l=i?function(){a.call(this,(c.functional?this.parent:this).$root.$options.shadowRoot)}:a),l)if(c.functional){c._injectStyles=l;var u=c.render;c.render=function(t,e){return l.call(e),u(t,e)}}else{var d=c.beforeCreate;c.beforeCreate=d?[].concat(d,l):[l]}return{exports:t,options:c}}r.d(e,"a",(function(){return n}))},172:function(t,e,r){t.exports=r(173)},173:function(t,e,r){Vue.component("sales-year",r(231).default);new Vue({el:"#reports",data:function(){return{reports:[],month_total:["合計",0,0,0,0,0,0,0,0,0,0,0,0,0],filters:{type:1,year:2023,orderby:2}}},methods:{refreshData:function(t){var e=this,r=$("#getSalesYearData").text();$.showLoadingModal(),axios.post(r,this.filters).then((function(t){e.reports=t.data.result;var r=["合計",0,0,0,0,0,0,0,0,0,0,0,0,0],n=e;Object.keys(e.reports).forEach((function(t,e){for(var a=n.reports[t],o=2;o<a.length;o++)r[o-1]+=a[o],r[o-1]=Math.round(100*r[o-1])/100})),e.month_total=r,$.closeModal()})).catch((function(t){console.log("生成報表時發生錯誤："+t),$.showErrorModal(t)}))}},created:function(){this.refreshData()},mounted:function(){var t=new Date;this.year=t.getFullYear()}})},231:function(t,e,r){"use strict";r.r(e);var n={props:["reports","filters","month_total"],data:function(){return{tableTitle:"客戶名稱"}},methods:{changeType:function(t){1==t.target.value?this.tableTitle="客戶名稱":this.tableTitle="商品名稱",this.$emit("refresh-data")},changeYear:function(t){this.$emit("refresh-data")},changeOrderby:function(t){this.$emit("refresh-data")}},created:function(){},mounted:function(){}},a=r(0),o=Object(a.a)(n,(function(){var t=this,e=t._self._c;return e("div",[e("div",{staticClass:"card mb-3"},[e("div",{staticClass:"card-header"},[e("i",{staticClass:"fas fa-table mr-2"}),t._v("銷售年度報表 - "+t._s(t.filters.year)+"年\r\n        ")]),t._v(" "),e("div",{staticClass:"card-body"},[e("div",{staticClass:"row justify-content-center mb-2"},[e("div",{staticClass:"col-md-12 justify-content-center"},[e("form",{attrs:{action:"#",method:"GET"},on:{submit:function(e){return e.preventDefault(),t.changeYear.apply(null,arguments)}}},[e("div",{staticClass:"row mb-3 justify-content-center"},[e("div",{staticClass:"col-md-3"},[e("select",{directives:[{name:"model",rawName:"v-model",value:t.filters.type,expression:"filters.type"}],staticClass:"form-control",attrs:{name:"type",id:"type"},on:{change:[function(e){var r=Array.prototype.filter.call(e.target.options,(function(t){return t.selected})).map((function(t){return"_value"in t?t._value:t.value}));t.$set(t.filters,"type",e.target.multiple?r:r[0])},t.changeType]}},[e("option",{attrs:{value:"1"}},[t._v("依客戶別")]),t._v(" "),e("option",{attrs:{value:"2"}},[t._v("依商品別")])])]),t._v(" "),e("div",{staticClass:"col-md-3"},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.filters.year,expression:"filters.year"}],staticClass:"form-control",attrs:{type:"text",id:"year",name:"year",placeholder:"請輸入年份"},domProps:{value:t.filters.year},on:{change:t.changeYear,keydown:function(e){return!e.type.indexOf("key")&&t._k(e.keyCode,"enter",13,e.key,"Enter")?null:(e.preventDefault(),t.changeYear.apply(null,arguments))},input:function(e){e.target.composing||t.$set(t.filters,"year",e.target.value)}}})]),t._v(" "),e("div",{staticClass:"col-md-3"},[e("select",{directives:[{name:"model",rawName:"v-model",value:t.filters.orderby,expression:"filters.orderby"}],staticClass:"form-control",attrs:{name:"orderby",id:"orderby"},on:{change:[function(e){var r=Array.prototype.filter.call(e.target.options,(function(t){return t.selected})).map((function(t){return"_value"in t?t._value:t.value}));t.$set(t.filters,"orderby",e.target.multiple?r:r[0])},t.changeOrderby]}},[e("option",{attrs:{value:"1"}},[t._v("總銷售額升序")]),t._v(" "),e("option",{attrs:{value:"2"}},[t._v("總銷售額降序")])])])])])])]),t._v(" "),e("div",{staticClass:"table-responsive"},[e("table",{staticClass:"table table-bordered",attrs:{id:"SalesYearTable"}},[e("thead",[e("tr",[e("th",[t._v(t._s(t.tableTitle))]),t._v(" "),t._l(12,(function(r){return e("th",{key:r},[t._v(t._s(r+"月"))])})),t._v(" "),e("th",[t._v("小計")])],2)]),t._v(" "),e("tbody",[t._l(t.reports,(function(r){return e("tr",{key:r[0]},[e("td",[t._v(t._s(r[1]))]),t._v(" "),e("td",[t._v(t._s(r[2]))]),t._v(" "),e("td",[t._v(t._s(r[3]))]),t._v(" "),e("td",[t._v(t._s(r[4]))]),t._v(" "),e("td",[t._v(t._s(r[5]))]),t._v(" "),e("td",[t._v(t._s(r[6]))]),t._v(" "),e("td",[t._v(t._s(r[7]))]),t._v(" "),e("td",[t._v(t._s(r[8]))]),t._v(" "),e("td",[t._v(t._s(r[9]))]),t._v(" "),e("td",[t._v(t._s(r[10]))]),t._v(" "),e("td",[t._v(t._s(r[11]))]),t._v(" "),e("td",[t._v(t._s(r[12]))]),t._v(" "),e("td",[t._v(t._s(r[13]))]),t._v(" "),e("td",[t._v(t._s(r[14]))])])})),t._v(" "),e("tr",t._l(t.month_total.length,(function(r){return e("td",{key:r},[e("strong",[t._v(t._s(t.month_total[r-1]))])])})),0)],2)])])])])])}),[],!1,null,null,null);e.default=o.exports}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 50);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Reports/SalesYear.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Reports/SalesYear.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['reports', 'filters', 'month_total'],
+  data: function data() {
+    return {
+      tableTitle: '客戶名稱'
+    };
+  },
+  methods: {
+    changeType: function changeType(e) {
+      if (e.target.value == 1) {
+        this.tableTitle = '客戶名稱';
+      } else {
+        this.tableTitle = '商品名稱';
+      }
+      this.$emit('refresh-data');
+    },
+    changeYear: function changeYear(e) {
+      this.$emit('refresh-data');
+    },
+    changeOrderby: function changeOrderby(e) {
+      this.$emit('refresh-data');
+    }
+  },
+  created: function created() {},
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Reports/SalesYear.vue?vue&type=template&id=7b4448c4&":
+/*!**************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Reports/SalesYear.vue?vue&type=template&id=7b4448c4& ***!
+  \**************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", [_c("div", {
+    staticClass: "card mb-3"
+  }, [_c("div", {
+    staticClass: "card-header"
+  }, [_c("i", {
+    staticClass: "fas fa-table mr-2"
+  }), _vm._v("銷售年度報表 - " + _vm._s(_vm.filters.year) + "年\r\n        ")]), _vm._v(" "), _c("div", {
+    staticClass: "card-body"
+  }, [_c("div", {
+    staticClass: "row justify-content-center mb-2"
+  }, [_c("div", {
+    staticClass: "col-md-12 justify-content-center"
+  }, [_c("form", {
+    attrs: {
+      action: "#",
+      method: "GET"
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.changeYear.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "row mb-3 justify-content-center"
+  }, [_c("div", {
+    staticClass: "col-md-3"
+  }, [_c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.filters.type,
+      expression: "filters.type"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      name: "type",
+      id: "type"
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.$set(_vm.filters, "type", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+      }, _vm.changeType]
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "1"
+    }
+  }, [_vm._v("依客戶別")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "2"
+    }
+  }, [_vm._v("依商品別")])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-3"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.filters.year,
+      expression: "filters.year"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      id: "year",
+      name: "year",
+      placeholder: "請輸入年份"
+    },
+    domProps: {
+      value: _vm.filters.year
+    },
+    on: {
+      change: _vm.changeYear,
+      keydown: function keydown($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+        $event.preventDefault();
+        return _vm.changeYear.apply(null, arguments);
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.filters, "year", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-3"
+  }, [_c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.filters.orderby,
+      expression: "filters.orderby"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      name: "orderby",
+      id: "orderby"
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.$set(_vm.filters, "orderby", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+      }, _vm.changeOrderby]
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "1"
+    }
+  }, [_vm._v("總銷售額升序")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "2"
+    }
+  }, [_vm._v("總銷售額降序")])])])])])])]), _vm._v(" "), _c("div", {
+    staticClass: "table-responsive"
+  }, [_c("table", {
+    staticClass: "table table-bordered",
+    attrs: {
+      id: "SalesYearTable"
+    }
+  }, [_c("thead", [_c("tr", [_c("th", [_vm._v(_vm._s(_vm.tableTitle))]), _vm._v(" "), _vm._l(12, function (n) {
+    return _c("th", {
+      key: n
+    }, [_vm._v(_vm._s(n + "月"))]);
+  }), _vm._v(" "), _c("th", [_vm._v("小計")])], 2)]), _vm._v(" "), _c("tbody", [_vm._l(_vm.reports, function (report) {
+    return _c("tr", {
+      key: report[0]
+    }, [_c("td", [_vm._v(_vm._s(report[1]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[2]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[3]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[4]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[5]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[6]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[7]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[8]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[9]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[10]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[11]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[12]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[13]))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(report[14]))])]);
+  }), _vm._v(" "), _c("tr", _vm._l(_vm.month_total.length, function (index) {
+    return _c("td", {
+      key: index
+    }, [_c("strong", [_vm._v(_vm._s(_vm.month_total[index - 1]))])]);
+  }), 0)], 2)])])])])]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent(
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */,
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options =
+    typeof scriptExports === 'function' ? scriptExports.options : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) {
+    // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () {
+          injectStyles.call(
+            this,
+            (options.functional ? this.parent : this).$root.$options.shadowRoot
+          )
+        }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functional component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Reports/SalesYear.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/Reports/SalesYear.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SalesYear_vue_vue_type_template_id_7b4448c4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SalesYear.vue?vue&type=template&id=7b4448c4& */ "./resources/js/components/Reports/SalesYear.vue?vue&type=template&id=7b4448c4&");
+/* harmony import */ var _SalesYear_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SalesYear.vue?vue&type=script&lang=js& */ "./resources/js/components/Reports/SalesYear.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SalesYear_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SalesYear_vue_vue_type_template_id_7b4448c4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SalesYear_vue_vue_type_template_id_7b4448c4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Reports/SalesYear.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Reports/SalesYear.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/Reports/SalesYear.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesYear_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./SalesYear.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Reports/SalesYear.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesYear_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Reports/SalesYear.vue?vue&type=template&id=7b4448c4&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/Reports/SalesYear.vue?vue&type=template&id=7b4448c4& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesYear_vue_vue_type_template_id_7b4448c4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!../../../../node_modules/vue-loader/lib??vue-loader-options!./SalesYear.vue?vue&type=template&id=7b4448c4& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Reports/SalesYear.vue?vue&type=template&id=7b4448c4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesYear_vue_vue_type_template_id_7b4448c4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_SalesYear_vue_vue_type_template_id_7b4448c4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/reports/sales/year.js":
+/*!********************************************!*\
+  !*** ./resources/js/reports/sales/year.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+Vue.component('sales-year', __webpack_require__(/*! ../../components/Reports/SalesYear.vue */ "./resources/js/components/Reports/SalesYear.vue")["default"]);
+var app = new Vue({
+  el: '#reports',
+  data: function data() {
+    return {
+      reports: [],
+      month_total: ['合計', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      filters: {
+        type: 1,
+        year: 2023,
+        orderby: 2
+      }
+    };
+  },
+  methods: {
+    refreshData: function refreshData(e) {
+      var _this = this;
+      var getSalesYearData = $('#getSalesYearData').text();
+      $.showLoadingModal();
+      axios.post(getSalesYearData, this.filters).then(function (response) {
+        _this.reports = response.data.result;
+        var month_total = ['合計', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var vm = _this;
+        var $key = Object.keys(_this.reports);
+        $key.forEach(function (item, index) {
+          var report = vm.reports[item];
+          for (var $i = 2; $i < report.length; $i++) {
+            month_total[$i - 1] += report[$i];
+            month_total[$i - 1] = Math.round(month_total[$i - 1] * 100) / 100;
+          }
+        });
+        _this.month_total = month_total;
+        $.closeModal();
+      })["catch"](function (error) {
+        console.log('生成報表時發生錯誤：' + error);
+        $.showErrorModal(error);
+      });
+    }
+  },
+  created: function created() {
+    this.refreshData();
+  },
+  mounted: function mounted() {
+    var now = new Date();
+    this.year = now.getFullYear();
+  }
+});
+
+/***/ }),
+
+/***/ 50:
+/*!**************************************************!*\
+  !*** multi ./resources/js/reports/sales/year.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\reports\sales\year.js */"./resources/js/reports/sales/year.js");
+
+
+/***/ })
+
+/******/ });

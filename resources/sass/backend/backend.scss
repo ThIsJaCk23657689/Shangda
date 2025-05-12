@@ -17,6 +17,10 @@
 @import "./login.scss";
 @import "./footer.scss";
 
+@page {
+    size: auto;
+}
+
 body{
     font-family: '微軟正黑體';
 }
