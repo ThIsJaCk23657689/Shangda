@@ -23,6 +23,7 @@
     "/css/frontend/consumers/sale_orders.css": "/css/frontend/consumers/sale_orders.css",
     "/css/frontend/consumers/sale_order_details.css": "/css/frontend/consumers/sale_order_details.css",
     "/css/frontend/consumers/register.css": "/css/frontend/consumers/register.css",
+    "/css/backend.css": "/css/backend.css",
     "/css/auth/auth.css": "/css/auth/auth.css",
     "/js/auth/email.js": "/js/auth/email.js",
     "/js/auth/login.js": "/js/auth/login.js",
@@ -73,6 +74,5 @@
     "/js/users/edit.js": "/js/users/edit.js",
     "/js/welcome/app.js": "/js/welcome/app.js",
     "/js/welcome/slides.js": "/js/welcome/slides.js",
-    "/js/welcome/plugins.js": "/js/welcome/plugins.js",
-    "/css/backend.css": "/css/backend.css"
+    "/js/welcome/plugins.js": "/js/welcome/plugins.js"
 }

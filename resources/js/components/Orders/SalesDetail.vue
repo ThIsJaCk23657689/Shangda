@@ -261,14 +261,30 @@ export default {
                 this.total_price = this.total_price + subTotal;
             }
 
-            $('#totalPrice').val(this.total_price);
-
+            // 此時 total_price 是商品細項的總價格
+            // 但它可能是稅前也可能是稅後
+            let tax_rate = 0.05;
+            let total_tax_price = this.total_price;
             let taxType = $('#taxType').val();
-            let tax = (taxType == "1")? Math.round(this.total_price * 0.05 * 10000) / 10000: 0;
-            $('#taxPrice').val(tax);
+            if (taxType == "1") {
+                // 應稅 -> 代表 total_price 是稅前
+                let tax = Math.round(this.total_price * tax_rate * 10000) / 10000;
+                total_tax_price = Math.round(Math.round((this.total_price + tax) * 10000) / 10000);
+                $('#totalPrice').val(this.total_price);
+                $('#taxPrice').val(tax);
+            } else if (taxType == "6") {
+                // 含稅 -> 代表 total_price 是稅後
+                let before_tax = Math.round(this.total_price / ( 1 + tax_rate ) * 10000) / 10000;
+                let tax = Math.round(before_tax * tax_rate * 10000) / 10000;
+                $('#totalPrice').val(before_tax);
+                $('#taxPrice').val(tax);
+            } else {
+                let tax = 0;
+                $('#totalPrice').val(this.total_price);
+                $('#taxPrice').val(tax);
+            }
 
-            this.total_price = Math.round(Math.round((this.total_price + tax) * 10000) / 10000);
-            this.$emit('showTotalPrice', this.total_price)
+            this.$emit('showTotalPrice', total_tax_price)
             // console.log(this.total_price);
         },
 

@@ -181,6 +181,7 @@
                                 </label>
                                 <select name="taxType" id="taxType" class="form-control" required @change="changeTax">
                                     <option value="1">應稅</option>
+                                    <option value="6">含稅</option>
                                     <option value="2">未稅</option>
                                     <option value="3">免稅</option>
                                     <option value="4">零稅 - 經海關</option>
