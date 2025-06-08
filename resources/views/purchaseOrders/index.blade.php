@@ -56,71 +56,75 @@
 								<td>{{ $purchaseOrder->showReceivedStatus() }}</td>
 								<td>{{ $purchaseOrder->created_at->toDateString() }}</td>
 								<td>
-                                    @if($purchaseOrder->received_at == null)
-                                        <button type="button" class="btn btn-md btn-primary received-btn" data-toggle="modal" data-target="#ReceivedModal" data-id="{{ $purchaseOrder->id }}" data-expect-received-at="{{ $purchaseOrder->showExpectReceivedAtDate() }}">
-                                            <i class="fas fa-truck-loading"></i>
-                                            到貨
-                                        </button>
-                                    @else
-                                        <button type="button" class="btn btn-md btn-danger cancle-received-btn">
-                                            <i class="fas fa-undo-alt"></i>
-                                            取消到貨
-                                        </button>
-                                        <form id="cancle-received-form-{{ $purchaseOrder->id }}" class="cancle-received-form" action="{{ route('purchase.received') }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="purchase_id" value="{{ $purchaseOrder->id }}">
-                                        </form>
-                                    @endif
+									@if( Auth::user()->job_title_id != 5 )
+										@if($purchaseOrder->received_at == null)
+											<button type="button" class="btn btn-md btn-primary received-btn" data-toggle="modal" data-target="#ReceivedModal" data-id="{{ $purchaseOrder->id }}" data-expect-received-at="{{ $purchaseOrder->showExpectReceivedAtDate() }}">
+												<i class="fas fa-truck-loading"></i>
+												到貨
+											</button>
+										@else
+											<button type="button" class="btn btn-md btn-danger cancle-received-btn">
+												<i class="fas fa-undo-alt"></i>
+												取消到貨
+											</button>
+											<form id="cancle-received-form-{{ $purchaseOrder->id }}" class="cancle-received-form" action="{{ route('purchase.received') }}" method="POST" style="display: none;">
+												@csrf
+												@method('PATCH')
+												<input type="hidden" name="purchase_id" value="{{ $purchaseOrder->id }}">
+											</form>
+										@endif
 
-                                    @if($purchaseOrder->paid_at == null)
-                                        <button type="button" class="btn btn-md btn-primary paid-btn" data-toggle="modal" data-target="#PaidModal" data-id="{{ $purchaseOrder->id }}">
-                                            <i class="fas fa-hand-holding-usd"></i>
-										    確認付清
-                                        </button>
-                                    @else
-                                        <button type="button" class="btn btn-md btn-danger cancle-paid-btn">
-                                            <i class="fas fa-undo-alt"></i>
-                                            取消付清
-                                        </button>
-                                        <form id="cancle-paid-form-{{ $purchaseOrder->id }}" class="cancle-paid-form" action="{{ route('purchase.paid') }}" method="POST" style="display: none;">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="purchase_id" value="{{ $purchaseOrder->id }}">
-                                        </form>
-                                    @endif
+										@if($purchaseOrder->paid_at == null)
+											<button type="button" class="btn btn-md btn-primary paid-btn" data-toggle="modal" data-target="#PaidModal" data-id="{{ $purchaseOrder->id }}">
+												<i class="fas fa-hand-holding-usd"></i>
+												確認付清
+											</button>
+										@else
+											<button type="button" class="btn btn-md btn-danger cancle-paid-btn">
+												<i class="fas fa-undo-alt"></i>
+												取消付清
+											</button>
+											<form id="cancle-paid-form-{{ $purchaseOrder->id }}" class="cancle-paid-form" action="{{ route('purchase.paid') }}" method="POST" style="display: none;">
+												@csrf
+												@method('PATCH')
+												<input type="hidden" name="purchase_id" value="{{ $purchaseOrder->id }}">
+											</form>
+										@endif
+									@endif
 
 									<a href="{{ route('purchase.show', [$purchaseOrder->id]) }}" class="btn btn-md btn-info">
 										<i class="fas fa-info-circle"></i>
 									</a>
 
-									@if ($purchaseOrder->paid_at == null && $purchaseOrder->received_at == null)
-										<a href="{{ route('purchase.edit', [$purchaseOrder->id]) }}" class="btn btn-md btn-success">
-											<i class="fas fa-edit"></i>
-										</a>
-										<a href="#" class="btn btn-md btn-danger" onclick="
-											event.preventDefault();
-											Swal.fire({
-												title: '注意！',
-												text: '您確定要刪除此進貨單嗎?（此步驟不可復原）。',
-												icon: 'warning',
-												showCancelButton: true,
-												confirmButtonColor: '#3085d6',
-												cancelButtonColor: '#d33',
-												confirmButtonText: '確認',
-												cancelButtonText: '取消',
-											}).then((result) => {
-												if (result.value) {
-													$('#deleteform-{{ $purchaseOrder->id }}').submit();
-												}
-											});
-										">
-											<i class="far fa-trash-alt"></i>
-										</a>
-										<form id="deleteform-{{ $purchaseOrder->id }}" action="{{ route('purchase.destroy', [$purchaseOrder->id]) }}" method="POST" style="display: none;">
-											@csrf
-											@method('DELETE')
-										</form>
+									@if( Auth::user()->job_title_id != 5 )
+										@if ($purchaseOrder->paid_at == null && $purchaseOrder->received_at == null)
+											<a href="{{ route('purchase.edit', [$purchaseOrder->id]) }}" class="btn btn-md btn-success">
+												<i class="fas fa-edit"></i>
+											</a>
+											<a href="#" class="btn btn-md btn-danger" onclick="
+												event.preventDefault();
+												Swal.fire({
+													title: '注意！',
+													text: '您確定要刪除此進貨單嗎?（此步驟不可復原）。',
+													icon: 'warning',
+													showCancelButton: true,
+													confirmButtonColor: '#3085d6',
+													cancelButtonColor: '#d33',
+													confirmButtonText: '確認',
+													cancelButtonText: '取消',
+												}).then((result) => {
+													if (result.value) {
+														$('#deleteform-{{ $purchaseOrder->id }}').submit();
+													}
+												});
+											">
+												<i class="far fa-trash-alt"></i>
+											</a>
+											<form id="deleteform-{{ $purchaseOrder->id }}" action="{{ route('purchase.destroy', [$purchaseOrder->id]) }}" method="POST" style="display: none;">
+												@csrf
+												@method('DELETE')
+											</form>
+										@endif
 									@endif
 
 								</td>

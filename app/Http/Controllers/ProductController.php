@@ -17,7 +17,7 @@ class ProductController extends Controller
     public $CategoryService;
 
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware(['auth', 'job.title:4,3']);
         $this->ProductService = new ProductService();
         $this->CategoryService = new CategoryService();
     }

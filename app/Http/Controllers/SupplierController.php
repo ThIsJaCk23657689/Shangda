@@ -13,7 +13,7 @@ class SupplierController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'job.title:4,3']);
         $this->SupplierService = new SupplierService();
     }
 

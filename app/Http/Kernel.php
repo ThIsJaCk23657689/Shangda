@@ -66,6 +66,8 @@ class Kernel extends HttpKernel
 
         'jwt' => \App\Http\Middleware\JwtAuthentication::class,
         'consumer' => \App\Http\Middleware\Consumers::class,
+
+        'job.title' => \App\Http\Middleware\CheckJobTitle::class,
     ];
 
 }

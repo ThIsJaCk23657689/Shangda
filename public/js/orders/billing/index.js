@@ -1,1 +1,534 @@
-!function(t){var e={};function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(r,o,function(e){return t[e]}.bind(null,o));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="/",n(n.s=142)}({0:function(t,e,n){"use strict";function r(t,e,n,r,o,s,a,i){var c,l="function"==typeof t?t.options:t;if(e&&(l.render=e,l.staticRenderFns=n,l._compiled=!0),r&&(l.functional=!0),s&&(l._scopeId="data-v-"+s),a?(c=function(t){(t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),o&&o.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(a)},l._ssrRegister=c):o&&(c=i?function(){o.call(this,(l.functional?this.parent:this).$root.$options.shadowRoot)}:o),c)if(l.functional){l._injectStyles=c;var u=l.render;l.render=function(t,e){return c.call(e),u(t,e)}}else{var d=l.beforeCreate;l.beforeCreate=d?[].concat(d,c):[c]}return{exports:t,options:l}}n.d(e,"a",(function(){return r}))},142:function(t,e,n){t.exports=n(143)},143:function(t,e,n){Vue.component("billing-index-list",n(219).default);new Vue({el:"#billing",data:function(){return{consumers:[]}},methods:{getConsumerData:function(t){var e=this,n=$("#getConsumerInfo").html();$.showLoadingModal(),axios.post(n,t).then((function(t){$.closeModal(),e.current_consumer=t.data,0==e.current_consumer.monthlyCheckDate?e.current_consumer.settlement="當日結算":e.current_consumer.settlement="每個月"+e.current_consumer.monthlyCheckDate+"號結算"})).catch((function(t){$.showErrorModal(t),console.error("抓取顧客資料失敗，錯誤："+t)}))}},created:function(){var t=this,e=$("#getConsumersName").html();$.showLoadingModal(),axios.get(e).then((function(e){$.closeModal(),t.consumers=e.data})).catch((function(t){$.showErrorModal(t),console.error("抓取顧客名稱列表失敗，錯誤："+t)}))}})},219:function(t,e,n){"use strict";n.r(e);var r={props:["consumers"],mounted:function(){$("#start_at").datepicker({changeYear:!0,changeMonth:!0,dateFormat:"yy-mm-dd"}),$("#end_at").datepicker({changeYear:!0,changeMonth:!0,dateFormat:"yy-mm-dd"});var t=new Date,e=t.getFullYear()+"-"+("0"+t.getMonth()).slice(-2)+"-"+("0"+t.getDate()).slice(-2),n=t.getFullYear()+"-"+("0"+(t.getMonth()+1)).slice(-2)+"-"+("0"+t.getDate()).slice(-2);$("#start_at").val(e),$("#end_at").val(n)},data:function(){return{current_consumer:{}}},methods:{generatePDF:function(){var t=$("#getBillingPDF").html(),e=$("#consumer_id").val(),n=$("#start_at").val(),r=$("#end_at").val(),o=$("#show_detail").prop("checked");if(0==e)return alert("請先選擇顧客"),void console.error("請先選擇顧客");if(""==n||""==r)return alert("請先選擇顧客"),void console.error("請選擇請款時間區段");var s="".concat(t,"/").concat(e,"/").concat(n,"/").concat(r,"/").concat(o);window.open(s,"_blank")}}},o=n(0),s=Object(o.a)(r,(function(){var t=this,e=t._self._c;return e("div",{staticClass:"row justify-content-center"},[e("div",{staticClass:"col-md-11"},[e("form",{attrs:{id:"SalesOrderCreateForm",method:"POST",action:"#"}},[e("div",{staticClass:"row"},[e("div",{staticClass:"col-md-3"},[e("div",{staticClass:"row"},[e("div",{staticClass:"col-md-12"},[e("div",{staticClass:"form-group"},[e("label",{attrs:{for:"consumer_id"}},[t._v("顧客名稱")]),t._v(" "),e("select",{staticClass:"form-control",attrs:{id:"consumer_id",name:"consumer_id"}},[e("option",{attrs:{value:"0"}},[t._v("請選擇...")]),t._v(" "),t._l(t.consumers,(function(n){return e("option",{domProps:{value:n.id}},[t._v(t._s(n.name))])}))],2)])])])]),t._v(" "),t._m(0),t._v(" "),t._m(1),t._v(" "),e("div",{staticClass:"col-md-3"},[e("div",{staticClass:"form-group"},[e("label",{staticClass:"text-white"},[t._v("_")]),t._v(" "),e("button",{staticClass:"btn btn-block btn-primary",attrs:{type:"button"},on:{click:t.generatePDF}},[t._v("\r\n                            列印請款單\r\n                        ")])])])]),t._v(" "),t._m(2)])])])}),[function(){var t=this._self._c;return t("div",{staticClass:"col-md-3"},[t("div",{staticClass:"form-group"},[t("label",{attrs:{for:"start_at"}},[this._v("起始時間")]),this._v(" "),t("input",{staticClass:"form-control",attrs:{id:"start_at",name:"start_at",type:"text",required:""}})])])},function(){var t=this._self._c;return t("div",{staticClass:"col-md-3"},[t("div",{staticClass:"form-group"},[t("label",{attrs:{for:"end_at"}},[this._v("截止時間")]),this._v(" "),t("input",{staticClass:"form-control",attrs:{id:"end_at",name:"end_at",type:"text",required:""}})])])},function(){var t=this._self._c;return t("div",{staticClass:"row"},[t("div",{staticClass:"col-md-3"},[t("div",{staticClass:"row"},[t("div",{staticClass:"col-md-12"},[t("div",{staticClass:"custom-control custom-switch"},[t("input",{staticClass:"custom-control-input",attrs:{type:"checkbox",name:"showDetail",id:"show_detail",value:"1",checked:""}}),this._v(" "),t("label",{staticClass:"custom-control-label",attrs:{for:"show_detail"}},[t("small",[this._v("是否顯示商品細項")])])])])])])])}],!1,null,"35e8590e",null);e.default=s.exports}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/BillingIndexList.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/BillingIndexList.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['consumers'],
+  mounted: function mounted() {
+    $("#start_at").datepicker({
+      changeYear: true,
+      changeMonth: true,
+      dateFormat: 'yy-mm-dd'
+    });
+    $("#end_at").datepicker({
+      changeYear: true,
+      changeMonth: true,
+      dateFormat: 'yy-mm-dd'
+    });
+
+    // 設定 訂單日期為今天 和 其他欄位 為預設。
+    var myDate = new Date();
+    var defaultStartDate = myDate.getFullYear() + '-' + ('0' + myDate.getMonth()).slice(-2) + '-' + ('0' + myDate.getDate()).slice(-2);
+    var defaultEndDate = myDate.getFullYear() + '-' + ('0' + (myDate.getMonth() + 1)).slice(-2) + '-' + ('0' + myDate.getDate()).slice(-2);
+    $("#start_at").val(defaultStartDate);
+    $("#end_at").val(defaultEndDate);
+  },
+  data: function data() {
+    return {
+      current_consumer: {}
+    };
+  },
+  methods: {
+    generatePDF: function generatePDF() {
+      var pdfURLString = $('#getBillingPDF').html();
+      var consumer_id = $('#consumer_id').val();
+      var start_at = $('#start_at').val();
+      var end_at = $('#end_at').val();
+      var show_detail = $('#show_detail').prop('checked');
+      if (consumer_id == 0) {
+        alert('請先選擇顧客');
+        console.error('請先選擇顧客');
+        return;
+      }
+      if (start_at == '' || end_at == '') {
+        alert('請先選擇顧客');
+        console.error('請選擇請款時間區段');
+        return;
+      }
+      var url = "".concat(pdfURLString, "/").concat(consumer_id, "/").concat(start_at, "/").concat(end_at, "/").concat(show_detail);
+      window.open(url, '_blank');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/BillingIndexList.vue?vue&type=template&id=1dcbfe44&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Orders/BillingIndexList.vue?vue&type=template&id=1dcbfe44&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "row justify-content-center"
+  }, [_c("div", {
+    staticClass: "col-md-11"
+  }, [_c("form", {
+    attrs: {
+      id: "SalesOrderCreateForm",
+      method: "POST",
+      action: "#"
+    }
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-3"
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-12"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "consumer_id"
+    }
+  }, [_vm._v("顧客名稱")]), _vm._v(" "), _c("select", {
+    staticClass: "form-control",
+    attrs: {
+      id: "consumer_id",
+      name: "consumer_id"
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "0"
+    }
+  }, [_vm._v("請選擇...")]), _vm._v(" "), _vm._l(_vm.consumers, function (consumer) {
+    return _c("option", {
+      domProps: {
+        value: consumer.id
+      }
+    }, [_vm._v(_vm._s(consumer.name))]);
+  })], 2)])])])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
+    staticClass: "col-md-3"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    staticClass: "text-white"
+  }, [_vm._v("_")]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-block btn-primary",
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: _vm.generatePDF
+    }
+  }, [_vm._v("\r\n                            列印請款單\r\n                        ")])])])]), _vm._v(" "), _vm._m(2)])])]);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "col-md-3"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "start_at"
+    }
+  }, [_vm._v("起始時間")]), _vm._v(" "), _c("input", {
+    staticClass: "form-control",
+    attrs: {
+      id: "start_at",
+      name: "start_at",
+      type: "text",
+      required: ""
+    }
+  })])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "col-md-3"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "end_at"
+    }
+  }, [_vm._v("截止時間")]), _vm._v(" "), _c("input", {
+    staticClass: "form-control",
+    attrs: {
+      id: "end_at",
+      name: "end_at",
+      type: "text",
+      required: ""
+    }
+  })])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-3"
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-12"
+  }, [_c("div", {
+    staticClass: "custom-control custom-switch"
+  }, [_c("input", {
+    staticClass: "custom-control-input",
+    attrs: {
+      type: "checkbox",
+      name: "showDetail",
+      id: "show_detail",
+      value: "1",
+      checked: ""
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "custom-control-label",
+    attrs: {
+      "for": "show_detail"
+    }
+  }, [_c("small", [_vm._v("是否顯示商品細項")])])])])])])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent(
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */,
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options =
+    typeof scriptExports === 'function' ? scriptExports.options : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) {
+    // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () {
+          injectStyles.call(
+            this,
+            (options.functional ? this.parent : this).$root.$options.shadowRoot
+          )
+        }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functional component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Orders/BillingIndexList.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/Orders/BillingIndexList.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BillingIndexList_vue_vue_type_template_id_1dcbfe44_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BillingIndexList.vue?vue&type=template&id=1dcbfe44&scoped=true& */ "./resources/js/components/Orders/BillingIndexList.vue?vue&type=template&id=1dcbfe44&scoped=true&");
+/* harmony import */ var _BillingIndexList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BillingIndexList.vue?vue&type=script&lang=js& */ "./resources/js/components/Orders/BillingIndexList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _BillingIndexList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BillingIndexList_vue_vue_type_template_id_1dcbfe44_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BillingIndexList_vue_vue_type_template_id_1dcbfe44_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "1dcbfe44",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Orders/BillingIndexList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Orders/BillingIndexList.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/Orders/BillingIndexList.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BillingIndexList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./BillingIndexList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/BillingIndexList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BillingIndexList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Orders/BillingIndexList.vue?vue&type=template&id=1dcbfe44&scoped=true&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/components/Orders/BillingIndexList.vue?vue&type=template&id=1dcbfe44&scoped=true& ***!
+  \********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_BillingIndexList_vue_vue_type_template_id_1dcbfe44_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!../../../../node_modules/vue-loader/lib??vue-loader-options!./BillingIndexList.vue?vue&type=template&id=1dcbfe44&scoped=true& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Orders/BillingIndexList.vue?vue&type=template&id=1dcbfe44&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_BillingIndexList_vue_vue_type_template_id_1dcbfe44_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_BillingIndexList_vue_vue_type_template_id_1dcbfe44_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/orders/billing/index.js":
+/*!**********************************************!*\
+  !*** ./resources/js/orders/billing/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+Vue.component('billing-index-list', __webpack_require__(/*! ./../../components/Orders/BillingIndexList.vue */ "./resources/js/components/Orders/BillingIndexList.vue")["default"]);
+var app = new Vue({
+  el: '#billing',
+  data: function data() {
+    return {
+      consumers: []
+    };
+  },
+  methods: {
+    getConsumerData: function getConsumerData(id) {
+      var _this = this;
+      var getConsumerInfo = $('#getConsumerInfo').html();
+      $.showLoadingModal();
+      axios.post(getConsumerInfo, id).then(function (response) {
+        $.closeModal();
+        _this.current_consumer = response.data;
+        if (_this.current_consumer.monthlyCheckDate == 0) {
+          _this.current_consumer.settlement = '當日結算';
+        } else {
+          _this.current_consumer.settlement = '每個月' + _this.current_consumer.monthlyCheckDate + '號結算';
+        }
+      })["catch"](function (error) {
+        $.showErrorModal(error);
+        console.error('抓取顧客資料失敗，錯誤：' + error);
+      });
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+    var getConsumersName = $('#getConsumersName').html();
+    $.showLoadingModal();
+    axios.get(getConsumersName).then(function (response) {
+      $.closeModal();
+      _this2.consumers = response.data;
+    })["catch"](function (error) {
+      $.showErrorModal(error);
+      console.error('抓取顧客名稱列表失敗，錯誤：' + error);
+    });
+  }
+});
+
+/***/ }),
+
+/***/ 35:
+/*!****************************************************!*\
+  !*** multi ./resources/js/orders/billing/index.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! C:\AppServ\www\Shangda\resources\js\orders\billing\index.js */"./resources/js/orders/billing/index.js");
+
+
+/***/ })
+
+/******/ });

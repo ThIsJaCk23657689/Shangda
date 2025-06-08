@@ -17,7 +17,7 @@ class ProduceController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'job.title:4,3']);
         $this->ProduceService = new ProduceService();
         $this->ProductService = new ProductService();
         $this->ProduceDetailService = new ProduceDetailService();

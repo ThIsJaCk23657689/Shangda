@@ -15,6 +15,11 @@ class PurchaseOrderController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('job.title:4,3')->except([
+            'index', 'show',
+            'create', 'store',
+            'edit', 'update'
+        ]);
         $this->PurchaseOrderService = new PurchaseOrderService();
     }
     /**
