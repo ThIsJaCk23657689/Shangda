@@ -13,7 +13,11 @@ class MaterialController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'job.title:4,3']);
+        $this->middleware('auth');
+        $this->middleware('job.title:4,3')->except([
+            'showName',
+            'getInfo'
+        ]);
         $this->materialService = new MaterialService();
     }
 
