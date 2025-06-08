@@ -16,7 +16,14 @@ class ConsumerController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'job.title:4,3'])->except('getDataByTaxID');
+        $this->middleware('auth')->except('getDataByTaxID');
+        $this->middleware('job.title:4,3')->except([
+            'getDataByTaxID',
+            'showName',
+            'getInfo',
+            'getOne',
+            'getList'
+        ]);
         $this->ConsumerService = new ConsumerService();
     }
 

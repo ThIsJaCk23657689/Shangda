@@ -17,7 +17,13 @@ class ProductController extends Controller
     public $CategoryService;
 
     public function __construct(){
-        $this->middleware(['auth', 'job.title:4,3']);
+        $this->middleware('auth');
+        $this->middleware('job.title:4,3')->except([
+            'showName',
+            'getInfo',
+            'getRecipes',
+            'getProductListByCategory'
+        ]);
         $this->ProductService = new ProductService();
         $this->CategoryService = new CategoryService();
     }
