@@ -2,8 +2,8 @@
 /public/hot
 /public/storage
 /public/images/consumers/avatars
-/public/css/*.css
-/public/js/*.js
+/public/js
+/public/css
 /storage/*.key
 /vendor
 .env
