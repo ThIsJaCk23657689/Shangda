@@ -37,6 +37,29 @@ class ReportController extends Controller
         return response()->json($res, $res['status']);
     }
 
+    public function salesReportMonthIndex(){
+        return view('reports.sales.month');
+    }
+
+    public function salesReportMonth(Request $request){
+        $this->validate($request, [
+            'year' => 'nullable|digits:4',
+            'month' => 'nullable|digits_between:1,2',
+        ]);
+        $res = $this->ReportService->salesReportMonth($request);
+        return response()->json($res, $res['status']);
+    }
+
+    public function salesMonthTrend(Request $request) {
+        $this->validate($request, [
+            'product_id' => 'integer',
+            'year' => 'nullable|digits:4',
+            'month' => 'nullable|digits_between:1,2',
+        ]);
+        $res = $this->ReportService->salesMonthTrend($request, 3);
+        return response()->json($res, $res['status']);
+    }
+
     // 銷售 日度報表
     public function salesReportDailyIndex(){
         return view('reports.sales.daily');

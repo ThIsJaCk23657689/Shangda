@@ -231,6 +231,10 @@ Route::prefix('/backend')->group(function(){
             Route::get('year', 'ReportController@salesReportYearIndex')->name('reports.sales.year');
             Route::post('year', 'ReportController@salesReportYear');
 
+            Route::get('month', 'ReportController@salesReportMonthIndex')->name('reports.sales.month');
+            Route::post('month', 'ReportController@salesReportMonth');
+            Route::post('monthTrend', 'ReportController@salesMonthTrend')->name( 'reports.sales.monthTrend' );
+
             Route::get('daily', 'ReportController@salesReportDailyIndex')->name('reports.sales.daily');
             Route::post('daily', 'ReportController@salesReportDaily');
 

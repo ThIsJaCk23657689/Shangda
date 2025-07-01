@@ -110,6 +110,79 @@ class ReportService extends BaseService
         ];
     }
 
+    public function salesReportMonth($request)
+    {
+        $year = $request->year ?? Carbon::now()->year;
+        $month = $request->month ?? Carbon::now()->month;
+        $prev = Carbon::createFromDate($year, $month, 1)->subMonth();
+        $prevYear = $prev->year;
+        $prevMonth = $prev->month;
+
+        $prevSales = DB::table('sales_orders')
+            ->selectRaw('products.id as p_id, SUM(sales_order_details.subTotal) as prev_sales')
+            ->rightJoin('sales_order_details', 'sales_orders.id', '=', 'sales_order_details.sales_order_id')
+            ->rightJoin('products', 'products.id', '=', 'sales_order_details.product_id')
+            ->whereYear('sales_orders.transaction_at', $prevYear)
+            ->whereMonth('sales_orders.transaction_at', $prevMonth)
+            ->groupBy('products.id');
+
+        $reports = DB::table('sales_orders')
+            ->select(
+                DB::raw('products.id as p_id'),
+                'products.name',
+                'categories.name as category',
+                DB::raw('ROUND(SUM(sales_order_details.subTotal)) as sales'),
+                DB::raw('COALESCE(prev.prev_sales, 0) as prev_sales'),
+                DB::raw('
+            CASE
+                WHEN COALESCE(prev.prev_sales, 0) = 0 THEN 0
+                ELSE ROUND((SUM(sales_order_details.subTotal) - prev.prev_sales) / prev.prev_sales * 100, 2)
+            END as change_percent
+        ')
+            )
+            ->rightJoin('sales_order_details', 'sales_orders.id', '=', 'sales_order_details.sales_order_id')
+            ->rightJoin('products', 'products.id', '=', 'sales_order_details.product_id')
+            ->rightJoin('categories', 'products.category_id', '=', 'categories.id')
+            ->leftJoinSub($prevSales, 'prev', function ($join) {
+                $join->on('products.id', '=', 'prev.p_id');
+            })
+            ->whereYear('sales_orders.transaction_at', $year)
+            ->whereMonth('sales_orders.transaction_at', $month)
+            ->groupByRaw('products.id, products.name, categories.name, prev.prev_sales')
+            ->orderByDesc('sales')
+            ->get();
+
+        return [
+            'status' => 200,
+            'result' => $reports,
+        ];
+    }
+
+    public function salesMonthTrend($request, $monthCount) {
+        $year = $request->year ?? Carbon::now()->year;
+        $month = $request->month ?? Carbon::now()->month;
+        $start = Carbon::createFromDate($year, $month, 1)->subMonths($monthCount - 1)->startOfMonth();
+        $end = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+        $pid = $request->product_id;
+
+        $results = DB::table('sales_orders')
+            ->select(
+                DB::raw("DATE_FORMAT(sales_orders.transaction_at, '%Y-%m') as month"),
+                DB::raw("SUM(sales_order_details.subTotal) as total_sales")
+            )
+            ->rightJoin('sales_order_details', 'sales_orders.id', '=', 'sales_order_details.sales_order_id')
+            ->where('sales_order_details.product_id', $pid)
+            ->whereBetween('sales_orders.transaction_at', [$start, $end])
+            ->groupBy(DB::raw("DATE_FORMAT(sales_orders.transaction_at, '%Y-%m')"))
+            ->orderBy(DB::raw("DATE_FORMAT(sales_orders.transaction_at, '%Y-%m')"))
+            ->get();
+
+        return [
+            'status' => 200,
+            'result' => $results,
+        ];
+    }
+
     // 進貨年度報表
     public function purchaseReportYear($request){
 

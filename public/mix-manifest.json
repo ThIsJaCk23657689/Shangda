@@ -66,6 +66,7 @@
     "/js/reports/purchase/daily.js": "/js/reports/purchase/daily.js",
     "/js/reports/purchase/year.js": "/js/reports/purchase/year.js",
     "/js/reports/sales/daily.js": "/js/reports/sales/daily.js",
+    "/js/reports/sales/month.js": "/js/reports/sales/month.js",
     "/js/reports/sales/profit.js": "/js/reports/sales/profit.js",
     "/js/reports/sales/year.js": "/js/reports/sales/year.js",
     "/js/suppliers/create.js": "/js/suppliers/create.js",

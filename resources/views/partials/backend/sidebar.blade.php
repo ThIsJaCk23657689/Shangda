@@ -76,6 +76,7 @@
 		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 			<h6 class="dropdown-header">{{ __('Sales Report') }}</h6>
 			<a class="dropdown-item" href="{{ route('reports.sales.year') }}">{{ __('Annual Report') }}</a>
+            <a class="dropdown-item" href="{{ route('reports.sales.month') }}">{{ __('Monthly Report') }}</a>
 			<a class="dropdown-item" href="{{ route('reports.sales.daily') }}">{{ __('Daily Report') }}</a>
 			{{-- <a class="dropdown-item" href="{{ route('reports.sales.profit') }}">{{ __('Gross Profit Report') }}</a> --}}
 			<h6 class="dropdown-header">{{ __('Purchase Report') }}</h6>
