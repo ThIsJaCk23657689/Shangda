@@ -134,11 +134,18 @@ class ReportService extends BaseService
                 DB::raw('ROUND(SUM(sales_order_details.subTotal)) as sales'),
                 DB::raw('COALESCE(prev.prev_sales, 0) as prev_sales'),
                 DB::raw('
-            CASE
-                WHEN COALESCE(prev.prev_sales, 0) = 0 THEN 0
-                ELSE ROUND((SUM(sales_order_details.subTotal) - prev.prev_sales) / prev.prev_sales * 100, 2)
-            END as change_percent
-        ')
+                    CASE
+                        WHEN COALESCE(prev.prev_sales, 0) = 0 THEN 0
+                        ELSE ROUND((SUM(sales_order_details.subTotal) - prev.prev_sales) / prev.prev_sales * 100, 2)
+                    END as change_percent
+                '),
+                DB::raw('
+                    CASE
+                        WHEN products.qty_per_pack > 0
+                        THEN FLOOR(SUM(sales_order_details.quantity) / products.qty_per_pack)
+                        ELSE SUM(sales_order_details.quantity)
+                    END as sold_packs
+                ')
             )
             ->rightJoin('sales_order_details', 'sales_orders.id', '=', 'sales_order_details.sales_order_id')
             ->rightJoin('products', 'products.id', '=', 'sales_order_details.product_id')
@@ -148,7 +155,7 @@ class ReportService extends BaseService
             })
             ->whereYear('sales_orders.transaction_at', $year)
             ->whereMonth('sales_orders.transaction_at', $month)
-            ->groupByRaw('products.id, products.name, categories.name, prev.prev_sales')
+            ->groupByRaw('products.id, products.name, categories.name, prev.prev_sales, products.qty_per_pack')
             ->orderByDesc('sales')
             ->get();
 

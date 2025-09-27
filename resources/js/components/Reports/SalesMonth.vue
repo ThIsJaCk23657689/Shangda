@@ -51,7 +51,7 @@
             <div class="col-lg-8">
                 <div class="card p-4">
                     <div class="card-body">
-                        <div class="crypto-label mb-3">商品銷售排行榜</div>
+                        <div class="crypto-label mb-3">商品銷售排行榜 (本月共 {{ totalSoldPacks }} 件)</div>
                         <input type="text" id="searchInput" class="form-control mb-3 bg-dark text-white" placeholder="搜尋商品..." @input="OnSearchInputChange" />
 
                         <div id="rankingList" class="list-group">
@@ -65,6 +65,8 @@
 
                                     <div class="text-right">
                                         <div class="font-weight-bold">{{ formatCurrency( product.sales ) }}</div>
+                                        <div class="crypto-label">件數：{{ product.sold_packs }}</div>
+
                                         <div v-if="product.change_percent > 0" class="badge badge-danger">
                                             ↗ {{ Math.abs( product.change_percent ) + '%' }}
                                         </div>
@@ -113,6 +115,11 @@ export default {
                 this.filterRanking(input.value.toLowerCase());
             });
         },
+    },
+    computed: {
+        totalSoldPacks() {
+            return this.reports.reduce((sum, product) => sum + Number( product.sold_packs || 0 ), 0);
+        }
     },
     methods: {
         fetchData() {
