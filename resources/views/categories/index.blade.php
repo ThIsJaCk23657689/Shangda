@@ -16,14 +16,14 @@
 		<li class="breadcrumb-item active">{{ __('Index') }}</li>
 	@endcomponent
 
-	{{-- <div class="row mb-3">
+    <div class="row mb-3">
         <div class="col-md-12">
             <a href="{{ route('categories.create') }}" class="btn btn-md btn-primary">
                 <i class="fas fa-plus"></i>
                 新增商品類別
             </a>
         </div>
-    </div> --}}
+    </div>
 
 	<!-- DataTables Example -->
 	<div class="card mb-3">

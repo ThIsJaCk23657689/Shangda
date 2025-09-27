@@ -136,7 +136,7 @@ Route::prefix('/backend')->group(function(){
         Route::get('showName','CategoryController@showName')->name('categories.showName');
         // Route::get('show', 'ProductController@getProductListByCategory')->name('Product.getProductListByCategory');
     });
-    Route::resource('/categories', 'CategoryController')->only(['index', 'show']);;
+    Route::resource('/categories', 'CategoryController')->only(['index', 'create', 'store', 'show']);;
 
     // 顧客管理路由
     Route::prefix('/consumers')->group(function(){

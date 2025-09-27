@@ -25,27 +25,27 @@ class CategoryController extends Controller
         return view('categories.index', compact('categories'));
     }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    //     return view('categories.create');
-    // }
+     /**
+      * Show the form for creating a new resource.
+      *
+      * @return \Illuminate\Http\Response
+      */
+     public function create()
+     {
+         return view('categories.create');
+     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(CategoryRequest $request)
-    // {
-    //     $category = $this->CategoryService->add($request);
-    //     return redirect()->route('categories.index');
-    // }
+     /**
+      * Store a newly created resource in storage.
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+     public function store(CategoryRequest $request)
+     {
+         $category = $this->CategoryService->add($request);
+         return redirect()->route('categories.index');
+     }
 
     /**
      * Display the specified resource.
