@@ -4,7 +4,7 @@ const app = new Vue({
     el: '#reports',
     data() {
         return {
-            reports: {},
+            reports: [],
             infos: {
                 totalSales: 0,
                 totalSalesCount: 0,
