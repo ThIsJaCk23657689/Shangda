@@ -223,9 +223,9 @@
                                     </label>
 
                                     <select id="unit" class="form-control @error('unit') is-invalid @enderror" name="unit">
-                                        <option value="package" selected>包</option>
-                                        <option value="kg">公斤</option>
-                                        <option value="roll">捲</option>
+                                        <option value="package" {{ old('unit', $product->unit) == 'package' ? 'selected' : '' }}>包</option>
+                                        <option value="kg" {{ old('unit', $product->unit) == 'kg' ? 'selected' : '' }}>公斤</option>
+                                        <option value="roll" {{ old('unit', $product->unit) == 'roll' ? 'selected' : '' }}>捲</option>
                                     </select>
 
                                     @error('unit')
@@ -247,7 +247,7 @@
                                     <select id="category_id" class="form-control @error('category_id') is-invalid @enderror" name="category_id">
                                         @foreach ($categories as $category)
                                             @if($category->id != 2)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                             @endif
                                         @endforeach
                                     </select>
