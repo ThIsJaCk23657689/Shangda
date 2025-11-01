@@ -112,13 +112,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="show_companyAddress">公司地址</label>
-                        <input id="show_companyAddress" type="text" class="form-control" value="{{ $salesOrder->consumer->showAddress() ?? '無' }}" readonly>
+                        <input id="show_companyAddress" type="text" class="form-control" value="{{ optional($salesOrder->consumer)->showAddress() ?? '無' }}" readonly>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="show_deliveryAddress">送貨地址</label>
-                        <input id="show_deliveryAddress" type="text" class="form-control" value="{{ $salesOrder->consumer->showDeliveryAddress() ?? '無' }}" readonly>
+                        <input id="show_deliveryAddress" type="text" class="form-control" value="{{ optional($salesOrder->consumer)->showDeliveryAddress() ?? '無' }}" readonly>
                     </div>
                 </div>
                 <div class="col-md-4">
