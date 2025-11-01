@@ -80,7 +80,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="show_settlement">結算方式</label>
-                                <input id="show_settlement" type="text" class="form-control mb-2" value="{{ $salesOrder->consumer->monthlyCheckDate == 0 ? '日結' : '月結' }}" readonly>
+                                <input id="show_settlement" type="text" class="form-control mb-2" value="{{ optional($salesOrder->consumer)->monthlyCheckDate === 0 ? '日結' : (optional($salesOrder->consumer)->monthlyCheckDate ? '月結' : '無資料' ) }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-4">
