@@ -94,12 +94,12 @@
 										<i class="fas fa-info-circle"></i>
 										查看
 									</a>
-									<a href="{{ route('sales.edit', [$salesOrder->id]) }}" class="btn btn-md btn-success">
-										<i class="fas fa-edit"></i>
-										編輯
-									</a>
 
 									@if( Auth::user()->job_title_id != 5 )
+                                        <a href="{{ route('sales.edit', [$salesOrder->id]) }}" class="btn btn-md btn-success">
+                                            <i class="fas fa-edit"></i>
+                                            編輯
+                                        </a>
 										<a href="#" class="btn btn-md btn-danger" onclick="
 											event.preventDefault();
 
