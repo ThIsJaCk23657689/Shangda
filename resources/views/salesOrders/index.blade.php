@@ -48,7 +48,7 @@
 					<tbody>
 						@foreach ($salesOrders as $salesOrder)
 							<tr>
-								<td>{{ $salesOrder->consumer->name }}</td>
+                                <td>{{ $salesOrder->consumer->name ?? '' }}</td>
 								<td>{{ $salesOrder->totalTaxPrice }}</td>
                                 <td>{{ $salesOrder->transaction_at->toDateString() }}</td>
 								<td>{{ $salesOrder->expectPay_at->toDateString() }}</td>
