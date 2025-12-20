@@ -24,6 +24,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'keywords' => 'nullable| string|',
             'skip' => 'nullable| integer|',
+            'tag_id' => 'nullable| integer|',
             'orderby' => [
                 'nullable',
                 Rule::in([1, 2, 3, 4, 0]), // 1.最新 -> 最舊 2.最舊 -> 最新 3.價格(高->低) 4.價格(低->高)

@@ -115,9 +115,16 @@ Route::prefix('/backend')->group(function(){
         Route::get('{id}/discounts','ProductController@showDiscountsPage')->name('products.showDiscountsPage');
         Route::post('{id}/discounts','ProductController@editDiscounts');
         Route::get('{id}/discounts/list', 'ProductController@getDiscountsList')->name('products.getDiscountsList');
+        Route::get('{id}/tags', 'ProductController@getTags')->name('products.getTags');
         Route::delete('{id}/forceDelete', 'ProductController@forceDelete')->name('products.forceDelete');
     });
     Route::resource('/products', 'ProductController');
+
+    // 標籤管理路由
+    Route::prefix('/tags')->group(function(){
+        Route::get('showName', 'TagController@showName')->name('tags.showName');
+    });
+    Route::resource('/tags', 'TagController');
 
     // 商品庫存細項管理路由
     Route::prefix('/produces/details')->group(function(){

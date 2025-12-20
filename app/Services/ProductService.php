@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Product as ProductEloquent;
 use App\Material as MaterialEloquent;
 use App\Category as CategoryEloquent;
+use App\Tag as TagEloquent;
 
 class ProductService extends BaseService
 {
@@ -65,11 +66,41 @@ class ProductService extends BaseService
             'retailPrice' => ($request->profit + $costprice),
         ]);
 
+        // 處理標籤
+        if ($request->has('tag_ids') && is_array($request->tag_ids)) {
+            $tagIds = [];
+            foreach ($request->tag_ids as $tagId) {
+                if (is_numeric($tagId)) {
+                    $tagIds[] = $tagId;
+                }
+            }
+            $product->tags()->sync($tagIds);
+        } elseif ($request->has('tag_names') && is_array($request->tag_names)) {
+            // 支援透過標籤名稱新增標籤
+            $tagIds = [];
+            foreach ($request->tag_names as $tagName) {
+                if (!empty($tagName)) {
+                    $tag = TagEloquent::firstOrCreate(['name' => trim($tagName)]);
+                    $tagIds[] = $tag->id;
+                }
+            }
+            $product->tags()->sync($tagIds);
+        }
+
         return $product;
     }
 
-    public function getList(){
-        $products = ProductEloquent::withTrashed()->with(['category:id,name'])->get();
+    public function getList($request = null){
+        $query = ProductEloquent::withTrashed()->with(['category:id,name', 'tags:id,name']);
+        
+        // 支援透過標籤篩選
+        if ($request && $request->has('tag_id') && $request->tag_id) {
+            $query->whereHas('tags', function($q) use ($request) {
+                $q->where('tags.id', $request->tag_id);
+            });
+        }
+        
+        $products = $query->get();
         return $products;
     }
 
@@ -196,6 +227,27 @@ class ProductService extends BaseService
             'retailPrice' => ($request->profit + $costprice),
         ]);
 
+        // 處理標籤
+        if ($request->has('tag_ids') && is_array($request->tag_ids)) {
+            $tagIds = [];
+            foreach ($request->tag_ids as $tagId) {
+                if (is_numeric($tagId)) {
+                    $tagIds[] = $tagId;
+                }
+            }
+            $product->tags()->sync($tagIds);
+        } elseif ($request->has('tag_names') && is_array($request->tag_names)) {
+            // 支援透過標籤名稱新增標籤
+            $tagIds = [];
+            foreach ($request->tag_names as $tagName) {
+                if (!empty($tagName)) {
+                    $tag = TagEloquent::firstOrCreate(['name' => trim($tagName)]);
+                    $tagIds[] = $tag->id;
+                }
+            }
+            $product->tags()->sync($tagIds);
+        }
+
         return $product;
     }
 
@@ -213,6 +265,7 @@ class ProductService extends BaseService
         if($product->trashed()){
             $product->materials()->detach();
             $product->consumers()->detach();
+            $product->tags()->detach();
             $product->pictures()->delete();
             $product->materials()->delete();
             $product->produces()->delete();
@@ -278,6 +331,13 @@ class ProductService extends BaseService
 
         $products = new ProductEloquent();
 
+        // 支援透過標籤篩選
+        if ($request->has('tag_id') && $request->tag_id) {
+            $products = $products->whereHas('tags', function($q) use ($request) {
+                $q->where('tags.id', $request->tag_id);
+            });
+        }
+
         if(!is_null($keywords) && $keywords != []){
             // $keywords 不是空陣列才需要進行搜尋
             if($type == 0){
@@ -313,6 +373,7 @@ class ProductService extends BaseService
             $product->showURL = route('front.products.show', $product->id);
             $product->pictures = $product->pictures;
             $product->category = $product->category;
+            $product->tags = $product->tags;
             $product->coverImage = $product->showPicture(1);
         }
 

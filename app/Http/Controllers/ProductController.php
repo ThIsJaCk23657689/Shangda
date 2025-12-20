@@ -28,8 +28,8 @@ class ProductController extends Controller
         $this->CategoryService = new CategoryService();
     }
 
-    public function index(){
-        $products = $this->ProductService->getList();
+    public function index(Request $request){
+        $products = $this->ProductService->getList($request);
         $lastUpdate = $this->ProductService->getlastupdate();
         return view('products.index', compact('products', 'lastUpdate'));
     }
@@ -152,5 +152,15 @@ class ProductController extends Controller
         }else{
             return response()->json($products, 200);
         }
+    }
+
+    // 取得商品的標籤列表
+    public function getTags($id){
+        $product = $this->ProductService->getOne($id);
+        $tags = $product->tags;
+        return response()->json([
+            'status' => 'OK',
+            'tags' => $tags
+        ], 200);
     }
 }
