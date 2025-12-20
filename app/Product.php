@@ -13,6 +13,7 @@ use App\ProductLog as ProductLogEloquent;
 use App\Consumer as ConsumerEloquent;
 use App\Contact as ContactEloquent;
 use App\SalesOrderDetail as SalesOrderDetailEloquent;
+use App\Tag as TagEloquent;
 
 use URL;
 
@@ -73,6 +74,11 @@ class Product extends Model
     // 抓取這個商品對應的銷貨單細項
     public function details(){
         return $this->hasMany(SalesOrderDetailEloquent::class);
+    }
+
+    // 抓取此商品的所有標籤
+    public function tags(){
+        return $this->belongsToMany(TagEloquent::class, 'product_tag');
     }
 
     public function showUnit(){
