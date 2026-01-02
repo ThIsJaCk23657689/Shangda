@@ -1,6 +1,6 @@
 <template>
 <div class="row justify-content-center">
-    <div class="col-md-11">
+    <div class="col-md-12">
         <form id="SalesOrderCreateForm" method="POST" action="#" @submit.prevent="createSalesOrder">
 
             <input type="hidden" name="status" value="1">
