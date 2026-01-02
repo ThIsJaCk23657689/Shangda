@@ -184,8 +184,8 @@
                                     <option value="6">含稅</option>
                                     <option value="2">未稅</option>
                                     <option value="3">免稅</option>
-                                    <option value="4">零稅 - 經海關</option>
-                                    <option value="5">零稅 - 非經海關</option>
+<!--                                    <option value="4">零稅 - 經海關</option>-->
+<!--                                    <option value="5">零稅 - 非經海關</option>-->
                                 </select>
                             </div>
                         </div>
