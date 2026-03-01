@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Employee;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,6 +20,7 @@ class Employee extends Model
         'birth_date',
         'phone',
         'address',
+        'base_salary',
         'status',
         'hired_date',
         'resigned_date',
@@ -32,6 +33,7 @@ class Employee extends Model
         'gender'        => 'integer',
         'id_type'       => 'integer',
         'status'        => 'integer',
+        'base_salary'   => 'float',
     ];
 
     // ----------------------------------------
