@@ -14,9 +14,10 @@
 		</a>
 		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 			<h6 class="dropdown-header">{{ __('Basic:') }}</h6>
-			<a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Staffs') }}</a>
+			<a class="dropdown-item" href="{{ route('users.index') }}">{{ __('Users') }}</a>
 			<a class="dropdown-item" href="{{ route('suppliers.index') }}">{{ __('Suppliers') }}</a>
 			<a class="dropdown-item" href="{{ route('consumers.index') }}">{{ __('Consumers') }}</a>
+			<a class="dropdown-item" href="{{ route('employees.index') }}">{{ __('Employees') }}</a>
 			<a class="dropdown-item" href="{{ route('salary.calculator') }}">{{ __('Salary Calculator') }}</a>
 			<div class="dropdown-divider"></div>
 			<h6 class="dropdown-header">{{ __('Related:') }}</h6>

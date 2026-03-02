@@ -90,11 +90,13 @@
     "Basic:": "基本管理",
     "Related:": "相關管理",
     "People Management": "人物管理",
+    "Users": "使用者",
     "Staffs": "員工",
     "Suppliers": "供應商",
     "Consumers": "顧客",
     "Job Titles": "職稱",
     "Produces": "商品庫存",
+    "Employees": "員工",
     "Salary Calculator": "員工薪資試算",
 
     "Stuffs Management": "物品管理",

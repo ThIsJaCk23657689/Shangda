@@ -85,6 +85,9 @@ Route::prefix('/backend')->group(function(){
     Route::get('/users/{id}/json', 'UsersController@getOne')->name('users.getOne');
     Route::resource('/users', 'UsersController');
 
+    // 員工資料管理路由
+    Route::resource('/employees', 'EmployeeController');
+    
     // 薪資計算路由
     Route::get('/salary/calculator', 'SalaryController@index')->name('salary.calculator');
     Route::post('/salary/calculate', 'SalaryController@calculate')->name('salary.calculate');
@@ -289,3 +292,4 @@ Route::prefix('/backend')->group(function(){
     });
 
 });
+

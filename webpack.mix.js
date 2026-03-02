@@ -113,7 +113,12 @@ mix.js('resources/js/backend.js', 'public/js')
     .js('resources/js/reports/account/payble_daily.js', 'public/js/reports/account')
     .js('resources/js/reports/account/receivable_daily.js', 'public/js/reports/account')
 
+.js('resources/js/employees/index.js', 'public/js/employees')
+.js('resources/js/employees/create.js', 'public/js/employees')
+.js('resources/js/employees/edit.js', 'public/js/employees')
+.js('resources/js/employees/show.js', 'public/js/employees')
 .js('resources/js/salary/calculator.js', 'public/js/salary')
 
 .sass('resources/sass/backend/backend.scss', 'public/css')
 .sass('resources/sass/backend/auth/auth.scss', 'public/css/auth');
+
