@@ -1,18 +1,23 @@
 <template>
     <div class="card mb-3">
+
         <div class="card-header">
             <i class="fas fa-id-card"></i>
             {{ isEdit ? '編輯員工' : '新增員工' }}
         </div>
+        
         <div class="card-body">
             <form @submit.prevent="submitForm">
+
                 <h5 class="mb-3">基本資料</h5>
                 <div class="form-row">
+
                     <div class="form-group col-md-4">
                         <label><span class="text-danger mr-1">*</span>姓名</label>
                         <input v-model="form.name" type="text" class="form-control" :class="inputClass('name')">
                         <div class="invalid-feedback">{{ firstError('name') }}</div>
                     </div>
+
                     <div class="form-group col-md-4">
                         <label>國籍</label>
                         <select v-model="form.nationality" class="form-control" :class="inputClass('nationality')">
@@ -22,10 +27,13 @@
                         </select>
                         <div class="invalid-feedback">{{ firstError('nationality') }}</div>
                     </div>
+
                     <div class="form-group col-md-4" v-if="form.nationality === '__OTHER__'">
                         <label>其他國籍</label>
-                        <input v-model="form.other_nationality" type="text" class="form-control">
+                        <input v-model="form.other_nationality" type="text" class="form-control" :class="inputClass('other_nationality')">
+                        <div class="invalid-feedback">{{ firstError('other_nationality') }}</div>
                     </div>
+
                 </div>
 
                 <div class="form-row">
@@ -37,6 +45,7 @@
                         </select>
                         <div class="invalid-feedback">{{ firstError('gender') }}</div>
                     </div>
+
                     <div class="form-group col-md-3">
                         <label>狀態</label>
                         <select v-model="form.status" class="form-control" :class="inputClass('status')">
@@ -45,16 +54,17 @@
                         </select>
                         <div class="invalid-feedback">{{ firstError('status') }}</div>
                     </div>
+
                     <div class="form-group col-md-3">
                         <label>證件類型</label>
                         <select v-model="form.id_type" class="form-control" :class="inputClass('id_type')">
-                            <option :value="null">未填寫</option>
                             <option :value="1">身分證</option>
                             <option :value="2">護照</option>
                             <option :value="3">居留證</option>
                         </select>
                         <div class="invalid-feedback">{{ firstError('id_type') }}</div>
                     </div>
+
                     <div class="form-group col-md-3">
                         <label>證件號碼</label>
                         <input v-model="form.id_number" type="text" class="form-control" :class="inputClass('id_number')">
@@ -68,11 +78,13 @@
                         <input v-model="form.birth_date" type="text" id="birth_date" class="form-control" :class="inputClass('birth_date')">
                         <div class="invalid-feedback">{{ firstError('birth_date') }}</div>
                     </div>
+
                     <div class="form-group col-md-4">
                         <label>手機</label>
                         <input v-model="form.phone" type="text" class="form-control" :class="inputClass('phone')">
                         <div class="invalid-feedback">{{ firstError('phone') }}</div>
                     </div>
+
                     <div class="form-group col-md-4">
                         <label>基本月薪</label>
                         <input v-model="form.base_salary" type="number" min="0" step="0.01" class="form-control" :class="inputClass('base_salary')">
@@ -83,37 +95,40 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>到職日</label>
-                        <input v-model="form.hired_date" type="date" class="form-control" :class="inputClass('hired_date')">
+                        <input v-model="form.hired_date" type="text" id="hired_date" name="hired_date" class="form-control" :class="inputClass('hired_date')">
                         <div class="invalid-feedback">{{ firstError('hired_date') }}</div>
                     </div>
+                    
                     <div class="form-group col-md-6">
                         <label>離職日</label>
-                        <input v-model="form.resigned_date" type="date" class="form-control" :class="inputClass('resigned_date')">
+                        <input v-model="form.resigned_date" type="text" id="resigned_date" name="resigned_date" class="form-control" :class="inputClass('resigned_date')">
                         <div class="invalid-feedback">{{ firstError('resigned_date') }}</div>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="col-md-12">
+
                         <div id="address_twzipcode" class="form-group">
                             <label>地址</label>
                             <div class="row mb-2">
                                 <div class="col-md-4">
-                                    <div data-role="county" data-style="form-control" data-name="address_county" data-value=""></div>
+                                    <twzipcode-county v-model="form.address_county" class="form-control"></twzipcode-county>
                                 </div>
                                 <div class="col-md-4">
-                                    <div data-role="district" data-style="form-control" data-name="address_district" data-value=""></div>
+                                    <twzipcode-zipcode id="twzipcode_zipcode" text-template=":city" value-template=":city" :filter-by-county="form.address_county" v-model="form.address_district" class="form-control" @input="updateZipcode(form)"></twzipcode-zipcode>
                                 </div>
                                 <div class="col-md-4">
-                                    <div data-role="zipcode" data-style="form-control" data-name="address_zipcode" data-value=""></div>
+                                    <input type="text" class="form-control" v-model="form.address_zipcode" readonly>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input id="address_others" type="text" class="form-control" name="address_others" value="" autocomplete="off">
+                                    <input v-model="form.address_others" id="address_others" type="text" class="form-control" :class="inputClass('address_others')" name="address_others" autocomplete="off">
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -173,20 +188,42 @@
                             <input v-model="contact.relationship" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.relationship`)">
                             <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.relationship`) }}</div>
                         </div>
+
                         <div class="form-group col-md-3">
                             <label>姓名</label>
                             <input v-model="contact.name" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.name`)">
                             <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.name`) }}</div>
                         </div>
+
                         <div class="form-group col-md-3">
                             <label>電話</label>
                             <input v-model="contact.phone" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.phone`)">
                             <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.phone`) }}</div>
                         </div>
+
                         <div class="form-group col-md-3">
-                            <label>住址</label>
-                            <input v-model="contact.address" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address`)">
-                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address`) }}</div>
+                            <label>縣市</label>
+                            <input v-model="contact.address_county" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address_county`)">
+                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address_county`) }}</div>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label>鄉鎮地區</label>
+                            <input v-model="contact.address_district" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address_district`)">
+                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address_district`) }}</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label>其他</label>
+                            <input v-model="contact.address_others" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address_others`)">
+                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address_others`) }}</div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>郵遞區號</label>
+                            <input v-model="contact.address_zipcode" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address_zipcode`)">
+                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address_zipcode`) }}</div>
                         </div>
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-danger" @click="removeEmergencyContact(index)">刪除聯絡人</button>
@@ -202,6 +239,7 @@
 </template>
 
 <script>
+import twzipcode from 'twzipcode-data'
 export default {
     name: 'EmployeeFormPage',
     props: {
@@ -256,7 +294,7 @@ export default {
                 gender: 0,
                 nationality: '',
                 other_nationality: '',
-                id_type: null,
+                id_type: 1,
                 id_number: '',
                 birth_date: '',
                 phone: '',
@@ -276,7 +314,7 @@ export default {
     computed: {
         isEdit() {
             return this.mode === 'edit';
-        },
+        }
     },
     created() {
         if (this.isEdit && this.employeeId) {
@@ -284,11 +322,6 @@ export default {
         }
     },
     mounted() {
-        // 地址
-        $('#address_twzipcode').twzipcode({
-            'readonly': false
-        });
-
         // 生日
         $("#birth_date").datepicker({
             dateFormat: 'yy-mm-dd',
@@ -296,14 +329,58 @@ export default {
             changeMonth: true,
             yearRange: "-80:+0",
             maxDate: '-15y',
+            onSelect: function(dateText) {
+                this.value = dateText;
+                this.dispatchEvent(new Event('input'));
+            }
+        });
+
+        // 到職日
+        $("#hired_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            yearRange: "-80:+5",
+            onSelect: function(dateText) {
+                this.value = dateText;
+                this.dispatchEvent(new Event('input'));
+            }
+        });
+
+        // 離職日
+        $("#resigned_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            yearRange: "-80:+5",
+            onSelect: function(dateText) {
+                this.value = dateText;
+                this.dispatchEvent(new Event('input'));
+            }
         });
     },
     methods: {
+        updateZipcode(addressObj) {
+            const data = twzipcode();
+            const found = data.zipcodes.find(item => 
+                item.county === addressObj.address_county && 
+                item.city === addressObj.address_district
+            );
+            addressObj.address_zipcode = found ? found.zipcode.toString() : '';
+        },
         emptyBankAccount(primary) {
             return { bank_code: '', bank_name: '', account_number: '', is_primary: primary ? 1 : 0 };
         },
         emptyEmergencyContact() {
-            return { relationship: '', name: '', phone: '', address: '' };
+            return {
+                relationship: '',
+                name: '',
+                phone: '',
+                address_county: '',
+                address_district: '',
+                address_others: '',
+                address_zipcode: '',
+            };
         },
         fetchEmployee() {
             axios.get(`/backend/employees/${this.employeeId}`).then((response) => {
@@ -355,12 +432,65 @@ export default {
             return normalized;
         },
         normalizeEmergencyContacts(contacts) {
-            return (contacts || []).map((item) => ({
-                relationship: item.relationship || '',
-                name: item.name || '',
-                phone: item.phone || '',
-                address: item.address || '',
-            }));
+            return (contacts || []).map((item) => {
+                const parsedAddress = this.parseEmergencyAddress(item.address || '');
+                return {
+                    relationship: item.relationship || '',
+                    name: item.name || '',
+                    phone: item.phone || '',
+                    address_county: parsedAddress.address_county,
+                    address_district: parsedAddress.address_district,
+                    address_others: parsedAddress.address_others,
+                    address_zipcode: parsedAddress.address_zipcode,
+                };
+            });
+        },
+        parseEmergencyAddress(address) {
+            const value = (address || '').trim();
+            if (!value) {
+                return {
+                    address_county: '',
+                    address_district: '',
+                    address_others: '',
+                    address_zipcode: '',
+                };
+            }
+
+            const matched = value.match(/^(.+?[縣市])(.+?(?:區|鄉|鎮|市))(.*?)(\d{3,5})?$/);
+            if (!matched) {
+                return {
+                    address_county: '',
+                    address_district: '',
+                    address_others: value,
+                    address_zipcode: '',
+                };
+            }
+
+            return {
+                address_county: matched[1] || '',
+                address_district: matched[2] || '',
+                address_others: (matched[3] || '').trim(),
+                address_zipcode: matched[4] || '',
+            };
+        },
+        composeEmergencyAddress(contact) {
+            return [
+                (contact.address_county || '').trim(),
+                (contact.address_district || '').trim(),
+                (contact.address_others || '').trim(),
+                (contact.address_zipcode || '').trim(),
+            ].join('');
+        },
+        isEmergencyContactFilled(contact) {
+            return Boolean(
+                (contact.relationship || '').trim() ||
+                (contact.name || '').trim() ||
+                (contact.phone || '').trim() ||
+                (contact.address_county || '').trim() ||
+                (contact.address_district || '').trim() ||
+                (contact.address_others || '').trim() ||
+                (contact.address_zipcode || '').trim()
+            );
         },
         bankValue(account) {
             if (!account.bank_code) return '';
@@ -404,6 +534,15 @@ export default {
         validateFront() {
             const errors = {};
             if (!this.form.name) errors.name = ['姓名為必填'];
+            if (this.form.nationality === '__OTHER__' && !this.form.other_nationality.trim()) {
+                errors.other_nationality = ['請填寫其他國籍'];
+            }
+            if (Number(this.form.status) === 0 && !this.form.resigned_date) {
+                errors.resigned_date = ['狀態為離職時，離職日為必填'];
+            }
+            if (this.form.hired_date && this.form.resigned_date && this.form.resigned_date < this.form.hired_date) {
+                errors.resigned_date = ['離職日不能比到職日早'];
+            }
             if (!this.form.bank_accounts.length) errors.bank_accounts = ['至少需要一筆銀行帳號'];
 
             let hasPrimary = false;
@@ -413,6 +552,25 @@ export default {
                 if (Number(account.is_primary) === 1) hasPrimary = true;
             });
             if (this.form.bank_accounts.length && !hasPrimary) errors.bank_accounts = ['請至少設定一筆主要帳號'];
+
+            this.form.emergency_contacts.forEach((contact, index) => {
+                if (!this.isEmergencyContactFilled(contact)) return;
+
+                if (!contact.address_county || !contact.address_county.trim()) {
+                    errors[`emergency_contacts.${index}.address_county`] = ['縣市為必填'];
+                }
+                if (!contact.address_district || !contact.address_district.trim()) {
+                    errors[`emergency_contacts.${index}.address_district`] = ['鄉鎮地區為必填'];
+                }
+                if (!contact.address_others || !contact.address_others.trim()) {
+                    errors[`emergency_contacts.${index}.address_others`] = ['其他地址為必填'];
+                }
+                if (!contact.address_zipcode || !String(contact.address_zipcode).trim()) {
+                    errors[`emergency_contacts.${index}.address_zipcode`] = ['郵遞區號為必填'];
+                } else if (!/^\d{3,5}$/.test(String(contact.address_zipcode).trim())) {
+                    errors[`emergency_contacts.${index}.address_zipcode`] = ['郵遞區號格式錯誤'];
+                }
+            });
 
             this.errors = errors;
             return Object.keys(errors).length === 0;
@@ -445,8 +603,11 @@ export default {
                     relationship: item.relationship || null,
                     name: item.name || null,
                     phone: item.phone || null,
-                    address: item.address || null,
-                })).filter((item) => item.relationship || item.name || item.phone || item.address),
+                    address: this.composeEmergencyAddress(item) || null,
+                })).filter((item, index) => {
+                    const source = this.form.emergency_contacts[index];
+                    return this.isEmergencyContactFilled(source);
+                }),
             };
         },
         submitForm() {
