@@ -55,7 +55,6 @@
                             <th>關係</th>
                             <th>姓名</th>
                             <th>電話</th>
-                            <th>住址</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,7 +62,6 @@
                             <td>{{ contact.relationship }}</td>
                             <td>{{ contact.name }}</td>
                             <td>{{ contact.phone }}</td>
-                            <td>{{ contact.address || '-' }}</td>
                         </tr>
                     </tbody>
                 </table>

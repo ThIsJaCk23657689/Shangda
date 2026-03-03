@@ -113,18 +113,22 @@
                             <label>地址</label>
                             <div class="row mb-2">
                                 <div class="col-md-4">
-                                    <twzipcode-county v-model="form.address_county" class="form-control"></twzipcode-county>
+                                    <twzipcode-county v-model="form.address_county" class="form-control" :class="inputClass('address_county')"></twzipcode-county>
+                                    <div class="invalid-feedback">{{ firstError('address_county') }}</div>
                                 </div>
                                 <div class="col-md-4">
-                                    <twzipcode-zipcode id="twzipcode_zipcode" text-template=":city" value-template=":city" :filter-by-county="form.address_county" v-model="form.address_district" class="form-control" @input="updateZipcode(form)"></twzipcode-zipcode>
+                                    <twzipcode-zipcode id="twzipcode_zipcode" text-template=":city" value-template=":city" :filter-by-county="form.address_county" v-model="form.address_district" class="form-control" :class="inputClass('address_district')" @input="updateZipcode(form)"></twzipcode-zipcode>
+                                    <div class="invalid-feedback">{{ firstError('address_district') }}</div>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" v-model="form.address_zipcode" readonly>
+                                    <input type="text" class="form-control" v-model="form.address_zipcode" :class="inputClass('address_zipcode')" readonly>
+                                    <div class="invalid-feedback">{{ firstError('address_zipcode') }}</div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <input v-model="form.address_others" id="address_others" type="text" class="form-control" :class="inputClass('address_others')" name="address_others" autocomplete="off">
+                                    <div class="invalid-feedback">{{ firstError('address_others') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -199,31 +203,6 @@
                             <label>電話</label>
                             <input v-model="contact.phone" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.phone`)">
                             <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.phone`) }}</div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label>縣市</label>
-                            <input v-model="contact.address_county" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address_county`)">
-                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address_county`) }}</div>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label>鄉鎮地區</label>
-                            <input v-model="contact.address_district" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address_district`)">
-                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address_district`) }}</div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-8">
-                            <label>其他</label>
-                            <input v-model="contact.address_others" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address_others`)">
-                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address_others`) }}</div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label>郵遞區號</label>
-                            <input v-model="contact.address_zipcode" type="text" class="form-control" :class="inputClass(`emergency_contacts.${index}.address_zipcode`)">
-                            <div class="invalid-feedback">{{ firstError(`emergency_contacts.${index}.address_zipcode`) }}</div>
                         </div>
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-danger" @click="removeEmergencyContact(index)">刪除聯絡人</button>
@@ -376,10 +355,6 @@ export default {
                 relationship: '',
                 name: '',
                 phone: '',
-                address_county: '',
-                address_district: '',
-                address_others: '',
-                address_zipcode: '',
             };
         },
         fetchEmployee() {
@@ -433,63 +408,18 @@ export default {
         },
         normalizeEmergencyContacts(contacts) {
             return (contacts || []).map((item) => {
-                const parsedAddress = this.parseEmergencyAddress(item.address || '');
                 return {
                     relationship: item.relationship || '',
                     name: item.name || '',
                     phone: item.phone || '',
-                    address_county: parsedAddress.address_county,
-                    address_district: parsedAddress.address_district,
-                    address_others: parsedAddress.address_others,
-                    address_zipcode: parsedAddress.address_zipcode,
                 };
             });
-        },
-        parseEmergencyAddress(address) {
-            const value = (address || '').trim();
-            if (!value) {
-                return {
-                    address_county: '',
-                    address_district: '',
-                    address_others: '',
-                    address_zipcode: '',
-                };
-            }
-
-            const matched = value.match(/^(.+?[縣市])(.+?(?:區|鄉|鎮|市))(.*?)(\d{3,5})?$/);
-            if (!matched) {
-                return {
-                    address_county: '',
-                    address_district: '',
-                    address_others: value,
-                    address_zipcode: '',
-                };
-            }
-
-            return {
-                address_county: matched[1] || '',
-                address_district: matched[2] || '',
-                address_others: (matched[3] || '').trim(),
-                address_zipcode: matched[4] || '',
-            };
-        },
-        composeEmergencyAddress(contact) {
-            return [
-                (contact.address_county || '').trim(),
-                (contact.address_district || '').trim(),
-                (contact.address_others || '').trim(),
-                (contact.address_zipcode || '').trim(),
-            ].join('');
         },
         isEmergencyContactFilled(contact) {
             return Boolean(
                 (contact.relationship || '').trim() ||
                 (contact.name || '').trim() ||
-                (contact.phone || '').trim() ||
-                (contact.address_county || '').trim() ||
-                (contact.address_district || '').trim() ||
-                (contact.address_others || '').trim() ||
-                (contact.address_zipcode || '').trim()
+                (contact.phone || '').trim()
             );
         },
         bankValue(account) {
@@ -555,21 +485,6 @@ export default {
 
             this.form.emergency_contacts.forEach((contact, index) => {
                 if (!this.isEmergencyContactFilled(contact)) return;
-
-                if (!contact.address_county || !contact.address_county.trim()) {
-                    errors[`emergency_contacts.${index}.address_county`] = ['縣市為必填'];
-                }
-                if (!contact.address_district || !contact.address_district.trim()) {
-                    errors[`emergency_contacts.${index}.address_district`] = ['鄉鎮地區為必填'];
-                }
-                if (!contact.address_others || !contact.address_others.trim()) {
-                    errors[`emergency_contacts.${index}.address_others`] = ['其他地址為必填'];
-                }
-                if (!contact.address_zipcode || !String(contact.address_zipcode).trim()) {
-                    errors[`emergency_contacts.${index}.address_zipcode`] = ['郵遞區號為必填'];
-                } else if (!/^\d{3,5}$/.test(String(contact.address_zipcode).trim())) {
-                    errors[`emergency_contacts.${index}.address_zipcode`] = ['郵遞區號格式錯誤'];
-                }
             });
 
             this.errors = errors;
@@ -603,7 +518,6 @@ export default {
                     relationship: item.relationship || null,
                     name: item.name || null,
                     phone: item.phone || null,
-                    address: this.composeEmergencyAddress(item) || null,
                 })).filter((item, index) => {
                     const source = this.form.emergency_contacts[index];
                     return this.isEmergencyContactFilled(source);

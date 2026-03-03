@@ -42,7 +42,6 @@ class StoreEmployeeRequest extends FormRequest
             'emergency_contacts.*.relationship' => 'required_with:emergency_contacts|string|max:20',
             'emergency_contacts.*.name' => 'required_with:emergency_contacts|string|max:50',
             'emergency_contacts.*.phone' => 'required_with:emergency_contacts|string|max:20',
-            'emergency_contacts.*.address' => 'nullable|string|max:200',
         ];
     }
 

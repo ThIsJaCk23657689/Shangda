@@ -210,7 +210,6 @@ class EmployeeController extends Controller
                 'relationship' => $contact['relationship'],
                 'name' => $contact['name'],
                 'phone' => $contact['phone'],
-                'address' => $contact['address'] ?? null,
             ];
         }
 

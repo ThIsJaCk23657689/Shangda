@@ -12,8 +12,7 @@ class EmployeeEmergencyContact extends Model
         'employee_id',
         'relationship',
         'name',
-        'phone',
-        'address',
+        'phone'
     ];
 
     // ----------------------------------------
