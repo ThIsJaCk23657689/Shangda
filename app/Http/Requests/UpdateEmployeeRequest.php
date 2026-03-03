@@ -32,7 +32,7 @@ class UpdateEmployeeRequest extends FormRequest
             'base_salary' => 'nullable|numeric|min:0',
             'status' => 'nullable|in:0,1',
             'hired_date' => 'nullable|date',
-            'resigned_date' => 'nullable|date|after_or_equal:hired_date',
+            'resigned_date' => 'nullable|date|required_if:status,0|after_or_equal:hired_date',
 
             'bank_accounts' => 'required|array|min:1',
             'bank_accounts.*.bank_code' => 'required|string|max:10',
