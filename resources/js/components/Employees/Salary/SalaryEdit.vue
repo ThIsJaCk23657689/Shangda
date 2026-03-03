@@ -2,6 +2,10 @@
     <div>
         <div v-if="loading" class="text-center py-5">資料讀取中...</div>
         <div v-else>
+            <div class="mb-3">
+                <h4 class="mb-0">{{ year }} 年 {{ month }} 月 薪資單</h4>
+            </div>
+
             <div v-if="isConfirmed" class="alert alert-warning d-flex justify-content-between align-items-center">
                 <div>
                     ⚠ 此薪資單已確認發薪（{{ confirmedAtLabel }}）
@@ -13,7 +17,12 @@
                 <div class="card-header">員工資訊</div>
                 <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between mb-3">
-                        <div class="mb-2">員工姓名：<strong>{{ employee.name || '-' }}</strong></div>
+                        <div class="mb-2">
+                            員工姓名：
+                            <a :href="`/backend/employees/${employeeId}`" target="_blank" rel="noopener noreferrer">
+                                <strong>{{ employee.name || '-' }}</strong>
+                            </a>
+                        </div>
                         <div class="mb-2">到職日：<strong>{{ dateLabel(employee.hired_date, '/') }}</strong></div>
                     </div>
                     <div class="form-row">
@@ -23,11 +32,26 @@
                                 v-model.number="baseSalaryInput"
                                 type="number"
                                 min="0"
-                                step="0.01"
+                                step="1"
                                 class="form-control"
                                 :disabled="isConfirmed || loadingAction"
+                                @input="normalizeBaseSalaryInput"
                                 @blur="handleBaseSalaryBlur"
                             >
+                            <div class="mt-2 d-flex flex-wrap align-items-center">
+                                <span :class="{ 'text-warning font-weight-bold': salaryDiffWithEmployee }">
+                                    員工目前薪資：{{ moneyIntLabel(employeeBaseSalary) }}
+                                </span>
+                                <button
+                                    v-if="!isConfirmed && salaryRecord"
+                                    type="button"
+                                    class="btn btn-sm btn-outline-secondary ml-3"
+                                    :disabled="loadingAction"
+                                    @click="restoreEmployeeSalary"
+                                >
+                                    恢復為員工薪資
+                                </button>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label>時薪基準</label>
@@ -73,9 +97,10 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <span>加項</span>
                             <button
+                                v-if="!isConfirmed"
                                 type="button"
                                 class="btn btn-sm btn-primary"
-                                :disabled="!salaryRecord || isConfirmed || loadingAction"
+                                :disabled="!salaryRecord || loadingAction"
                                 @click="openAdditionCreate"
                             >
                                 ＋ 新增加項
@@ -91,9 +116,9 @@
                                     </div>
                                     <div class="text-right">
                                         <div>{{ moneyLabel(item.amount) }}</div>
-                                        <div>
-                                            <button type="button" class="btn btn-sm btn-outline-success mr-1" :disabled="isConfirmed || loadingAction" @click="openAdditionEdit(item)">編輯</button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" :disabled="isConfirmed || loadingAction" @click="destroyAddition(item)">刪除</button>
+                                        <div v-if="!isConfirmed">
+                                            <button type="button" class="btn btn-sm btn-outline-success mr-1" :disabled="loadingAction" @click="openAdditionEdit(item)">編輯</button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" :disabled="loadingAction" @click="destroyAddition(item)">刪除</button>
                                         </div>
                                     </div>
                                 </div>
@@ -108,9 +133,10 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <span>減項</span>
                             <button
+                                v-if="!isConfirmed"
                                 type="button"
                                 class="btn btn-sm btn-primary"
-                                :disabled="!salaryRecord || isConfirmed || loadingAction"
+                                :disabled="!salaryRecord || loadingAction"
                                 @click="openDeductionCreate"
                             >
                                 ＋ 新增減項
@@ -126,9 +152,9 @@
                                     </div>
                                     <div class="text-right">
                                         <div>{{ moneyLabel(item.amount) }}</div>
-                                        <div>
-                                            <button type="button" class="btn btn-sm btn-outline-success mr-1" :disabled="isConfirmed || loadingAction" @click="openDeductionEdit(item)">編輯</button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" :disabled="isConfirmed || loadingAction" @click="destroyDeduction(item)">刪除</button>
+                                        <div v-if="!isConfirmed">
+                                            <button type="button" class="btn btn-sm btn-outline-success mr-1" :disabled="loadingAction" @click="openDeductionEdit(item)">編輯</button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" :disabled="loadingAction" @click="destroyDeduction(item)">刪除</button>
                                         </div>
                                     </div>
                                 </div>
@@ -144,28 +170,32 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between py-1">
                         <span>基本月薪</span>
-                        <strong>{{ moneyLabel(baseSalaryValue) }}</strong>
+                        <strong>{{ moneyIntLabel(baseSalaryValue) }}</strong>
                     </div>
                     <div class="d-flex justify-content-between py-1">
                         <span>請假扣薪</span>
-                        <span>- {{ moneyLabel(leaveDeductionValue) }}</span>
+                        <span>- {{ moneyIntLabel(leaveDeductionValue) }}</span>
                     </div>
                     <div class="d-flex justify-content-between py-1">
                         <span>加班費</span>
-                        <span>+ {{ moneyLabel(overtimePayValue) }}</span>
+                        <span>+ {{ moneyIntLabel(overtimePayValue) }}</span>
                     </div>
                     <div class="d-flex justify-content-between py-1">
                         <span>加項合計</span>
-                        <span>+ {{ moneyLabel(additionTotalValue) }}</span>
+                        <span>+ {{ moneyIntLabel(additionTotalValue) }}</span>
                     </div>
                     <div class="d-flex justify-content-between py-1">
                         <span>減項合計</span>
-                        <span>- {{ moneyLabel(deductionTotalValue) }}</span>
+                        <span>- {{ moneyIntLabel(deductionTotalValue) }}</span>
                     </div>
                     <hr>
-                    <div class="d-flex justify-content-between py-1 font-weight-bold">
-                        <span>實領薪資</span>
+                    <div class="d-flex justify-content-between py-1">
+                        <span>實領薪資（精確）</span>
                         <span>{{ moneyLabel(netSalaryValue) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-1 font-weight-bold h5 mb-0">
+                        <span>實領薪資（核發）</span>
+                        <span>{{ moneyIntLabel(issuedSalaryValue) }}</span>
                     </div>
                 </div>
             </div>
@@ -188,9 +218,10 @@
                 <button type="button" class="btn btn-primary mr-2" :disabled="isConfirmed || loadingAction" @click="handleSaveDraft">
                     {{ loadingAction ? '處理中...' : '儲存草稿' }}
                 </button>
-                <button type="button" class="btn btn-success" :disabled="isConfirmed || loadingAction" @click="handleConfirmSalary">
+                <button type="button" class="btn btn-success" :disabled="isConfirmed || loadingAction || !salaryRecord" @click="handleConfirmSalary">
                     {{ loadingAction ? '處理中...' : '確認發薪' }}
                 </button>
+                <div v-if="!salaryRecord" class="text-muted ml-3 align-self-center">請先儲存草稿後再確認</div>
             </div>
         </div>
 
@@ -277,6 +308,13 @@ export default {
         deductions() {
             return Array.isArray((this.salaryRecord || {}).deductions) ? this.salaryRecord.deductions : [];
         },
+        employeeBaseSalary() {
+            return Number((this.employee || {}).base_salary || 0);
+        },
+        salaryDiffWithEmployee() {
+            if (!this.salaryRecord) return false;
+            return Math.round(Number(this.salaryRecord.base_salary || 0)) !== Math.round(this.employeeBaseSalary);
+        },
         baseSalaryValue() {
             if (this.salaryRecord) return Number(this.salaryRecord.base_salary || 0);
             return Number(this.baseSalaryInput || 0);
@@ -323,6 +361,9 @@ export default {
             if (this.salaryRecord) return Number(this.salaryRecord.net_salary || 0);
             return this.baseSalaryValue - this.leaveDeductionValue + this.overtimePayValue;
         },
+        issuedSalaryValue() {
+            return Math.round(this.netSalaryValue);
+        },
         confirmedAtLabel() {
             return this.dateTimeLabel((this.salaryRecord || {}).confirmed_at);
         },
@@ -361,7 +402,7 @@ export default {
                     this.employee = data.employee || {};
                     this.attendanceSummary = data.attendance_summary || this.attendanceSummary;
                     this.salaryRecord = data.salary_record || null;
-                    this.baseSalaryInput = Number((this.salaryRecord || this.employee).base_salary || 0);
+                    this.baseSalaryInput = Math.round(Number((this.salaryRecord || this.employee).base_salary || 0));
                     this.noteInput = this.salaryRecord ? (this.salaryRecord.note || '') : '';
                     this.syncUrlQuery();
                 })
@@ -373,6 +414,7 @@ export default {
                 });
         },
         handleBaseSalaryBlur() {
+            this.normalizeBaseSalaryInput();
             if (!this.salaryRecord || this.isConfirmed) return;
             this.updateSalaryRecord();
         },
@@ -386,10 +428,7 @@ export default {
         },
         handleConfirmSalary() {
             if (this.loadingAction || this.isConfirmed) return;
-            if (!this.salaryRecord) {
-                this.createSalaryRecord(true);
-                return;
-            }
+            if (!this.salaryRecord) return;
             this.loadingAction = true;
             axios
                 .post(`/backend/salary/${this.salaryRecord.id}/confirm`)
@@ -410,7 +449,7 @@ export default {
                 .post(`/backend/salary/${this.employeeId}`, {
                     year: this.year,
                     month: this.month,
-                    base_salary: Number(this.baseSalaryInput || 0),
+                    base_salary: this.normalizedBaseSalary(),
                 })
                 .then((response) => {
                     this.applySalaryRecord(response.data.data);
@@ -436,7 +475,7 @@ export default {
             this.loadingAction = true;
             axios
                 .put(`/backend/salary/${this.salaryRecord.id}`, {
-                    base_salary: Number(this.baseSalaryInput || 0),
+                    base_salary: this.normalizedBaseSalary(),
                     note: this.noteInput || null,
                 })
                 .then((response) => {
@@ -453,9 +492,22 @@ export default {
         applySalaryRecord(record) {
             this.salaryRecord = record || null;
             if (this.salaryRecord) {
-                this.baseSalaryInput = Number(this.salaryRecord.base_salary || 0);
+                this.baseSalaryInput = Math.round(Number(this.salaryRecord.base_salary || 0));
                 this.noteInput = this.salaryRecord.note || '';
             }
+        },
+        normalizeBaseSalaryInput() {
+            const normalized = this.normalizedBaseSalary();
+            this.baseSalaryInput = normalized;
+            return normalized;
+        },
+        normalizedBaseSalary() {
+            const value = Math.round(Number(this.baseSalaryInput || 0));
+            return value < 0 ? 0 : value;
+        },
+        restoreEmployeeSalary() {
+            this.baseSalaryInput = Math.round(this.employeeBaseSalary);
+            this.handleBaseSalaryBlur();
         },
         openAdditionCreate() {
             this.additionModal.item = null;
@@ -572,6 +624,9 @@ export default {
         moneyLabel(value) {
             return `$${Number(value || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         },
+        moneyIntLabel(value) {
+            return `$${Math.round(Number(value || 0)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        },
         hoursLabel(value) {
             return `${Number(value || 0).toFixed(1)}h`;
         },
@@ -582,8 +637,35 @@ export default {
         },
         dateTimeLabel(value) {
             if (!value) return '-';
-            const raw = String(value).slice(0, 16);
-            return raw.replace(/-/g, '/');
+            let source = String(value).trim();
+            if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(:\d{2})?$/.test(source)) {
+                source = source.replace(' ', 'T');
+                if (!/[+-]\d{2}:\d{2}$/.test(source) && !source.endsWith('Z')) {
+                    source = `${source}+08:00`;
+                }
+            }
+
+            const date = new Date(source);
+            if (Number.isNaN(date.getTime())) {
+                return String(value).slice(0, 16).replace(/-/g, '/');
+            }
+
+            const parts = new Intl.DateTimeFormat('zh-TW', {
+                timeZone: 'Asia/Taipei',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+            }).formatToParts(date).reduce((map, part) => {
+                if (part.type !== 'literal') {
+                    map[part.type] = part.value;
+                }
+                return map;
+            }, {});
+
+            return `${parts.year}/${parts.month}/${parts.day} ${parts.hour}:${parts.minute}`;
         },
         extractErrorMessage(error, fallback) {
             return (((error || {}).response || {}).data || {}).message || fallback;

@@ -140,7 +140,7 @@ export default {
             return this.moneyLabel(record.net_salary);
         },
         moneyLabel(value) {
-            return `$${Number(value || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            return `$${Math.round(Number(value || 0)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
         },
         extractErrorMessage(error, fallback) {
             return (((error || {}).response || {}).data || {}).message || fallback;
