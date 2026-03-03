@@ -96,6 +96,23 @@ Route::prefix('/backend')->group(function(){
     Route::get('/salary/calculator', 'SalaryController@index')->name('salary.calculator');
     Route::post('/salary/calculate', 'SalaryController@calculate')->name('salary.calculate');
 
+    // 薪資 API 路由
+    Route::get('/salary', 'SalaryController@index');
+    Route::get('/salary/{employeeId}/edit', 'SalaryController@edit');
+    Route::post('/salary/{employeeId}', 'SalaryController@store');
+    Route::put('/salary/{id}', 'SalaryController@update');
+
+    Route::post('/salary/{id}/confirm', 'SalaryController@confirm');
+    Route::post('/salary/{id}/unconfirm', 'SalaryController@unconfirm');
+
+    Route::post('/salary/{id}/additions', 'SalaryController@storeAddition');
+    Route::put('/salary/{id}/additions/{additionId}', 'SalaryController@updateAddition');
+    Route::delete('/salary/{id}/additions/{additionId}', 'SalaryController@destroyAddition');
+
+    Route::post('/salary/{id}/deductions', 'SalaryController@storeDeduction');
+    Route::put('/salary/{id}/deductions/{deductionId}', 'SalaryController@updateDeduction');
+    Route::delete('/salary/{id}/deductions/{deductionId}', 'SalaryController@destroyDeduction');
+
     // 職稱管理路由
     Route::prefix('jobtitles')->group(function(){
         Route::get('showName', 'JobTitleController@showName')->name('jobtitles.showName');

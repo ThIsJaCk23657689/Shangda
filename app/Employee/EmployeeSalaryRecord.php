@@ -74,12 +74,12 @@ class EmployeeSalaryRecord extends Model
 
     public function additions()
     {
-        return $this->hasMany(SalaryAddition::class);
+        return $this->hasMany(EmployeeSalaryAddition::class);
     }
 
     public function deductions()
     {
-        return $this->hasMany(SalaryDeduction::class);
+        return $this->hasMany(EmployeeSalaryDeduction::class);
     }
 
     // ----------------------------------------

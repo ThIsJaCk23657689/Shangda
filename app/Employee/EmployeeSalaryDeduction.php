@@ -4,7 +4,7 @@ namespace App\Employee;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeDeduction extends Model
+class EmployeeSalaryDeduction extends Model
 {
     protected $table = 'employee_salary_deductions';
 

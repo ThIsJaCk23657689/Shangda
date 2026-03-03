@@ -118,6 +118,8 @@ mix.js('resources/js/backend.js', 'public/js')
 .js('resources/js/employees/edit.js', 'public/js/employees')
 .js('resources/js/employees/show.js', 'public/js/employees')
 .js('resources/js/attendance/index.js', 'public/js/attendance')
+.js('resources/js/salary/index.js', 'public/js/salary')
+.js('resources/js/salary/edit.js', 'public/js/salary')
 .js('resources/js/salary/calculator.js', 'public/js/salary')
 
 .sass('resources/sass/backend/backend.scss', 'public/css')

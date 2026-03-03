@@ -18,6 +18,7 @@
 			<a class="dropdown-item" href="{{ route('suppliers.index') }}">{{ __('Suppliers') }}</a>
 			<a class="dropdown-item" href="{{ route('consumers.index') }}">{{ __('Consumers') }}</a>
 			<a class="dropdown-item" href="{{ route('employees.index') }}">{{ __('Employees') }}</a>
+			<a class="dropdown-item" href="/backend/salary">薪資管理</a>
 			<a class="dropdown-item" href="{{ route('salary.calculator') }}">{{ __('Salary Calculator') }}</a>
 			<div class="dropdown-divider"></div>
 			<h6 class="dropdown-header">{{ __('Related:') }}</h6>

@@ -28,7 +28,6 @@
                                 <th>開始</th>
                                 <th>結束</th>
                                 <th>時數</th>
-                                <th>備註</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -39,7 +38,6 @@
                                 <td>{{ log.start_time }}</td>
                                 <td>{{ log.end_time }}</td>
                                 <td>{{ hourLabel(log.hours) }}</td>
-                                <td>{{ log.note || '-' }}</td>
                                 <td>
                                     <div v-if="confirmDeleteId === log.id">
                                         <span class="mr-2 text-danger">確定刪除？</span>
@@ -53,19 +51,30 @@
                                 </td>
                             </tr>
                             <tr v-if="logs.length === 0">
-                                <td colspan="7" class="text-center">本月尚無資料</td>
+                                <td colspan="8" class="text-center">本月尚無資料</td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="border rounded p-3 bg-light">
                         <div class="mb-2">
-                            當月加班：{{ hourLabel(overtimeTotalHours) }}
-                            （加班費 +${{ moneyLabel(summary.overtime_pay) }}）
+                            基本月薪：${{ moneyLabel(baseSalary) }}
+                            <span class="mx-2">|</span>
+                            時薪基準：${{ hourlyRateLabel }}
                         </div>
-                        <div>
+                        <hr class="my-2">
+                        <div class="mb-2">
+                            當月加班：{{ hourLabel(overtimeTotalHours) }}
+                        </div>
+                        <div class="pl-3">
+                            <div>├ 1.34 倍率：{{ hourLabel(summary.overtime_hours_134) }}</div>
+                            <div>└ 1.67 倍率：{{ hourLabel(summary.overtime_hours_167) }}</div>
+                            <div class="mt-1">加班費合計：+${{ moneyLabel(summary.overtime_pay) }}</div>
+                        </div>
+                        <hr class="my-2">
+                        <div class="mb-0">
                             當月請假：{{ hourLabel(summary.leave_hours) }}
-                            （請假扣薪 -${{ moneyLabel(summary.leave_deduction) }}）
+                            <span class="ml-2">請假扣薪：-${{ moneyLabel(summary.leave_deduction) }}</span>
                         </div>
                     </div>
                 </div>
@@ -117,8 +126,38 @@ export default {
         monthTitle() {
             return `${this.currentYear}年 ${this.currentMonth}月`;
         },
+        baseSalary() {
+            return Number((this.employee || {}).base_salary || 0);
+        },
+        hourlyRate() {
+            return this.baseSalary / 240;
+        },
+        hourlyRateLabel() {
+            return this.hourlyRate.toLocaleString('en-US', {
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4,
+            });
+        },
         overtimeTotalHours() {
             return Number(this.summary.overtime_hours_134 || 0) + Number(this.summary.overtime_hours_167 || 0);
+        },
+        overtimeDailyMap() {
+            const totals = this.logs.reduce((map, log) => {
+                if (Number(log.type) !== 1) return map;
+                const date = log.log_date;
+                map[date] = Number(map[date] || 0) + Number(log.hours || 0);
+                return map;
+            }, {});
+
+            return Object.keys(totals).reduce((map, date) => {
+                const total = Number(totals[date] || 0);
+                if (total <= 2) {
+                    map[date] = { h134: total, h167: 0 };
+                } else {
+                    map[date] = { h134: 2.0, h167: Number((total - 2).toFixed(1)) };
+                }
+                return map;
+            }, {});
         },
     },
     created() {
