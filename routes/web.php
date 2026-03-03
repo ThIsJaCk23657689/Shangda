@@ -87,6 +87,10 @@ Route::prefix('/backend')->group(function(){
 
     // 員工資料管理路由
     Route::resource('/employees', 'EmployeeController');
+    Route::get('/employees/{employeeId}/attendance', 'AttendanceController@index');
+    Route::post('/employees/{employeeId}/attendance', 'AttendanceController@store');
+    Route::put('/employees/{employeeId}/attendance/{id}', 'AttendanceController@update');
+    Route::delete('/employees/{employeeId}/attendance/{id}', 'AttendanceController@destroy');
     
     // 薪資計算路由
     Route::get('/salary/calculator', 'SalaryController@index')->name('salary.calculator');

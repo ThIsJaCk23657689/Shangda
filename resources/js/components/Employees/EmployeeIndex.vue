@@ -51,6 +51,7 @@
                                 <td>{{ statusLabel(employee.status) }}</td>
                                 <td>
                                     <a :href="`/backend/employees/${employee.id}`" class="btn btn-sm btn-info mr-1">查看</a>
+                                    <a :href="`/backend/employees/${employee.id}/attendance`" class="btn btn-sm btn-warning mr-1">出勤</a>
                                     <a :href="`/backend/employees/${employee.id}/edit`" class="btn btn-sm btn-success mr-1">編輯</a>
                                     <button type="button" class="btn btn-sm btn-danger" @click="destroy(employee)">刪除</button>
                                 </td>

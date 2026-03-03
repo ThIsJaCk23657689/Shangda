@@ -25,6 +25,7 @@
     "/css/frontend/consumers/register.css": "/css/frontend/consumers/register.css",
     "/css/backend.css": "/css/backend.css",
     "/css/auth/auth.css": "/css/auth/auth.css",
+    "/js/attendance/index.js": "/js/attendance/index.js",
     "/js/auth/email.js": "/js/auth/email.js",
     "/js/auth/login.js": "/js/auth/login.js",
     "/js/auth/reset.js": "/js/auth/reset.js",
