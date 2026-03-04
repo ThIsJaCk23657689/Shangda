@@ -31,7 +31,7 @@ class SalaryPrintController extends Controller
             'records' => collect([$record]),
             'show_bank' => $this->parseBoolQuery($request->query('show_bank', 0)),
             'show_hours' => $this->parseBoolQuery($request->query('show_hours', 0)),
-            'company' => config('app.name'),
+            'company' => "尚達塑膠有限公司",
         ]);
     }
 
@@ -87,7 +87,7 @@ class SalaryPrintController extends Controller
             'records' => $records,
             'show_bank' => $this->parseBoolQuery($request->query('show_bank', 0)),
             'show_hours' => $this->parseBoolQuery($request->query('show_hours', 0)),
-            'company' => config('app.name'),
+            'company' => "尚達塑膠有限公司",
         ]);
     }
 
