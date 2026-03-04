@@ -289,6 +289,26 @@
                 </button>
                 <div v-if="!salaryRecord" class="text-muted ml-3 align-self-center">請先儲存草稿後再確認</div>
             </div>
+
+            <div class="card mt-3">
+                <div class="card-header">列印設定</div>
+                <div class="card-body">
+                    <div class="form-check mb-2">
+                        <input id="print-show-bank" v-model="printShowBank" type="checkbox" class="form-check-input">
+                        <label class="form-check-label" for="print-show-bank">列印銀行帳號資訊</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input id="print-show-hours" v-model="printShowHours" type="checkbox" class="form-check-input">
+                        <label class="form-check-label" for="print-show-hours">列出請假與加班時數</label>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button type="button" class="btn btn-outline-primary" :disabled="!canPrintSalaryRecord" @click="openPrintPreview">
+                            🖨️ 預覽列印
+                        </button>
+                        <span v-if="!canPrintSalaryRecord" class="text-muted ml-3">僅已確認的薪資單可列印</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <addition-form-modal
@@ -350,6 +370,8 @@ export default {
             salaryRecord: null,
             baseSalaryInput: 0,
             healthInsuranceDependentsInput: 0,
+            printShowBank: true,
+            printShowHours: false,
             noteInput: '',
             additionModal: {
                 visible: false,
@@ -472,6 +494,9 @@ export default {
         },
         confirmedAtLabel() {
             return this.dateTimeLabel((this.salaryRecord || {}).confirmed_at);
+        },
+        canPrintSalaryRecord() {
+            return !!(this.salaryRecord && Number(this.salaryRecord.status) === 1);
         },
     },
     created() {
@@ -644,6 +669,13 @@ export default {
             const dependents = Math.max(0, Math.round(Number(value || 0)));
             if (dependents === 0) return '本人';
             return `本人+${dependents}`;
+        },
+        openPrintPreview() {
+            if (!this.canPrintSalaryRecord) return;
+            const url = `/backend/salary/${this.salaryRecord.id}/print`
+                + `?show_bank=${this.printShowBank ? 1 : 0}`
+                + `&show_hours=${this.printShowHours ? 1 : 0}`;
+            window.open(url, '_blank');
         },
         openAdditionCreate() {
             this.additionModal.item = null;

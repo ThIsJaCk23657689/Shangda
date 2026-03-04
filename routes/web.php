@@ -98,6 +98,8 @@ Route::prefix('/backend')->group(function(){
 
     // 薪資 API 路由
     Route::get('/salary', 'SalaryController@index');
+    Route::get('/salary/print', 'SalaryPrintController@batch');
+    Route::get('/salary/{id}/print', 'SalaryPrintController@show');
     Route::get('/salary/{employeeId}/edit', 'SalaryController@edit');
     Route::post('/salary/{employeeId}', 'SalaryController@store');
     Route::put('/salary/{id}', 'SalaryController@update');

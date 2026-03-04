@@ -15,6 +15,14 @@
                     <table class="table table-bordered table-hover mb-0">
                         <thead>
                             <tr>
+                                <th style="width: 52px;" class="text-center">
+                                    <input
+                                        type="checkbox"
+                                        :checked="isAllSelectableChecked"
+                                        :disabled="selectableRecordIds.length === 0"
+                                        @change="toggleSelectAll($event.target.checked)"
+                                    >
+                                </th>
                                 <th>員工</th>
                                 <th>基本月薪</th>
                                 <th>實領薪資</th>
@@ -24,6 +32,15 @@
                         </thead>
                         <tbody>
                             <tr v-for="item in employees" :key="item.id">
+                                <td class="text-center align-middle">
+                                    <input
+                                        type="checkbox"
+                                        :checked="isSelected(item.salary_record)"
+                                        :disabled="!canSelectForPrint(item.salary_record)"
+                                        :title="canSelectForPrint(item.salary_record) ? '' : '僅已確認的薪資單可列印'"
+                                        @change="toggleSelectRecord(item.salary_record, $event.target.checked)"
+                                    >
+                                </td>
                                 <td>{{ item.name }}</td>
                                 <td>{{ moneyLabel(item.base_salary) }}</td>
                                 <td>{{ netSalaryLabel(item.salary_record) }}</td>
@@ -39,10 +56,28 @@
                                 </td>
                             </tr>
                             <tr v-if="employees.length === 0">
-                                <td colspan="5" class="text-center">本月份無在職員工資料</td>
+                                <td colspan="6" class="text-center">本月份無在職員工資料</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-header">列印設定</div>
+                    <div class="card-body">
+                        <div class="mb-2">已選取 {{ selectedIds.length }} 位員工</div>
+                        <div class="form-check mb-2">
+                            <input id="batch-print-show-bank" v-model="printShowBank" type="checkbox" class="form-check-input">
+                            <label class="form-check-label" for="batch-print-show-bank">列印銀行帳號資訊</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input id="batch-print-show-hours" v-model="printShowHours" type="checkbox" class="form-check-input">
+                            <label class="form-check-label" for="batch-print-show-hours">列出請假與加班時數</label>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary" :disabled="selectedIds.length === 0" @click="openBatchPrintPreview">
+                            🖨️ 預覽列印
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,12 +93,25 @@ export default {
             year: now.getFullYear(),
             month: now.getMonth() + 1,
             employees: [],
+            selectedIds: [],
+            printShowBank: true,
+            printShowHours: false,
             loading: false,
         };
     },
     computed: {
         monthTitle() {
             return `${this.year}年 ${this.month}月`;
+        },
+        selectableRecordIds() {
+            return this.employees
+                .map((item) => item.salary_record)
+                .filter((record) => this.canSelectForPrint(record))
+                .map((record) => Number(record.id));
+        },
+        isAllSelectableChecked() {
+            if (this.selectableRecordIds.length === 0) return false;
+            return this.selectableRecordIds.every((id) => this.selectedIds.includes(id));
         },
     },
     created() {
@@ -103,10 +151,12 @@ export default {
                     this.year = Number(payload.year || this.year);
                     this.month = Number(payload.month || this.month);
                     this.employees = Array.isArray(payload.employees) ? payload.employees : [];
+                    this.selectedIds = [];
                     this.syncUrl();
                 })
                 .catch((error) => {
                     this.employees = [];
+                    this.selectedIds = [];
                     this.showError(this.extractErrorMessage(error, '取得薪資列表失敗'));
                 })
                 .finally(() => {
@@ -118,7 +168,42 @@ export default {
             date.setMonth(date.getMonth() + delta);
             this.year = date.getFullYear();
             this.month = date.getMonth() + 1;
+            this.selectedIds = [];
             this.fetchData();
+        },
+        canSelectForPrint(record) {
+            return !!(record && Number(record.status) === 1);
+        },
+        isSelected(record) {
+            if (!record) return false;
+            return this.selectedIds.includes(Number(record.id));
+        },
+        toggleSelectRecord(record, checked) {
+            if (!this.canSelectForPrint(record)) return;
+            const id = Number(record.id);
+            if (checked) {
+                if (!this.selectedIds.includes(id)) {
+                    this.selectedIds.push(id);
+                }
+                return;
+            }
+            this.selectedIds = this.selectedIds.filter((item) => item !== id);
+        },
+        toggleSelectAll(checked) {
+            if (!checked) {
+                this.selectedIds = [];
+                return;
+            }
+            this.selectedIds = [...this.selectableRecordIds];
+        },
+        openBatchPrintPreview() {
+            if (this.selectedIds.length === 0) return;
+            const ids = this.selectedIds.join(',');
+            const url = `/backend/salary/print`
+                + `?ids=${ids}`
+                + `&show_bank=${this.printShowBank ? 1 : 0}`
+                + `&show_hours=${this.printShowHours ? 1 : 0}`;
+            window.open(url, '_blank');
         },
         editUrl(employeeId) {
             return `/backend/salary/${employeeId}/edit?year=${this.year}&month=${this.month}`;
