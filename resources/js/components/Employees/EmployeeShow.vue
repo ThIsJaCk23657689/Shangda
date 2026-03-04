@@ -13,9 +13,10 @@
                 <div class="col-md-4 mb-2"><strong>國籍：</strong>{{ employee.nationality || '-' }}</div>
                 <div class="col-md-4 mb-2"><strong>證件類型：</strong>{{ idTypeLabel(employee.id_type) }}</div>
                 <div class="col-md-4 mb-2"><strong>證件號碼：</strong>{{ employee.id_number || '-' }}</div>
-                <div class="col-md-4 mb-2"><strong>出生年月日：</strong>{{ dateLabel(employee.birth_date) || '-' }}</div>
-                <div class="col-md-4 mb-2"><strong>手機：</strong>{{ employee.phone || '-' }}</div>
-                <div class="col-md-4 mb-2"><strong>基本月薪：</strong>{{ salaryLabel(employee.base_salary) }}</div>
+                <div class="col-md-6 mb-2"><strong>出生年月日：</strong>{{ dateLabel(employee.birth_date) || '-' }}</div>
+                <div class="col-md-6 mb-2"><strong>手機：</strong>{{ employee.phone || '-' }}</div>
+                <div class="col-md-6 mb-2"><strong>基本月薪：</strong>{{ salaryLabel(employee.base_salary) }}</div>
+                <div class="col-md-6 mb-2"><strong>健保眷屬數：</strong>{{ dependentsLabel(employee.health_insurance_dependents) }}</div>
                 <div class="col-md-6 mb-2"><strong>到職日：</strong>{{ dateLabel(employee.hired_date) || '-' }}</div>
                 <div class="col-md-6 mb-2"><strong>離職日：</strong>{{ dateLabel(employee.resigned_date) || '-' }}</div>
                 <div class="col-md-12 mb-2"><strong>住址：</strong>{{ addressLabel(employee) }}</div>
@@ -108,6 +109,12 @@ export default {
         salaryLabel(value) {
             const amount = Number(value || 0);
             return amount.toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        },
+        dependentsLabel(value) {
+            if (value === null || value === undefined || value === '') return '-';
+            const dependents = Math.max(0, Number(value) || 0);
+            if (dependents === 0) return '本人';
+            return `本人+${dependents}`;
         },
         dateLabel(date) {
             return date ? String(date).slice(0, 10) : '';

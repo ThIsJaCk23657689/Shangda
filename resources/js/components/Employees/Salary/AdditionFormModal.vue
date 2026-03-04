@@ -39,6 +39,21 @@
                     <label>金額</label>
                     <input v-model.number="form.amount" type="number" min="0" step="0.01" class="form-control">
                 </div>
+
+                <div class="form-group mt-3 mb-0">
+                    <div class="form-check">
+                        <input
+                            id="addition-is-regular-wage"
+                            v-model="isRegularWageChecked"
+                            type="checkbox"
+                            class="form-check-input"
+                        >
+                        <label class="form-check-label" for="addition-is-regular-wage">
+                            納入經常性薪資
+                        </label>
+                    </div>
+                    <small class="text-muted d-block mt-1">勾選後將納入勞健保級距計算</small>
+                </div>
             </div>
             <div class="card-footer text-right">
                 <button type="button" class="btn btn-secondary mr-2" :disabled="submitting" @click="$emit('close')">取消</button>
@@ -97,6 +112,14 @@ export default {
                 return map;
             }, {});
         },
+        isRegularWageChecked: {
+            get() {
+                return Number(this.form.is_regular_wage) === 1;
+            },
+            set(checked) {
+                this.form.is_regular_wage = checked ? 1 : 0;
+            },
+        },
     },
     watch: {
         visible(newVal) {
@@ -127,6 +150,7 @@ export default {
                 unit_price: null,
                 quantity: null,
                 amount: null,
+                is_regular_wage: 0,
             };
         },
         resetForm() {
@@ -142,6 +166,7 @@ export default {
                 unit_price: this.value.unit_price,
                 quantity: this.value.quantity,
                 amount: this.value.amount,
+                is_regular_wage: Number(this.value.is_regular_wage || 0),
             };
         },
         submit() {
@@ -155,6 +180,7 @@ export default {
             } else {
                 payload.amount = Number(this.form.amount || 0);
             }
+            payload.is_regular_wage = Number(this.form.is_regular_wage || 0);
             this.$emit('submit', payload);
         },
         moneyLabel(value) {

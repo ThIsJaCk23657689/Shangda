@@ -73,22 +73,33 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>出生年月日</label>
                         <input v-model="form.birth_date" type="text" id="birth_date" class="form-control" :class="inputClass('birth_date')">
                         <div class="invalid-feedback">{{ firstError('birth_date') }}</div>
                     </div>
 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>手機</label>
                         <input v-model="form.phone" type="text" class="form-control" :class="inputClass('phone')">
                         <div class="invalid-feedback">{{ firstError('phone') }}</div>
                     </div>
 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>基本月薪</label>
                         <input v-model="form.base_salary" type="number" min="0" step="0.01" class="form-control" :class="inputClass('base_salary')">
                         <div class="invalid-feedback">{{ firstError('base_salary') }}</div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label>健保眷屬數</label>
+                        <select v-model.number="form.health_insurance_dependents" class="form-control" :class="inputClass('health_insurance_dependents')">
+                            <option :value="0">本人</option>
+                            <option :value="1">本人+1</option>
+                            <option :value="2">本人+2</option>
+                            <option :value="3">本人+3</option>
+                        </select>
+                        <div class="invalid-feedback">{{ firstError('health_insurance_dependents') }}</div>
                     </div>
                 </div>
 
@@ -282,6 +293,7 @@ export default {
                 address_district: '',
                 address_others: '',
                 base_salary: 29500,
+                health_insurance_dependents: 0,
                 status: 1,
                 hired_date: '',
                 resigned_date: '',
@@ -374,13 +386,13 @@ export default {
                     address_district: data.address_district || '',
                     address_others: data.address_others || '',
                     base_salary: Number(data.base_salary || 29500),
+                    health_insurance_dependents: Number(data.health_insurance_dependents || 0),
                     status: Number(data.status || 1),
                     hired_date: this.normalizeDate(data.hired_date),
                     resigned_date: this.normalizeDate(data.resigned_date),
                     bank_accounts: this.normalizeBankAccounts(data.bank_accounts || []),
                     emergency_contacts: this.normalizeEmergencyContacts(data.emergency_contacts || []),
                 };
-                this.$nextTick(() => this.renderTwzipcode(this.form));
             }).catch(() => {
                 if (window.$ && $.showErrorModalWithoutError) {
                     $.showErrorModalWithoutError('讀取員工資料失敗');
@@ -505,6 +517,7 @@ export default {
                 address_district: this.form.address_district || null,
                 address_others: this.form.address_others || null,
                 base_salary: this.form.base_salary === '' ? null : Number(this.form.base_salary),
+                health_insurance_dependents: Number(this.form.health_insurance_dependents || 0),
                 status: this.form.status,
                 hired_date: this.form.hired_date || null,
                 resigned_date: this.form.resigned_date || null,

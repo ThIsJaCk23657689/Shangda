@@ -10,6 +10,8 @@ use App\Employee\EmployeeSalaryRecord;
 use App\Http\Requests\StoreAdditionRequest;
 use App\Http\Requests\StoreDeductionRequest;
 use App\Http\Requests\StoreSalaryRequest;
+use App\Http\Requests\UpdateAdditionRequest;
+use App\Http\Requests\UpdateDeductionRequest;
 use App\Http\Requests\UpdateSalaryRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -158,6 +160,7 @@ class SalaryController extends Controller
             'id',
             'name',
             'base_salary',
+            'health_insurance_dependents',
             'hired_date',
         ]);
         if (!$employee) {
@@ -180,6 +183,7 @@ class SalaryController extends Controller
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'base_salary' => $employee->base_salary,
+                'health_insurance_dependents' => $employee->health_insurance_dependents,
                 'hired_date' => optional($employee->hired_date)->format('Y-m-d'),
             ],
             'attendance_summary' => $attendanceSummary,
@@ -224,6 +228,10 @@ class SalaryController extends Controller
                 'overtime_hours_134' => $summary['overtime_hours_134'],
                 'overtime_hours_167' => $summary['overtime_hours_167'],
                 'overtime_pay' => $summary['overtime_pay'],
+                'health_insurance_dependents' => (int) $employee->health_insurance_dependents,
+                'regular_wage' => $baseSalary,
+                'labor_insurance_amount' => 0,
+                'health_insurance_amount' => 0,
                 'addition_total' => 0,
                 'deduction_total' => 0,
                 'net_salary' => round($baseSalary - $summary['leave_deduction'] + $summary['overtime_pay'], 2),
@@ -232,7 +240,9 @@ class SalaryController extends Controller
                 'confirmed_at' => null,
             ]);
 
-            return $record->load(['additions', 'deductions']);
+            $record->recalcNetSalary();
+
+            return $record->fresh(['additions', 'deductions']);
         });
 
         return $this->success($record);
@@ -262,6 +272,7 @@ class SalaryController extends Controller
 
             $record->fill([
                 'base_salary' => $baseSalary,
+                'health_insurance_dependents' => (int) $validated['health_insurance_dependents'],
                 'note' => $validated['note'] ?? null,
                 'hourly_rate' => $summary['hourly_rate'],
                 'leave_deduction' => $summary['leave_deduction'],
@@ -337,6 +348,7 @@ class SalaryController extends Controller
                 'unit_price' => $unitPrice,
                 'quantity' => $quantity,
                 'amount' => $amount,
+                'is_regular_wage' => (int) $validated['is_regular_wage'],
             ]);
 
             $record->recalcNetSalary();
@@ -347,7 +359,7 @@ class SalaryController extends Controller
         return $this->success($record);
     }
 
-    public function updateAddition(StoreAdditionRequest $request, int $id, int $additionId): JsonResponse
+    public function updateAddition(UpdateAdditionRequest $request, int $id, int $additionId): JsonResponse
     {
         $record = EmployeeSalaryRecord::query()->find($id);
         if (!$record) {
@@ -375,6 +387,7 @@ class SalaryController extends Controller
                 'unit_price' => $unitPrice,
                 'quantity' => $quantity,
                 'amount' => $amount,
+                'is_regular_wage' => (int) $validated['is_regular_wage'],
             ]);
             $addition->save();
 
@@ -431,6 +444,7 @@ class SalaryController extends Controller
                 'type' => $validated['type'],
                 'name' => $validated['name'],
                 'amount' => (float) $validated['amount'],
+                'is_regular_wage' => (int) $validated['is_regular_wage'],
             ]);
 
             $record->recalcNetSalary();
@@ -441,7 +455,7 @@ class SalaryController extends Controller
         return $this->success($record);
     }
 
-    public function updateDeduction(StoreDeductionRequest $request, int $id, int $deductionId): JsonResponse
+    public function updateDeduction(UpdateDeductionRequest $request, int $id, int $deductionId): JsonResponse
     {
         $record = EmployeeSalaryRecord::query()->find($id);
         if (!$record) {
@@ -462,6 +476,7 @@ class SalaryController extends Controller
                 'type' => $validated['type'],
                 'name' => $validated['name'],
                 'amount' => (float) $validated['amount'],
+                'is_regular_wage' => (int) $validated['is_regular_wage'],
             ]);
             $deduction->save();
 

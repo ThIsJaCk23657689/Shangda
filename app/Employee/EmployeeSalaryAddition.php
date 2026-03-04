@@ -15,12 +15,14 @@ class EmployeeSalaryAddition extends Model
         'unit_price',
         'quantity',
         'amount',
+        'is_regular_wage',
     ];
 
     protected $casts = [
         'unit_price' => 'float',
         'quantity'   => 'float',
         'amount'     => 'float',
+        'is_regular_wage' => 'integer',
     ];
 
     // ----------------------------------------

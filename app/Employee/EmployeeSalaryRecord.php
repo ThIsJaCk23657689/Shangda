@@ -2,6 +2,7 @@
 
 namespace App\Employee;
 
+use App\Services\InsuranceService;
 use Illuminate\Database\Eloquent\Model;
 
 class EmployeeSalaryRecord extends Model
@@ -19,6 +20,10 @@ class EmployeeSalaryRecord extends Model
         'overtime_hours_134',
         'overtime_hours_167',
         'overtime_pay',
+        'health_insurance_dependents',
+        'regular_wage',
+        'labor_insurance_amount',
+        'health_insurance_amount',
         'addition_total',
         'deduction_total',
         'net_salary',
@@ -35,6 +40,10 @@ class EmployeeSalaryRecord extends Model
         'overtime_hours_134' => 'float',
         'overtime_hours_167' => 'float',
         'overtime_pay'       => 'float',
+        'health_insurance_dependents' => 'integer',
+        'regular_wage'                => 'float',
+        'labor_insurance_amount'      => 'float',
+        'health_insurance_amount'     => 'float',
         'addition_total'     => 'float',
         'deduction_total'    => 'float',
         'net_salary'         => 'float',
@@ -162,14 +171,38 @@ class EmployeeSalaryRecord extends Model
      */
     public function recalcNetSalary(): void
     {
+        // 加減項合計
         $this->addition_total  = (float) $this->additions()->sum('amount');
         $this->deduction_total = (float) $this->deductions()->sum('amount');
-        $this->net_salary      = round(
+
+        // 經常性薪資
+        $regularAdditions = (float) $this->additions()
+            ->where('is_regular_wage', 1)->sum('amount');
+        $regularDeductions = (float) $this->deductions()
+            ->where('is_regular_wage', 1)->sum('amount');
+
+        $this->regular_wage = round(
+            $this->base_salary + $regularAdditions - $regularDeductions,
+            2
+        );
+
+        // 查勞健保級距
+        $insurance = InsuranceService::lookup(
+            $this->regular_wage,
+            (int) $this->health_insurance_dependents
+        );
+        $this->labor_insurance_amount  = $insurance['labor'];
+        $this->health_insurance_amount = $insurance['health'];
+
+        // 最終實領薪資
+        $this->net_salary = round(
             $this->base_salary
             - $this->leave_deduction
             + $this->overtime_pay
             + $this->addition_total
-            - $this->deduction_total,
+            - $this->deduction_total
+            - $this->labor_insurance_amount
+            - $this->health_insurance_amount,
             2
         );
         $this->save();

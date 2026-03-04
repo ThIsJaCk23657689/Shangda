@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDeductionRequest extends FormRequest
+class UpdateDeductionRequest extends FormRequest
 {
     public function authorize()
     {

@@ -13,18 +13,18 @@ class EmployeeSalaryDeduction extends Model
         'type',
         'name',
         'amount',
+        'is_regular_wage',
     ];
 
     protected $casts = [
         'amount' => 'float',
+        'is_regular_wage' => 'integer',
     ];
 
     // ----------------------------------------
     // 常數
     // ----------------------------------------
 
-    const TYPE_LABOR_INSURANCE  = 'labor_insurance';  // 勞保
-    const TYPE_HEALTH_INSURANCE = 'health_insurance'; // 健保
     const TYPE_SERVICE_FEE      = 'service_fee';      // 代辦費
     const TYPE_WATER            = 'water';            // 水費
     const TYPE_ELECTRICITY      = 'electricity';      // 電費
@@ -35,8 +35,6 @@ class EmployeeSalaryDeduction extends Model
     public static function typeLabels(): array
     {
         return [
-            self::TYPE_LABOR_INSURANCE  => '勞保',
-            self::TYPE_HEALTH_INSURANCE => '健保',
             self::TYPE_SERVICE_FEE      => '代辦費',
             self::TYPE_WATER            => '水費',
             self::TYPE_ELECTRICITY      => '電費',

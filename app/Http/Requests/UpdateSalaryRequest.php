@@ -15,6 +15,7 @@ class UpdateSalaryRequest extends FormRequest
     {
         return [
             'base_salary' => 'required|numeric|min:0',
+            'health_insurance_dependents' => 'required|integer|min:0|max:3',
             'note' => 'nullable|string|max:500',
         ];
     }

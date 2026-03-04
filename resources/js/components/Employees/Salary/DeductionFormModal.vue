@@ -23,6 +23,21 @@
                     <label>金額</label>
                     <input v-model.number="form.amount" type="number" min="0" step="0.01" class="form-control">
                 </div>
+
+                <div class="form-group mt-3 mb-0">
+                    <div class="form-check">
+                        <input
+                            id="deduction-is-regular-wage"
+                            v-model="isRegularWageChecked"
+                            type="checkbox"
+                            class="form-check-input"
+                        >
+                        <label class="form-check-label" for="deduction-is-regular-wage">
+                            納入經常性薪資
+                        </label>
+                    </div>
+                    <small class="text-muted d-block mt-1">勾選後將納入勞健保級距計算</small>
+                </div>
             </div>
             <div class="card-footer text-right">
                 <button type="button" class="btn btn-secondary mr-2" :disabled="submitting" @click="$emit('close')">取消</button>
@@ -36,8 +51,6 @@
 
 <script>
 const TYPE_OPTIONS = [
-    { value: 'labor_insurance', label: '勞保' },
-    { value: 'health_insurance', label: '健保' },
     { value: 'service_fee', label: '代辦費' },
     { value: 'water', label: '水費' },
     { value: 'electricity', label: '電費' },
@@ -77,6 +90,14 @@ export default {
                 return map;
             }, {});
         },
+        isRegularWageChecked: {
+            get() {
+                return Number(this.form.is_regular_wage) === 1;
+            },
+            set(checked) {
+                this.form.is_regular_wage = checked ? 1 : 0;
+            },
+        },
     },
     watch: {
         visible(newVal) {
@@ -97,9 +118,10 @@ export default {
     methods: {
         defaultForm() {
             return {
-                type: 'labor_insurance',
-                name: '勞保',
+                type: 'service_fee',
+                name: '代辦費',
                 amount: null,
+                is_regular_wage: 0,
             };
         },
         resetForm() {
@@ -110,9 +132,10 @@ export default {
             }
 
             this.form = {
-                type: this.value.type || 'labor_insurance',
+                type: this.value.type || 'service_fee',
                 name: this.value.name || '',
                 amount: this.value.amount,
+                is_regular_wage: Number(this.value.is_regular_wage || 0),
             };
         },
         submit() {
@@ -120,6 +143,7 @@ export default {
                 type: this.form.type,
                 name: this.form.name,
                 amount: Number(this.form.amount || 0),
+                is_regular_wage: Number(this.form.is_regular_wage || 0),
             });
         },
     },

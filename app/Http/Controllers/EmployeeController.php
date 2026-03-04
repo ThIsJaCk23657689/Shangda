@@ -154,6 +154,7 @@ class EmployeeController extends Controller
             'address_district' => $district,
             'address_others' => $others,
             'base_salary' => isset($validated['base_salary']) ? (float) $validated['base_salary'] : 29500,
+            'health_insurance_dependents' => isset($validated['health_insurance_dependents']) ? (int) $validated['health_insurance_dependents'] : 0,
             'status' => isset($validated['status']) ? (int) $validated['status'] : Employee::STATUS_ACTIVE,
             'hired_date' => $validated['hired_date'] ?? null,
             'resigned_date' => $validated['resigned_date'] ?? null,

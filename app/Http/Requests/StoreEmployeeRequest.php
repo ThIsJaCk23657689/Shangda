@@ -28,6 +28,7 @@ class StoreEmployeeRequest extends FormRequest
             'address_district' => 'nullable|string|max:20',
             'address_others' => 'nullable|string|max:200',
             'base_salary' => 'nullable|numeric|min:0',
+            'health_insurance_dependents' => 'numeric|min:0|max:4',
             'status' => 'nullable|in:0,1',
             'hired_date' => 'nullable|date',
             'resigned_date' => 'nullable|date|required_if:status,0|after_or_equal:hired_date',

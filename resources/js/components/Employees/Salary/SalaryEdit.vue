@@ -58,6 +58,37 @@
                             <input :value="hourlyRateDisplay" type="text" class="form-control" disabled>
                         </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>健保眷屬數</label>
+                            <select
+                                v-model.number="healthInsuranceDependentsInput"
+                                class="form-control"
+                                :disabled="isConfirmed || loadingAction"
+                                @change="handleDependentsChange"
+                            >
+                                <option :value="0">本人</option>
+                                <option :value="1">本人+1</option>
+                                <option :value="2">本人+2</option>
+                                <option :value="3">本人+3</option>
+                            </select>
+                            <div class="mt-2 d-flex flex-wrap align-items-center">
+                                <span :class="{ 'text-warning font-weight-bold': dependentsDiffWithEmployee }">
+                                    員工目前設定：{{ dependentsLabel(employeeDependentsValue) }}
+                                </span>
+                                <button
+                                    v-if="!isConfirmed && salaryRecord"
+                                    type="button"
+                                    class="btn btn-sm btn-outline-secondary ml-3"
+                                    :disabled="loadingAction"
+                                    @click="restoreEmployeeDependents"
+                                >
+                                    恢復為員工設定
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -88,6 +119,21 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="border rounded mt-3">
+                        <div class="d-flex justify-content-between px-3 py-2 border-bottom">
+                            <span>經常性薪資</span>
+                            <span>{{ moneyIntLabel(regularWageValue) }}（自動計算，唯讀）</span>
+                        </div>
+                        <div class="d-flex justify-content-between px-3 py-2 border-bottom">
+                            <span>勞保自付額</span>
+                            <span>- {{ moneyIntLabel(laborInsuranceAmountValue) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between px-3 py-2">
+                            <span>健保自付額</span>
+                            <span>{{ healthInsuranceDisplay }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -109,9 +155,15 @@
                         <div class="card-body">
                             <div v-if="!salaryRecord" class="text-muted">請先儲存草稿後再新增加減項</div>
                             <template v-else>
+                                <div v-if="regularWageAdditionsCount > 0" class="alert alert-warning py-2 mb-2">
+                                    以下標示「影響勞健保」的加項會納入經常性薪資計算
+                                </div>
                                 <div v-for="item in additions" :key="`addition-${item.id}`" class="d-flex justify-content-between align-items-center border-bottom py-2">
                                     <div>
-                                        <div>{{ additionItemLabel(item) }}</div>
+                                        <div>
+                                            {{ additionItemLabel(item) }}
+                                            <span v-if="isRegularWageItem(item)" class="badge badge-warning ml-1">影響勞健保</span>
+                                        </div>
                                         <small class="text-muted">{{ item.type }}</small>
                                     </div>
                                     <div class="text-right">
@@ -145,9 +197,15 @@
                         <div class="card-body">
                             <div v-if="!salaryRecord" class="text-muted">請先儲存草稿後再新增加減項</div>
                             <template v-else>
+                                <div v-if="regularWageDeductionsCount > 0" class="alert alert-warning py-2 mb-2">
+                                    以下標示「影響勞健保」的減項會納入經常性薪資計算
+                                </div>
                                 <div v-for="item in deductions" :key="`deduction-${item.id}`" class="d-flex justify-content-between align-items-center border-bottom py-2">
                                     <div>
-                                        <div>{{ item.name }}</div>
+                                        <div>
+                                            {{ item.name }}
+                                            <span v-if="isRegularWageItem(item)" class="badge badge-warning ml-1">影響勞健保</span>
+                                        </div>
                                         <small class="text-muted">{{ item.type }}</small>
                                     </div>
                                     <div class="text-right">
@@ -187,6 +245,14 @@
                     <div class="d-flex justify-content-between py-1">
                         <span>減項合計</span>
                         <span>- {{ moneyIntLabel(deductionTotalValue) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-1">
+                        <span>勞保自付額</span>
+                        <span>- {{ moneyIntLabel(laborInsuranceAmountValue) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between py-1">
+                        <span>健保自付額</span>
+                        <span>- {{ moneyIntLabel(healthInsuranceAmountValue) }}</span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between py-1">
@@ -283,6 +349,7 @@ export default {
             },
             salaryRecord: null,
             baseSalaryInput: 0,
+            healthInsuranceDependentsInput: 0,
             noteInput: '',
             additionModal: {
                 visible: false,
@@ -311,9 +378,20 @@ export default {
         employeeBaseSalary() {
             return Number((this.employee || {}).base_salary || 0);
         },
+        employeeDependentsValue() {
+            return Number((this.employee || {}).health_insurance_dependents || 0);
+        },
         salaryDiffWithEmployee() {
             if (!this.salaryRecord) return false;
             return Math.round(Number(this.salaryRecord.base_salary || 0)) !== Math.round(this.employeeBaseSalary);
+        },
+        dependentsDiffWithEmployee() {
+            if (!this.salaryRecord) return false;
+            return this.salaryDependentsValue !== this.employeeDependentsValue;
+        },
+        salaryDependentsValue() {
+            if (this.salaryRecord) return Number(this.salaryRecord.health_insurance_dependents || 0);
+            return Number(this.healthInsuranceDependentsInput || 0);
         },
         baseSalaryValue() {
             if (this.salaryRecord) return Number(this.salaryRecord.base_salary || 0);
@@ -356,6 +434,34 @@ export default {
         deductionTotalValue() {
             if (this.salaryRecord) return Number(this.salaryRecord.deduction_total || 0);
             return 0;
+        },
+        regularWageAdditionsCount() {
+            return this.additions.filter((item) => this.isRegularWageItem(item)).length;
+        },
+        regularWageDeductionsCount() {
+            return this.deductions.filter((item) => this.isRegularWageItem(item)).length;
+        },
+        regularWageValue() {
+            if (this.salaryRecord) return Number(this.salaryRecord.regular_wage || 0);
+            return 0;
+        },
+        laborInsuranceAmountValue() {
+            if (this.salaryRecord) return Number(this.salaryRecord.labor_insurance_amount || 0);
+            return 0;
+        },
+        healthInsuranceAmountValue() {
+            if (this.salaryRecord) return Number(this.salaryRecord.health_insurance_amount || 0);
+            return 0;
+        },
+        healthInsuranceMultiplier() {
+            return this.salaryDependentsValue + 1;
+        },
+        healthInsuranceBaseValue() {
+            if (this.healthInsuranceMultiplier <= 0) return 0;
+            return this.healthInsuranceAmountValue / this.healthInsuranceMultiplier;
+        },
+        healthInsuranceDisplay() {
+            return `- ${this.moneyIntLabel(this.healthInsuranceAmountValue)}（${this.dependentsLabel(this.salaryDependentsValue)}，${this.moneyIntLabel(this.healthInsuranceBaseValue)} × ${this.healthInsuranceMultiplier}）`;
         },
         netSalaryValue() {
             if (this.salaryRecord) return Number(this.salaryRecord.net_salary || 0);
@@ -403,6 +509,9 @@ export default {
                     this.attendanceSummary = data.attendance_summary || this.attendanceSummary;
                     this.salaryRecord = data.salary_record || null;
                     this.baseSalaryInput = Math.round(Number((this.salaryRecord || this.employee).base_salary || 0));
+                    this.healthInsuranceDependentsInput = Number(
+                        (this.salaryRecord || this.employee).health_insurance_dependents || 0
+                    );
                     this.noteInput = this.salaryRecord ? (this.salaryRecord.note || '') : '';
                     this.syncUrlQuery();
                 })
@@ -415,6 +524,11 @@ export default {
         },
         handleBaseSalaryBlur() {
             this.normalizeBaseSalaryInput();
+            if (!this.salaryRecord || this.isConfirmed) return;
+            this.updateSalaryRecord();
+        },
+        handleDependentsChange() {
+            this.normalizeDependentsInput();
             if (!this.salaryRecord || this.isConfirmed) return;
             this.updateSalaryRecord();
         },
@@ -476,6 +590,7 @@ export default {
             axios
                 .put(`/backend/salary/${this.salaryRecord.id}`, {
                     base_salary: this.normalizedBaseSalary(),
+                    health_insurance_dependents: this.normalizedDependents(),
                     note: this.noteInput || null,
                 })
                 .then((response) => {
@@ -493,6 +608,7 @@ export default {
             this.salaryRecord = record || null;
             if (this.salaryRecord) {
                 this.baseSalaryInput = Math.round(Number(this.salaryRecord.base_salary || 0));
+                this.healthInsuranceDependentsInput = Number(this.salaryRecord.health_insurance_dependents || 0);
                 this.noteInput = this.salaryRecord.note || '';
             }
         },
@@ -505,9 +621,29 @@ export default {
             const value = Math.round(Number(this.baseSalaryInput || 0));
             return value < 0 ? 0 : value;
         },
+        normalizeDependentsInput() {
+            const normalized = this.normalizedDependents();
+            this.healthInsuranceDependentsInput = normalized;
+            return normalized;
+        },
+        normalizedDependents() {
+            const value = Math.round(Number(this.healthInsuranceDependentsInput || 0));
+            if (value < 0) return 0;
+            if (value > 3) return 3;
+            return value;
+        },
         restoreEmployeeSalary() {
             this.baseSalaryInput = Math.round(this.employeeBaseSalary);
             this.handleBaseSalaryBlur();
+        },
+        restoreEmployeeDependents() {
+            this.healthInsuranceDependentsInput = Number(this.employeeDependentsValue || 0);
+            this.handleDependentsChange();
+        },
+        dependentsLabel(value) {
+            const dependents = Math.max(0, Math.round(Number(value || 0)));
+            if (dependents === 0) return '本人';
+            return `本人+${dependents}`;
         },
         openAdditionCreate() {
             this.additionModal.item = null;
@@ -620,6 +756,9 @@ export default {
             const quantity = Number(item.quantity || 0);
             const unitPrice = Number(item.unit_price || 0);
             return `${item.name} ${quantity.toFixed(1)}天 x ${this.moneyLabel(unitPrice)}`;
+        },
+        isRegularWageItem(item) {
+            return Number((item || {}).is_regular_wage || 0) === 1;
         },
         moneyLabel(value) {
             return `$${Number(value || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;

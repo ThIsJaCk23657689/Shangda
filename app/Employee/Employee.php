@@ -25,6 +25,7 @@ class Employee extends Model
         'address_district',
         'address_others',
         'base_salary',
+        'health_insurance_dependents',
         'status',
         'hired_date',
         'resigned_date',
@@ -38,6 +39,7 @@ class Employee extends Model
         'id_type'       => 'integer',
         'status'        => 'integer',
         'base_salary'   => 'float',
+        'health_insurance_dependents' => 'integer',
     ];
 
     // ----------------------------------------
