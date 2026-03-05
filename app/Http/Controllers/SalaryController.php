@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\DB;
 
 class SalaryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'job.title:4,3']);
+    }
+
     /**
      * 顯示薪資計算頁面
      *

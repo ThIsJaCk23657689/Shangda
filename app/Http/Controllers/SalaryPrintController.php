@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class SalaryPrintController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'job.title:4,3']);
+    }
+
     public function show(Request $request, int $id)
     {
         $record = EmployeeSalaryRecord::query()

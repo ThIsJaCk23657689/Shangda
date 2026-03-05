@@ -14,7 +14,7 @@ class EmployeeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'job.title:4']);
+        $this->middleware(['auth', 'job.title:4,3']);
     }
 
     public function index(Request $request)
