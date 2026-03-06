@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ConsumerTableSeeder::class);
         $this->call(InformationTableSeeder::class);
         $this->call(AnnouncementTableSeeder::class);
+        $this->call(EmployeeBreakTimeSettingSeeder::class);
     }
 }
