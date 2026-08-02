@@ -126,7 +126,11 @@ class SalesAnalysisController extends Controller
             'filters' => $request->all(),
             'generatedAt' => now(),
         ]);
-        $this->registerTraditionalChineseFont($pdf);
+        try {
+            $this->registerTraditionalChineseFonts($pdf);
+        } catch (\RuntimeException $exception) {
+            return response()->json(['message' => $exception->getMessage()], 500);
+        }
         $pdf->setPaper('a4', 'landscape');
 
         return $pdf->download('銷售分析_' . $request->tab . '_' . now()->format('Ymd_His') . '.pdf');
@@ -213,18 +217,30 @@ class SalesAnalysisController extends Controller
         }, $row);
     }
 
-    private function registerTraditionalChineseFont($pdf)
+    private function registerTraditionalChineseFonts($pdf)
     {
-        $fontPath = config('dompdf.sales_analysis_font');
-        if (!$fontPath || !is_file($fontPath)) {
-            return;
-        }
+        $fonts = config('dompdf.sales_analysis_fonts', []);
+        $styles = [
+            'normal' => ['weight' => 'normal', 'style' => 'normal'],
+            'bold' => ['weight' => 'bold', 'style' => 'normal'],
+        ];
 
-        $fontUri = 'file://' . str_replace('\\', '/', $fontPath);
-        $pdf->getDomPDF()->getFontMetrics()->registerFont([
-            'family' => 'Noto Sans TC',
-            'weight' => 'normal',
-            'style' => 'normal',
-        ], $fontUri);
+        foreach ($styles as $key => $style) {
+            $fontPath = $fonts[$key] ?? null;
+            if (!$fontPath || !is_file($fontPath)) {
+                throw new \RuntimeException('PDF 繁中字型檔遺失，請聯絡系統管理員重新部署 Noto Sans TC 字型。');
+            }
+
+            $fontUri = 'file://' . str_replace('\\', '/', $fontPath);
+            $registered = $pdf->getDomPDF()->getFontMetrics()->registerFont([
+                'family' => 'Noto Sans TC',
+                'weight' => $style['weight'],
+                'style' => $style['style'],
+            ], $fontUri);
+
+            if (!$registered) {
+                throw new \RuntimeException('PDF 繁中字型註冊失敗，請聯絡系統管理員檢查 storage/fonts 權限。');
+            }
+        }
     }
 }

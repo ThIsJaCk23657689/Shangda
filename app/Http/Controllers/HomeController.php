@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 use App\Information as InformationEloquent;
+use App\Services\DashboardService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    private $dashboardService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(DashboardService $dashboardService)
     {
         $this->middleware('auth')->except('index', 'about', 'contact');
+        $this->middleware('job.title:4,3')->only('backend');
+        $this->dashboardService = $dashboardService;
     }
 
     /**
@@ -31,7 +36,9 @@ class HomeController extends Controller
     }
 
     public function backend(){
-        return view('backend');
+        return view('backend', [
+            'dashboard' => $this->dashboardService->data(),
+        ]);
     }
 
     // 關於尚達頁面

@@ -5,13 +5,13 @@
     <style>
         @page { margin: 24px; }
         body { font-family: "Noto Sans TC", "DejaVu Sans", sans-serif; font-size: 9px; color: #222; }
-        h1 { font-size: 18px; margin: 0 0 6px; }
+        h1 { font-size: 18px; font-weight: bold; margin: 0 0 6px; }
         .meta { color: #666; margin-bottom: 10px; }
         .chart { text-align: center; margin: 8px 0 12px; }
         .chart img { max-width: 760px; max-height: 260px; }
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #888; padding: 3px 4px; }
-        th { background: #e9ecef; }
+        th { background: #e9ecef; font-weight: bold; }
         td:not(:first-child) { text-align: right; }
         tr { page-break-inside: avoid; }
     </style>

@@ -1,14 +1,14 @@
 <?php
 
-$salesAnalysisFont = env(
-    'SALES_ANALYSIS_PDF_FONT',
-    PHP_OS_FAMILY === 'Windows' ? 'C:\\Windows\\Fonts\\NotoSansTC-VF.ttf' : null
-);
+$salesAnalysisFonts = [
+    'normal' => env('SALES_ANALYSIS_PDF_FONT_REGULAR', resource_path('fonts/noto-sans-tc/NotoSansTC-Regular.ttf')),
+    'bold' => env('SALES_ANALYSIS_PDF_FONT_BOLD', resource_path('fonts/noto-sans-tc/NotoSansTC-Bold.ttf')),
+];
 
 return array(
 
     // 銷售分析 PDF 的繁中字型來源；首次使用後會由 Dompdf 快取至 storage/fonts。
-    'sales_analysis_font' => $salesAnalysisFont,
+    'sales_analysis_fonts' => $salesAnalysisFonts,
 
     /*
     |--------------------------------------------------------------------------
@@ -88,7 +88,8 @@ return array(
          */
         "chroot" => array_values(array_filter([
             realpath(base_path()),
-            $salesAnalysisFont ? realpath(dirname($salesAnalysisFont)) : null,
+            realpath(dirname($salesAnalysisFonts['normal'])),
+            realpath(dirname($salesAnalysisFonts['bold'])),
         ])),
 
         /**

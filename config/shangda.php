@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'dashboard' => [
+        'overdue_days' => env('DASHBOARD_OVERDUE_DAYS', 30),
+    ],
     
     'tax' => [
         '1' => '應稅',

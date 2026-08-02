@@ -13,6 +13,93 @@ class SalesAnalysisService extends BaseService
     const BASIS_PRE_TAX = 'pre_tax';
     const BASIS_TAX_INCLUSIVE = 'tax_inclusive';
 
+    /**
+     * Return the sales aggregates used by the management dashboard.
+     *
+     * This intentionally shares the same order filters, transaction-date
+     * fallback and signed amount expression as the sales analysis report.
+     */
+    public function dashboardSalesSummary(Carbon $now = null)
+    {
+        $now = ($now ?: Carbon::now('Asia/Taipei'))->copy()->timezone('Asia/Taipei');
+        $currentStart = $now->copy()->startOfMonth();
+        $currentEnd = $now->copy()->endOfMonth();
+        $trendStart = $now->copy()->subMonths(11)->startOfMonth();
+        $previousStart = $now->copy()->subYear()->startOfMonth();
+        $previousEnd = $now->copy()->subYear()->endOfMonth();
+
+        $date = $this->transactionDateExpression('so');
+        $amount = $this->amountExpression(self::BASIS_PRE_TAX);
+        $period = 'DATE_FORMAT(' . $date . ", '%Y-%m')";
+
+        $base = $this->lineQuery(self::BASIS_PRE_TAX);
+        $this->applyCoreFilters($base);
+
+        $trendValues = (clone $base)
+            ->whereBetween(DB::raw($date), [
+                $trendStart->format('Y-m-d H:i:s'),
+                $currentEnd->format('Y-m-d H:i:s'),
+            ])
+            ->selectRaw($period . ' as period, COALESCE(SUM(' . $amount . '), 0) as amount')
+            ->groupByRaw($period)
+            ->pluck('amount', 'period');
+
+        $trend = [];
+        for ($month = $trendStart->copy(); $month->lte($currentStart); $month->addMonth()) {
+            $key = $month->format('Y-m');
+            $trend[] = [
+                'period' => $key,
+                'label' => $month->format('Y/m'),
+                'amount' => (float) ($trendValues[$key] ?? 0),
+            ];
+        }
+
+        $previousYearAmount = (float) (clone $base)
+            ->whereBetween(DB::raw($date), [
+                $previousStart->format('Y-m-d H:i:s'),
+                $previousEnd->format('Y-m-d H:i:s'),
+            ])
+            ->selectRaw('COALESCE(SUM(' . $amount . '), 0) as amount')
+            ->value('amount');
+
+        $currentAmount = count($trend) ? (float) $trend[count($trend) - 1]['amount'] : 0.0;
+        $yearOverYear = abs($previousYearAmount) > 0.0001
+            ? (($currentAmount - $previousYearAmount) / abs($previousYearAmount)) * 100
+            : null;
+
+        $topCustomers = (clone $base)
+            ->whereBetween(DB::raw($date), [
+                $currentStart->format('Y-m-d H:i:s'),
+                $currentEnd->format('Y-m-d H:i:s'),
+            ])
+            ->select(
+                'so.consumer_id',
+                DB::raw("COALESCE(c.name, CONCAT('顧客資料已移除 #', so.consumer_id)) as customer_name")
+            )
+            ->selectRaw('SUM(' . $amount . ') as amount')
+            ->groupBy('so.consumer_id', 'c.name')
+            ->havingRaw('SUM(' . $amount . ') > 0')
+            ->orderByDesc('amount')
+            ->limit(5)
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'id' => (int) $row->consumer_id,
+                    'name' => $row->customer_name,
+                    'amount' => (float) $row->amount,
+                ];
+            })
+            ->all();
+
+        return [
+            'current_month' => $currentAmount,
+            'previous_year_month' => $previousYearAmount,
+            'year_over_year' => $yearOverYear,
+            'trend' => $trend,
+            'top_customers' => $topCustomers,
+        ];
+    }
+
     public function meta()
     {
         $dateExpression = $this->transactionDateExpression('sales_orders');
@@ -194,6 +281,7 @@ class SalesAnalysisService extends BaseService
 
         return [
             'year' => $year,
+            'display_months' => $this->displayMonthsForYear($year),
             'rows' => $rows->all(),
             'chart' => $rows->take(10)->map(function ($row) {
                 return [
@@ -706,5 +794,11 @@ class SalesAnalysisService extends BaseService
             'kg' => '公斤',
             'roll' => '捲',
         ][$unit] ?? '個';
+    }
+
+    private function displayMonthsForYear($year)
+    {
+        $today = Carbon::now('Asia/Taipei');
+        return (int) $year === $today->year ? range(1, $today->month) : range(1, 12);
     }
 }

@@ -31,8 +31,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/frontend/consumers/register.js', 'public/js/frontend/consumers')
 
     .js('resources/js/admin/sb-admin.js', 'public/js/admin/sb-admin.js')
+    .js('resources/js/admin/dashboard.js', 'public/js/admin/dashboard.js')
     .js('resources/js/admin/demo/datatables-demo.js', 'public/js/admin/demo/datatables-demo.js')
-    .js('resources/js/admin/demo/chart-area-demo.js', 'public/js/admin/demo/chart-area-demo.js')
     .js('resources/js/admin/demo/chart-bar-demo.js', 'public/js/admin/demo/chart-bar-demo.js')
     .js('resources/js/admin/demo/chart-pie-demo.js', 'public/js/admin/demo/chart-pie-demo.js')
 
