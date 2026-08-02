@@ -18,7 +18,10 @@ class ReportController extends Controller
 
     // 銷售 年度報表
     public function salesReportYearIndex(){
-        return view('reports.sales.year');
+        return redirect()->route('reports.sales.analysis', [
+            'tab' => 'overview',
+            'dimension' => request('type') == 2 ? 'product' : 'customer',
+        ]);
     }
 
     public function salesReportYear(Request $request){
@@ -38,7 +41,11 @@ class ReportController extends Controller
     }
 
     public function salesReportMonthIndex(){
-        return view('reports.sales.month');
+        return redirect()->route('reports.sales.analysis', [
+            'tab' => 'drilldown',
+            'dimension' => 'product',
+            'mode' => 'annual',
+        ]);
     }
 
     public function salesReportMonth(Request $request){
@@ -62,7 +69,10 @@ class ReportController extends Controller
 
     // 銷售 日度報表
     public function salesReportDailyIndex(){
-        return view('reports.sales.daily');
+        return redirect()->route('reports.sales.analysis', [
+            'tab' => 'detail',
+            'dimension' => request('type') == 2 ? 'product' : 'customer',
+        ]);
     }
 
     public function salesReportDaily(Request $request){
@@ -81,9 +91,10 @@ class ReportController extends Controller
     // 指定顧客銷售明細報表
     public function customerSalesDetailIndex()
     {
-        $consumers = $this->ReportService->customerSalesConsumerOptions();
-
-        return view('reports.sales.customer_detail', compact('consumers'));
+        return redirect()->route('reports.sales.analysis', [
+            'tab' => 'detail',
+            'dimension' => 'customer',
+        ]);
     }
 
     public function customerSalesDetail(Request $request)

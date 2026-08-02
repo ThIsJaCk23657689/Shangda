@@ -14,10 +14,16 @@ class CustomerSalesReportAccessTest extends TestCase
 
     public function test_report_data_requires_backend_login()
     {
-        $this->withSession(['_token' => 'customer-sales-test-token'])
-            ->post(route('reports.sales.customer_detail.data'), [
-                '_token' => 'customer-sales-test-token',
-            ])
+        $this->get(route('reports.sales.analysis.details', [
+                'dimension' => 'customer',
+                'amount_basis' => 'pre_tax',
+                'start_date' => '2026-01-01',
+                'end_date' => '2026-01-31',
+                'date_basis' => 'transaction',
+                'order_status' => 'all',
+                'sort_by' => 'transaction_date',
+                'sort_direction' => 'desc',
+            ]))
             ->assertRedirect(route('login'));
     }
 

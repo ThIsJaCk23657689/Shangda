@@ -265,19 +265,23 @@ Route::prefix('/backend')->group(function(){
     Route::prefix('/reports')->group(function(){
         // 銷貨年報表、銷貨日報表、銷貨利潤表
         Route::prefix('/sales')->group(function(){
+            Route::get('analysis', 'SalesAnalysisController@index')->name('reports.sales.analysis');
+            Route::get('analysis/meta', 'SalesAnalysisController@meta')->name('reports.sales.analysis.meta');
+            Route::get('analysis/entities', 'SalesAnalysisController@entities')->name('reports.sales.analysis.entities');
+            Route::get('analysis/overview', 'SalesAnalysisController@overview')->name('reports.sales.analysis.overview');
+            Route::get('analysis/drilldown', 'SalesAnalysisController@drilldown')->name('reports.sales.analysis.drilldown');
+            Route::get('analysis/details', 'SalesAnalysisController@details')->name('reports.sales.analysis.details');
+            Route::get('analysis/export/csv', 'SalesAnalysisController@exportCsv')->name('reports.sales.analysis.export.csv');
+            Route::post('analysis/export/pdf', 'SalesAnalysisController@exportPdf')->name('reports.sales.analysis.export.pdf');
+
             Route::get('customer-detail', 'ReportController@customerSalesDetailIndex')->name('reports.sales.customer_detail');
-            Route::post('customer-detail', 'ReportController@customerSalesDetail')->name('reports.sales.customer_detail.data');
             Route::get('customer-detail/export', 'ReportController@exportCustomerSalesDetail')->name('reports.sales.customer_detail.export');
 
             Route::get('year', 'ReportController@salesReportYearIndex')->name('reports.sales.year');
-            Route::post('year', 'ReportController@salesReportYear');
 
             Route::get('month', 'ReportController@salesReportMonthIndex')->name('reports.sales.month');
-            Route::post('month', 'ReportController@salesReportMonth');
-            Route::post('monthTrend', 'ReportController@salesMonthTrend')->name( 'reports.sales.monthTrend' );
 
             Route::get('daily', 'ReportController@salesReportDailyIndex')->name('reports.sales.daily');
-            Route::post('daily', 'ReportController@salesReportDaily');
 
             Route::get('profit', 'ReportController@salesReportProfitIndex')->name('reports.sales.profit');
             Route::post('profit', 'ReportController@salesReportProfit');

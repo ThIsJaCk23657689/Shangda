@@ -1,6 +1,14 @@
 <?php
 
+$salesAnalysisFont = env(
+    'SALES_ANALYSIS_PDF_FONT',
+    PHP_OS_FAMILY === 'Windows' ? 'C:\\Windows\\Fonts\\NotoSansTC-VF.ttf' : null
+);
+
 return array(
+
+    // 銷售分析 PDF 的繁中字型來源；首次使用後會由 Dompdf 快取至 storage/fonts。
+    'sales_analysis_font' => $salesAnalysisFont,
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +72,7 @@ return array(
          * The temporary directory is required to download remote images and when
          * using the PFDLib back end.
          */
-        "temp_dir" => sys_get_temp_dir(),
+        "temp_dir" => storage_path('app/dompdf'),
 
         /**
          * ==== IMPORTANT ====
@@ -78,7 +86,10 @@ return array(
          * direct class use like:
          * $dompdf = new DOMPDF();  $dompdf->load_html($htmldata); $dompdf->render(); $pdfdata = $dompdf->output();
          */
-        "chroot" => realpath(base_path()),
+        "chroot" => array_values(array_filter([
+            realpath(base_path()),
+            $salesAnalysisFont ? realpath(dirname($salesAnalysisFont)) : null,
+        ])),
 
         /**
          * Protocol whitelist
@@ -104,7 +115,7 @@ return array(
         /**
          * Whether to enable font subsetting or not.
          */
-        "enable_font_subsetting" => false,
+        "enable_font_subsetting" => true,
 
         /**
          * The PDF rendering backend to use

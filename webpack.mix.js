@@ -104,10 +104,7 @@ mix.js('resources/js/backend.js', 'public/js')
 
 .js('resources/js/information/edit.js', 'public/js/information')
 
-.js('resources/js/reports/sales/year.js', 'public/js/reports/sales')
-    .js('resources/js/reports/sales/month.js', 'public/js/reports/sales')
-    .js('resources/js/reports/sales/daily.js', 'public/js/reports/sales')
-    .js('resources/js/reports/sales/customer-detail.js', 'public/js/reports/sales')
+.js('resources/js/reports/sales/analysis.js', 'public/js/reports/sales')
     .js('resources/js/reports/sales/profit.js', 'public/js/reports/sales')
     .js('resources/js/reports/purchase/daily.js', 'public/js/reports/purchase')
     .js('resources/js/reports/purchase/year.js', 'public/js/reports/purchase')
