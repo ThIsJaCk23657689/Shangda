@@ -265,6 +265,10 @@ Route::prefix('/backend')->group(function(){
     Route::prefix('/reports')->group(function(){
         // 銷貨年報表、銷貨日報表、銷貨利潤表
         Route::prefix('/sales')->group(function(){
+            Route::get('customer-detail', 'ReportController@customerSalesDetailIndex')->name('reports.sales.customer_detail');
+            Route::post('customer-detail', 'ReportController@customerSalesDetail')->name('reports.sales.customer_detail.data');
+            Route::get('customer-detail/export', 'ReportController@exportCustomerSalesDetail')->name('reports.sales.customer_detail.export');
+
             Route::get('year', 'ReportController@salesReportYearIndex')->name('reports.sales.year');
             Route::post('year', 'ReportController@salesReportYear');
 

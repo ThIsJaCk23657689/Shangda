@@ -12,6 +12,20 @@ use DB;
 
 class ReportService extends BaseService
 {
+    private const CUSTOMER_SALES_DATE_COLUMNS = [
+        'transaction' => 'sales_orders.transaction_at',
+        'delivered' => 'sales_orders.delivered_at',
+        'paid' => 'sales_orders.paid_at',
+        'created' => 'sales_orders.created_at',
+    ];
+
+    private const CUSTOMER_SALES_DATE_LABELS = [
+        'transaction' => '交易日',
+        'delivered' => '出貨日',
+        'paid' => '付款日',
+        'created' => '建立日',
+    ];
+
     // 銷售年度報表
     public function salesReportYear($request)
     {
@@ -571,5 +585,291 @@ class ReportService extends BaseService
                 'status' => 200,
                 'result' => $result,
             ];
+    }
+
+    public function customerSalesConsumerOptions()
+    {
+        return ConsumerEloquent::withTrashed()
+            ->select('id', 'name', 'shortName', 'taxID', 'deleted_at')
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function findCustomerSalesConsumer($consumerId)
+    {
+        return ConsumerEloquent::withTrashed()
+            ->select(
+                'id', 'name', 'shortName', 'taxID', 'operator_name_1',
+                'operator_tel_1', 'operator_phone_1', 'phone', 'tel',
+                'address_zipcode', 'address_county', 'address_district', 'address_others',
+                'deleted_at'
+            )
+            ->findOrFail($consumerId);
+    }
+
+    public function customerSalesDetail($request)
+    {
+        $dateColumn = $this->customerSalesDateColumn($request->date_type, $request->boolean('include_returns'));
+        $baseQuery = $this->customerSalesBaseQuery($request);
+        $perPage = (int) ($request->per_page ?? 20);
+        $page = (int) ($request->page ?? 1);
+
+        $orders = (clone $baseQuery)
+            ->select($this->customerSalesOrderColumns($dateColumn))
+            ->orderByRaw($dateColumn . ' asc')
+            ->orderBy('sales_orders.id')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        $orders->setCollection($this->hydrateCustomerSalesOrders(
+            $orders->getCollection(),
+            $request->date_type
+        ));
+
+        return [
+            'consumer' => $this->formatCustomerSalesConsumer(
+                $this->findCustomerSalesConsumer($request->consumer_id)
+            ),
+            'summary' => $this->customerSalesSummary($request, $baseQuery),
+            'orders' => $orders->items(),
+            'pagination' => [
+                'current_page' => $orders->currentPage(),
+                'last_page' => $orders->lastPage(),
+                'per_page' => $orders->perPage(),
+                'total' => $orders->total(),
+                'from' => $orders->firstItem(),
+                'to' => $orders->lastItem(),
+            ],
+        ];
+    }
+
+    public function exportCustomerSalesDetails($request, callable $callback)
+    {
+        $dateColumn = $this->customerSalesDateColumn($request->date_type, $request->boolean('include_returns'));
+
+        $this->customerSalesBaseQuery($request)
+            ->select($this->customerSalesOrderColumns($dateColumn))
+            ->orderByRaw($dateColumn . ' asc')
+            ->orderBy('sales_orders.id')
+            ->chunk(200, function ($orders) use ($request, $callback) {
+                $orders = $this->hydrateCustomerSalesOrders($orders, $request->date_type);
+
+                foreach ($orders as $order) {
+                    if (empty($order->details)) {
+                        $callback($order, null, true);
+                        continue;
+                    }
+
+                    foreach ($order->details as $index => $detail) {
+                        $callback($order, $detail, $index === 0);
+                    }
+                }
+            });
+    }
+
+    private function customerSalesBaseQuery($request)
+    {
+        $dateColumn = $this->customerSalesDateColumn($request->date_type, $request->boolean('include_returns'));
+        $query = DB::table('sales_orders')
+            ->join('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
+            ->where('sales_orders.consumer_id', $request->consumer_id)
+            ->where('sales_orders.confirmStatus', 1)
+            ->whereBetween(DB::raw($dateColumn), [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59',
+            ]);
+
+        if ($request->boolean('include_returns')) {
+            $query->whereIn('sales_orders.status', [1, 2]);
+        } else {
+            $query->where('sales_orders.status', 1);
+        }
+
+        switch ($request->order_status) {
+            case 'unpaid':
+                $query->whereNull('sales_orders.paid_at');
+                break;
+            case 'paid':
+                $query->whereNotNull('sales_orders.paid_at');
+                break;
+            case 'undelivered':
+                $query->whereNull('sales_orders.delivered_at');
+                break;
+            case 'completed':
+                $query->whereNotNull('sales_orders.paid_at')
+                    ->whereNotNull('sales_orders.delivered_at');
+                break;
+        }
+
+        return $query;
+    }
+
+    private function customerSalesSummary($request, $baseQuery)
+    {
+        $summary = (clone $baseQuery)->selectRaw(
+            'COUNT(sales_orders.id) as order_count,
+             SUM(CASE WHEN sales_orders.status = 1 THEN 1 ELSE 0 END) as sales_count,
+             SUM(CASE WHEN sales_orders.status = 2 THEN 1 ELSE 0 END) as return_count,
+             COALESCE(SUM(CASE WHEN sales_orders.status = 1 THEN sales_orders.totalTaxPrice ELSE 0 END), 0) as sales_total,
+             COALESCE(SUM(CASE WHEN sales_orders.status = 2 THEN sales_orders.totalTaxPrice ELSE 0 END), 0) as return_total,
+             COALESCE(SUM(CASE WHEN sales_orders.status = 2 THEN -sales_orders.totalPrice ELSE sales_orders.totalPrice END), 0) as net_before_tax,
+             COALESCE(SUM(CASE WHEN sales_orders.status = 2 THEN -sales_orders.taxPrice ELSE sales_orders.taxPrice END), 0) as net_tax,
+             COALESCE(SUM(CASE WHEN sales_orders.status = 2 THEN -sales_orders.totalTaxPrice ELSE sales_orders.totalTaxPrice END), 0) as net_total,
+             COALESCE(SUM(CASE WHEN sales_orders.paid_at IS NOT NULL THEN (CASE WHEN sales_orders.status = 2 THEN -sales_orders.totalTaxPrice ELSE sales_orders.totalTaxPrice END) ELSE 0 END), 0) as paid_total,
+             COALESCE(SUM(CASE WHEN sales_orders.paid_at IS NULL THEN (CASE WHEN sales_orders.status = 2 THEN -sales_orders.totalTaxPrice ELSE sales_orders.totalTaxPrice END) ELSE 0 END), 0) as unpaid_total'
+        )->first();
+
+        $quantityQuery = DB::table('sales_orders')
+            ->join('consumers', 'consumers.id', '=', 'sales_orders.consumer_id')
+            ->join('sales_order_details', 'sales_order_details.sales_order_id', '=', 'sales_orders.id');
+        $this->applyCustomerSalesFilters($quantityQuery, $request);
+        $totalQuantity = $quantityQuery->selectRaw(
+            'COALESCE(SUM(CASE WHEN sales_orders.status = 2 THEN -sales_order_details.quantity ELSE sales_order_details.quantity END), 0) as total_quantity'
+        )->value('total_quantity');
+
+        return [
+            'order_count' => (int) $summary->order_count,
+            'sales_count' => (int) $summary->sales_count,
+            'return_count' => (int) $summary->return_count,
+            'sales_total' => (float) $summary->sales_total,
+            'return_total' => (float) $summary->return_total,
+            'net_before_tax' => (float) $summary->net_before_tax,
+            'net_tax' => (float) $summary->net_tax,
+            'net_total' => (float) $summary->net_total,
+            'paid_total' => (float) $summary->paid_total,
+            'unpaid_total' => (float) $summary->unpaid_total,
+            'total_quantity' => (float) $totalQuantity,
+        ];
+    }
+
+    private function applyCustomerSalesFilters($query, $request)
+    {
+        $dateColumn = $this->customerSalesDateColumn($request->date_type, $request->boolean('include_returns'));
+        $query->where('sales_orders.consumer_id', $request->consumer_id)
+            ->where('sales_orders.confirmStatus', 1)
+            ->whereBetween(DB::raw($dateColumn), [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59',
+            ]);
+
+        if ($request->boolean('include_returns')) {
+            $query->whereIn('sales_orders.status', [1, 2]);
+        } else {
+            $query->where('sales_orders.status', 1);
+        }
+
+        switch ($request->order_status) {
+            case 'unpaid':
+                $query->whereNull('sales_orders.paid_at');
+                break;
+            case 'paid':
+                $query->whereNotNull('sales_orders.paid_at');
+                break;
+            case 'undelivered':
+                $query->whereNull('sales_orders.delivered_at');
+                break;
+            case 'completed':
+                $query->whereNotNull('sales_orders.paid_at')
+                    ->whereNotNull('sales_orders.delivered_at');
+                break;
+        }
+
+        return $query;
+    }
+
+    private function customerSalesDateColumn($dateType, $includeReturns = false)
+    {
+        // 舊退貨單沒有 transaction_at，以建立日作為退貨交易日的相容性回退。
+        if ($dateType === 'transaction' && $includeReturns) {
+            return 'CASE WHEN sales_orders.status = 2 THEN COALESCE(sales_orders.transaction_at, sales_orders.created_at) ELSE sales_orders.transaction_at END';
+        }
+
+        return self::CUSTOMER_SALES_DATE_COLUMNS[$dateType] ?? self::CUSTOMER_SALES_DATE_COLUMNS['transaction'];
+    }
+
+    private function customerSalesOrderColumns($dateColumn)
+    {
+        return [
+            'sales_orders.id', 'sales_orders.consumer_id', 'sales_orders.shown_id',
+            'sales_orders.transaction_at', 'sales_orders.delivered_at', 'sales_orders.paid_at',
+            'sales_orders.created_at', 'sales_orders.totalPrice', 'sales_orders.taxPrice',
+            'sales_orders.totalTaxPrice', 'sales_orders.taxType', 'sales_orders.status',
+            'sales_orders.comment', 'consumers.name as consumer_name',
+            'consumers.taxID as consumer_tax_id', DB::raw($dateColumn . ' as date_value'),
+        ];
+    }
+
+    private function hydrateCustomerSalesOrders($orders, $dateType)
+    {
+        $orderIds = $orders->pluck('id')->all();
+        $detailsByOrder = collect();
+
+        if (!empty($orderIds)) {
+            $detailsByOrder = DB::table('sales_order_details')
+                ->leftJoin('products', 'products.id', '=', 'sales_order_details.product_id')
+                ->whereIn('sales_order_details.sales_order_id', $orderIds)
+                ->select(
+                    'sales_order_details.id', 'sales_order_details.sales_order_id',
+                    'sales_order_details.product_id', 'sales_order_details.count',
+                    'sales_order_details.price', 'sales_order_details.quantity',
+                    'sales_order_details.discount', 'sales_order_details.subTotal',
+                    'sales_order_details.comment', 'products.shownID as product_shown_id',
+                    'products.name as product_name', 'products.unit'
+                )
+                ->orderBy('sales_order_details.count')
+                ->get()
+                ->groupBy('sales_order_id');
+        }
+
+        return $orders->map(function ($order) use ($detailsByOrder, $dateType) {
+            $sign = $order->status == 2 ? -1 : 1;
+            $details = $detailsByOrder->get($order->id, collect())->map(function ($detail) use ($sign) {
+                $detail->product_name = $detail->product_name ?? '商品已移除';
+                $detail->product_shown_id = $detail->product_shown_id ?? '';
+                $detail->unit_label = $this->customerSalesUnitLabel($detail->unit);
+                $detail->signed_quantity = $sign * (float) $detail->quantity;
+                $detail->signed_subtotal = $sign * (float) $detail->subTotal;
+
+                return $detail;
+            })->values()->all();
+
+            $order->date_value = $order->date_value ? substr($order->date_value, 0, 10) : '';
+            $order->date_type_label = self::CUSTOMER_SALES_DATE_LABELS[$dateType] ?? '交易日';
+            $order->order_type = $order->status == 2 ? '退貨' : '銷貨';
+            $order->payment_status = $order->paid_at ? '已付款' : '未付款';
+            $order->delivery_status = $order->delivered_at ? '已出貨' : '未出貨';
+            $order->show_url = route($order->status == 2 ? 'return.show' : 'sales.show', [$order->id]);
+            $order->signed_total_price = $sign * (float) $order->totalPrice;
+            $order->signed_tax_price = $sign * (float) $order->taxPrice;
+            $order->signed_total_tax_price = $sign * (float) $order->totalTaxPrice;
+            $order->details = $details;
+
+            return $order;
+        });
+    }
+
+    private function formatCustomerSalesConsumer($consumer)
+    {
+        return [
+            'id' => $consumer->id,
+            'name' => $consumer->name,
+            'short_name' => $consumer->shortName,
+            'tax_id' => $consumer->taxID,
+            'contact_name' => $consumer->operator_name_1,
+            'contact_phone' => $consumer->operator_phone_1
+                ?? $consumer->operator_tel_1
+                ?? $consumer->phone
+                ?? $consumer->tel,
+            'address' => $consumer->showAddress(),
+            'is_deleted' => !is_null($consumer->deleted_at),
+        ];
+    }
+
+    private function customerSalesUnitLabel($unit)
+    {
+        return [
+            'package' => '包',
+            'kg' => '公斤',
+            'roll' => '捲',
+        ][$unit] ?? '個';
     }
 }
