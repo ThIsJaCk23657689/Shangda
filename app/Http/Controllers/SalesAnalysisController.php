@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\SalesAnalysisService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use PDF;
 
 class SalesAnalysisController extends Controller
@@ -75,9 +77,10 @@ class SalesAnalysisController extends Controller
     public function exportCsv(Request $request)
     {
         $this->validateExport($request);
-        $filename = '銷售分析_' . $request->tab . '_' . now()->format('Ymd_His') . '.csv';
+        $table = $request->tab === 'detail' ? null : $this->service->exportTable($request);
+        $filename = $this->exportFilename($request, 'csv');
 
-        return response()->streamDownload(function () use ($request) {
+        return response()->streamDownload(function () use ($request, $table) {
             $output = fopen('php://output', 'w');
             fwrite($output, "\xEF\xBB\xBF");
 
@@ -92,7 +95,6 @@ class SalesAnalysisController extends Controller
                     ]));
                 });
             } else {
-                $table = $this->service->exportTable($request);
                 fputcsv($output, $table['headers']);
                 foreach ($table['rows'] as $row) {
                     fputcsv($output, $this->escapeCsvRow($row));
@@ -119,11 +121,16 @@ class SalesAnalysisController extends Controller
         }
 
         $pdf = PDF::loadView('reports.sales.analysis_pdf', [
+            'tab' => $request->tab,
             'title' => $table['title'],
             'headers' => $table['headers'],
             'rows' => $table['rows'],
+            'sections' => $table['sections'] ?? [],
+            'summary' => $table['summary'] ?? null,
             'chartImage' => $chartImage,
             'filters' => $request->all(),
+            'filterSummary' => $this->filterSummary($request),
+            'periodLabel' => $table['period_label'],
             'generatedAt' => now(),
         ]);
         try {
@@ -131,18 +138,30 @@ class SalesAnalysisController extends Controller
         } catch (\RuntimeException $exception) {
             return response()->json(['message' => $exception->getMessage()], 500);
         }
-        $pdf->setPaper('a4', 'landscape');
+        $pdf->setPaper('a4', 'portrait');
 
-        return $pdf->download('銷售分析_' . $request->tab . '_' . now()->format('Ymd_His') . '.pdf');
+        $filename = $this->exportFilename($request, 'pdf');
+        $response = $pdf->download($filename);
+        $response->headers->set('X-Export-Filename', rawurlencode($filename));
+        return $response;
     }
 
     private function validateOverview(Request $request)
     {
+        $request->merge(['period_mode' => $request->input('period_mode', 'year')]);
         $this->validate($request, array_merge($this->commonRules(), [
             'year' => 'required|digits:4',
+            'period_mode' => ['required', Rule::in(['year', 'month', 'range'])],
+            'month' => 'nullable|required_if:period_mode,month|integer|between:1,12',
+            'start_month' => 'nullable|required_if:period_mode,range|integer|between:1,12',
+            'end_month' => 'nullable|required_if:period_mode,range|integer|between:1,12|gte:start_month',
             'sort' => ['required', Rule::in(['asc', 'desc'])],
             'exclude_zero' => 'required|boolean',
         ]));
+        $months = $request->period_mode === 'month'
+            ? [(int) $request->month]
+            : ($request->period_mode === 'range' ? [(int) $request->start_month, (int) $request->end_month] : []);
+        $this->validateNotFutureMonths((int) $request->year, $months);
     }
 
     private function validateDrilldown(Request $request)
@@ -160,8 +179,19 @@ class SalesAnalysisController extends Controller
             $rules['end_month'] = 'required|integer|between:1,12|gte:start_month';
         } else {
             $rules['year'] = 'required|digits:4';
+            $rules['start_month'] = 'nullable|integer|between:1,12';
+            $rules['end_month'] = 'nullable|integer|between:1,12|gte:start_month';
         }
         $this->validate($request, $rules);
+        if ($request->mode === 'annual') {
+            $this->validateNotFutureMonths((int) $request->year, array_filter([
+                $request->filled('start_month') ? (int) $request->start_month : null,
+                $request->filled('end_month') ? (int) $request->end_month : null,
+            ]));
+        } elseif ($request->mode === 'comparison') {
+            $this->validateNotFutureMonths((int) $request->year_a, [(int) $request->end_month]);
+            $this->validateNotFutureMonths((int) $request->year_b, [(int) $request->end_month]);
+        }
     }
 
     private function validateDetails(Request $request)
@@ -215,6 +245,36 @@ class SalesAnalysisController extends Controller
             }
             return $value;
         }, $row);
+    }
+
+    private function validateNotFutureMonths($year, array $months)
+    {
+        $today = Carbon::now('Asia/Taipei');
+        if ($year > $today->year || ($year === $today->year && !empty($months) && max($months) > $today->month)) {
+            throw ValidationException::withMessages([
+                'end_month' => ['不可選擇尚未到來的月份。'],
+            ]);
+        }
+    }
+
+    private function exportFilename(Request $request, $extension)
+    {
+        return '銷售分析_' . $request->tab . '_' . $this->service->exportFilenameToken($request) . '_' . now()->format('Ymd_His') . '.' . $extension;
+    }
+
+    private function filterSummary(Request $request)
+    {
+        $summary = [
+            '分析維度：' . ($request->dimension === 'product' ? '商品' : '顧客'),
+            '金額口徑：' . ($request->amount_basis === 'tax_inclusive' ? '含稅淨銷售額' : '未稅淨銷售額'),
+        ];
+        if ($request->tab === 'detail') {
+            $dateLabels = ['transaction' => '交易日期', 'delivered' => '出貨日期', 'paid' => '付款日期', 'created' => '建立日期'];
+            $statusLabels = ['all' => '全部', 'unpaid' => '未付款', 'paid' => '已付款', 'undelivered' => '未出貨', 'completed' => '已完成'];
+            $summary[] = '日期依據：' . ($dateLabels[$request->date_basis] ?? '交易日期');
+            $summary[] = '狀態：' . ($statusLabels[$request->order_status] ?? '全部');
+        }
+        return $summary;
     }
 
     private function registerTraditionalChineseFonts($pdf)

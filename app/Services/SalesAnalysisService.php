@@ -206,12 +206,13 @@ class SalesAnalysisService extends BaseService
 
     public function overview(Request $request)
     {
-        $year = (int) $request->year;
+        $period = $this->overviewPeriod($request);
+        $year = $period['year'];
         $dimension = $request->dimension;
         $amount = $this->amountExpression($request->amount_basis, 'so', 'sod', true);
         $date = $this->transactionDateExpression('so');
-        $start = sprintf('%d-01-01 00:00:00', $year);
-        $end = sprintf('%d-12-31 23:59:59', $year);
+        $start = $period['start'];
+        $end = $period['end'];
 
         if ($dimension === self::DIMENSION_CUSTOMER) {
             $query = DB::table('consumers as entity')
@@ -281,7 +282,9 @@ class SalesAnalysisService extends BaseService
 
         return [
             'year' => $year,
-            'display_months' => $this->displayMonthsForYear($year),
+            'period' => $period,
+            'display_months' => $period['months'],
+            'total_label' => $period['total_label'],
             'rows' => $rows->all(),
             'chart' => $rows->take(10)->map(function ($row) {
                 return [
@@ -311,13 +314,17 @@ class SalesAnalysisService extends BaseService
     private function annualDrilldown(Request $request)
     {
         $year = (int) $request->year;
+        $defaultMonths = $this->displayMonthsForYear($year);
+        $startMonth = $request->filled('start_month') ? (int) $request->start_month : 1;
+        $endMonth = $request->filled('end_month') ? (int) $request->end_month : end($defaultMonths);
+        $period = $this->monthPeriod($year, $startMonth, $endMonth, 'range');
         $query = $this->lineQuery($request->amount_basis);
         $this->applyCoreFilters($query);
         $this->applyEntityFilter($query, $request->dimension, $request->entity_id);
         $date = $this->transactionDateExpression('so');
         $query->whereBetween(DB::raw($date), [
-            $year . '-01-01 00:00:00',
-            $year . '-12-31 23:59:59',
+            $period['start'],
+            $period['end'],
         ]);
         $amount = $this->amountExpression($request->amount_basis);
 
@@ -326,7 +333,7 @@ class SalesAnalysisService extends BaseService
             ->pluck('amount', 'month');
 
         $months = [];
-        for ($month = 1; $month <= 12; $month++) {
+        for ($month = $startMonth; $month <= $endMonth; $month++) {
             $months[] = (float) ($aggregates[$month] ?? 0);
         }
         $total = array_sum($months);
@@ -334,28 +341,29 @@ class SalesAnalysisService extends BaseService
         $overall = $this->lineQuery($request->amount_basis);
         $this->applyCoreFilters($overall);
         $overall->whereBetween(DB::raw($date), [
-            $year . '-01-01 00:00:00',
-            $year . '-12-31 23:59:59',
+            $period['start'],
+            $period['end'],
         ]);
         $overallTotal = (float) $overall->selectRaw('COALESCE(SUM(' . $amount . '), 0) as amount')->value('amount');
 
         return [
             'mode' => 'annual',
+            'period' => $period,
             'entity' => $this->findEntity($request->dimension, $request->entity_id),
             'kpis' => [
                 'total' => $total,
-                'monthly_average' => $total / 12,
+                'monthly_average' => $total / count($period['months']),
                 'revenue_share' => abs($overallTotal) > 0.0001 ? ($total / $overallTotal) * 100 : 0,
             ],
             'chart' => [
-                'labels' => range(1, 12),
+                'labels' => $period['months'],
                 'datasets' => [[
                     'label' => $year . ' 年',
                     'data' => $months,
                 ]],
             ],
-            'rows' => collect(range(1, 12))->map(function ($month) use ($months) {
-                return ['month' => $month, 'amount' => $months[$month - 1]];
+            'rows' => collect($period['months'])->map(function ($month, $index) use ($months) {
+                return ['month' => $month, 'amount' => $months[$index]];
             })->all(),
         ];
     }
@@ -393,6 +401,7 @@ class SalesAnalysisService extends BaseService
 
         return [
             'mode' => 'trend',
+            'period_label' => $minYear === $maxYear ? $minYear . ' 年' : $minYear . ' 年至 ' . $maxYear . ' 年',
             'entity' => $this->findEntity($request->dimension, $request->entity_id),
             'chart' => [
                 'labels' => array_column($rows, 'year'),
@@ -444,6 +453,7 @@ class SalesAnalysisService extends BaseService
 
         return [
             'mode' => 'comparison',
+            'period_label' => $yearA . ' 年與 ' . $yearB . ' 年 ' . $startMonth . ' 月至 ' . $endMonth . ' 月',
             'entity' => $this->findEntity($request->dimension, $request->entity_id),
             'years' => [$yearA, $yearB],
             'chart' => [
@@ -536,13 +546,40 @@ class SalesAnalysisService extends BaseService
     {
         if ($request->tab === 'overview') {
             $result = $this->overview($request);
-            $headers = array_merge(['實體名稱'], collect(range(1, 12))->map(function ($month) {
+            $headers = array_merge(['實體名稱'], collect($result['display_months'])->map(function ($month) {
                 return $month . '月';
-            })->all(), ['年度總計']);
-            $rows = collect($result['rows'])->map(function ($row) {
-                return array_merge([$row['entity']['name']], $row['months'], [$row['total']]);
+            })->all(), [$result['total_label']]);
+            $rows = collect($result['rows'])->map(function ($row) use ($result) {
+                $months = collect($result['display_months'])->map(function ($month) use ($row) {
+                    return $row['months'][$month - 1];
+                })->all();
+                return array_merge([$row['entity']['name']], $months, [$row['total']]);
             })->all();
-            return ['title' => '銷售分析－總覽', 'headers' => $headers, 'rows' => $rows, 'chart' => $result['chart']];
+            $sections = collect(array_chunk($result['display_months'], 3))->map(function ($months) use ($result) {
+                return [
+                    'headers' => array_merge(['實體名稱'], collect($months)->map(function ($month) {
+                        return $month . '月';
+                    })->all(), [$result['total_label']]),
+                    'rows' => collect($result['rows'])->map(function ($row) use ($months) {
+                        return array_merge(
+                            [$row['entity']['name']],
+                            collect($months)->map(function ($month) use ($row) {
+                                return $row['months'][$month - 1];
+                            })->all(),
+                            [$row['total']]
+                        );
+                    })->all(),
+                    'months' => $months,
+                ];
+            })->all();
+            return [
+                'title' => '銷售分析－總覽',
+                'headers' => $headers,
+                'rows' => $rows,
+                'sections' => $sections,
+                'chart' => $result['chart'],
+                'period_label' => $result['period']['label'],
+            ];
         }
 
         if ($request->tab === 'drilldown') {
@@ -563,7 +600,10 @@ class SalesAnalysisService extends BaseService
                     return [$row['month'], $row['amount']];
                 })->all();
             }
-            return ['title' => '銷售分析－' . $result['entity']['name'], 'headers' => $headers, 'rows' => $rows, 'chart' => $result['chart']];
+            $periodLabel = $request->mode === 'annual'
+                ? $result['period']['label']
+                : $result['period_label'];
+            return ['title' => '銷售分析－' . $result['entity']['name'], 'headers' => $headers, 'rows' => $rows, 'chart' => $result['chart'], 'period_label' => $periodLabel];
         }
 
         $result = $this->details($request, false, $detailLimit);
@@ -580,7 +620,35 @@ class SalesAnalysisService extends BaseService
             'rows' => $rows,
             'summary' => $result['summary'],
             'chart' => null,
+            'period_label' => $request->start_date === $request->end_date
+                ? $request->start_date
+                : $request->start_date . ' 至 ' . $request->end_date,
         ];
+    }
+
+    public function exportFilenameToken(Request $request)
+    {
+        if ($request->tab === 'overview') {
+            return $this->overviewPeriod($request)['file_token'];
+        }
+        if ($request->tab === 'detail') {
+            return $request->start_date === $request->end_date
+                ? $request->start_date
+                : $request->start_date . '_' . $request->end_date;
+        }
+        if ($request->mode === 'annual') {
+            $months = $this->displayMonthsForYear((int) $request->year);
+            return $this->monthPeriod(
+                (int) $request->year,
+                $request->filled('start_month') ? (int) $request->start_month : 1,
+                $request->filled('end_month') ? (int) $request->end_month : end($months),
+                'range'
+            )['file_token'];
+        }
+        if ($request->mode === 'comparison') {
+            return $request->year_a . '_vs_' . $request->year_b . '_' . sprintf('%02d-%02d', $request->start_month, $request->end_month);
+        }
+        return $request->recent_years === 'all' ? '全部年度' : '近' . $request->recent_years . '年';
     }
 
     public function findEntity($dimension, $entityId)
@@ -794,6 +862,56 @@ class SalesAnalysisService extends BaseService
             'kg' => '公斤',
             'roll' => '捲',
         ][$unit] ?? '個';
+    }
+
+    private function overviewPeriod(Request $request)
+    {
+        $mode = $request->input('period_mode', 'year');
+        $year = (int) $request->year;
+        if ($mode === 'month') {
+            $month = (int) $request->month;
+            return $this->monthPeriod($year, $month, $month, $mode);
+        }
+        if ($mode === 'range') {
+            return $this->monthPeriod($year, (int) $request->start_month, (int) $request->end_month, $mode);
+        }
+
+        $months = $this->displayMonthsForYear($year);
+        return $this->monthPeriod($year, 1, end($months), 'year');
+    }
+
+    private function monthPeriod($year, $startMonth, $endMonth, $mode)
+    {
+        $months = range($startMonth, $endMonth);
+        if ($mode === 'month') {
+            $label = sprintf('%d 年 %d 月', $year, $startMonth);
+            $totalLabel = '月份總計';
+        } elseif ($mode === 'year') {
+            $label = sprintf('%d 年 1 月至 %d 月', $year, $endMonth);
+            $totalLabel = '年度總計';
+        } else {
+            $label = sprintf('%d 年 %d 月至 %d 月', $year, $startMonth, $endMonth);
+            $totalLabel = '區間總計';
+        }
+
+        return [
+            'mode' => $mode,
+            'year' => $year,
+            'start_month' => $startMonth,
+            'end_month' => $endMonth,
+            'months' => $months,
+            'start' => Carbon::create($year, $startMonth, 1, 0, 0, 0, 'Asia/Taipei')->startOfMonth()->format('Y-m-d H:i:s'),
+            'end' => Carbon::create($year, $endMonth, 1, 0, 0, 0, 'Asia/Taipei')->endOfMonth()->format('Y-m-d H:i:s'),
+            'label' => $label,
+            'total_label' => $totalLabel,
+            'file_token' => $mode === 'year'
+                ? (string) $year
+                : ($startMonth === 1 && $endMonth === 12
+                ? (string) $year
+                : ($startMonth === $endMonth
+                    ? sprintf('%d-%02d', $year, $startMonth)
+                    : sprintf('%d-%02d_%d-%02d', $year, $startMonth, $year, $endMonth))),
+        ];
     }
 
     private function displayMonthsForYear($year)
