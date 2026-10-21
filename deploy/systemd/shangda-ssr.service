@@ -1,0 +1,17 @@
+[Unit]
+Description=Shangda Inertia SSR server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/shangda/current
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/php artisan inertia:start-ssr
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target
