@@ -9,7 +9,7 @@ import DataTable from 'laravel-vue-datatable';
  */
 
 require('./bootstrap');
-require('./../../node_modules/jquery-cropper/dist/jquery-cropper')
+require('jquery-cropper');
 
 window.Vue = require('vue');
 window.Swal = Swal;

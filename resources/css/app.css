@@ -1,0 +1,54 @@
+@import 'tailwindcss';
+
+@source '../views/**/*.blade.php';
+@source '../js/**/*.vue';
+@source '../js/**/*.ts';
+
+@theme {
+    --font-sans: 'Noto Sans TC', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --color-brand-50: #f6f8f2;
+    --color-brand-100: #e8eedc;
+    --color-brand-200: #d2dfbd;
+    --color-brand-300: #b2c991;
+    --color-brand-400: #91ae68;
+    --color-brand-500: #708e49;
+    --color-brand-600: #577238;
+    --color-brand-700: #43582e;
+    --color-brand-800: #374728;
+    --color-brand-900: #303d25;
+    --color-wheat-50: #fdf9ef;
+    --color-wheat-100: #f8edcf;
+    --color-wheat-200: #f0d99c;
+    --color-wheat-300: #e6bf62;
+    --color-wheat-400: #dda63a;
+    --color-wheat-500: #ca8825;
+    --color-wheat-600: #ad691d;
+}
+
+@layer base {
+    html {
+        @apply bg-stone-50 text-stone-900 antialiased;
+    }
+
+    body {
+        @apply min-h-screen;
+    }
+
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-brand-600;
+    }
+}
+
+@layer components {
+    .surface {
+        @apply rounded-2xl border border-stone-200 bg-white shadow-sm;
+    }
+
+    .page-title {
+        @apply text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl;
+    }
+
+    .page-description {
+        @apply mt-1 text-sm leading-6 text-stone-500;
+    }
+}

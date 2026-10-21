@@ -1,5 +1,9 @@
 /node_modules
+/legacy/node_modules
 /public/hot
+/public/build
+/bootstrap/ssr
+.phpunit.cache/
 /public/storage
 /public/images/consumers/avatars
 /public/js

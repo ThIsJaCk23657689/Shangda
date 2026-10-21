@@ -1,4 +1,12 @@
 const mix = require('laravel-mix');
+const path = require('path');
+
+// Vue 2 dependencies are intentionally isolated while Blade pages are migrated.
+const legacyModules = path.resolve(__dirname, 'legacy/node_modules');
+mix.webpackConfig({
+    resolve: { modules: [legacyModules, 'node_modules'] },
+    resolveLoader: { modules: [legacyModules, 'node_modules'] },
+});
 
 /*
  |--------------------------------------------------------------------------
