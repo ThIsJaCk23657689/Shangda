@@ -3,11 +3,12 @@
 namespace Tests\Feature;
 
 use App\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class SalesAnalysisAccessTest extends TestCase
 {
-    /** @dataProvider protectedRoutes */
+    #[DataProvider('protectedRoutes')]
     public function test_analysis_routes_require_login($method, $route)
     {
         $response = $method === 'post'
@@ -18,7 +19,7 @@ class SalesAnalysisAccessTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function protectedRoutes()
+    public static function protectedRoutes(): array
     {
         return [
             ['get', 'reports.sales.analysis'],
@@ -43,7 +44,7 @@ class SalesAnalysisAccessTest extends TestCase
             ->assertSee('sales-analysis');
     }
 
-    /** @dataProvider legacyRoutes */
+    #[DataProvider('legacyRoutes')]
     public function test_legacy_report_pages_redirect_to_analysis($legacyRoute)
     {
         $user = new User(['job_title_id' => 4]);
@@ -57,7 +58,7 @@ class SalesAnalysisAccessTest extends TestCase
         );
     }
 
-    public function legacyRoutes()
+    public static function legacyRoutes(): array
     {
         return [
             ['reports.sales.year'],

@@ -63,8 +63,8 @@
                             </div>
                         </div>
 
-                        <individual-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'frontend'" :captchasitekey="'{{ config('no-captcha.sitekey') }}'"></individual-consumer-create-form>
-                        <company-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'frontend'" :captchasitekey="'{{ config('no-captcha.sitekey') }}'"></company-consumer-create-form>
+                        <individual-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'frontend'" :captchasitekey="'{{ config('recaptcha.site_key') }}'"></individual-consumer-create-form>
+                        <company-consumer-create-form :uploadimg="'{{ asset('images/consumers/upload-default.png') }}'" :formtype="'frontend'" :captchasitekey="'{{ config('recaptcha.site_key') }}'"></company-consumer-create-form>
                     </div>
                 </div>
             </div>

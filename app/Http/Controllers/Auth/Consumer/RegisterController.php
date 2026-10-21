@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth\Consumer;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Services\ConsumerService;
 use App\Events\ConsumerRegisteredEvent;
 use Illuminate\Http\Request;
@@ -13,9 +12,6 @@ use Auth;
 
 class RegisterController extends Controller
 {
-    use RegistersUsers;
-
-    protected $redirectTo = '/';
     public $ConsumerService;
 
     public function __construct(){
@@ -46,7 +42,7 @@ class RegisterController extends Controller
 
         return response()->json([
             'msg' => 'Login Successfully',
-            'url' => redirect()->intended($this->redirectPath())->getTargetUrl()
+            'url' => redirect()->intended(route('index'))->getTargetUrl()
         ]);
 
         //return redirect()->route('index');

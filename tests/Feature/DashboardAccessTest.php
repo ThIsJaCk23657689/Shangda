@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class DashboardAccessTest extends TestCase
@@ -12,7 +13,7 @@ class DashboardAccessTest extends TestCase
         $this->get(route('backend'))->assertRedirect(route('login'));
     }
 
-    /** @dataProvider unauthorizedJobTitles */
+    #[DataProvider('unauthorizedJobTitles')]
     public function test_dashboard_rejects_non_management_users($jobTitleId)
     {
         $user = new User(['job_title_id' => $jobTitleId]);
@@ -21,12 +22,12 @@ class DashboardAccessTest extends TestCase
         $this->actingAs($user)->get(route('backend'))->assertForbidden();
     }
 
-    public function unauthorizedJobTitles()
+    public static function unauthorizedJobTitles(): array
     {
         return [[1], [2]];
     }
 
-    /** @dataProvider authorizedJobTitles */
+    #[DataProvider('authorizedJobTitles')]
     public function test_management_users_can_view_real_dashboard($jobTitleId)
     {
         $user = new User(['job_title_id' => $jobTitleId]);
@@ -50,7 +51,7 @@ class DashboardAccessTest extends TestCase
             ->assertDontSee('良率');
     }
 
-    public function authorizedJobTitles()
+    public static function authorizedJobTitles(): array
     {
         return [[3], [4]];
     }

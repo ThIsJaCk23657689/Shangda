@@ -7,14 +7,16 @@ use App\Http\Requests\ConsumerRequest;
 use App\Http\Requests\ConsumerEditRequest;
 use App\Http\Requests\DiscountRequest;
 use App\Services\ConsumerService;
+use App\Services\BusinessRegistryService;
 use Illuminate\Validation\Rule;
 
 class ConsumerController extends Controller
 {
     public $ConsumerService;
+    private BusinessRegistryService $businessRegistry;
 
 
-    public function __construct()
+    public function __construct(ConsumerService $consumerService, BusinessRegistryService $businessRegistry)
     {
         $this->middleware('auth')->except('getDataByTaxID');
         $this->middleware('job.title:4,3')->except([
@@ -24,7 +26,8 @@ class ConsumerController extends Controller
             'getOne',
             'getList'
         ]);
-        $this->ConsumerService = new ConsumerService();
+        $this->ConsumerService = $consumerService;
+        $this->businessRegistry = $businessRegistry;
     }
 
     public function index()
@@ -124,106 +127,7 @@ class ConsumerController extends Controller
     }
 
     public function getDataByTaxID(Request $request){
-        $taxID = $request->input('taxID');
-
-        if (empty($taxID)) {
-            return response()->json([
-                'status' => '0',
-                'msg' => '統一編號為空'
-            ]);
-        }
-
-        // use key 'http' even if you send the request to https://...
-        $options = [
-            'http' => [
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method'  => 'GET',
-                'content' => null,
-                'timeout' => 2, // 超時時間為2秒
-            ]
-        ];
-
-        // 先查詢此統編的類型 (公司、分公司、商業)
-        $data = [
-            '$format' => 'json',
-            '$filter' => 'No eq ' . $taxID,
-            '$skip' => 0,
-            '$top' => 50
-        ];
-        $url = 'http://data.gcis.nat.gov.tw/od/data/api/673F0FC0-B3A7-429F-9041-E9866836B66D?' . http_build_query($data);
-
-        $context  = stream_context_create($options);
-
-        try {
-            $result = file_get_contents($url, false, $context);
-
-            if ($result === false) {
-                // 請求失敗，拋出異常
-                throw new \Exception("HTTP request failed!");
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => '4',
-                'msg' => '判斷統一編號時發生錯誤。',
-                'result' => $result
-            ]);
-        }
-
-        // $result 是string 必須先轉成array
-        $result = json_decode($result, true);
-
-        if($result[0]["exist"] == "Y"){
-            $type = "公司";
-        }else if($result[1]["exist"] == "Y"){
-           $type  = "分公司";
-            return response()->json([
-                'status' => '2',
-                'type' => $type
-            ]);
-        }else if($result[2]["exist"] == "Y"){
-            $type = "商業";
-            return response()->json([
-                'status' => '1',
-                'type' => $type
-            ]);
-        }else{
-            $status_code = "invaild";
-            $type = "無效";
-            return response()->json([
-                'status' => '0',
-                'type' => $type
-            ]);
-        }
-
-        $data = [
-            '$format' => 'json',
-            '$filter' => 'Business_Accounting_NO eq ' . $taxID,
-            '$skip' => 0,
-            '$top' => 50
-        ];
-        $url = 'http://data.gcis.nat.gov.tw/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6?' . http_build_query($data);
-
-        $context  = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-
-        // $result 是string 必須先轉成array
-        $result = json_decode($result, true);
-
-        // return var_dump($result);
-
-        if ($result === FALSE){
-            return response()->json([
-                'status' => '4',
-                'msg' => '撈取統一編號時發生錯誤。',
-                'result' => $result
-            ]);
-        }
-
-        return response()->json([
-            'status' => '3',
-            'type' => $type,
-            'result' => $result
-        ]);
+        return response()->json($this->businessRegistry->lookup((string) $request->input('taxID', '')));
     }
 
     // ========== Response JSON ==========

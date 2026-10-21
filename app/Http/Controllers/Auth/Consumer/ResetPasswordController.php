@@ -3,53 +3,43 @@
 namespace App\Http\Controllers\Auth\Consumer;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Auth;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class ResetPasswordController extends Controller
 {
-    use ResetsPasswords;
-
-    protected $redirectTo = '/';
-
-    public function __construct()
+    public function showResetForm(Request $request, string $token): View
     {
-        $this->middleware('guest:consumer');
-        $this->middleware('guest');
+        return view('frontend.consumers.auth.passwords.reset', ['token' => $token, 'email' => $request->query('email')]);
     }
 
-    public function showResetForm(Request $request, $token = null)
+    public function reset(Request $request): JsonResponse|RedirectResponse
     {
-        return view('frontend.consumers.auth.passwords.reset')->with([
-            'token' => $token, 
-            'email' => $request->email
+        $credentials = $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', 'min:8'],
         ]);
-    }
+        $status = Password::broker('consumers')->reset($credentials, function ($consumer, string $password): void {
+            $consumer->forceFill(['password' => Hash::make($password), 'remember_token' => Str::random(60)])->save();
+            event(new PasswordReset($consumer));
+        });
 
-    protected function sendResetResponse(Request $request, $response)
-    {
-        return response()->json([
-            'message' => trans($response),
-            'url' => redirect($this->redirectPath())->getTargetUrl(),
-        ]);
-    }
+        if ($status !== Password::PASSWORD_RESET) {
+            return $request->expectsJson()
+                ? response()->json(['message' => __($status)], 422)
+                : back()->withErrors(['email' => __($status)]);
+        }
 
-    protected function sendResetFailedResponse(Request $request, $response)
-    {
-        return response()->json([
-            'message' => trans($response)
-        ], 422);
-    }
-
-    public function broker()
-    {
-        return Password::broker('consumers');
-    }
-
-    protected function guard()
-    {
-        return Auth::guard('consumer');
+        $url = route('consumers.login');
+        return $request->expectsJson()
+            ? response()->json(['message' => __($status), 'url' => $url])
+            : redirect()->to($url)->with('status', __($status));
     }
 }

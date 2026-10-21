@@ -3,74 +3,52 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Log;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function showLoginForm(): View
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('guest:consumer');
+        return view('auth.login');
     }
 
-    protected function authenticated(Request $request, $user)
+    public function login(Request $request): JsonResponse|RedirectResponse
     {
-        Log::channel('users')->info('編號：' . $user->id . '，姓名：' . $user->name . ' 已成功登入。');
-        return [
-            'redirect_url' => redirect()->intended($this->redirectPath())->getTargetUrl()
-        ];
+        $credentials = $request->validate([
+            'account' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if (! Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
+            throw ValidationException::withMessages(['account' => __('auth.failed')]);
+        }
+
+        $request->session()->regenerate();
+        $user = Auth::guard('web')->user();
+        Log::channel('users')->info("編號：{$user->id}，姓名：{$user->name} 已成功登入。");
+        $url = redirect()->intended(route('backend'))->getTargetUrl();
+
+        return $request->expectsJson()
+            ? response()->json(['redirect_url' => $url])
+            : redirect()->to($url);
     }
 
-    public function username()
+    public function logout(Request $request): RedirectResponse
     {
-        return 'account';
-    }
-
-    public function logout(Request $request)
-    {
-        $user = Auth::user();
-
-        $this->guard()->logout();
-
-        $request->session()->invalidate();
-
+        $user = Auth::guard('web')->user();
+        Auth::guard('web')->logout();
         $request->session()->regenerateToken();
 
-        return $this->loggedOut($request, $user) ?: redirect('/');
-    }
+        if ($user) {
+            Log::channel('users')->info("編號：{$user->id}，姓名：{$user->name} 已成功登出。");
+        }
 
-    protected function loggedOut(Request $request, $user)
-    {
-        Log::channel('users')->info('編號：' . $user->id . '，姓名：' . $user->name . ' 已成功登出。');
-        return redirect('/');
+        return redirect()->route('index');
     }
 }

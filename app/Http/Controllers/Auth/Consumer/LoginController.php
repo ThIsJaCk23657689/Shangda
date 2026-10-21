@@ -3,62 +3,52 @@
 namespace App\Http\Controllers\Auth\Consumer;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Auth;
-use Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
-
-    protected $redirectTo = '/';
-
-    public function __construct()
+    public function showLoginForm(): View
     {
-        $this->middleware('guest:consumer')->except('logout');
-        $this->middleware('guest');
-    }
-
-    // 客戶登入頁面
-    public function showLoginForm(){
         return view('frontend.consumers.auth.login');
     }
 
-    protected function authenticated(Request $request, $user)
+    public function login(Request $request): JsonResponse|RedirectResponse
     {
-        Log::channel('consumers')->info('編號：' . $user->id . '，姓名：' . $user->name . ' 已成功登入！');
-        return [
-            'redirect_url' => redirect()->intended($this->redirectPath())->getTargetUrl()
-        ];
+        $credentials = $request->validate([
+            'account' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if (! Auth::guard('consumer')->attempt($credentials, $request->boolean('remember'))) {
+            throw ValidationException::withMessages(['account' => __('auth.failed')]);
+        }
+
+        $request->session()->regenerate();
+        $consumer = Auth::guard('consumer')->user();
+        Log::channel('consumers')->info("編號：{$consumer->id}，姓名：{$consumer->name} 已成功登入。");
+        $url = redirect()->intended(route('index'))->getTargetUrl();
+
+        return $request->expectsJson()
+            ? response()->json(['redirect_url' => $url])
+            : redirect()->to($url);
     }
 
-    public function username()
+    public function logout(Request $request): RedirectResponse
     {
-        return 'account';
-    }
-
-    protected function guard()
-    {
-        return Auth::guard('consumer');
-    }
-
-    public function logout(Request $request)
-    {
-        $user = Auth::guard('consumer')->user();
-
-        $this->guard()->logout();
-
-        $request->session()->invalidate();
-
+        $consumer = Auth::guard('consumer')->user();
+        Auth::guard('consumer')->logout();
         $request->session()->regenerateToken();
 
-        return $this->loggedOut($request, $user) ?: redirect('/');
-    }
+        if ($consumer) {
+            Log::channel('consumers')->info("編號：{$consumer->id}，姓名：{$consumer->name} 已成功登出。");
+        }
 
-    protected function loggedOut(Request $request, $user)
-    {
-        Log::channel('consumers')->info('編號：' . $user->id . '，姓名：' . $user->name . ' 已成功登出。');
-        return redirect('/');
+        return redirect()->route('index');
     }
 }

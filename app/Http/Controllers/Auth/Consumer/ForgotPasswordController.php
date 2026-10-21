@@ -3,41 +3,32 @@
 namespace App\Http\Controllers\Auth\Consumer;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
+use Illuminate\View\View;
 
 class ForgotPasswordController extends Controller
 {
-    use SendsPasswordResetEmails;
-
-    public function __construct()
-    {
-        $this->middleware('guest:consumer');
-        $this->middleware('guest');
-    }
-    
-    public function showLinkRequestForm()
+    public function showLinkRequestForm(): View
     {
         return view('frontend.consumers.auth.passwords.email');
     }
 
-    protected function sendResetLinkResponse(Request $request, $response)
+    public function sendResetLinkEmail(Request $request): JsonResponse|RedirectResponse
     {
-        return response()->json([
-            'message' => trans($response)
-        ]);
-    }
+        $request->validate(['email' => ['required', 'email']]);
+        $status = Password::broker('consumers')->sendResetLink($request->only('email'));
 
-    protected function sendResetLinkFailedResponse(Request $request, $response)
-    {
-        return response()->json([
-            'message' => trans($response)
-        ], 422);
-    }
+        if ($status !== Password::RESET_LINK_SENT) {
+            return $request->expectsJson()
+                ? response()->json(['message' => __($status)], 422)
+                : back()->withErrors(['email' => __($status)]);
+        }
 
-    public function broker()
-    {
-        return Password::broker('consumers');
+        return $request->expectsJson()
+            ? response()->json(['message' => __($status)])
+            : back()->with('status', __($status));
     }
 }

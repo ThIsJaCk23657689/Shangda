@@ -3,11 +3,12 @@
 namespace Tests\Unit;
 
 use App\Http\Controllers\ReportController;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CustomerSalesCsvTest extends TestCase
 {
-    /** @dataProvider dangerousCsvValues */
+    #[DataProvider('dangerousCsvValues')]
     public function test_it_escapes_text_that_excel_could_execute($value)
     {
         $controller = new ReportController();
@@ -15,7 +16,7 @@ class CustomerSalesCsvTest extends TestCase
         $this->assertSame("'" . $value, $controller->escapeCsvValue($value));
     }
 
-    public function dangerousCsvValues()
+    public static function dangerousCsvValues(): array
     {
         return [
             ['=SUM(A1:A2)'],

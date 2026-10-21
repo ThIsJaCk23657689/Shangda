@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Arcanedev\NoCaptcha\Rules\CaptchaRule;
+use App\Rules\Recaptcha;
 
 class ConsumerRegisterRequest extends FormRequest
 {
@@ -41,7 +41,7 @@ class ConsumerRegisterRequest extends FormRequest
                 'individual_address_district' => 'required|string|max:10',
                 'individual_address_others' => 'required|string|max:255',
 
-                'g-recaptcha-response' => ['required', new CaptchaRule()],
+                'g-recaptcha-response' => ['required', new Recaptcha()],
             ];
         }else if($account_type == 'company'){
             $rules = [
@@ -89,7 +89,7 @@ class ConsumerRegisterRequest extends FormRequest
                 'company_deliveryAddress_district' => 'required|string|max:10',
                 'company_deliveryAddress_others' => 'required|string|max:255',
 
-                'g-recaptcha-response' => ['required', new CaptchaRule()],
+                'g-recaptcha-response' => ['required', new Recaptcha()],
             ];
         }
 
@@ -160,7 +160,7 @@ class ConsumerRegisterRequest extends FormRequest
             'individual_idNumber.tw_id' => '身分證驗證錯誤。',
 
             'g-recaptcha-response.required' => '尚未進行驗證',
-            'g-recaptcha-response.captcha' => '驗證失敗',
+            'g-recaptcha-response.recaptcha' => '驗證失敗',
         ];
     }
 }

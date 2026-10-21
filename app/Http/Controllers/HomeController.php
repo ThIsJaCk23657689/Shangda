@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Information as InformationEloquent;
 use App\Services\DashboardService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
@@ -35,8 +37,9 @@ class HomeController extends Controller
         return view('old');
     }
 
-    public function backend(){
-        return view('backend', [
+    public function backend(): Response
+    {
+        return Inertia::render('Backend/Dashboard', [
             'dashboard' => $this->dashboardService->data(),
         ]);
     }
